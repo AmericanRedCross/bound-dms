@@ -1,16 +1,27 @@
 <template>
   <div class="login">
     <b-form-fieldset
-      :feedback="feedback"
+      :feedback="feedback(username)"
       description="Please enter your username"
       label="Username"
-      :state="state"
+      :state="state(username)"
       :label-size="1"
       >
 
         <b-form-input v-model="username"></b-form-input>
 
       </b-form-fieldset>
+      <b-form-fieldset
+        :feedback="feedback(password)"
+        description="Please enter your password"
+        label="Password"
+        :state="state(password)"
+        :label-size="1"
+        >
+
+          <b-form-input v-model="password"></b-form-input>
+
+        </b-form-fieldset>
   </div>
 </template>
 
@@ -22,12 +33,12 @@ export default {
       password: ''
     }
   },
-  computed: {
-    feedback () {
-      return this.username.length ? '' : 'Please enter something'
+  methods: {
+    feedback (model) {
+      return model.length ? '' : 'Please enter something'
     },
-    state () {
-      return this.username.length ? 'success' : 'warning'
+    state (model) {
+      return model.length ? 'success' : 'warning'
     }
   }
 }
