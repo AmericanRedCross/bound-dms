@@ -1,4 +1,11 @@
 export default{
+  common: {
+    cie: 'Bargeld im Notfall'
+  },
+  navbar: {
+    language: 'Sprache',
+    user: 'Benutzer'
+  },
   hello: {
     test1: 'Willkommen bei deiner Vue.js App'
   },

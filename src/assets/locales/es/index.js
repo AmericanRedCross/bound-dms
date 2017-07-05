@@ -1,4 +1,11 @@
 export default{
+  common: {
+    cie: 'Efectivo en caso de emergencia'
+  },
+  navbar: {
+    language: 'Idioma',
+    user: 'Usuario'
+  },
   hello: {
     test1: 'Bienvenido a la aplicación Vue.js'
   },

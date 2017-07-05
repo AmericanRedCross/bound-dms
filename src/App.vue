@@ -1,31 +1,21 @@
 <template>
   <div id="app">
-    <div>
-      <b-nav pills>
-        <b-nav-item id="english" :active="isActive('en')" v-on:click="langChange('en')">English</b-nav-item>
-        <b-nav-item id="french" :active="isActive('fr')" v-on:click="langChange('fr')">Français</b-nav-item>
-        <b-nav-item id="german" :active="isActive('de')" v-on:click="langChange('de')">Deutsche</b-nav-item>
-        <b-nav-item id="spanish" :active="isActive('es')" v-on:click="langChange('es')">Español</b-nav-item>
-      </b-nav>
-    </div>
+    <Navbar></Navbar>
+    <Sidebar></Sidebar>
     <img src="./assets/logo.png">
     <router-view class="container-fluid"></router-view>
   </div>
 </template>
 
 <script>
+import Navbar from './components/ui/navbar.vue'
 export default {
   name: 'app',
+  components: {
+    Navbar
+  },
   methods: {
-    langChange: function (lang) {
-      this._i18n.locale = lang
-    },
-    isActive: function (lang) {
-      if (this._i18n.locale === lang) {
-        return true
-      }
-      return false
-    }
+
   }
 }
 </script>
@@ -37,6 +27,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
