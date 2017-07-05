@@ -19,7 +19,7 @@
         :label-size="1"
         >
 
-          <b-form-input v-model="password"></b-form-input>
+          <b-form-input type="password" v-model="password"></b-form-input>
 
         </b-form-fieldset>
   </div>
