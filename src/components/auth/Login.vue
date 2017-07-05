@@ -19,12 +19,14 @@
             <span v-show="errors.has('password')" class="help is-danger">{{ errors.first('password') }}</span>
 
         </b-form-fieldset>
-        <b-button>Login</b-button>
+        <b-button @click.native="authenticate">Login</b-button>
       </b-card>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   data () {
     return {
@@ -38,8 +40,14 @@ export default {
     },
     state (model) {
       return model.length ? 'success' : 'warning'
+    },
+    authenticate () {
+      this.$store.dispatch('AUTHENTICATE', {email: this.email, password: this.password}).then(console.log('done'))
     }
-  }
+  },
+  computed: mapState([
+    'auth'
+  ])
 }
 </script>
 
