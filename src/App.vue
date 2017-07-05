@@ -9,7 +9,7 @@
       </b-nav>
     </div>
     <img src="./assets/logo.png">
-    <router-view></router-view>
+    <router-view class="container-fluid"></router-view>
   </div>
 </template>
 
