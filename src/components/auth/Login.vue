@@ -23,6 +23,7 @@
             <b-form-input type="password" v-model="password"></b-form-input>
 
         </b-form-fieldset>
+        <b-button>Login</b-button>
       </b-card>
   </div>
 </template>
