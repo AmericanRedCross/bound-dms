@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>{{ $t('hello.test1') }}</h1>
+    <h1 id="changeText">{{ $t('hello.test1') }}</h1>
     <h2>Essential Links</h2>
     <ul>
       <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
