@@ -1,18 +1,20 @@
 <template>
   <div id="app">
-    <Navbar></Navbar>
     <Sidebar></Sidebar>
-    <img src="./assets/logo.png">
-    <router-view class="container-fluid"></router-view>
+    <Navbar></Navbar>
+    <router-view class="main-view container-fluid"></router-view>
   </div>
 </template>
 
 <script>
 import Navbar from './components/ui/Navbar.vue'
+import Sidebar from './components/ui/Sidebar.vue'
+
 export default {
   name: 'app',
   components: {
-    Navbar
+    Navbar,
+    Sidebar
   },
   methods: {
 
@@ -20,12 +22,18 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import "./assets/sass/main";
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: $helvetica;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  min-height: 100vh;
+  .main-view {
+    margin-left: $sidebar-width;
+    margin-top: $sidebar-top-margin / 2;
+  }
 }
 </style>
