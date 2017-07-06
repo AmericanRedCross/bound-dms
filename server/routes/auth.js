@@ -18,6 +18,7 @@ router.post('/', (req, res, next) => {
   req.getValidationResult().then((result) => {
     if (!result.isEmpty()) {
       res.status(400).json(result.array())
+      return
     }
     next()
   })
