@@ -1,9 +1,9 @@
 <template>
   <div class="dashboard">
-    <h1 id="changeText">{{ msg }}</h1>
+    <h1 id="changeText">{{ $t('dashboard.header') }}</h1>
       <div class="row justify-content-md-center">
         <div class="col-3">
-          <b-card header="Test Chart 1">
+          <b-card :header="$t('dashboard.chart1')">
             <div class="small">
               <line-chart :chart-data="datacollection"></line-chart>
               <button @click="fillData()">Randomize</button>
@@ -11,7 +11,7 @@
           </b-card>
         </div>
         <div class="col-3">
-          <b-card header="Test Chart 2">
+          <b-card :header="$t('dashboard.chart2')">
             <div class="small">
               <bar-chart :chart-data="datacollection"></bar-chart>
               <button @click="fillData()">Randomize</button>
@@ -19,7 +19,7 @@
           </b-card>
         </div>
         <div class="col-3">
-          <b-card header="Test Chart 3">
+          <b-card :header="$t('dashboard.chart3')">
             <div class="small">
               <scatter-chart :chart-data="datacollection"></scatter-chart>
               <button @click="fillData()">Randomize</button>
