@@ -1,5 +1,5 @@
 <template>
-  <b-navbar toggleable variant="success" type="inverse">
+  <b-navbar toggleable variant="success" type="inverse" class="navbar">
 
     <b-nav-toggle target="nav_collapse"></b-nav-toggle>
 
@@ -18,11 +18,11 @@
       <b-nav is-nav-bar class="ml-auto">
 
         <!-- Navbar dropdowns -->
-        <b-nav-item-dropdown :text="$t('navbar.language')" right>
-          <b-dropdown-item v-bind:class="{ selected: isActive('en') }" v-on:click="langChange('en')">English</b-dropdown-item>
-          <b-dropdown-item v-bind:class="{ selected: isActive('fr') }" v-on:click="langChange('fr')">Français</b-dropdown-item>
-          <b-dropdown-item v-bind:class="{ selected: isActive('de') }" v-on:click="langChange('de')">Deutsche</b-dropdown-item>
-          <b-dropdown-item v-bind:class="{ selected: isActive('es') }" v-on:click="langChange('es')">Español</b-dropdown-item>
+        <b-nav-item-dropdown :text="$t('navbar.language')" id="lang-select" right>
+          <b-dropdown-item class="lang-item" id="english" v-bind:class="{ selected: isActive('en') }" v-on:click="langChange('en')">English</b-dropdown-item>
+          <b-dropdown-item class="lang-item" id="french" v-bind:class="{ selected: isActive('fr') }" v-on:click="langChange('fr')">Français</b-dropdown-item>
+          <b-dropdown-item class="lang-item" id="german" v-bind:class="{ selected: isActive('de') }" v-on:click="langChange('de')">Deutsche</b-dropdown-item>
+          <b-dropdown-item class="lang-item" id="spanish" v-bind:class="{ selected: isActive('es') }" v-on:click="langChange('es')">Español</b-dropdown-item>
         </b-nav-item-dropdown>
 
         <b-nav-item-dropdown :text="$t('navbar.user')" right>
