@@ -19,6 +19,7 @@
     "axios": "^0.16.2",
     "bootstrap-vue": "^0.17.1",
     "chart.js": "^2.6.0",
+    "bourbon": "^4.3.4",
     "cookie-parser": "~1.4.3",
     "express": "^4.15.3",
     "vee-validate": "^2.0.0-rc.6",
