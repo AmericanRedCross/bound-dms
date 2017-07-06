@@ -1,7 +1,7 @@
 const app = require('../../../index')
 const request = require('supertest')
 
-describe('Index API Routes', () => {
+describe('API: Index', () => {
   describe('GET /api', () => {
     it('returns a json response', (done) => {
       request(app)
