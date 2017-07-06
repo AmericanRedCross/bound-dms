@@ -6,8 +6,8 @@
         :label-size="1"
         >
 
-          <b-form-input v-model="email" class="email" v-validate="'required|email'" name="email" type="text"></b-form-input>
-          <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
+          <b-form-input v-model="email" class="email" v-validate="'required|email'" name="email" type="text" id="email-input"></b-form-input>
+          <span v-show="errors.has('email')" class="help is-danger" id="email-error">{{ errors.first('email') }}</span>
 
         </b-form-fieldset>
         <b-form-fieldset
@@ -15,8 +15,8 @@
           :label-size="1"
           >
 
-            <b-form-input v-validate="'required'" name="password" type="password" v-model="password"></b-form-input>
-            <span v-show="errors.has('password')" class="help is-danger">{{ errors.first('password') }}</span>
+            <b-form-input v-validate="'required'" name="password" type="password" v-model="password" id="password-input"></b-form-input>
+            <span v-show="errors.has('password')" class="help is-danger" id="password-error">{{ errors.first('password') }}</span>
 
         </b-form-fieldset>
         <b-button @click.native="authenticate">Login</b-button>
