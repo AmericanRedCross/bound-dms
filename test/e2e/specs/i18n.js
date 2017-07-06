@@ -10,8 +10,9 @@ module.exports = {
 
     browser
       .url(devServer)
+      .click('#lang-select')
       .click('#french')
-      .pause(1000)
+      .pause(500)
       .assert.containsText('#changeText', 'Bienvenue dans votre application Vue.js')
       .end()
   },
@@ -24,8 +25,9 @@ module.exports = {
 
     browser
       .url(devServer)
+      .click('#lang-select')
       .click('#german')
-      .pause(1000)
+      .pause(500)
       .assert.containsText('#changeText', 'Willkommen bei deiner Vue.js App')
       .end()
   },
@@ -38,8 +40,9 @@ module.exports = {
 
     browser
       .url(devServer)
+      .click('#lang-select')
       .click('#spanish')
-      .pause(1000)
+      .pause(500)
       .assert.containsText('#changeText', 'Bienvenido a la aplicación Vue.js')
       .end()
   },
@@ -52,8 +55,8 @@ module.exports = {
 
     browser
       .url(devServer)
-      .pause(1000)
-      .assert.elementCount('.nav-item', 4)
+      .pause(500)
+      .assert.elementCount('.lang-item', 4)
       .end()
-  },
+  }
 }
