@@ -6,12 +6,13 @@
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
+    "dev:server": "node index.js",
     "start": "node build/dev-server.js",
     "build": "node build/build.js",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
-    "test:server" : "./node_modules/mocha/bin/mocha ./test/server/specs/*.js",
+    "test:server": "NODE_ENV=testing ./node_modules/mocha/bin/mocha ./test/server/specs/*.js",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
@@ -22,6 +23,10 @@
     "bourbon": "^4.3.4",
     "cookie-parser": "~1.4.3",
     "express": "^4.15.3",
+    "express-validator": "^3.2.0",
+    "jsonwebtoken": "^7.4.1",
+    "passport": "^0.3.2",
+    "passport-jwt": "^2.2.1",
     "vee-validate": "^2.0.0-rc.6",
     "vue": "^2.3.3",
     "vue-chartjs": "^2.7.1",

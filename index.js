@@ -3,19 +3,50 @@ const app = express()
 const bodyParser = require('body-parser')
 const router = express.Router()
 const path = require('path')
+const validator = require('express-validator')
+const auth = require('./server/routes/auth')
+const config = require('./server/config')
+const passport = require('passport')
+const passportJwt = require('passport-jwt')
+const users = require('./server/services/users')
+const JwtStrategy = passportJwt.Strategy
+
+const jwtOptions = {
+  jwtFromRequest: passportJwt.ExtractJwt.fromAuthHeader(),
+  secretOrKey: config.jwtSecretKey
+}
+
+const strategy = new JwtStrategy(jwtOptions, (payload, next) => {
+  users.find(payload.id).then((user) => {
+    next(null, user)
+  }).catch(next(null, false))
+})
+passport.use(strategy)
 
 // express config
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(passport.initialize())
+app.use(validator())
 app.set('port', process.env.PORT || 8000)
 
 app.use(express.static(path.join(__dirname, 'dist')))
 
-// register api
+// register api routes
 router.get('/', (req, res) => {
   res.status(200).json({success: true})
 })
+router.use('/auth', auth)
 app.use('/api', router)
+
+// register global error handler
+app.use((err, req, res, next) => {
+  res.status(err.status || 500)
+  res.json({
+    status: res.statusCode,
+    message: err.message
+  })
+})
 
 // start server
 app.listen(app.get('port'), function () {
