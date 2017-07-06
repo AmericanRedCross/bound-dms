@@ -43,7 +43,7 @@ export default {
       line-height: 30px;
       font-weight: 600;
       .user-logo {
-        margin-top: 12px;
+        margin: 10px auto;
         background-color: white;
         border-radius: 50%;
         width: 50px;
