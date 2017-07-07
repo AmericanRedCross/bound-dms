@@ -5,6 +5,7 @@ const router = express.Router()
 const path = require('path')
 const validator = require('express-validator')
 const auth = require('./server/routes/auth')
+const userRoutes = require('./server/routes/user')
 const config = require('./server/config')
 const passport = require('passport')
 const passportJwt = require('passport-jwt')
@@ -37,6 +38,7 @@ router.get('/', (req, res) => {
   res.status(200).json({success: true})
 })
 router.use('/auth', auth)
+router.use('/users', userRoutes)
 app.use('/api', router)
 
 // register global error handler
