@@ -9,6 +9,7 @@ module.exports = {
       if (user.password === req.body.password) {
         const payload = {id: user.id}
         const token = jwt.sign(payload, config.jwtSecretKey)
+        res.append('authorization', token)
         res.status(200).json({message: 'ok', token: token})
       } else {
         res.status(401).json({message: 'Email or password is incorrect.'})
