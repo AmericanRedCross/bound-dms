@@ -1,8 +1,13 @@
 <template>
   <div id="app">
-    <Sidebar></Sidebar>
-    <Navbar></Navbar>
-    <router-view class="main-view container-fluid"></router-view>
+    <div v-if="$auth.ready()">
+      <Sidebar></Sidebar>
+      <Navbar></Navbar>
+      <router-view class="main-view container-fluid"></router-view>
+    </div>
+    <div v-if="!$auth.ready()">
+        Loading...
+    </div>
   </div>
 </template>
 

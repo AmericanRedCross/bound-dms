@@ -25,15 +25,24 @@ Vue.use(VeeValidate)
 Vue.use(VueI18n)
 Vue.use(VueCharts)
 Vue.use(VueAxios, axios)
+Vue.router = router
+
 Vue.use(VueAuth, {
   auth: require('@websanova/vue-auth/drivers/auth/bearer.js'),
   http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
-  router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js')
+  router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
+  loginData: {
+    url: 'api/auth',
+    method: 'POST',
+    redirect: '/',
+    fetchUser: true
+  },
+  tokenName: 'auth_token'
 })
 
-Vue.axios.post('/api/auth', { email: 'user@domain.com', password: '12345678' }).then(res => {
-  console.log('RES', res)
-})
+// Vue.axios.post('/api/auth', { email: 'user@domain.com', password: '12345678' }).then(res => {
+//   console.log('RES', res)
+// })
 
 const i18n = new VueI18n({
   locale: 'en',
