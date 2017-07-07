@@ -54,5 +54,16 @@ module.exports = {
         reject('User not found')
       }
     })
+  },
+  delete (id) {
+    const idx = users.findIndex((item) => item.id === id)
+    return new Promise((resolve, reject) => {
+      if (idx !== -1) {
+        users.splice(idx, 1)
+        resolve()
+      } else {
+        reject('User not found')
+      }
+    })
   }
 }
