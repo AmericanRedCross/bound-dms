@@ -89,10 +89,12 @@ describe('API: User', () => {
       request(app)
         .delete('/api/users/1')
         .expect('Content-Type', /json/)
-        .expect(200, {
-          success: true
-        },
-        done)
+        .expect(200)
+        .end((err, res) => {
+          expect(res.body).to.have.property('message')
+          expect(res.body.message).to.equal('User deleted')
+          done()
+        })
     })
   })
 })
