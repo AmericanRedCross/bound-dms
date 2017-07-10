@@ -9,7 +9,7 @@ module.exports = {
     const devServer = browser.globals.devServerURL
 
     browser
-      .url(devServer+'/#/dashboard')
+      .url(devServer + '/#/dashboard')
       .waitForElementVisible('.dashboard', 5000)
       .assert.elementCount('.card', 3)
       .assert.elementCount('.small', 3)
@@ -23,8 +23,9 @@ module.exports = {
     const devServer = browser.globals.devServerURL
 
     browser
-      .url(devServer+'/#/dashboard')
+      .url(devServer + '/#/dashboard')
       .waitForElementVisible('.dashboard', 5000)
+      .click('#lang-select')
       .click('#french')
       .pause(1000)
       .assert.containsText('#card1', 'Test Graphique 1')
@@ -40,8 +41,9 @@ module.exports = {
     const devServer = browser.globals.devServerURL
 
     browser
-      .url(devServer+'/#/dashboard')
+      .url(devServer + '/#/dashboard')
       .waitForElementVisible('.dashboard', 5000)
+      .click('#lang-select')
       .click('#german')
       .pause(1000)
       .assert.containsText('#card1', 'Testdiagramm 1')
@@ -57,8 +59,9 @@ module.exports = {
     const devServer = browser.globals.devServerURL
 
     browser
-      .url(devServer+'/#/dashboard')
+      .url(devServer + '/#/dashboard')
       .waitForElementVisible('.dashboard', 5000)
+      .click('#lang-select')
       .click('#spanish')
       .pause(1000)
       .assert.containsText('#card1', 'Tabla de Prueba 1')
