@@ -10,7 +10,8 @@ export default{
     test1: 'Willkommen bei deiner Vue.js App'
   },
   login: {
-    email: 'Email'
+    email: 'Email',
+    password: 'Passwort'
   },
   dashboard: {
     header: 'Armaturenbrett Platzhalter',

@@ -10,7 +10,8 @@ export default{
     test1: 'Bienvenue dans votre application Vue.js'
   },
   login: {
-    email: 'email'
+    email: 'Email',
+    password: 'Mot de passe'
   },
   dashboard: {
     header: 'Porte-clés du tableau de bord',
