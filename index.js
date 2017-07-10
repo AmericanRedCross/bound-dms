@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const router = express.Router()
 const path = require('path')
 const validator = require('express-validator')
+const history = require('connect-history-api-fallback')
 const auth = require('./server/routes/auth')
 const userRoutes = require('./server/routes/user')
 const config = require('./server/config')
@@ -25,6 +26,7 @@ const strategy = new JwtStrategy(jwtOptions, (payload, next) => {
 passport.use(strategy)
 
 // express config
+app.use(history())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(passport.initialize())
