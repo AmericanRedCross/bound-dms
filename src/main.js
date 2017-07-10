@@ -40,10 +40,6 @@ Vue.use(VueAuth, {
   tokenName: 'auth_token'
 })
 
-// Vue.axios.post('/api/auth', { email: 'user@domain.com', password: '12345678' }).then(res => {
-//   console.log('RES', res)
-// })
-
 const i18n = new VueI18n({
   locale: 'en',
   messages: Locales
