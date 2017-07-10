@@ -9,7 +9,7 @@ module.exports = {
     const devServer = browser.globals.devServerURL
 
     browser
-    .url(devServer + '/#/login')
+    .url(devServer + '/login')
     .waitForElementVisible('.login', 5000)
     browser.setValue('#email-input', ' ')
     browser.clearValue('#email-input')
@@ -28,7 +28,7 @@ module.exports = {
     const devServer = browser.globals.devServerURL
 
     browser
-    .url(devServer + '/#/login')
+    .url(devServer + '/login')
     .waitForElementVisible('.login', 5000)
     browser.setValue('#email-input', 'test')
     .assert.containsText('#email-error', 'The email field must be a valid email.')
@@ -42,7 +42,7 @@ module.exports = {
     const devServer = browser.globals.devServerURL
 
     browser
-    .url(devServer + '/#/login')
+    .url(devServer + '/login')
     .waitForElementVisible('.login', 5000)
     browser.setValue('#password-input', ' ')
     browser.clearValue('#password-input')
