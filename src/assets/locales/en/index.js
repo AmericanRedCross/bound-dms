@@ -10,7 +10,8 @@ export default{
     test1: 'Welcome to Your Vue.js App'
   },
   login: {
-    email: 'email'
+    email: 'Email',
+    password: 'Password'
   },
   dashboard: {
     header: 'Dashboard Placeholder',
