@@ -21,7 +21,7 @@ export default{
   },
   users: {
     header: 'User management',
-    list: 'List of users'
+    list: 'List of users',
     edit: {
       editheader: 'Edit Details',
       user: 'User:',
