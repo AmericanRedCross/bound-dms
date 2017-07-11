@@ -32,8 +32,8 @@
           :label-size="1"
           >
 
-        <b-form-input v-validate="'required'" name="currentPassword" type="password" v-model="password" id="current-password-input"></b-form-input>
-        <span v-show="errors.has('currentPassword')" class="help is-danger" id="current-password-error">{{ errors.first('current-password') }}</span>
+        <b-form-input name="currentPassword" type="password" v-model="password" id="current-password-input"></b-form-input>
+        <span v-show="errors.has('currentPassword')" class="help is-danger" id="current-password-error">{{ errors.first('currentPassword') }}</span>
 
       </b-form-fieldset>
       <b-form-fieldset
@@ -41,8 +41,8 @@
           :label-size="1"
           >
 
-        <b-form-input v-validate="'required'" name="newPassword" type="password" v-model="resetPassword" id="new-password-input"></b-form-input>
-        <span v-show="errors.has('resetPassword')" class="help is-danger" id="new-password-error">{{ errors.first('new-password') }}</span>
+        <b-form-input v-validate= "'confirmed:confirmResetPassword'" name="newPassword" type="password" v-model="resetPassword" id="new-password-input" data-vv-as="password"></b-form-input>
+        <span v-show="errors.has('newPassword')" class="help is-danger" id="new-password-error">{{ errors.first('newPassword') }}</span>
 
       </b-form-fieldset>
       <b-form-fieldset
@@ -50,11 +50,11 @@
           :label-size="1"
           >
 
-        <b-form-input v-validate="'required'" name="confirmResetPassword" type="password" v-model="confirmResetPassword" id="confirm-new-password-input"></b-form-input>
-        <span v-show="errors.has('confirmResetPassword')" class="help is-danger" id="new-password-error">{{ errors.first('confirm-new-password') }}</span>
+        <b-form-input name="confirmResetPassword" type="password" v-model="confirmResetPassword" id="confirm-new-password-input"></b-form-input>
+        <span v-show="errors.has('confirmResetPassword')" class="help is-danger" id="new-password-error">{{ errors.first('confirmResetPassword') }}</span>
 
       </b-form-fieldset>
-      <b-button @click.native="authenticate">Login</b-button>
+      <b-button @click.native="authenticate">Save</b-button>
     </div>
   </div>
 </template>
@@ -91,6 +91,7 @@ export default {
         }]
     }
   },
+
   computed: {
     feedback () {
       return this.name.length ? '' : 'Please enter something'
