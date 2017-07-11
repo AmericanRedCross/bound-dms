@@ -4,6 +4,13 @@ let users = [{
   password: '12345678',
   firstname: 'Test',
   lastname: 'User'
+},
+{
+  id: 2,
+  email: 'kevin.borrill@3sidedcube.com',
+  password: '12345678',
+  firstname: 'Kev',
+  lastname: 'Borrill'
 }]
 
 module.exports = {
