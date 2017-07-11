@@ -2,6 +2,9 @@
   <div class="user-edit">
     <h1 id="changeText">{{ msg }}</h1>
     <div>
+      <div>
+        User: {{ $route.params.id }}
+      </div>
       <b-form-fieldset
         label="Name"
         :label-size="1"

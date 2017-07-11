@@ -26,7 +26,7 @@ export default new Router({
       component: Dashboard
     },
     {
-      path: '/useredit',
+      path: '/:id/edit',
       name: 'UserEdit',
       component: UserEdit
     }
