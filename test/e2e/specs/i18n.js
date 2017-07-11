@@ -2,7 +2,7 @@
 // http://nightwatchjs.org/guide#usage
 
 module.exports = {
-  'change to french': function (browser) {
+  'check english selector present': function (browser) {
     // automatically uses dev Server port from /config.index.js
     // default: http://localhost:8080
     // see nightwatch.conf.js
@@ -10,6 +10,7 @@ module.exports = {
 
     browser
       .url(devServer)
+<<<<<<< HEAD
       .click('#lang-select')
       .click('#french')
       .pause(500)
@@ -59,4 +60,11 @@ module.exports = {
       .assert.elementCount('.lang-item', 4)
       .end()
   }
+=======
+      .waitForElementVisible('#app', 1000)
+    browser.expect.element('#lang-select').to.be.present
+    browser.expect.element('#english').to.be.present
+  }
+
+>>>>>>> Removed additional language tests
 }
