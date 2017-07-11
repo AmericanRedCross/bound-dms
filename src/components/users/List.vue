@@ -4,7 +4,7 @@
       <div class="row justify-content-md-center">
         <div class="col">
           <b-card id="userList" :header="$t('users.list')">
-            <b-form-input v-model="filter" placeholder="Type to Search"></b-form-input>
+            <b-form-input v-model="filter" placeholder="Type to Search" id="userSearch"></b-form-input>
             <!-- Main table element -->
             <b-table striped hover
                     :items="users.users"
@@ -12,6 +12,7 @@
                     :current-page="currentPage"
                     :per-page="perPage"
                     :filter="filter"
+                    id="userTable"
             >
             <template slot="picture" scope="user">
               <v-gravatar class="user-icon" :email="user.item.email" default-img="mm" :size="80"> </v-gravatar>
