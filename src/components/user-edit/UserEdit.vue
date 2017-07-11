@@ -24,8 +24,10 @@
 
       </b-form-fieldset>
       <div>
-        <b-form-select v-model="selected" :options="options" class="mb-3">
+        <label>Please select a role</label>
+        <b-form-select v-model="selected" name="roles" :options="options" class="mb-3" v-validate="'in:admin,translator,content_creator'">
         </b-form-select>
+        <span v-show="errors.has('roles')" class="help is-danger" id="role-not-selected">{{ errors.first('roles')}}</span>
       </div>
       <b-form-fieldset
           label="Current Password"
@@ -73,21 +75,14 @@ export default {
       selected: null,
       options: [
         {
-          text: 'Please select a role',
-          value: null
-        },
-        {
-          text: 'Example Role 1',
-          value: 'a'
+          text: 'Admin',
+          value: 'admin'
         }, {
-          text: 'Example Role 2',
-          value: 'b'
+          text: 'Translator',
+          value: 'translator'
         }, {
-          text: 'Example Role 3',
-          value: 'c'
-        }, {
-          text: 'Example Role 4',
-          value: 'd'
+          text: 'Content Creator',
+          value: 'content_creator'
         }]
     }
   },
