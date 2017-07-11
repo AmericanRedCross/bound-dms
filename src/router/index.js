@@ -27,14 +27,14 @@ export default new Router({
       component: Dashboard
     },
     {
-      path: '/users',
+      path: '/users/',
       name: 'Users',
-      component: Users,
-      children: [{
-        path: '/edit/:id',
-        name: 'User Edit',
-        component: UserEdit
-      }]
+      component: Users
+    },
+    {
+      path: '/users/edit/:id',
+      name: 'User Edit',
+      component: UserEdit
     }
   ]
 })
