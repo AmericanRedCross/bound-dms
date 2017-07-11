@@ -17,14 +17,17 @@ import VueCharts from 'vue-chartjs'
 import VueAxios from 'vue-axios'
 import VueAuth from '@websanova/vue-auth'
 import axios from 'axios'
+import Gravatar from 'vue-gravatar'
 
 Vue.config.productionTip = false
 
 Vue.use(BootstrapVue)
-Vue.use(VeeValidate)
+Vue.use(VeeValidate, {fieldsBagName: 'fieldBag'})
 Vue.use(VueI18n)
 Vue.use(VueCharts)
 Vue.use(VueAxios, axios)
+Vue.component('v-gravatar', Gravatar)
+
 Vue.router = router
 
 Vue.use(VueAuth, {
@@ -42,6 +45,7 @@ Vue.use(VueAuth, {
 
 const i18n = new VueI18n({
   locale: 'en',
+  fallbackLocale: 'en',
   messages: Locales
 })
 /* eslint-disable no-new */
