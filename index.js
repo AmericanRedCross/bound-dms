@@ -26,7 +26,14 @@ const strategy = new JwtStrategy(jwtOptions, (payload, next) => {
 passport.use(strategy)
 
 // express config
-app.use(history())
+app.use(history({
+  rewrites: [{
+    from: '/api',
+    to: (context) => {
+      return context.parsedUrl.pathname
+    }
+  }]
+}))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(passport.initialize())
