@@ -4,22 +4,26 @@
       <div class="row justify-content-md-center">
         <div class="col">
           <b-card id="userList" :header="$t('users.list')">
+            <b-form-input v-model="filter" placeholder="Type to Search"></b-form-input>
             <!-- Main table element -->
             <b-table striped hover
-                     :items="users.users"
-                     :fields="headers"
+                    :items="users.users"
+                    :fields="headers"
+                    :current-page="currentPage"
+                    :per-page="perPage"
+                    :filter="filter"
             >
             <template slot="picture" scope="user">
               <v-gravatar class="user-icon" :email="user.item.email" default-img="mm" :size="80"> </v-gravatar>
             </template>
-              <template slot="name" scope="user">
-                {{ user.item.firstname }} {{ user.item.lastname }}
-              </template>
               <template slot="actions" scope="item">
                 <b-btn size="sm">Edit</b-btn>
                 <b-btn size="sm">Delete</b-btn>
               </template>
             </b-table>
+            <div v-if="users.users.length > 10" class="row justify-content-center" slot="footer">
+              <b-pagination size="md" :total-rows="users.users.length" :per-page="perPage" v-model="currentPage" />
+            </div>
           </b-card>
         </div>
       </div>
@@ -40,8 +44,12 @@ export default {
           label: 'ID',
           sortable: true
         },
-        name: {
-          label: 'Name',
+        firstname: {
+          label: 'First name',
+          sortable: true
+        },
+        lastname: {
+          label: 'Last name',
           sortable: true
         },
         email: {
@@ -51,7 +59,10 @@ export default {
         actions: {
           label: 'Actions'
         }
-      }
+      },
+      perPage: 10,
+      currentPage: 1,
+      filter: null
     }
   },
   mounted () {
