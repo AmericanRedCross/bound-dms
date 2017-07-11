@@ -8,9 +8,7 @@ const auth = {
   },
   mutations: {
     SET_USERS: (state, { response }) => {
-      state.auth = response
-
-      state.auth.isAuthenticated = true
+      state.users = response
     }
   },
   actions: {

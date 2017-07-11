@@ -18,5 +18,9 @@ export default{
     chart1: 'Test Chart 1',
     chart2: 'Test Chart 2',
     chart3: 'Test Chart 3'
+  },
+  users: {
+    header: 'User management',
+    list: 'List of users'
   }
 }
