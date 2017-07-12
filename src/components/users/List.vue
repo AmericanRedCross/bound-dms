@@ -17,8 +17,8 @@
             <template slot="picture" scope="user">
               <v-gravatar class="user-icon" :email="user.item.email" default-img="mm" :size="80"> </v-gravatar>
             </template>
-              <template slot="actions" scope="item">
-                <b-btn size="sm">Edit</b-btn>
+              <template slot="actions" scope="user">
+                <b-btn size="sm" :to="'users/edit/' + user.item.id">Edit</b-btn>
                 <b-btn size="sm">Delete</b-btn>
               </template>
             </b-table>
