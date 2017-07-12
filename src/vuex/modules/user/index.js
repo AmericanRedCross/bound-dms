@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const USER_ROOT = '/api/users'
-const auth = {
+const users = {
   state: {
     users: [],
     error: ''
@@ -22,7 +22,7 @@ const auth = {
     REMOVE_USER: (state, { response }) => {
       // Find the user index
       let userIndex = state.users.findIndex(user => user.id === response.id)
-      if (userIndex) {
+      if (userIndex >= 0) {
         state.users.splice(userIndex, 1)
       }
     }
@@ -76,4 +76,4 @@ const auth = {
   }
 }
 
-export default auth
+export default users

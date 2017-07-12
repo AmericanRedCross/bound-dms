@@ -10,12 +10,15 @@ import Locales from './assets/locales'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'vue-awesome/icons'
+import Icon from 'vue-awesome/components/Icon'
 
 import VeeValidate from 'vee-validate'
 import VueI18n from 'vue-i18n'
 import VueCharts from 'vue-chartjs'
 import VueAxios from 'vue-axios'
 import VueAuth from '@websanova/vue-auth'
+import VueSweetAlert from 'vue-sweetalert'
 import axios from 'axios'
 import Gravatar from 'vue-gravatar'
 
@@ -27,8 +30,10 @@ Vue.use(BootstrapVue)
 Vue.use(VeeValidate, {fieldsBagName: 'fieldBag'})
 Vue.use(VueI18n)
 Vue.use(VueCharts)
+Vue.use(VueSweetAlert)
 Vue.use(VueAxios, axios)
 Vue.component('v-gravatar', Gravatar)
+Vue.component('fa-icon', Icon)
 
 Vue.router = router
 
