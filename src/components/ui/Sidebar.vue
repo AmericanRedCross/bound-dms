@@ -2,10 +2,11 @@
   <div class="sidebar">
     <div class="sidebar-wrapper">
       <div class="user-logo">
-        <img src="../../assets/logo.png">
+        <router-link to="dashboard"><img src="../../assets/logo.png"></router-link>
       </div>
       <b-nav vertical>
-        <b-nav-item active>Active</b-nav-item>
+        <b-nav-item to="dashboard"><fa-icon name="pie-chart"></fa-icon>Dashboard</b-nav-item>
+        <b-nav-item to="users"><fa-icon name="user-o"></fa-icon>Users</b-nav-item>
         <b-nav-item>Link</b-nav-item>
         <b-nav-item>Another Link</b-nav-item>
         <b-nav-item disabled>Disabled</b-nav-item>
@@ -62,6 +63,11 @@ export default {
             opacity: 0.7;
             &.active {
               color: $sidebar-active-link;
+            }
+            svg {
+              position: relative;
+              top: 1px;
+              margin-right: 10px;
             }
           }
 

@@ -3,7 +3,7 @@
     <div v-if="$auth.ready()">
       <Sidebar v-if="$auth.check()"></Sidebar>
       <Navbar v-if="$auth.check()"></Navbar>
-      <router-view class="main-view container-fluid"></router-view>
+      <router-view class="main-view container-fluid" :style="$auth.check() ? '' : 'margin-left: 0px'"></router-view>
     </div>
     <div v-if="!$auth.ready()">
         Loading...
