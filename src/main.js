@@ -21,6 +21,8 @@ import Gravatar from 'vue-gravatar'
 
 Vue.config.productionTip = false
 
+axios.defaults.baseURL = '/api'
+
 Vue.use(BootstrapVue)
 Vue.use(VeeValidate, {fieldsBagName: 'fieldBag'})
 Vue.use(VueI18n)
