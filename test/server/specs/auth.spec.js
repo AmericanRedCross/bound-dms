@@ -1,6 +1,8 @@
 const app = require('../../../index')
 const request = require('supertest')
 const expect = require('chai').expect
+const jwt = require('jsonwebtoken')
+const config = require('../../../server/config')
 
 describe('API: Authentication', () => {
   describe('POST /api/auth', () => {
@@ -45,6 +47,50 @@ describe('API: Authentication', () => {
         .post('/api/auth')
         .send(user)
         .expect(401, done)
+    })
+  })
+
+  describe('GET /api/auth/refresh', () => {
+    beforeEach(() => {
+      this.token = jwt.sign({sub: 1, expiresIn: '1 day'}, config.jwtSecretKey)
+    })
+
+    it('returns 401 unauthorized if no token is supplied', (done) => {
+      request(app)
+      .get('/api/auth/refresh')
+      .expect(401, done)
+    })
+
+    it('returns 401 unauthorized if an invalid token is supplied', (done) => {
+      request(app)
+      .get('/api/auth/refresh')
+      .set('Authorization', 'Bearer some_invalid_token')
+      .expect(401, done)
+    })
+
+    it('returns 401 unauthorized if token has expired', (done) => {
+      const token = jwt.sign({
+        sub: 1,
+        exp: Math.floor(Date.now() / 1000) - (60 * 60)
+      }, config.jwtSecretKey)
+
+      request(app)
+      .get('/api/auth/refresh')
+      .set('Authorization', 'Bearer ' + token)
+      .expect(401, done)
+    })
+
+    it('returns a new token in response json if supplied a valid token', (done) => {
+      request(app)
+      .get('/api/auth/refresh')
+      .set('Authorization', 'Bearer ' + this.token)
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        expect(res.headers).to.have.property('authorization')
+        expect(res.body).to.have.property('token')
+        done()
+      })
     })
   })
 })

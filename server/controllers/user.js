@@ -1,5 +1,3 @@
-const jwt = require('jsonwebtoken')
-const config = require('../config')
 const users = require('../services/users')
 
 module.exports = {

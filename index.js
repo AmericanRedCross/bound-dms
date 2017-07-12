@@ -7,23 +7,7 @@ const validator = require('express-validator')
 const history = require('connect-history-api-fallback')
 const auth = require('./server/routes/auth')
 const userRoutes = require('./server/routes/user')
-const config = require('./server/config')
-const passport = require('passport')
-const passportJwt = require('passport-jwt')
-const users = require('./server/services/users')
-const JwtStrategy = passportJwt.Strategy
-
-const jwtOptions = {
-  jwtFromRequest: passportJwt.ExtractJwt.fromAuthHeader(),
-  secretOrKey: config.jwtSecretKey
-}
-
-const strategy = new JwtStrategy(jwtOptions, (payload, next) => {
-  users.find(payload.id).then((user) => {
-    next(null, user)
-  }).catch(next(null, false))
-})
-passport.use(strategy)
+const authService = require('./server/services/auth')()
 
 // express config
 app.use(history({
@@ -36,7 +20,7 @@ app.use(history({
 }))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(passport.initialize())
+app.use(authService.initialize())
 app.use(validator())
 app.set('port', process.env.PORT || 8000)
 
