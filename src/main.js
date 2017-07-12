@@ -21,6 +21,8 @@ import Gravatar from 'vue-gravatar'
 
 Vue.config.productionTip = false
 
+axios.defaults.baseURL = '/api'
+
 Vue.use(BootstrapVue)
 Vue.use(VeeValidate, {fieldsBagName: 'fieldBag'})
 Vue.use(VueI18n)
@@ -35,10 +37,18 @@ Vue.use(VueAuth, {
   http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
   router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
   loginData: {
-    url: 'api/auth',
+    url: 'auth',
     method: 'POST',
     redirect: '/',
     fetchUser: true
+  },
+  refresh: {
+    url: 'auth/refresh',
+    method: 'GET'
+  },
+  fetchData: {
+    url: 'users/me',
+    method: 'GET'
   },
   tokenName: 'auth_token'
 })
