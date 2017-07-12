@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <div v-if="$auth.ready()">
-      <Sidebar></Sidebar>
-      <Navbar></Navbar>
+      <Sidebar v-if="$auth.check()"></Sidebar>
+      <Navbar v-if="$auth.check()"></Navbar>
       <router-view class="main-view container-fluid"></router-view>
     </div>
     <div v-if="!$auth.ready()">
