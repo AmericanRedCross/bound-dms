@@ -46,6 +46,10 @@ Vue.use(VueAuth, {
     url: 'auth/refresh',
     method: 'GET'
   },
+  fetchData: {
+    url: 'users/me',
+    method: 'GET'
+  },
   tokenName: 'auth_token'
 })
 
