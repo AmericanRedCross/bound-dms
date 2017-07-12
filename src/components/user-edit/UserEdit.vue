@@ -74,7 +74,7 @@
             <span v-show="errors.has('confirmResetPassword')" class="help is-danger" id="new-password-error">{{ errors.first('confirmResetPassword') }}</span>
 
           </b-form-fieldset>
-          <b-button @click.native="authenticate">{{ $t('users.edit.save') }}</b-button>
+          <b-button @click.native="updatePassword">{{ $t('users.edit.save') }}</b-button>
         </b-card>
       </div>
     </div>
@@ -118,6 +118,14 @@ export default {
 
       } else {
         this.$store.dispatch('UPDATE_USER', this.user)
+      }
+    },
+    updatePassword () {
+      if (this.errors.has('currentPassword') || this.errors.has('newPassword') || this.errors.has('confirmResetPassword')) {
+
+      } else {
+        // save new password if input currentPassword is the same as saved value
+        // this.$store.dispatch('UPDATE_USER', this.user)
       }
     }
   },
