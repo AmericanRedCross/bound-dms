@@ -12,8 +12,7 @@
               :label-size="1"
               >
 
-              <b-form-input v-model="user.firstname" :class="{'name': true, 'input is-danger': errors.has('name')}" v-validate="'required'" name="name" type="text" id="name-input"></b-form-input>
-
+              <b-form-input v-model="user.firstName" class="name" v-validate="'required'" name="name" type="text" id="name-input"></b-form-input>
               <span v-show="errors.has('name')" class="help is-danger" id="name-error">{{ errors.first('name') }}</span>
 
             </b-form-fieldset>
@@ -22,13 +21,16 @@
               :label-size="1"
               >
 
-              <b-form-input v-model="user.lastname" :class="{'lastname': true, 'input is-danger': errors.has('lastname')}" v-validate="'required'" name="lastname" type="text" id="lastname-input"></b-form-input>
+              <b-form-input v-model="user.lastName" class="lastname" v-validate="'required'" name="lastname" type="text" id="lastname-input"></b-form-input>
               <span v-show="errors.has('lastname')" class="help is-danger" id="lastname-error">{{ errors.first('lastname') }}</span>
 
             </b-form-fieldset>
             <b-form-fieldset
-              <b-form-input v-model="user.email" :class="{'email': true, 'input is-danger': errors.has('email')}" v-validate="'required|email'" name="email" type="email" id="email-input"></b-form-input>
+              :label="$t('users.edit.email')"
+              :label-size="1"
+              >
 
+              <b-form-input v-model="user.email" class="email" v-validate="'required|email'" name="email" type="email" id="email-input"></b-form-input>
               <span v-show="errors.has('email')" class="help is-danger" id="email-error">{{ errors.first('email') }}</span>
 
             </b-form-fieldset>
@@ -87,8 +89,8 @@ export default {
   data () {
     return {
       user: {
-        firstname: '',
-        lastname: '',
+        firstName: '',
+        lastName: '',
         email: ''
       },
       msg: 'Edit User',
