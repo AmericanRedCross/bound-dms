@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const USER_ROOT = '/api/users'
+const USER_ROOT = '/users'
 const users = {
   state: {
     users: [],
