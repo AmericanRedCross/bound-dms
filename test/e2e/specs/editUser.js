@@ -3,7 +3,7 @@
 
 module.exports = {
 
-  'check incorrect validation prevents navigation': function (browser) {
+  'check incorrect validation prevents save': function (browser) {
     // automatically uses dev Server port from /config.index.js
     // default: http://localhost:8080
     // see nightwatch.conf.js
@@ -13,8 +13,7 @@ module.exports = {
       .url(devServer + '/users/edit/1')
       .waitForElementVisible('.user-edit', 5000)
       .pause(5000)
-    browser.setValue('#email-input', 'user@domain')
-    // continue once navigation is set up on acceptance of entered data
+      .setValue('user.email[type=email]', 'user@domain')
       .end()
   }
 
