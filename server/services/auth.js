@@ -11,12 +11,13 @@ const jwtOptions = {
 
 module.exports = () => {
   const strategy = new JwtStrategy(jwtOptions, (payload, next) => {
+    // TODO check JWT is not blacklisted
     users.find(payload.id).then((user) => {
-      // check user is active
-      console.log(user)
-
-      next(null, user)
-    }).catch(next(null, false))
+      // Add "user" to request
+      return next(null, user)
+    }).catch((err) => {
+      return next(err, null)
+    })
   })
   passport.use(strategy)
 

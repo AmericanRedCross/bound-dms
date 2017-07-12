@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const controller = require('../controllers/auth')
+const authService = require('../services/auth')()
 
 // POST /api/auth
 router.post('/', (req, res, next) => {
@@ -23,5 +24,8 @@ router.post('/', (req, res, next) => {
     next()
   })
 }, controller.login)
+
+// GET /api/auth/refresh
+router.get('/refresh', authService.authenticate(), controller.refresh)
 
 module.exports = router
