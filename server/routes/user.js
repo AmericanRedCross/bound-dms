@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const controller = require('../controllers/user')
+const authService = require('../services/auth')()
 const userRules = {
   'email': {
     isEmail: {
@@ -29,6 +30,7 @@ const userRules = {
 
 // GET /api/user
 router.get('/', controller.getAll)
+router.get('/me', authService.authenticate(), controller.getAuthenticatedUser)
 router.get('/:id', controller.getUser)
 router.put('/', (req, res, next) => {
   req.checkBody(userRules)

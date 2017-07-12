@@ -1,12 +1,35 @@
 const app = require('../../../index')
 const request = require('supertest')
 const expect = require('chai').expect
+const jwt = require('jsonwebtoken')
+const config = require('../../../server/config')
 
 describe('API: User', () => {
   describe('GET /api/users', () => {
     it('returns a collection of users', (done) => {
       request(app)
         .get('/api/users')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+          expect(res.body).to.be.an('array')
+          expect(res.body[0]).to.have.property('email')
+          expect(res.body[0]).to.have.property('id')
+          expect(res.body[0]).to.have.property('firstname')
+          expect(res.body[0]).to.have.property('lastname')
+          done()
+        })
+    })
+  })
+
+  describe('GET /api/users/me', () => {
+    before(() => {
+      this.token = jwt.sign({sub: 1, expiresIn: '1 day'}, config.jwtSecretKey)
+    })
+    it('returns authenticated user data', (done) => {
+      request(app)
+        .get('/api/users')
+        .set('Authorization', 'Bearer ' + this.token)
         .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {

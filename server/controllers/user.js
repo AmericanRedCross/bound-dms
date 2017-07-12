@@ -16,6 +16,12 @@ module.exports = {
       console.log('User error: ' + err)
     })
   },
+  getAuthenticatedUser (req, res, next) {
+    res.status(200).json({
+      status: 200,
+      data: req.user
+    })
+  },
   createUser (req, res, next) {
     users.create(req.body).then((user) => {
       res.status(201).json(user)
