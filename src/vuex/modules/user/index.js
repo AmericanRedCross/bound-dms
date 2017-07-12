@@ -28,6 +28,7 @@ const auth = {
     }
   },
   actions: {
+    // GET all users
     GET_USERS: function ({ commit }) {
       return axios.get(USER_ROOT).then((response) => {
         commit('SET_USERS', { response: response.data })
@@ -35,6 +36,7 @@ const auth = {
         commit('SET_ERROR', { error: err })
       })
     },
+    // GET a user
     GET_USER: function ({ commit }, id) {
       return axios.get(USER_ROOT + '/' + id).then((response) => {
         commit('SET_USER', { response: response.data })
@@ -42,6 +44,15 @@ const auth = {
         commit('SET_ERROR', { error: err })
       })
     },
+    // PUT a user (create)
+    CREATE_USER: function ({ commit }, data) {
+      return axios.post(USER_ROOT, data).then((response) => {
+        commit('SET_USER', { response: response.data })
+      }, (err) => {
+        commit('SET_ERROR', { error: err })
+      })
+    },
+    // POST a user (update)
     UPDATE_USER: function ({ commit }, data) {
       return axios.post(USER_ROOT + '/' + data.id, data).then((response) => {
         commit('SET_USER', { response: response.data })
@@ -49,6 +60,7 @@ const auth = {
         commit('SET_ERROR', { error: err })
       })
     },
+    // Delete a user
     DELETE_USER: function ({commit}, id) {
       return axios.delete(USER_ROOT + '/' + id).then((response) => {
         commit('REMOVE_USER', { id })
