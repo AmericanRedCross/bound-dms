@@ -62,10 +62,13 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: '',
   data () {
     return {
+      user: null, // TODO: use the properties in this user object in the below fields.
       msg: 'Edit User',
       name: '',
       email: '',
@@ -86,8 +89,20 @@ export default {
         }]
     }
   },
-
+  beforeMount () {
+    // Call vuex to retrieve the current user from the backend. This returns a promise so we know when it's finished.
+    this.$store.dispatch('GET_USER', this.$route.params.id).then(() => {
+      // Get the user that was just retrieved (the getUserById getter is from the vuex getter, there's a special helper
+      // called 'mapGetters' in the computed section of this component that gets the user from the vuex state.)
+      let user = this.getUserById(parseInt(this.$route.params.id), 10)
+      // Set the user so the component can see it
+      this.user = user
+    })
+  },
   computed: {
+    ...mapGetters([
+      'getUserById'
+    ]),
     feedback () {
       return this.name.length ? '' : 'Please enter something'
     },
