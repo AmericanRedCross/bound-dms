@@ -14,27 +14,32 @@ export default new Router({
     {
       path: '/',
       name: 'Hello',
-      component: Hello
+      component: Hello,
+      meta: {auth: true}
     },
     {
       path: '/login',
       name: 'Login',
-      component: Login
+      component: Login,
+      meta: {auth: false}
     },
     {
       path: '/dashboard',
       name: 'Dashboard',
-      component: Dashboard
+      component: Dashboard,
+      meta: {auth: true}
     },
     {
       path: '/users/',
       name: 'Users',
-      component: Users
+      component: Users,
+      meta: {auth: true}
     },
     {
       path: '/users/edit/:id',
       name: 'User Edit',
-      component: UserEdit
+      component: UserEdit,
+      meta: {auth: true}
     }
   ]
 })
