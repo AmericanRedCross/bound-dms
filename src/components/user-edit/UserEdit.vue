@@ -12,7 +12,7 @@
               :label-size="1"
               >
 
-              <b-form-input v-model="user.firstName" class="name" v-validate="'required'" name="name" type="text" id="name-input"></b-form-input>
+              <b-form-input v-model="user.firstname" class="name" v-validate="'required'" name="name" type="text" id="name-input"></b-form-input>
               <span v-show="errors.has('name')" class="help is-danger" id="name-error">{{ errors.first('name') }}</span>
 
             </b-form-fieldset>
@@ -21,7 +21,7 @@
               :label-size="1"
               >
 
-              <b-form-input v-model="user.lastName" class="lastname" v-validate="'required'" name="lastname" type="text" id="lastname-input"></b-form-input>
+              <b-form-input v-model="user.lastname" class="lastname" v-validate="'required'" name="lastname" type="text" id="lastname-input"></b-form-input>
               <span v-show="errors.has('lastname')" class="help is-danger" id="lastname-error">{{ errors.first('lastname') }}</span>
 
             </b-form-fieldset>
@@ -89,8 +89,8 @@ export default {
   data () {
     return {
       user: {
-        firstName: '',
-        lastName: '',
+        firstname: '',
+        lastname: '',
         email: ''
       },
       msg: 'Edit User',
