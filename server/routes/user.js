@@ -29,10 +29,10 @@ const userRules = {
 }
 
 // GET /api/user
-router.get('/', controller.getAll)
+router.get('/', authService.authenticate(), controller.getAll)
 router.get('/me', authService.authenticate(), controller.getAuthenticatedUser)
 router.get('/:id', controller.getUser)
-router.put('/', (req, res, next) => {
+router.put('/', authService.authenticate(), (req, res, next) => {
   req.checkBody(userRules)
   req.getValidationResult().then((result) => {
     if (!result.isEmpty()) {
@@ -42,7 +42,7 @@ router.put('/', (req, res, next) => {
     next()
   })
 }, controller.createUser)
-router.post('/:id', (req, res, next) => {
+router.post('/:id', authService.authenticate(), (req, res, next) => {
   // @todo check permissions here
   // clone base rules and make optional
   let rules = Object.assign({}, userRules)
@@ -60,6 +60,6 @@ router.post('/:id', (req, res, next) => {
     next()
   })
 }, controller.updateUser)
-router.delete('/:id', controller.deleteUser)
+router.delete('/:id', authService.authenticate(), controller.deleteUser)
 
 module.exports = router
