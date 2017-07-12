@@ -5,8 +5,9 @@ const users = require('../services/users')
 const generateJwtPayload = (user) => {
   return {sub: user.id, expiresIn: '1 day'}
 }
+
 module.exports = {
-  // Authenticates user credentials and issues JWT
+  // Authenticates user via username / password and issues auth token
   login (req, res, next) {
     users.findByEmail(req.body.email).then((user) => {
       // @todo time safe comparison

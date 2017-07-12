@@ -12,7 +12,7 @@ const jwtOptions = {
 module.exports = () => {
   const strategy = new JwtStrategy(jwtOptions, (payload, next) => {
     // TODO check JWT is not blacklisted
-    users.find(payload.id).then((user) => {
+    users.find(payload.sub).then((user) => {
       // Add "user" to request
       return next(null, user)
     }).catch((err) => {
