@@ -23,19 +23,20 @@ export default{
     header: 'User management',
     list: 'List of users',
     edit: {
-      editheader: 'Edit Details',
+      editHeader: 'Edit Details',
       user: 'User:',
-      name: 'Name',
+      firstName: 'First Name',
+      lastName: 'Surname',
       email: 'Email',
       role: 'Please select a role:',
       admin: 'Administrator',
       translate: 'Translator',
       content: 'Content Creator',
       save: 'Save',
-      changepass: 'Change Password',
-      currentpass: 'Enter Current Password',
-      newpass: 'New Password',
-      confirmpass: 'Confirm New Password'
+      changePass: 'Change Password',
+      currentPass: 'Enter Current Password',
+      newPass: 'New Password',
+      confirmPass: 'Confirm New Password'
     }
 
   }

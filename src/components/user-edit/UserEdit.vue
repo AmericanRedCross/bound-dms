@@ -1,19 +1,28 @@
 <template>
   <div class="user-edit" align="center">
     <div class="row">
-      <div class="col-sm-6">
-        <b-card class="edit-card" :header="$t('users.edit.editheader')">
+      <div class="col-md-6">
+        <b-card class="edit-card" :header="$t('users.edit.editHeader')">
           <div>
             <div>
-              {{ $t('users.edit.user') }} {{ $route.params.id }}
+              {{ $t('users.edit.user') }} {{ user.id }}
             </div>
             <b-form-fieldset
-              :label="$t('users.edit.name')"
+              :label="$t('users.edit.firstName')"
               :label-size="1"
               >
 
-              <b-form-input v-model="name" class="name" v-validate="'required|name'" name="name" type="text" id="name-input"></b-form-input>
+              <b-form-input v-model="user.firstName" class="name" v-validate="'required'" name="name" type="text" id="name-input"></b-form-input>
               <span v-show="errors.has('name')" class="help is-danger" id="name-error">{{ errors.first('name') }}</span>
+
+            </b-form-fieldset>
+            <b-form-fieldset
+              :label="$t('users.edit.lastName')"
+              :label-size="1"
+              >
+
+              <b-form-input v-model="user.lastName" class="lastname" v-validate="'required'" name="lastname" type="text" id="lastname-input"></b-form-input>
+              <span v-show="errors.has('lastname')" class="help is-danger" id="lastname-error">{{ errors.first('lastname') }}</span>
 
             </b-form-fieldset>
             <b-form-fieldset
@@ -21,7 +30,7 @@
               :label-size="1"
               >
 
-              <b-form-input v-model="email" class="email" v-validate="'required|email'" name="email" type="email" id="email-input"></b-form-input>
+              <b-form-input v-model="user.email" class="email" v-validate="'required|email'" name="email" type="email" id="email-input"></b-form-input>
               <span v-show="errors.has('email')" class="help is-danger" id="email-error">{{ errors.first('email') }}</span>
 
             </b-form-fieldset>
@@ -36,10 +45,10 @@
           </div>
         </b-card>
       </div>
-      <div class="col-sm-6">
-        <b-card class="password-card" align="center" :header="$t('users.edit.changepass')">
+      <div class="col-md-6">
+        <b-card class="password-card" align="center" :header="$t('users.edit.changePass')">
           <b-form-fieldset
-              :label="$t('users.edit.currentpass')"
+              :label="$t('users.edit.currentPass')"
               :label-size="1"
               >
 
@@ -48,7 +57,7 @@
 
           </b-form-fieldset>
           <b-form-fieldset
-              :label="$t('users.edit.newpass')"
+              :label="$t('users.edit.newPass')"
               :label-size="1"
               >
 
@@ -57,7 +66,7 @@
 
           </b-form-fieldset>
           <b-form-fieldset
-              :label="$t('users.edit.confirmpass')"
+              :label="$t('users.edit.confirmPass')"
               :label-size="1"
               >
 
@@ -79,10 +88,12 @@ export default {
   name: '',
   data () {
     return {
-      user: null, // TODO: use the properties in this user object in the below fields.
+      user: {
+        firstName: '',
+        lastName: '',
+        email: ''
+      },
       msg: 'Edit User',
-      name: '',
-      email: '',
       currentPassword: '',
       resetPassword: '',
       confirmResetPassword: '',
