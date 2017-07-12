@@ -5,7 +5,7 @@ const config = require('../config')
 const JwtStrategy = passportJwt.Strategy
 
 const jwtOptions = {
-  jwtFromRequest: passportJwt.ExtractJwt.fromAuthHeader(),
+  jwtFromRequest: passportJwt.ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
   secretOrKey: config.jwtSecretKey
 }
 

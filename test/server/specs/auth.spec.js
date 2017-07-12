@@ -64,7 +64,7 @@ describe('API: Authentication', () => {
     it('returns 401 unauthorized if an invalid token is supplied', (done) => {
       request(app)
       .get('/api/auth/refresh')
-      .set('Authorization', 'JWT some_invalid_token')
+      .set('Authorization', 'Bearer some_invalid_token')
       .expect(401, done)
     })
 
@@ -76,14 +76,14 @@ describe('API: Authentication', () => {
 
       request(app)
       .get('/api/auth/refresh')
-      .set('Authorization', 'JWT ' + token)
+      .set('Authorization', 'Bearer ' + token)
       .expect(401, done)
     })
 
     it('returns a new token in response json if supplied a valid token', (done) => {
       request(app)
       .get('/api/auth/refresh')
-      .set('Authorization', 'JWT ' + this.token)
+      .set('Authorization', 'Bearer ' + this.token)
       .expect(200)
       .expect('Content-Type', /json/)
       .end((err, res) => {
