@@ -13,6 +13,6 @@ module.exports = {
       .waitForElementVisible('#app', 1000)
     browser.expect.element('#lang-select').to.be.present
     browser.expect.element('#english').to.be.present
+    browser.end()
   }
-  
 }
