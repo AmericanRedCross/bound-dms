@@ -1,6 +1,11 @@
 export default{
   common: {
-    cie: 'Cash in emergency'
+    cie: 'Cash in emergency',
+    areYouSure: 'Are you sure?',
+    noRevert: 'You won\'t be able to revert this!',
+    deleteIt: 'Yes, delete it',
+    cancel: 'Cancel',
+    deleted: 'Deleted!'
   },
   navbar: {
     language: 'Language',
@@ -22,6 +27,7 @@ export default{
   users: {
     header: 'User management',
     list: 'List of users',
+    couldNotFind: 'Could not find the requested user',
     edit: {
       editHeader: 'Edit Details',
       user: 'User:',
