@@ -19,9 +19,9 @@ const users = {
         state.users.push(response)
       }
     },
-    REMOVE_USER: (state, { response }) => {
+    REMOVE_USER: (state, { id }) => {
       // Find the user index
-      let userIndex = state.users.findIndex(user => user.id === response.id)
+      let userIndex = state.users.findIndex(user => user.id === id)
       if (userIndex >= 0) {
         state.users.splice(userIndex, 1)
       }
