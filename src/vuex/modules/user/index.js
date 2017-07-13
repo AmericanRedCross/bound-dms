@@ -4,7 +4,10 @@ const USER_ROOT = '/users'
 const users = {
   state: {
     users: [],
-    error: ''
+    error: '',
+    model: {
+
+    }
   },
   mutations: {
     SET_USERS: (state, { response }) => {
