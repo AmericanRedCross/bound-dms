@@ -1,4 +1,4 @@
-import {User} from '../../../../src/vuex/modules/user/User'
+import { User } from '../../../../src/vuex/modules/user/User'
 
 describe('User Object Creation', () => {
   it('Create a new user', () => {
