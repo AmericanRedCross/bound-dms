@@ -18,8 +18,8 @@
               <v-gravatar class="user-icon" :email="user.item.email" default-img="mm" :size="80"> </v-gravatar>
             </template>
               <template slot="actions" scope="user">
-                <b-btn size="sm" :to="'users/edit/' + user.item.id">Edit</b-btn>
-                <b-btn size="sm">Delete</b-btn>
+                <b-btn size="sm" variant="primary" :to="'users/edit/' + user.item.id" class="m-t-5"><fa-icon name="edit" label="Edit"></fa-icon> Edit</b-btn>
+                <b-btn size="sm" variant="danger" class="m-t-5" @click.native="deleteClick" :data-id="user.item.id"><fa-icon name="trash" label="Delete"></fa-icon> Delete</b-btn>
               </template>
             </b-table>
             <div v-if="users.users.length > 10" class="row justify-content-center" slot="footer">
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   data () {
@@ -70,11 +70,47 @@ export default {
     this.$store.dispatch('GET_USERS')
   },
   methods: {
-
+    deleteClick (e) {
+      // Call the swal confirm dialog
+      this.$swal({
+        title: this._i18n.t('common.areYouSure'),
+        text: this._i18n.t('common.noRevert'),
+        type: 'warning',
+        showCancelButton: true,
+        showLoaderOnConfirm: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: this._i18n.t('common.deleteIt'),
+        // Pre confirm it. Used for async requests. Close the dialoag when this is finished
+        preConfirm: () => {
+          return new Promise((resolve, reject) => {
+            console.log(e.target)
+            let user = this.getUserById(parseInt(e.target.dataset.id, 10))
+            if (user) {
+              // If the user exists then call the delete
+              this.$store.dispatch('DELETE_USER', parseInt(e.target.dataset.id, 10)).then(resolve)
+            } else {
+              reject(this._i18n.t('users.couldNotFind'))
+            }
+          })
+        },
+        allowOutsideClick: false
+      }).then(() => {
+        this.$swal({
+          type: 'success',
+          title: this._i18n.t('common.deleted')
+        })
+      })
+    }
   },
-  computed: mapState([
-    'users'
-  ])
+  computed: {
+    ...mapGetters([
+      'getUserById'
+    ]),
+    ...mapState([
+      'users'
+    ])
+  }
 }
 </script>
 
