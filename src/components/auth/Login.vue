@@ -1,17 +1,16 @@
 <template>
   <div class="login" align="center">
     <b-card header="Login" class="login-card">
-      <div class="form-group" v-bind:class="{ 'form-group--error': $v.email.$error }">
+      <div class="form-group" v-bind:class="{error: $v.email.$error}">
         <b-form-fieldset
           :label="$t('login.email')"
           :label-size="1"
           >
 
-            <b-form-input class="form__input" v-model.trim="email" @input="$v.email.$touch()" type="text" id="email-input"></b-form-input>
+            <b-form-input class="form__input" v-model="email" type="text" id="email-input" v-on:input="$v.email.$touch"
+    v-bind:class="{error: $v.email.$error, valid: $v.email.$dirty && !$v.email.$invalid}"></b-form-input>
             <span class="form-group__message" v-if="!$v.email.required">Field is required</span>
-            <pre>email: {{ $v.email }}</pre>
-
-          </b-form-fieldset>
+        </b-form-fieldset>
       </div>
       <div class="form-group" v-bind:class="{ 'form-group--error': $v.password.$error }">
         <b-form-fieldset
@@ -19,9 +18,9 @@
           :label-size="1"
           >
 
-            <b-form-input v-validate="'required'" name="password" type="password" v-model="password" id="password-input"></b-form-input>
-            <span v-show="errors.has('password')" class="help is-danger" id="password-error">{{ errors.first('password') }}</span>
-
+          <b-form-input class="form__input" v-model="password" type="password" id="password-input" v-on:input="$v.password.$touch"
+  v-bind:class="{error: $v.password.$error, valid: $v.password.$dirty && !$v.password.$invalid}"></b-form-input>
+          <span class="form-group__message" v-if="!$v.password.required">Field is required</span>
         </b-form-fieldset>
       </div>
       <b-button @click.native="authenticate" id="login">Login</b-button>
@@ -84,5 +83,8 @@ export default {
 <style lang="scss" scoped>
   .login-card {
     width: 30rem;
+  }
+  .error {
+    border-color: #ff3860;
   }
 </style>
