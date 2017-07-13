@@ -7,14 +7,14 @@
           :label-size="1"
           >
 
-          <b-form-input 
+          <b-form-input
             v-model="email"
             type="text"
             id="email-input"
             v-on:input="$v.email.$touch"
             v-bind:class="{error: $v.email.$error, valid: $v.email.$dirty && !$v.email.$invalid}">
           </b-form-input>
-            <span class="form-group__message" v-if="!$v.email.required">Field is required</span>
+          <span class="form-group__message" v-if="!$v.email.required">Field is required</span>
         </b-form-fieldset>
       </div>
       <div class="form-group" v-bind:class="{ 'form-group--error': $v.password.$error }">
