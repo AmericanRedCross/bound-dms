@@ -1,11 +1,8 @@
 <template>
   <div class="user-edit" align="center">
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-12">
         <EditForm v-bind:user="user"></EditForm>
-      </div>
-      <div class="col-md-6">
-        <PasswordForm></PasswordForm>
       </div>
     </div>
   </div>
@@ -14,13 +11,11 @@
 <script>
 import { mapGetters } from 'vuex'
 import EditForm from '@/components/users/edit/EditForm'
-import PasswordForm from '@/components/users/edit/PasswordForm'
 
 export default {
   name: '',
   components: {
-    EditForm,
-    PasswordForm
+    EditForm
   },
   data () {
     return {
