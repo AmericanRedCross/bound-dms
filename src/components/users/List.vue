@@ -14,13 +14,16 @@
                     :filter="filter"
                     id="userTable"
             >
+            <template slot="firstname" scope="user">
+              {{ user.item.firstName }}
+            </template>
             <template slot="picture" scope="user">
               <v-gravatar class="user-icon" :email="user.item.email" default-img="mm" :size="80"> </v-gravatar>
             </template>
-              <template slot="actions" scope="user">
-                <b-btn size="sm" variant="primary" :to="'users/edit/' + user.item.id" class="m-t-5"><fa-icon name="edit" label="Edit"></fa-icon> Edit</b-btn>
-                <b-btn size="sm" variant="danger" class="m-t-5" @click.native="deleteClick" :data-id="user.item.id"><fa-icon name="trash" label="Delete"></fa-icon> Delete</b-btn>
-              </template>
+            <template slot="actions" scope="user">
+              <b-btn size="sm" variant="primary" :to="'users/edit/' + user.item.id" class="m-t-5"><fa-icon name="edit" label="Edit"></fa-icon> Edit</b-btn>
+              <b-btn size="sm" variant="danger" class="m-t-5" @click.native="deleteClick" :data-id="user.item.id"><fa-icon name="trash" label="Delete"></fa-icon> Delete</b-btn>
+            </template>
             </b-table>
             <div v-if="users.users.length > 10" class="row justify-content-center" slot="footer">
               <b-pagination size="md" :total-rows="users.users.length" :per-page="perPage" v-model="currentPage" />
@@ -49,7 +52,7 @@ export default {
           label: 'First name',
           sortable: true
         },
-        lastname: {
+        lastName: {
           label: 'Last name',
           sortable: true
         },
