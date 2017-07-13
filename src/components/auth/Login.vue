@@ -7,8 +7,13 @@
           :label-size="1"
           >
 
-            <b-form-input class="form__input" v-model="email" type="text" id="email-input" v-on:input="$v.email.$touch"
-    v-bind:class="{error: $v.email.$error, valid: $v.email.$dirty && !$v.email.$invalid}"></b-form-input>
+          <b-form-input 
+            v-model="email"
+            type="text"
+            id="email-input"
+            v-on:input="$v.email.$touch"
+            v-bind:class="{error: $v.email.$error, valid: $v.email.$dirty && !$v.email.$invalid}">
+          </b-form-input>
             <span class="form-group__message" v-if="!$v.email.required">Field is required</span>
         </b-form-fieldset>
       </div>
@@ -18,8 +23,14 @@
           :label-size="1"
           >
 
-          <b-form-input class="form__input" v-model="password" type="password" id="password-input" v-on:input="$v.password.$touch"
-  v-bind:class="{error: $v.password.$error, valid: $v.password.$dirty && !$v.password.$invalid}"></b-form-input>
+          <b-form-input
+            v-model="password"
+            type="password"
+            id="password-input"
+            v-on:input="$v.password.$touch"
+            v-bind:class="{error: $v.password.$error, valid: $v.password.$dirty && !$v.password.$invalid}">
+          </b-form-input>
+
           <span class="form-group__message" v-if="!$v.password.required">Field is required</span>
         </b-form-fieldset>
       </div>

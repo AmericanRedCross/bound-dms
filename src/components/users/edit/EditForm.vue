@@ -7,11 +7,18 @@
         </div>
         <b-form-fieldset
           :label="$t('users.edit.firstName')"
-          :label-size="1"
-          >
+          :label-size="1">
 
-          <b-form-input v-model="user.firstname" :class="{'name': true, 'input is-danger': errors.has('name')}" v-validate="'required'" name="name" type="text" id="name-input"></b-form-input>
-          <span v-show="errors.has('name')" class="help is-danger" id="name-error">{{ errors.first('name') }}</span>
+          <b-form-input
+            v-model="user.firstname"
+            type="text"
+            id="name-input"
+            v-on:input="$v.firstname.$touch"
+            v-bind:class="{error: $v.firstname.$error, valid: $v.firstname.$dirty && !$v.firstname.$invalid}">
+          </b-form-input>
+
+          <span class="form-group__message" v-if="!$v.firstname.required">Field is required</span>
+          <pre>{{ $v }}</pre>
 
         </b-form-fieldset>
         <b-form-fieldset
@@ -19,8 +26,15 @@
           :label-size="1"
           >
 
-          <b-form-input v-model="user.lastname" :class="{'lastname': true, 'input is-danger': errors.has('lastname')}" v-validate="'required'" name="lastname" type="text" id="lastname-input"></b-form-input>
-          <span v-show="errors.has('lastname')" class="help is-danger" id="lastname-error">{{ errors.first('lastname') }}</span>
+          <b-form-input
+            v-model="user.lastname"
+            type="text"
+            id="lastname-input"
+            v-on:input="$v.lastname.$touch"
+            v-bind:class="{error: $v.lastname.$error, valid: $v.lastname.$dirty && !$v.lastname.$invalid}">
+          </b-form-input>
+
+          <span class="form-group__message" v-if="!$v.lastname.required">Field is required</span>
 
         </b-form-fieldset>
         <b-form-fieldset
@@ -28,10 +42,15 @@
           :label-size="1"
           >
 
-          <b-form-input v-model="user.email" v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" name="email" type="text" placeholder="Email"></b-form-input>
-          <!-- <b-form-input v-model="user.email" :class="{'email': true, 'input is-danger': errors.has('email')}" v-validate="'required|email'" name="email" type="email" id="email-input"></b-form-input> -->
-          <span v-show="errors.has('email')" class="help is-danger" id="email-error">{{ errors.first('email') }}</span>
+          <b-form-input
+            v-model="user.email"
+            type="email"
+            id="email-input"
+            v-on:input="$v.email.$touch"
+            v-bind:class="{error: $v.email.$error, valid: $v.email.$dirty && !$v.email.$invalid}">
+          </b-form-input>
 
+          <span class="form-group__message" v-if="!$v.email.required">Field is required</span>
         </b-form-fieldset>
         <div>
           <label>{{ $t('users.edit.role') }}</label>
@@ -47,6 +66,7 @@
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators'
 
 export default {
   props: {
@@ -61,6 +81,17 @@ export default {
       // } else {
       //   this.$store.dispatch('UPDATE_USER', this.user)
       // }
+    }
+  },
+  validations: {
+    firstname: {
+      required
+    },
+    lastname: {
+      required
+    },
+    email: {
+      required
     }
   },
   data () {
@@ -88,7 +119,7 @@ export default {
   .card {
     width: 30rem;
   }
-  .input.is-danger {
+  .error {
     border-color: #ff3860;
   }
 </style>
