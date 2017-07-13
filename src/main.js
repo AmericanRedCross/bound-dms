@@ -14,6 +14,7 @@ import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
 
 import VeeValidate from 'vee-validate'
+import Vuelidate from 'vuelidate'
 import VueI18n from 'vue-i18n'
 import VueCharts from 'vue-chartjs'
 import VueAxios from 'vue-axios'
@@ -28,6 +29,7 @@ axios.defaults.baseURL = '/api'
 
 Vue.use(BootstrapVue)
 Vue.use(VeeValidate, {fieldsBagName: 'fieldBag'})
+Vue.use(Vuelidate)
 Vue.use(VueI18n)
 Vue.use(VueCharts)
 Vue.use(VueSweetAlert)

@@ -1,15 +1,19 @@
 <template>
   <div class="login" align="center">
     <b-card header="Login" class="login-card">
-      <b-form-fieldset
-        :label="$t('login.email')"
-        :label-size="1"
-        >
+      <div class="form-group" v-bind:class="{ 'form-group--error': $v.email.$error }">
+        <b-form-fieldset
+          :label="$t('login.email')"
+          :label-size="1"
+          >
 
-          <b-form-input v-model="email" class="email" v-validate="'required|email'" name="email" type="text" id="email-input"></b-form-input>
-          <span v-show="errors.has('email')" class="help is-danger" id="email-error">{{ errors.first('email') }}</span>
+            <b-form-input class="form__input" v-model.trim="email" @input="$v.email.$touch()" type="text" id="email-input"></b-form-input>
+            <span class="form-group__message" v-if="!$v.email.required">Field is required</span>
+            <pre>email: {{ $v.email }}</pre>
 
-        </b-form-fieldset>
+          </b-form-fieldset>
+      </div>
+      <div class="form-group" v-bind:class="{ 'form-group--error': $v.password.$error }">
         <b-form-fieldset
           :label="$t('login.password')"
           :label-size="1"
@@ -19,16 +23,18 @@
             <span v-show="errors.has('password')" class="help is-danger" id="password-error">{{ errors.first('password') }}</span>
 
         </b-form-fieldset>
-        <b-button @click.native="authenticate" id="login">Login</b-button>
-        <b-alert variant="danger" class="m-t-15" dismissible :show="error !== ''" @dismissed="error=''">
-            {{ error }}
-        </b-alert>
-      </b-card>
+      </div>
+      <b-button @click.native="authenticate" id="login">Login</b-button>
+      <b-alert variant="danger" class="m-t-15" dismissible :show="error !== ''" @dismissed="error=''">
+          {{ error }}
+      </b-alert>
+    </b-card>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import { required } from 'vuelidate/lib/validators'
 
 export default {
   data () {
@@ -36,6 +42,14 @@ export default {
       email: '',
       password: '',
       error: ''
+    }
+  },
+  validations: {
+    email: {
+      required
+    },
+    password: {
+      required
     }
   },
   methods: {
