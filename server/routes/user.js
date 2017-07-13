@@ -61,5 +61,18 @@ router.post('/:id', authService.authenticate(), (req, res, next) => {
   })
 }, controller.updateUser)
 router.delete('/:id', authService.authenticate(), controller.deleteUser)
+router.put('/me/password', authService.authenticate(), (req, res, next) => {
+  req.checkBody({
+    'password': userRules.password,
+    'new_password': userRules.password
+  })
+  req.getValidationResult().then((result) => {
+    if (!result.isEmpty()) {
+      res.status(400).json(result.array())
+      return
+    }
+    next()
+  })
+}, controller.updatePassword)
 
 module.exports = router

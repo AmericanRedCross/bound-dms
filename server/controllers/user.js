@@ -45,5 +45,18 @@ module.exports = {
       res.status(500).json({message: 'Could not delete user'})
       console.log('User error: ' + err)
     })
+  },
+  updatePassword (req, res, next) {
+    // TODO do constant time hash comparison
+    if (req.body.password === req.user.password) {
+      users.savePassword(req.user.id, req.body.password).then((user) => {
+        res.status(200).json({status: 200, message: 'Password updated'})
+      }).catch((err) => {
+        res.status(500).json({status: 500, message: 'Password update failed'})
+        console.log('User error: ' + err)
+      })
+    } else {
+      res.status(400).json({status: 400, message: 'Password update failed'})
+    }
   }
 }

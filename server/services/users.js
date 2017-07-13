@@ -32,6 +32,10 @@ module.exports = {
       }
     })
   },
+  savePassword (id, password) {
+    // TODO do hash here
+    return this.save(id, {password: password})
+  },
   all () {
     return new Promise((resolve, reject) => {
       if (users.length) {

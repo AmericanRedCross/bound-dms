@@ -112,6 +112,45 @@ describe('API: User', () => {
     })
   })
 
+  describe('PUT /api/users/me/password', () => {
+    it('updates a user password and returns 200', (done) => {
+      request(app)
+        .put('/api/users/me/password')
+        .set('Authorization', 'Bearer ' + this.token)
+        .send({'password': '12345678', 'new_password': '87654321'})
+        .expect(200)
+        .end((err, res) => {
+          expect(res.body).to.have.property('status')
+          expect(res.body.status).to.equal(200)
+          done()
+        })
+    })
+
+    it('validates current password is present', (done) => {
+      request(app)
+        .put('/api/users/me/password')
+        .set('Authorization', 'Bearer ' + this.token)
+        .send({'password': '', 'new_password': '87654321'})
+        .expect(400, done)
+    })
+
+    it('validates new password is present', (done) => {
+      request(app)
+        .put('/api/users/me/password')
+        .set('Authorization', 'Bearer ' + this.token)
+        .send({'password': '12345678', 'new_password': ''})
+        .expect(400, done)
+    })
+
+    it('returns error if current password does not match', (done) => {
+      request(app)
+        .put('/api/users/me/password')
+        .set('Authorization', 'Bearer ' + this.token)
+        .send({'password': '123456789', 'new_password': '87654321'})
+        .expect(400, done)
+    })
+  })
+
   describe('DELETE /api/users/:id', () => {
     it('deletes a user', (done) => {
       request(app)
