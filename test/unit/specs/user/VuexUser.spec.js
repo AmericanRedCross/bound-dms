@@ -1,4 +1,4 @@
-import { modules } from '../../../src/vuex'
+import { modules } from '../../../../src/vuex'
 // destructure assign users
 const { users } = modules
 // destructure assign mutations
