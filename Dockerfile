@@ -1,4 +1,4 @@
-FROM node:boron
+FROM node:6.11.1
 
 WORKDIR /tmp
 COPY package.json /tmp/
@@ -20,4 +20,4 @@ EXPOSE $PORT
 ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
 
-CMD [ “node”, “./index.js” ]
+CMD [ "node", "index.js" ]
