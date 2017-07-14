@@ -5,7 +5,12 @@ export default{
     noRevert: 'You won\'t be able to revert this!',
     deleteIt: 'Yes, delete it',
     cancel: 'Cancel',
-    deleted: 'Deleted!'
+    deleted: 'Deleted!',
+    validations: {
+      required: 'Field is required',
+      email: 'Incorrect email format'
+    },
+    saved: 'Saved'
   },
   navbar: {
     language: 'Language',
@@ -44,6 +49,5 @@ export default{
       newPass: 'New Password',
       confirmPass: 'Confirm New Password'
     }
-
   }
 }

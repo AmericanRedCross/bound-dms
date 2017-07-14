@@ -1,52 +1,84 @@
 <template>
-  <div class="edit-form" align="center">
+  <div class="edit-form col-lg-6">
     <b-card class="edit-card" :header="$t('users.edit.editHeader')">
       <div>
-        <div>
-          {{ $t('users.edit.user') }} {{ user.id }}
-        </div>
-        <b-form-fieldset
-          :label="$t('users.edit.firstName')"
-          :label-size="1"
+        <div class="form-group" v-bind:class="{error: $v.user.firstname.$error}">
+          <b-form-fieldset
+            :label="$t('users.edit.firstName')"
+            :label-size="1"
+            :feedback="!$v.user.firstname.required ? $t('common.validations.required') : '' "
+            :state="$v.user.firstname.$error ? 'warning' : ''"
           >
+            <b-input-group>
+              <b-input-group-addon slot="left">
+                <fa-icon name="user-o"></fa-icon>
+              </b-input-group-addon>
+              <b-form-input
+                v-model.trim="user.firstname"
+                type="text"
+                id="firstname-input"
+                v-on:input="$v.user.firstname.$touch">
+              </b-form-input>
+            </b-input-group>
 
-          <b-form-input v-model="user.firstname" :class="{'name': true, 'input is-danger': errors.has('name')}" v-validate="'required'" name="name" type="text" id="name-input"></b-form-input>
-          <span v-show="errors.has('name')" class="help is-danger" id="name-error">{{ errors.first('name') }}</span>
-
-        </b-form-fieldset>
-        <b-form-fieldset
-          :label="$t('users.edit.lastName')"
-          :label-size="1"
-          >
-
-          <b-form-input v-model="user.lastname" :class="{'lastname': true, 'input is-danger': errors.has('lastname')}" v-validate="'required'" name="lastname" type="text" id="lastname-input"></b-form-input>
-          <span v-show="errors.has('lastname')" class="help is-danger" id="lastname-error">{{ errors.first('lastname') }}</span>
-
-        </b-form-fieldset>
-        <b-form-fieldset
-          :label="$t('users.edit.email')"
-          :label-size="1"
-          >
-
-          <b-form-input v-model="user.email" v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" name="email" type="text" placeholder="Email"></b-form-input>
-          <!-- <b-form-input v-model="user.email" :class="{'email': true, 'input is-danger': errors.has('email')}" v-validate="'required|email'" name="email" type="email" id="email-input"></b-form-input> -->
-          <span v-show="errors.has('email')" class="help is-danger" id="email-error">{{ errors.first('email') }}</span>
-
-        </b-form-fieldset>
-        <div>
-          <label>{{ $t('users.edit.role') }}</label>
-          <b-form-select v-model="selected" name="roles" :options="options" class="mb-3" v-validate="'in:admin,translator,content_creator'">
-          </b-form-select>
-          <span v-show="errors.has('roles')" class="help is-danger" id="role-not-selected">{{ errors.first('roles')}}</span>
+          </b-form-fieldset>
         </div>
 
-        <b-button @click.native="updateUser">{{ $t('users.edit.save') }}</b-button>
+        <div class="form-group" v-bind:class="{error: $v.user.lastname.$error}">
+          <b-form-fieldset
+            :label="$t('users.edit.lastName')"
+            :label-size="1"
+            :feedback="!$v.user.lastname.required ? $t('common.validations.required') : '' "
+            :state="$v.user.lastname.$error ? 'warning' : ''"
+          >
+            <b-input-group>
+              <b-input-group-addon slot="left">
+                <fa-icon name="user-o"></fa-icon>
+              </b-input-group-addon>
+              <b-form-input
+                v-model.trim="user.lastname"
+                type="text"
+                id="lastname-input"
+                v-on:input="$v.user.lastname.$touch">
+              </b-form-input>
+            </b-input-group>
+          </b-form-fieldset>
+        </div>
+
+        <div class="form-group" v-bind:class="{error: $v.user.email.$error}">
+          <b-form-fieldset
+            :label="$t('users.edit.email')"
+            :label-size="1"
+            :feedback="!$v.user.email.required ? $t('common.validations.required') : !$v.user.email.email ? $t('common.validations.email') : '' "
+            :state="$v.user.email.$error ? 'warning' : ''"
+          >
+            <b-input-group>
+              <b-input-group-addon slot="left">
+                <fa-icon name="at"></fa-icon>
+              </b-input-group-addon>
+              <b-form-input
+                v-model.trim="user.email"
+                type="email"
+                id="email-input"
+                v-on:input="$v.user.email.$touch">
+              </b-form-input>
+            </b-input-group>
+          </b-form-fieldset>
+        </div>
+      </div>
+      <div slot="footer">
+        <b-button @click.native="updateUser" variant="primary" :disabled='saving'>{{ $t('users.edit.save') }}</b-button>
+        <span v-show="saving" class="m-t-5" style="inline-block">
+          <fa-icon name="refresh" spin></fa-icon>
+        </span>
+        <small>{{ this.success }}</small>
       </div>
     </b-card>
   </div>
 </template>
 
 <script>
+import { required, email } from 'vuelidate/lib/validators'
 
 export default {
   props: {
@@ -56,28 +88,37 @@ export default {
   },
   methods: {
     updateUser () {
-      // if (this.errors.has('name') || this.errors.has('lastname') || this.errors.has('email')) {
-
-      // } else {
-      //   this.$store.dispatch('UPDATE_USER', this.user)
-      // }
+      if (!this.$v.user.firstname.$error && !this.$v.user.lastname.$error && !this.$v.user.email.$error) {
+        this.saving = true
+        this.$store.dispatch('UPDATE_USER', this.user).then(() => {
+          this.saving = false
+          let date = new Date()
+          this.success = this._i18n.t('common.saved') + ' ' + date.toDateString() + ' ' + date.toTimeString()
+        }).catch(() => {
+          this.saving = false
+        })
+      }
+    }
+  },
+  validations: {
+    user: {
+      firstname: {
+        required
+      },
+      lastname: {
+        required
+      },
+      email: {
+        required,
+        email
+      }
     }
   },
   data () {
     return {
       selected: null,
-      options: [
-        {
-          // this._i18n.$t('useredit.admin')
-          text: this._i18n.t('users.edit.admin'),
-          value: 'admin'
-        }, {
-          text: this._i18n.t('users.edit.translate'),
-          value: 'translator'
-        }, {
-          text: this._i18n.t('users.edit.content'),
-          value: 'content_creator'
-        }]
+      saving: false,
+      success: ''
     }
   }
 }
@@ -85,10 +126,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-  .card {
-    width: 30rem;
-  }
-  .input.is-danger {
-    border-color: #ff3860;
+  .col-form-label {
+    text-align: left !important;
   }
 </style>

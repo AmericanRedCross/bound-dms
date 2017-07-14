@@ -1,5 +1,5 @@
 <template>
-  <div class="user-edit" align="center">
+  <div class="user-edit">
     <div class="row">
       <div class="col-md-12">
         <EditForm v-bind:user="user"></EditForm>
