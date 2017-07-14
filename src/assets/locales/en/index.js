@@ -9,7 +9,8 @@ export default{
     validations: {
       required: 'Field is required',
       email: 'Incorrect email format'
-    }
+    },
+    saved: 'Saved'
   },
   navbar: {
     language: 'Language',

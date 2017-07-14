@@ -67,7 +67,11 @@
         </div>
       </div>
       <div slot="footer">
-        <b-button @click.native="updateUser" variant="primary">{{ $t('users.edit.save') }}</b-button>
+        <b-button @click.native="updateUser" variant="primary" :disabled='saving'>{{ $t('users.edit.save') }}</b-button>
+        <span v-show="saving" class="m-t-5" style="inline-block">
+          <fa-icon name="refresh" spin></fa-icon>
+        </span>
+        <small>{{ this.success }}</small>
       </div>
     </b-card>
   </div>
@@ -84,10 +88,15 @@ export default {
   },
   methods: {
     updateUser () {
-      if (this.errors.has('name') || this.errors.has('lastname') || this.errors.has('email')) {
-
-      } else {
-        this.$store.dispatch('UPDATE_USER', this.user)
+      if (!this.$v.user.firstname.$error && !this.$v.user.lastname.$error && !this.$v.user.email.$error) {
+        this.saving = true
+        this.$store.dispatch('UPDATE_USER', this.user).then(() => {
+          this.saving = false
+          let date = new Date()
+          this.success = this._i18n.t('common.saved') + ' ' + date.toDateString() + ' ' + date.toTimeString()
+        }).catch(() => {
+          this.saving = false
+        })
       }
     }
   },
@@ -108,18 +117,8 @@ export default {
   data () {
     return {
       selected: null,
-      options: [
-        {
-          // this._i18n.$t('useredit.admin')
-          text: this._i18n.t('users.edit.admin'),
-          value: 'admin'
-        }, {
-          text: this._i18n.t('users.edit.translate'),
-          value: 'translator'
-        }, {
-          text: this._i18n.t('users.edit.content'),
-          value: 'content_creator'
-        }]
+      saving: false,
+      success: ''
     }
   }
 }
