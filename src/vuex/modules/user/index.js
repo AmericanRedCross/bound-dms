@@ -1,25 +1,30 @@
 import axios from 'axios'
+import { User } from './User'
 
 const USER_ROOT = '/users'
 const users = {
   state: {
     users: [],
-    error: '',
-    model: {
-
-    }
+    error: ''
   },
   mutations: {
     SET_USERS: (state, { response }) => {
-      state.users = response
+      if (response instanceof Array) {
+        state.users = []
+        // Are we getting an array back from the server?
+        response.forEach((item) => {
+          state.users.push(new User(item.id, item.firstname, item.lastname, item.email))
+        })
+      }
     },
     SET_USER: (state, { response }) => {
       // Does the user exist already?
       let user = state.users.find(user => user.id === response.id)
+      let newUser = new User(response.id, response.firstname, response.lastname, response.email)
       if (user) {
-        user = response
+        user = newUser
       } else {
-        state.users.push(response)
+        state.users.push(newUser)
       }
     },
     REMOVE_USER: (state, { id }) => {

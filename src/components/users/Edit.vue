@@ -11,6 +11,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import EditForm from '@/components/users/edit/EditForm'
+import { User } from '../../vuex/modules/user/User'
 
 export default {
   name: '',
@@ -19,7 +20,7 @@ export default {
   },
   data () {
     return {
-      user: {}
+      user: new User()
     }
   },
   beforeMount () {

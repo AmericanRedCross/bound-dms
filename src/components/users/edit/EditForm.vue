@@ -79,11 +79,12 @@
 
 <script>
 import { required, email } from 'vuelidate/lib/validators'
+import { User } from '../../../vuex/modules/user/User'
 
 export default {
   props: {
     user: {
-      type: Object
+      type: User
     }
   },
   methods: {
