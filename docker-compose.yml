@@ -7,6 +7,7 @@ services:
       - 8080:8080
     links:
       - server
+      - mysql
     volumes:
         - .:/user/src/app
     working_dir: /user/src/app
@@ -16,6 +17,7 @@ services:
     environment:
       - NODE_ENV=development
       - API_HOST=server
+
   server:
     image: node:6.11.1
     ports:
@@ -26,4 +28,24 @@ services:
     command: ["npm", "run", "dev:server"]
     environment:
       - NODE_ENV=development
-      - PORT=8000
+      - PORT=
+      - DB_HOST=mysql
+      - DB_DATABASE=cie
+      - DB_USER=cie_user
+      - DB_PASSWORD=password
+
+  mysql:
+    image: mysql:5.7.18
+    ports:
+      - 3306:3306
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=cie
+      - MYSQL_USER=cie_user
+      - MYSQL_PASSWORD=password
+
+volumes:
+  mysql_data:
