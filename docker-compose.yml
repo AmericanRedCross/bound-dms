@@ -30,7 +30,7 @@ services:
       - NODE_ENV=development
       - PORT=
       - DB_HOST=mysql
-      - DB_DATABASE=cie
+      - DB_NAME=cie
       - DB_USER=cie_user
       - DB_PASSWORD=password
 
