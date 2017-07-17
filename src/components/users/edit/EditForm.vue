@@ -70,6 +70,7 @@
     </div>
     <div slot="footer">
       <b-button @click.native="updateUser" variant="primary" :disabled='saving'>{{ $t('users.edit.save') }}</b-button>
+      <b-button variant="warning" :disabled='saving' :to="{ name: 'Users' }">{{ $t('common.cancel') }}</b-button>
       <span v-show="saving" class="m-t-5" style="inline-block">
         <fa-icon name="refresh" spin></fa-icon>
       </span>
@@ -95,13 +96,17 @@ export default {
   },
   methods: {
     updateUser () {
+      this.$v.user.$touch()
       if (!this.$v.user.firstName.$error && !this.$v.user.lastName.$error && !this.$v.user.email.$error) {
         this.saving = true
-        let action = this.new ? 'CREATE_USER' : 'UPDATE_USER'
+        let action = this.newUser ? 'CREATE_USER' : 'UPDATE_USER'
         this.$store.dispatch(action, this.user).then(() => {
           this.saving = false
           let date = new Date()
           this.success = this._i18n.t('common.saved') + ' ' + date.toDateString() + ' ' + date.toTimeString()
+          if (this.newUser) {
+            this.$router.push({ name: 'Users' })
+          }
         }).catch(() => {
           this.saving = false
         })
@@ -137,8 +142,5 @@ export default {
 <style lang="scss" scoped>
   .user-icon {
     border-radius: 50%;
-  }
-  .col-form-label {
-    text-align: left !important;
   }
 </style>
