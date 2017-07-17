@@ -6,11 +6,13 @@ export default{
     deleteIt: 'Yes, delete it',
     cancel: 'Cancel',
     deleted: 'Deleted!',
+    gravatar: 'User profile image provided through gravatar',
     validations: {
       required: 'Field is required',
       email: 'Incorrect email format'
     },
-    saved: 'Saved'
+    saved: 'Saved',
+    add: 'Add'
   },
   navbar: {
     language: 'Language',
@@ -35,6 +37,7 @@ export default{
     list: 'List of users',
     couldNotFind: 'Could not find the requested user',
     edit: {
+      newHeader: 'New User',
       editHeader: 'Edit Details',
       user: 'User:',
       firstName: 'First Name',
