@@ -1,8 +1,8 @@
 <template>
   <div class="user-edit">
-    <div class="row">
-      <div class="col-md-12">
-        <EditForm v-bind:user="user"></EditForm>
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-6">
+        <EditForm v-bind:user="user" :newUser="false"></EditForm>
       </div>
     </div>
   </div>
@@ -36,23 +36,7 @@ export default {
   computed: {
     ...mapGetters([
       'getUserById'
-    ]),
-    feedback () {
-      return this.name.length ? '' : 'Please enter something'
-    },
-    state () {
-      return this.name.length ? 'success' : 'warning'
-    }
+    ])
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-  .card {
-    width: 30rem;
-  }
-  .input.is-danger {
-    border-color: #ff3860;
-  }
-</style>
