@@ -25,10 +25,4 @@ export class User {
   // Email
   set email (email) { this._email = email }
   get email () { return this._email }
-
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toStringTag
-  // Useful for testing object type
-  get [Symbol.toStringTag] () {
-    return 'User'
-  }
 }

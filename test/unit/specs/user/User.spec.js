@@ -3,7 +3,7 @@ import { User } from '../../../../src/vuex/modules/user/User'
 describe('User Object Creation', () => {
   it('Create a new user', () => {
     let newUser = new User()
-    expect(newUser).to.be.a('User')
+    expect(newUser).to.be.an('object')
   })
 
   it('Has the correct properties', () => {
