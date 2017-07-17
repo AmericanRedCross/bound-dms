@@ -12,12 +12,22 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    return queryInterface.bulkInsert('Users', [{
-      firstname: 'Test',
-      lastname: 'User',
-      password: bcrypt.hashSync('12345678', 12),
-      isActive: true
-    }], {})
+    return queryInterface.bulkInsert('Users', [
+      {
+        firstname: 'Test',
+        lastname: 'User',
+        email: 'user@domain.com',
+        password: bcrypt.hashSync('12345678', 12),
+        isActive: true
+      },
+      {
+        firstname: 'Another',
+        lastname: 'User',
+        email: 'another@domain.com',
+        password: bcrypt.hashSync('12345678', 12),
+        isActive: true
+      }
+    ], {})
   },
 
   down: (queryInterface, Sequelize) => {
