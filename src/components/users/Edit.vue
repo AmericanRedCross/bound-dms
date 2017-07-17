@@ -1,7 +1,7 @@
 <template>
   <div class="user-edit">
     <div class="row justify-content-center">
-      <div class="col-md-6 col-lg-6">
+      <div class="col-md-8 col-lg-6">
         <EditForm v-bind:user="user" :newUser="false"></EditForm>
       </div>
     </div>
