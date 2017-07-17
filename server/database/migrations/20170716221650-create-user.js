@@ -7,10 +7,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      first_name: {
+      firstname: {
         type: Sequelize.STRING
       },
-      last_name: {
+      lastname: {
         type: Sequelize.STRING
       },
       email: {
@@ -19,18 +19,24 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
-      is_active: {
+      isActive: {
         type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('NOW()')
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('NOW()')
       }
-    })
+    },
+      {
+        charset: 'utf8mb4'
+      }
+    )
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('Users')
