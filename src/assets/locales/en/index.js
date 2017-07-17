@@ -21,7 +21,8 @@ export default{
   },
   login: {
     email: 'Email',
-    password: 'Password'
+    password: 'Password',
+    login: 'Login'
   },
   dashboard: {
     header: 'Dashboard Placeholder',
