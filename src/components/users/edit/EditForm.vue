@@ -2,7 +2,7 @@
   <div class="edit-form col-lg-6">
     <b-card class="edit-card" :header="$t('users.edit.editHeader')">
       <div>
-        <div class="form-group" v-bind:class="{error: $v.user.firstname.$error}">
+        <div class="form-group">
           <b-form-fieldset
             :label="$t('users.edit.firstName')"
             :label-size="1"
@@ -24,7 +24,7 @@
           </b-form-fieldset>
         </div>
 
-        <div class="form-group" v-bind:class="{error: $v.user.lastname.$error}">
+        <div class="form-group">
           <b-form-fieldset
             :label="$t('users.edit.lastName')"
             :label-size="1"
@@ -45,7 +45,7 @@
           </b-form-fieldset>
         </div>
 
-        <div class="form-group" v-bind:class="{error: $v.user.email.$error}">
+        <div class="form-group">
           <b-form-fieldset
             :label="$t('users.edit.email')"
             :label-size="1"

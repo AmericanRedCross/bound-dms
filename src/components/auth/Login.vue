@@ -1,62 +1,80 @@
 <template>
-  <div class="login" align="center">
-    <b-card header="Login" class="login-card">
-      <div class="form-group" v-bind:class="{error: $v.email.$error}">
-        <b-form-fieldset
-          :label="$t('login.email')"
-          :label-size="1"
+  <div class="login row justify-content-center m-t-100">
+    <div class="col-lg-4">
+      <b-card header="Login" class="login-card">
+        <div class="form-group">
+          <b-form-fieldset
+            :label="$t('login.email')"
+            :label-size="1"
+            :feedback="(!$v.email.required && emailValidated) ? $t('common.validations.required') : (!$v.email.email && emailValidated) ? $t('common.validations.email') : '' "
+            :state="($v.email.$error && emailValidated) ? 'warning' : ''"
           >
+            <b-input-group>
+              <b-input-group-addon slot="left">
+                <fa-icon name="at"></fa-icon>
+              </b-input-group-addon>
+              <b-form-input
+                v-model.trim="email"
+                type="email"
+                id="email-input"
+                v-on:input="validate('email')">
+              </b-form-input>
+            </b-input-group>
+          </b-form-fieldset>
+        </div>
 
-          <b-form-input
-            v-model="email"
-            type="text"
-            id="email-input"
-            v-on:input="$v.email.$touch"
-            v-bind:class="{error: $v.email.$error, valid: $v.email.$dirty && !$v.email.$invalid}">
-          </b-form-input>
-          <span class="form-group__message" v-if="!$v.email.required">Field is required</span>
-        </b-form-fieldset>
-      </div>
-      <div class="form-group" v-bind:class="{ 'form-group--error': $v.password.$error }">
-        <b-form-fieldset
-          :label="$t('login.password')"
-          :label-size="1"
+        <div class="form-group">
+          <b-form-fieldset
+            :label="$t('login.password')"
+            :label-size="1"
+            :feedback="(!$v.password.required && passwordValidated) ? $t('common.validations.required') : '' "
+            :state="$v.password.$error ? 'warning' : ''"
           >
-
-          <b-form-input
-            v-model="password"
-            type="password"
-            id="password-input"
-            v-on:input="$v.password.$touch"
-            v-bind:class="{error: $v.password.$error, valid: $v.password.$dirty && !$v.password.$invalid}">
-          </b-form-input>
-
-          <span class="form-group__message" v-if="!$v.password.required">Field is required</span>
-        </b-form-fieldset>
-      </div>
-      <b-button @click.native="authenticate" id="login">Login</b-button>
-      <b-alert variant="danger" class="m-t-15" dismissible :show="error !== ''" @dismissed="error=''">
-          {{ error }}
-      </b-alert>
-    </b-card>
+            <b-input-group>
+              <b-input-group-addon slot="left">
+                <fa-icon name="lock"></fa-icon>
+              </b-input-group-addon>
+              <b-form-input
+                v-model="password"
+                type="password"
+                id="password-input"
+                v-on:input="validate('password')">
+              </b-form-input>
+            </b-input-group>
+          </b-form-fieldset>
+        </div>
+        <div slot="footer">
+          <b-button @click.native="authenticate" variant="primary" :disabled='sigingIn' id="login">{{ $t('login.login') }}</b-button>
+          <span v-show="sigingIn" class="m-t-5" style="inline-block">
+            <fa-icon name="refresh" spin></fa-icon>
+          </span>
+        </div>
+      </b-card>
+    </div>
+    <b-alert variant="danger" class="m-t-15 col" dismissible :show="error !== ''" @dismissed="error=''">
+        {{ error }}
+    </b-alert>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import { required } from 'vuelidate/lib/validators'
+import { required, email } from 'vuelidate/lib/validators'
 
 export default {
   data () {
     return {
       email: '',
       password: '',
-      error: ''
+      error: '',
+      emailValidated: false,
+      passwordValidated: false,
+      sigingIn: false
     }
   },
   validations: {
     email: {
-      required
+      required,
+      email
     },
     password: {
       required
@@ -64,38 +82,38 @@ export default {
   },
   methods: {
     authenticate () {
-      // this.$store.dispatch('AUTHENTICATE', {email: this.email, password: this.password}).then(console.log('done'))
-      // this.$store.dispatch('AUTHENTICATE', {email: this.email, password: this.password}, this)
-
-      // The $auth object contains all the methods for controlling the auth state.
-      // See the docs at https://github.com/websanova/vue-auth
-      this.$auth.login({
-        data: {email: this.email, password: this.password},
-        rememberMe: true,
-        fetchUser: false, // Do we want to fetch the user after login? Useful for validating roles
-        redirect: {name: 'Hello'}, // Where do we want to redirect after?
-        success (res) {
-
-        },
-        error (res) {
-          this.error = res.message
-          // Dispatch an error update to vuex (we can then re-use a generic error toast or something)
-        }
-      })
+      if (!this.$v.email.$error && !this.$v.password.$error) {
+        this.sigingIn = true
+        // The $auth object contains all the methods for controlling the auth state.
+        // See the docs at https://github.com/websanova/vue-auth
+        this.$auth.login({
+          data: {email: this.email, password: this.password},
+          rememberMe: true,
+          fetchUser: false, // Do we want to fetch the user after login? Useful for validating roles
+          redirect: {name: 'Hello'}, // Where do we want to redirect after?
+          success (res) {
+            this.sigingIn = false
+          },
+          error (res) {
+            this.error = res.message
+            this.sigingIn = false
+            // Dispatch an error update to vuex (we can then re-use a generic error toast or something)
+          }
+        })
+      }
+    },
+    validate (field) {
+      // Method to call the vuelidate check and to only validate after first error is called (not when the form loads and it's blank)
+      this.$v[field].$touch()
+      if (this.$v[field].$error) {
+        this[field + 'Validated'] = true
+      }
     }
-  },
-  computed: mapState([
-    'auth'
-  ])
+  }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-  .login-card {
-    width: 30rem;
-  }
-  .error {
-    border-color: #ff3860;
-  }
+
 </style>
