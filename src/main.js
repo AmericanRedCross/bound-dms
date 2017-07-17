@@ -18,6 +18,7 @@ import VueCharts from 'vue-chartjs'
 import VueAxios from 'vue-axios'
 import VueAuth from '@websanova/vue-auth'
 import VueSweetAlert from 'vue-sweetalert'
+import VueSimplemde from 'vue-simplemde'
 import axios from 'axios'
 import Gravatar from 'vue-gravatar'
 
@@ -30,6 +31,7 @@ Vue.use(Vuelidate)
 Vue.use(VueI18n)
 Vue.use(VueCharts)
 Vue.use(VueSweetAlert)
+Vue.use(VueSimplemde)
 Vue.use(VueAxios, axios)
 Vue.component('v-gravatar', Gravatar)
 Vue.component('fa-icon', Icon)
