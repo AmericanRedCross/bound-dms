@@ -4,7 +4,8 @@ import Hello from '@/components/Hello'
 import Login from '@/components/auth/Login'
 import Dashboard from '@/components/dashboard/Dashboard'
 import Users from '@/components/users/List'
-import Edit from '@/components/users/Edit'
+import EditUser from '@/components/users/Edit'
+import NewUser from '@/components/users/New'
 import Editor from '@/components/documents/editor/Editor'
 
 Vue.use(Router)
@@ -39,7 +40,14 @@ export default new Router({
     {
       path: '/users/edit/:id',
       name: 'User Edit',
-      components: {default: Edit},
+      components: {default: EditUser},
+      props: {default: true},
+      meta: {auth: true}
+    },
+    {
+      path: '/users/new',
+      name: 'New User',
+      components: {default: NewUser},
       props: {default: true},
       meta: {auth: true}
     },

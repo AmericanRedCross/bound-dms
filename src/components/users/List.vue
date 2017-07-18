@@ -1,6 +1,6 @@
 <template>
-  <div class="users" align="center">
-    <h1 id="changeText">{{ $t('users.header') }}</h1>
+  <div class="users">
+    <h1 id="changeText" class="text-center">{{ $t('users.header') }}</h1>
       <div class="row justify-content-md-center">
         <div class="col">
           <b-card id="userList" :header="$t('users.list')">
@@ -27,6 +27,9 @@
             </b-table>
             <div v-if="users.users.length > 10" class="row justify-content-center" slot="footer">
               <b-pagination size="md" :total-rows="users.users.length" :per-page="perPage" v-model="currentPage" />
+            </div>
+            <div slot="footer">
+              <b-button variant="primary" to="/users/new">{{ $t('common.add') }}</b-button>
             </div>
           </b-card>
         </div>
