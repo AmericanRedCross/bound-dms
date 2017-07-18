@@ -52,14 +52,14 @@ export default {
 <style lang="scss">
 @import "./assets/sass/main";
 #app {
-  font-family: $helvetica;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   min-height: 100vh;
   .main-view {
     margin-left: $sidebar-width;
-    margin-top: $sidebar-top-margin / 2;
+    padding-top: $sidebar-top-margin + 10px;
   }
   .error-box {
     position: fixed;
