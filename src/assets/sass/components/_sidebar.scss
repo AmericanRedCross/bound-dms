@@ -12,6 +12,7 @@
     z-index: 4;
     box-shadow: inset -1px 0px 0px 0px #DDDDDD;
     background-color: $sidebar-background;
+    color: $sidebar-color;
     line-height: 30px;
     font-weight: 600;
     .user-logo {
@@ -30,15 +31,26 @@
       .nav-item {
         text-align: left;
         .nav-link {
-          color: $sidebar-link;
-          opacity: 0.7;
+          color: $sidebar-color;
+          font-weight: normal;
+          font-size: 0.9em;
           &.active {
-            color: $sidebar-active-link;
+            color: $sidebar-color;
+            background-color: $sidebar-active-background;
           }
-          svg {
+          &:hover {
+            background-color: $sidebar-hover-background;
+            .sidebar-icon {
+              color: $sidebar-color;
+            }
+          }
+          .sidebar-icon {
             position: relative;
+            display: inline-block;
             top: 1px;
             margin-right: 10px;
+            color: $sidebar-hover-background;
+            width: 20px;
           }
         }
 
