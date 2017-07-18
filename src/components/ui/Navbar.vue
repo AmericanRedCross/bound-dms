@@ -51,16 +51,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-  .navbar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 10;
-  }
-  .selected {
-    background-color: #4aabff;
-  }
-</style>
