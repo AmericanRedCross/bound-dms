@@ -10,8 +10,7 @@ module.exports = {
   // Authenticates user via username / password and issues auth token
   login (req, res, next) {
     users.findByEmail(req.body.email).then((user) => {
-      // @todo time safe comparison
-      if (user.password === req.body.password) {
+      if (user.checkPassword(req.body.password)) {
         const token = jwt.sign(generateJwtPayload(user), config.jwtSecretKey)
         res.append('Authorization', token)
         res.status(200).json({message: 'ok', token: token})

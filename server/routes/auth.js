@@ -18,7 +18,7 @@ router.post('/', (req, res, next) => {
 
   req.getValidationResult().then((result) => {
     if (!result.isEmpty()) {
-      res.status(400).json(result.array())
+      res.status(400).json({status: 422, errors: result.array()})
       return
     }
     next()
