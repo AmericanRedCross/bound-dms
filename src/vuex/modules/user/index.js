@@ -9,18 +9,18 @@ const users = {
   },
   mutations: {
     SET_USERS: (state, { response }) => {
-      if (response instanceof Array) {
+      if (response.data instanceof Array) {
         state.users = []
         // Are we getting an array back from the server?
-        response.forEach((item) => {
+        response.data.forEach((item) => {
           state.users.push(new User(item.id, item.firstname, item.lastname, item.email))
         })
       }
     },
     SET_USER: (state, { response }) => {
       // Does the user exist already?
-      let user = state.users.find(user => user.id === response.id)
-      let newUser = new User(response.id, response.firstname, response.lastname, response.email)
+      let user = state.users.find(user => user.id === response.data.id)
+      let newUser = new User(response.data.id, response.data.firstname, response.data.lastname, response.data.email)
       if (user) {
         user = newUser
       } else {

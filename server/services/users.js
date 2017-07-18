@@ -1,79 +1,66 @@
-let users = [{
-  id: 1,
-  email: 'user@domain.com',
-  password: '12345678',
-  firstname: 'Test',
-  lastname: 'User'
-},
-{
-  id: 2,
-  email: 'kevin.borrill@3sidedcube.com',
-  password: '12345678',
-  firstname: 'Kev',
-  lastname: 'Borrill'
-}]
+const User = require('../models').User
+const bcrypt = require('bcrypt')
+const saltRounds = 12
 
 module.exports = {
+  /**
+    * Creates a new user.
+    * @return Promise
+    */
   create (data) {
-    data.id = users.length + 1
-    return new Promise((resolve, reject) => {
-      users.push(data)
-      resolve(data)
-    })
+    return User.create(data)
   },
-  save (id, data) {
-    const idx = users.findIndex((item) => item.id === id)
-    return new Promise((resolve, reject) => {
-      if (idx !== -1) {
-        users[idx] = Object.assign({}, users[idx], data)
-        resolve(users[idx])
-      } else {
-        reject('User not found')
+  /**
+    * Updates an existing user.
+    * @return Promise
+    */
+  update (id, data) {
+    return User.update(data, {
+      where: {
+        id: id
       }
     })
   },
-  savePassword (id, password) {
-    // TODO do hash here
-    return this.save(id, {password: password})
+  /**
+    * Updates an existing user.
+    * @return Promise
+    */
+  updatePassword (id, password) {
+    return this.update(id, {password: User.hashPassword(password)})
   },
+  /**
+    * Returns a collection of all users.
+    * @return Promise
+    */
   all () {
-    return new Promise((resolve, reject) => {
-      if (users.length) {
-        resolve(users)
-      } else {
-        reject('No users')
-      }
-    })
+    return User.findAll()
   },
+  /**
+    * Returns a single user by id.
+    * @return Promise
+    */
   find (id) {
-    return new Promise((resolve, reject) => {
-      const user = users[users.findIndex((item) => item.id === id)]
-      if (user) {
-        resolve(user)
-      } else {
-        reject('User not found')
-      }
-    })
+    return User.findById(id)
   },
+  /**
+    * Returns a single by email address.
+    * @return Promise
+    */
   findByEmail (email) {
-    // return promise to simulate async request
-    return new Promise((resolve, reject) => {
-      const user = users[users.findIndex((item) => item.email === email)]
-      if (user) {
-        resolve(user)
-      } else {
-        reject('User not found')
+    return User.find({
+      where: {
+        email: email
       }
     })
   },
+  /**
+    * Deletes a single by id.
+    * @return Promise
+    */
   delete (id) {
-    const idx = users.findIndex((item) => item.id === id)
-    return new Promise((resolve, reject) => {
-      if (idx !== -1) {
-        users.splice(idx, 1)
-        resolve()
-      } else {
-        reject('User not found')
+    return User.destroy({
+      where: {
+        id: id
       }
     })
   }

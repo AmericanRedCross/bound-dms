@@ -14,7 +14,8 @@ module.exports = () => {
     // TODO check JWT is not blacklisted
     users.find(payload.sub).then((user) => {
       // Add "user" to request
-      return next(null, user)
+      next(null, user)
+      return null
     }).catch((err) => {
       return next(err, null)
     })
