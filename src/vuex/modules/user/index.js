@@ -58,7 +58,8 @@ const users = {
       return axios.put(USER_ROOT, {
         firstname: data.firstName,
         lastname: data.lastName,
-        email: data.email
+        email: data.email,
+        password: '12345678' // Remove when password creation is done
       }).then((response) => {
         commit('SET_USER', { response: response.data })
       }, (err) => {
