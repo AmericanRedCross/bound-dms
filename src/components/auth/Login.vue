@@ -42,6 +42,9 @@
               </b-form-input>
             </b-input-group>
           </b-form-fieldset>
+          <b-alert variant="danger" class="m-t-15 col" dismissible :show="error !== ''" @dismissed="error=''">
+              {{ error }}
+          </b-alert>
         </div>
         <div slot="footer">
           <b-button @click.native="authenticate" variant="primary" :disabled='sigingIn' id="login">{{ $t('login.login') }}</b-button>
@@ -51,9 +54,6 @@
         </div>
       </b-card>
     </div>
-    <b-alert variant="danger" class="m-t-15 col" dismissible :show="error !== ''" @dismissed="error=''">
-        {{ error }}
-    </b-alert>
   </div>
 </template>
 
