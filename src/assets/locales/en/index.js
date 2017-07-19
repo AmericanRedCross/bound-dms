@@ -14,6 +14,9 @@ export default{
     saved: 'Saved',
     add: 'Add'
   },
+  http: {
+    generic: 'Something unexpected happened'
+  },
   navbar: {
     language: 'Language',
     user: 'User'

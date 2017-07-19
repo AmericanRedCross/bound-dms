@@ -7,13 +7,11 @@ const { users } = modules
 const { mutations } = users
 
 const mockEmptyState = {
-  users: [],
-  error: ''
+  users: []
 }
 
 const mockState = {
-  users: [new User(1, 'Test', 'User', 'user@domain.com'), new User(2, 'Kev', 'Borrill', 'kevin.borrill@3sidedcube.com')],
-  error: ''
+  users: [new User(1, 'Test', 'User', 'user@domain.com'), new User(2, 'Kev', 'Borrill', 'kevin.borrill@3sidedcube.com')]
 }
 
 const expectUser = (mock, userObject) => {
@@ -46,11 +44,11 @@ describe('Vuex User Mutations', () => {
     // Copy constant mockState to our state variable
     Object.assign(state, mockEmptyState)
     // apply mutation with mock users
-    mutations.SET_USERS(state, {response: mockUsers})
+    mutations.SET_USERS(state, {response: {data: mockUsers}})
     // assert result
     // expect().to.equal(mockUsers)
     mockUsers.forEach((user, index) => {
-      expectUser(state.users[index], user)
+      expectUser(user, state.users[index])
     })
   })
   // SET USER
@@ -60,9 +58,9 @@ describe('Vuex User Mutations', () => {
     // Copy constant mockState to our state variable
     Object.assign(state, mockEmptyState)
     // apply mutation
-    mutations.SET_USER(state, {response: mockUsers[0]})
+    mutations.SET_USER(state, {response: {data: mockUsers[0]}})
     // assert result
-    expectUser(state.users[state.users.length - 1], mockUsers[0])
+    expectUser(mockUsers[0], state.users[state.users.length - 1])
   })
   // REMOVE USER
   it('REMOVE_USER', () => {
