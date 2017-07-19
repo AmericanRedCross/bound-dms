@@ -45,11 +45,9 @@ describe('Vuex User Mutations', () => {
     Object.assign(state, mockEmptyState)
     // apply mutation with mock users
     mutations.SET_USERS(state, {response: {data: mockUsers}})
-    console.log({state})
     // assert result
     // expect().to.equal(mockUsers)
     mockUsers.forEach((user, index) => {
-      console.log(state.users[index])
       expectUser(user, state.users[index])
     })
   })
