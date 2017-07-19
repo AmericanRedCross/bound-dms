@@ -5,8 +5,7 @@ import { User } from './User'
 const USER_ROOT = '/users'
 const users = {
   state: {
-    users: [],
-    error: ''
+    users: []
   },
   mutations: {
     SET_USERS: (state, { response }) => {
