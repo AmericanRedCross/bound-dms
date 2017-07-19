@@ -1,5 +1,5 @@
 <template>
-  <b-navbar toggleable variant="success" type="inverse" class="navbar">
+  <b-navbar toggleable variant="custom" class="navbar">
 
     <b-nav-toggle target="nav_collapse"></b-nav-toggle>
 
@@ -16,6 +16,14 @@
       </b-nav>
 
       <b-nav is-nav-bar class="ml-auto">
+        <b-nav-item-dropdown right>
+          <span slot="text">
+            <v-gravatar v-if="$auth.check()" class="img-fluid user-icon m-l-10 m-r-10" :email="$auth.user().email ? $auth.user().email : ''" default-img="mm" :size="100"></v-gravatar>
+            {{ $auth.user().email }}
+          </span>
+          <b-dropdown-item to="#">Profile</b-dropdown-item>
+          <b-dropdown-item v-if="$auth.check()" v-on:click="$auth.logout()" to="#">Signout</b-dropdown-item>
+        </b-nav-item-dropdown>
 
         <!-- Navbar dropdowns -->
         <b-nav-item-dropdown :text="$t('navbar.language')" id="lang-select" right>
@@ -24,12 +32,6 @@
           <b-dropdown-item class="lang-item" id="german" v-bind:class="{ selected: isActive('de') }" v-on:click="langChange('de')">Deutsche</b-dropdown-item>
           <b-dropdown-item class="lang-item" id="spanish" v-bind:class="{ selected: isActive('es') }" v-on:click="langChange('es')">Español</b-dropdown-item>
         </b-nav-item-dropdown>
-
-        <b-nav-item-dropdown :text="$t('navbar.user')" right>
-          <b-dropdown-item to="#">Profile</b-dropdown-item>
-          <b-dropdown-item v-if="$auth.check()" v-on:click="$auth.logout()" to="#">Signout</b-dropdown-item>
-        </b-nav-item-dropdown>
-
       </b-nav>
     </b-collapse>
   </b-navbar>
@@ -51,10 +53,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-  .selected {
-    background-color: #4aabff;
-  }
-</style>

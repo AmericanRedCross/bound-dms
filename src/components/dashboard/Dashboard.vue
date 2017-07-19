@@ -2,28 +2,22 @@
   <div class="dashboard">
     <h1 id="changeText">{{ $t('dashboard.header') }}</h1>
       <div class="row justify-content-md-center">
-        <div class="col-3">
+        <div class="col-lg-4">
           <b-card id="card1" :header="$t('dashboard.chart1')">
-            <div class="small">
-              <line-chart :chart-data="datacollection"></line-chart>
-              <button @click="fillData()">Randomize</button>
-            </div>
+            <line-chart :chart-data="datacollection"></line-chart>
+            <button @click="fillData()">Randomize</button>
           </b-card>
         </div>
-        <div class="col-3">
+        <div class="col-lg-4">
           <b-card id="card2" :header="$t('dashboard.chart2')">
-            <div class="small">
-              <bar-chart :chart-data="datacollection"></bar-chart>
-              <button @click="fillData()">Randomize</button>
-            </div>
+            <bar-chart :chart-data="datacollection"></bar-chart>
+            <button @click="fillData()">Randomize</button>
           </b-card>
         </div>
-        <div class="col-3">
+        <div class="col-lg-4">
           <b-card id="card3" :header="$t('dashboard.chart3')">
-            <div class="small">
-              <scatter-chart :chart-data="datacollection"></scatter-chart>
-              <button @click="fillData()">Randomize</button>
-            </div>
+            <scatter-chart :chart-data="datacollection"></scatter-chart>
+            <button @click="fillData()">Randomize</button>
           </b-card>
         </div>
       </div>
@@ -78,26 +72,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-
-.small {
-    max-width: 600px;
-  }
 
 </style>

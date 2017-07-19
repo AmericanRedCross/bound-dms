@@ -89,8 +89,8 @@ export default {
         this.$auth.login({
           data: {email: this.email, password: this.password},
           rememberMe: true,
-          fetchUser: false, // Do we want to fetch the user after login? Useful for validating roles
-          redirect: {name: 'Hello'}, // Where do we want to redirect after?
+          fetchUser: true, // Do we want to fetch the user after login? Useful for validating roles
+          redirect: {name: 'Dashboard'}, // Where do we want to redirect after?
           success (res) {
             this.sigingIn = false
           },
