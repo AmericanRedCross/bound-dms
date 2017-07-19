@@ -1,3 +1,4 @@
+// This module handles the global store and requests for the User endpoint
 import axios from 'axios'
 import { User } from './User'
 
@@ -41,7 +42,7 @@ const users = {
       return axios.get(USER_ROOT).then((response) => {
         commit('SET_USERS', { response: response.data })
       }, (err) => {
-        commit('SET_ERROR', { error: err })
+        commit('SET_MESSAGE', { message: err })
       })
     },
     // GET a user
@@ -49,7 +50,7 @@ const users = {
       return axios.get(USER_ROOT + '/' + id).then((response) => {
         commit('SET_USER', { response: response.data })
       }, (err) => {
-        commit('SET_ERROR', { error: err })
+        commit('SET_MESSAGE', { message: err })
       })
     },
     // PUT a user (create)
@@ -61,7 +62,7 @@ const users = {
       }).then((response) => {
         commit('SET_USER', { response: response.data })
       }, (err) => {
-        commit('SET_ERROR', { error: err })
+        commit('SET_MESSAGE', { message: err })
       })
     },
     // POST a user (update)
@@ -73,7 +74,7 @@ const users = {
       }).then((response) => {
         commit('SET_USER', { response: response.data })
       }, (err) => {
-        commit('SET_ERROR', { error: err })
+        commit('SET_MESSAGE', { message: err })
       })
     },
     // Delete a user
@@ -81,7 +82,7 @@ const users = {
       return axios.delete(USER_ROOT + '/' + id).then((response) => {
         commit('REMOVE_USER', { id })
       }, (err) => {
-        commit('SET_ERROR', { error: err })
+        commit('SET_MESSAGE', { message: err })
       })
     }
   },

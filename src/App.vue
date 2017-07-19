@@ -3,6 +3,9 @@
     <div v-if="$auth.ready()">
       <Sidebar v-if="$auth.check()"></Sidebar>
       <Navbar v-if="$auth.check()"></Navbar>
+      <b-alert variant="danger" class="m-t-15 col error-box" dismissible :show="getLocalisedMessage() !== false" @dismissed="clearMessage">
+        {{ getLocalisedMessage() }}
+      </b-alert>
       <router-view class="main-view container-fluid" :style="$auth.check() ? '' : 'margin-left: 0px'"></router-view>
     </div>
     <div v-if="!$auth.ready()">
@@ -12,6 +15,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Navbar from './components/ui/Navbar.vue'
 import Sidebar from './components/ui/Sidebar.vue'
 
@@ -22,7 +26,25 @@ export default {
     Sidebar
   },
   methods: {
-
+    getLocalisedMessage () {
+      let localisationString = this.friendlyHTTPMessage
+      if (localisationString !== false) {
+        let message = this._i18n.t(localisationString)
+        if (message === localisationString) {
+          message = this._i18n.t('http.generic') + ': ' + this.$store.state.message.message
+        }
+        return message
+      }
+      return false
+    },
+    clearMessage () {
+      this.$store.dispatch('CLEAR_MESSAGE')
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'friendlyHTTPMessage'
+    ])
   }
 }
 </script>
@@ -38,6 +60,12 @@ export default {
   .main-view {
     margin-left: $sidebar-width;
     margin-top: $sidebar-top-margin / 2;
+  }
+  .error-box {
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    width: 500px;
   }
 }
 </style>
