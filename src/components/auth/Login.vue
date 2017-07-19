@@ -82,7 +82,10 @@ export default {
   },
   methods: {
     authenticate () {
-      if (!this.$v.email.$error && !this.$v.password.$error) {
+      this.validate('email')
+      this.validate('password')
+
+      if (!this.$v.$invalid && !this.$v.$error) {
         this.sigingIn = true
         // The $auth object contains all the methods for controlling the auth state.
         // See the docs at https://github.com/websanova/vue-auth
