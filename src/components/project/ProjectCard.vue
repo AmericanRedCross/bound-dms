@@ -5,7 +5,7 @@
         <li>Languages: 3</li>
         <li>Published: 20/4/17 12:34</li>
       </ul>
-      <b-button :block="true" href="">View</b-button>
+      <b-button :block="true" :to="{name: 'project-edit', params: { id: project.id }}">View</b-button>
 
     </b-card>
   </div>
