@@ -1,9 +1,12 @@
 <template>
   <div>
-    <b-card :header="project.name">
-      <div class="image" slot="img">
+    <b-card :title="project.name" class="mb-4" :inverse="true">
+      <ul>
+        <li>Languages: 3</li>
+        <li>Published: 20/4/17 12:34</li>
+      </ul>
+      <b-button :block="true" href="">View</b-button>
 
-      </div>
     </b-card>
   </div>
 </template>
@@ -21,6 +24,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+  .card {
+    background-color: #20A8D8;
+  }
   .image {
     width: 100%;
     height: 200px;

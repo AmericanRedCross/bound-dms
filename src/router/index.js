@@ -63,14 +63,13 @@ export default new Router({
         {
           path: 'new',
           name: 'New Project',
-          components: {default: NewProject},
-          props: {default: true}
+          components: {default: NewProject}
         },
         {
           path: ':id/edit',
           name: 'Projects Edit',
-          components: {default: EditProject},
-          props: {default: true}
+          component: EditProject,
+          props: true
         }
       ]
     },

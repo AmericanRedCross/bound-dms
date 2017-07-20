@@ -5,6 +5,11 @@
         <div class="col-md-4" v-for="project in projects.projects">
           <ProjectCard :project="project"></ProjectCard>
         </div>
+        <div class="col-md-4">
+          <b-card class="new-project mb-4">
+            <b-button :block="true" href="">Create New Project</b-button>
+          </b-card>
+        </div>
       </div>
   </div>
 </template>
