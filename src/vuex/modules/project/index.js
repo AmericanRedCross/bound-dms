@@ -7,9 +7,8 @@ const PROJECT_ROOT = '/projects'
 const projects = {
   state: {
     projects: [
-      new Project(1, 'Cash in Emergencies', ['English', 'French']),
-      new Project(2, 'Another project', ['English']),
-      new Project(3, 'Panda project', ['English', 'Spanish'])
+      new Project(1, 'Cash in Emergencies', ['en', 'fr']),
+      new Project(2, 'Another project', ['en', 'es'])
     ]
   },
   mutations: {

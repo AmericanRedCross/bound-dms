@@ -2,8 +2,9 @@
   <div>
     <b-card :title="project.name" class="mb-4" :inverse="true">
       <ul>
-        <li>Languages: 3</li>
+        <li>Languages: en, es, fr</li>
         <li>Published: 20/4/17 12:34</li>
+        <li>Updated 10 minutes ago</li>
       </ul>
       <b-button :block="true" :to="{name: 'project-edit', params: { id: project.id }}">View</b-button>
 

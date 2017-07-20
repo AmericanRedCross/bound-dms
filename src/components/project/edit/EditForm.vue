@@ -70,7 +70,7 @@
     </div>
     <div slot="footer">
       <b-button @click.native="updateProject" variant="primary" :disabled='saving'>{{ $t('projects.edit.save') }}</b-button>
-      <b-button variant="warning" :disabled='saving' :to="{ name: 'Projects' }">{{ $t('common.cancel') }}</b-button>
+      <b-button variant="warning" :disabled='saving' :to="{ name: 'projects' }">{{ $t('common.cancel') }}</b-button>
       <span v-show="saving" class="m-t-5" style="inline-block">
         <fa-icon name="refresh" spin></fa-icon>
       </span>

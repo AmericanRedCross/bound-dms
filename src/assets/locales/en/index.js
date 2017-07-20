@@ -56,5 +56,12 @@ export default{
       newPass: 'New Password',
       confirmPass: 'Confirm New Password'
     }
+  },
+  projects: {
+    header: 'Projects',
+    edit: {
+      new: 'Create new project',
+      newHeader: 'New Project'
+    }
   }
 }
