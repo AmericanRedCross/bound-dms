@@ -7,7 +7,7 @@ import Users from '@/components/users/List'
 import EditUser from '@/components/users/Edit'
 import NewUser from '@/components/users/New'
 import Editor from '@/components/documents/editor/Editor'
-import Projects from '@/components/project/List'
+import ListProjects from '@/components/project/List'
 import EditProject from '@/components/project/Edit'
 import NewProject from '@/components/project/New'
 
@@ -55,24 +55,24 @@ export default new Router({
       meta: {auth: true}
     },
     {
-      path: '/projects/',
+      path: '/projects',
       name: 'Projects',
-      component: Projects,
-      meta: {auth: true}
-    },
-    {
-      path: '/projects/edit/:id',
-      name: 'Projects Edit',
-      components: {default: EditProject},
-      props: {default: true},
-      meta: {auth: true}
-    },
-    {
-      path: '/projects/new',
-      name: 'New Project',
-      components: {default: NewProject},
-      props: {default: true},
-      meta: {auth: true}
+      component: ListProjects,
+      meta: {auth: true},
+      children: [
+        {
+          path: 'new',
+          name: 'New Project',
+          components: {default: NewProject},
+          props: {default: true}
+        },
+        {
+          path: ':id/edit',
+          name: 'Projects Edit',
+          components: {default: EditProject},
+          props: {default: true}
+        }
+      ]
     },
     {
       path: '/documents/edit/',

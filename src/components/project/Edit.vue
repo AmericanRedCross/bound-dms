@@ -1,5 +1,5 @@
 <template>
-  <div class="project-edit">
+  <div>
     <div class="row justify-content-center">
       <div class="col-md-8 col-lg-6">
         <EditForm v-bind:project="project" :newProject="false"></EditForm>

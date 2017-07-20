@@ -1,9 +1,7 @@
 <template>
-  <div class="project-new">
-    <div class="row justify-content-center">
-      <div class="col-md-8 col-lg-6">
-        <EditForm v-bind:project="project" v-bind:newProject="true"></EditForm>
-      </div>
+  <div class="row">
+    <div class="col-md-8 col-lg-6">
+      <EditForm v-bind:project="project" v-bind:newProject="true"></EditForm>
     </div>
   </div>
 </template>

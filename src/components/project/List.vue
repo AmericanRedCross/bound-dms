@@ -1,7 +1,7 @@
 <template>
-  <div class="projects">
+  <div>
     <h1 id="changeText" class="text-center">{{ $t('projects.header') }}</h1>
-      <div class="row justify-content-md-center">
+      <div class="row">
         <div class="col-md-4" v-for="project in projects.projects">
           <ProjectCard :project="project"></ProjectCard>
         </div>
