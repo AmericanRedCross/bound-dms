@@ -1,6 +1,6 @@
 export default{
   common: {
-    cie: 'Cash in emergency',
+    system: 'DMS',
     areYouSure: 'Are you sure?',
     noRevert: 'You won\'t be able to revert this!',
     deleteIt: 'Yes, delete it',

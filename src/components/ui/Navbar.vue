@@ -4,7 +4,7 @@
     <b-nav-toggle target="nav_collapse"></b-nav-toggle>
 
     <b-link class="navbar-brand" to="#">
-      <span>{{ $t('common.cie') }}</span>
+      <span>{{ $t('common.system') }}</span>
     </b-link>
 
     <b-collapse is-nav id="nav_collapse">
