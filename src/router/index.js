@@ -39,14 +39,20 @@ export default new Router({
       path: '/users/',
       name: 'Users',
       component: Users,
-      meta: {auth: true}
+      meta: {
+        auth: true,
+        breadcrumb: 'Users'
+      }
     },
     {
       path: '/users/edit/:id',
       name: 'User Edit',
       components: {default: EditUser},
       props: {default: true},
-      meta: {auth: true}
+      meta: {
+        auth: true,
+        breadcrumb: 'Edit'
+      }
     },
     {
       path: '/users/new',

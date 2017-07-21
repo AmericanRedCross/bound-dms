@@ -3,6 +3,9 @@
     <div v-if="$auth.ready()">
       <Sidebar v-if="$auth.check()"></Sidebar>
       <Navbar v-if="$auth.check()"></Navbar>
+      <div class="breadcrumb-wrapper">
+        <breadcrumbs></breadcrumbs>
+      </div>
       <b-alert variant="danger" class="m-t-15 col error-box" dismissible :show="getLocalisedMessage() !== false" @dismissed="clearMessage">
         {{ getLocalisedMessage() }}
       </b-alert>
@@ -59,7 +62,6 @@ export default {
   min-height: 100vh;
   .main-view {
     margin-left: $sidebar-width;
-    padding-top: $sidebar-top-margin + 10px;
   }
   .error-box {
     position: fixed;
