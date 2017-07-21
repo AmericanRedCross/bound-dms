@@ -24,7 +24,13 @@ const projects = {
     SET_PROJECT: (state, { response }) => {
       // Does the project exist already?
       let project = state.projects.find(project => project.id === response.data.id)
-      let newProject = new Project(response.data.id, response.data.name, response.data.languages)
+      const newProject = new Project(
+        response.data.id,
+        response.data.name,
+        response.data.description,
+        response.data.languages
+      )
+
       if (project) {
         project = newProject
       } else {
@@ -59,10 +65,8 @@ const projects = {
     // PUT a project (create)
     CREATE_PROJECT: function ({ commit }, data) {
       return axios.put(PROJECT_ROOT, {
-        firstname: data.firstName,
-        lastname: data.lastName,
-        email: data.email,
-        password: '12345678' // Remove when password creation is done
+        name: data.name,
+        description: data.description
       }).then((response) => {
         commit('SET_PROJECT', { response: response.data })
       }, (err) => {

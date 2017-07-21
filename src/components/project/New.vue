@@ -2,25 +2,24 @@
     <div class="row">
       <div class="col-lg-8">
         <b-card class="edit-card" :header="$t('projects.edit.newHeader')">
-          <b-form-fieldset
-            label="Project Name"
-            description="This field is required."
-            :label-cols="3">
-             <b-form-input v-model.trim="project.name"></b-form-input>
-          </b-form-fieldset>
+          <b-form v-on:submit.native.prevent="onSubmit">
+            <b-form-fieldset
+              label="Project Name"
+              :feedback="!$v.project.name.required ? $t('common.validations.required') : ''"
+              :state="$v.project.name.$error ? 'warning' : ''"
+              :label-cols="3">
+               <b-form-input v-model.trim="project.name" v-on:input="$v.project.name.$touch"></b-form-input>
+            </b-form-fieldset>
 
-          <b-form-fieldset
-            label="Description"
-            description="Optional"
-            :label-cols="3">
-             <b-form-input :textarea="true" v-model.trim="project.description"></b-form-input>
-          </b-form-fieldset>
+            <b-form-fieldset
+              label="Description"
+              :label-cols="3">
+               <b-form-input :textarea="true" rows="6" v-model.trim="project.description"></b-form-input>
+            </b-form-fieldset>
 
-          <div slot="footer">
-            <b-button variant="primary">{{ $t('projects.edit.new') }}</b-button>
+            <b-button type="submit" variant="primary">{{ $t('projects.edit.new') }}</b-button>
             <b-button variant="warning" :to="{ name: 'projects' }">{{ $t('common.cancel') }}</b-button>
-          </div>
-
+          </b-form>
         </b-card>
       </div>
       <div class="col-lg-4">
@@ -33,28 +32,30 @@
 
 <script>
 import { Project } from '../../vuex/modules/project/Project'
+import { required } from 'vuelidate/lib/validators'
 
 export default {
+  validations: {
+    project: {
+      name: {
+        required
+      }
+    }
+  },
   data () {
     return {
       project: new Project()
     }
   },
   methods: {
-    save (e) {
-      this.$store.commit('updateMessage', e.target.value)
-
-      this.$store.dispatch(action, this.user).then(() => {
-        this.saving = false
-        let date = new Date()
-        this.success = this._i18n.t('common.saved') + ' ' + date.toDateString() + ' ' + date.toTimeString()
-        if (this.newUser) {
-          this.$router.push({ name: 'Users' })
-        }
-      }).catch(() => {
-        this.saving = false
-      })
+    onSubmit (e) {
+      if (!this.$v.project.$error) {
+        this.$store.dispatch('CREATE_PROJECT', this.project).then(() => {
+          this.$router.push({ name: 'projects' })
+        }).catch(() => {
+        })
+      }
     }
-}
+  }
 }
 </script>
