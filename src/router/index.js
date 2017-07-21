@@ -12,6 +12,7 @@ import ProjectContainer from '@/components/project/Project'
 import ListProjects from '@/components/project/List'
 import EditProject from '@/components/project/Edit'
 import NewProject from '@/components/project/New'
+import ProjectDetail from '@/components/project/detail/Detail'
 
 Vue.use(Router)
 
@@ -82,6 +83,12 @@ export default new Router({
           path: 'new',
           name: 'project-new',
           components: {default: NewProject}
+        },
+        {
+          path: ':id',
+          name: 'project-detail',
+          component: ProjectDetail,
+          props: true
         },
         {
           path: ':id/edit',
