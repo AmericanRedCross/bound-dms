@@ -2,13 +2,17 @@ module.exports = (sequelize, DataTypes) => {
   const Project = sequelize.define('Project', {
     name: {type: DataTypes.STRING, allowNull: false},
     description: DataTypes.STRING,
-    createdBy: {type: DataTypes.INTEGER, allowNull: false}
+    createdById: {type: DataTypes.INTEGER, allowNull: false}
   })
+
+  Project.massAssignable = function () {
+    return ['name', 'description']
+  }
 
   Project.associate = (models) => {
     Project.belongsTo(models.User, {
-      as: 'CreatedBy',
-      foreignKey: 'createdBy',
+      as: 'createdBy',
+      foreignKey: 'createdById',
       targetKey: 'id'
     })
   }

@@ -13,7 +13,7 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
-      createdBy: {
+      createdById: {
         allowNull: false,
         type: Sequelize.INTEGER
       },
@@ -32,7 +32,7 @@ module.exports = {
         charset: 'utf8mb4'
       }
     ).then(() => {
-      return queryInterface.addConstraint('Projects', ['createdBy'], {
+      return queryInterface.addConstraint('Projects', ['createdById'], {
         type: 'FOREIGN KEY',
         references: {
           table: 'Users',

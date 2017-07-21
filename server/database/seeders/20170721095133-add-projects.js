@@ -15,12 +15,12 @@ module.exports = {
       {
         name: 'Cash In Emergencies',
         description: 'An example project description',
-        createdBy: 1
+        createdById: 1
       },
       {
         name: 'Another Example Project',
         description: 'Another example project description',
-        createdBy: 1
+        createdById: 1
       }
     ], {})
   },
