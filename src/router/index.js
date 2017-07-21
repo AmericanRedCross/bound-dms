@@ -3,7 +3,8 @@ import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import Login from '@/components/auth/Login'
 import Dashboard from '@/components/dashboard/Dashboard'
-import Users from '@/components/users/List'
+import ListUsers from '@/components/users/List'
+import UserContainer from '@/components/users/user'
 import EditUser from '@/components/users/Edit'
 import NewUser from '@/components/users/New'
 import Editor from '@/components/documents/editor/Editor'
@@ -37,29 +38,35 @@ export default new Router({
     },
     {
       path: '/users/',
-      name: 'Users',
-      component: Users,
+      component: UserContainer,
       meta: {
         auth: true,
         breadcrumb: 'Users'
-      }
-    },
-    {
-      path: '/users/edit/:id',
-      name: 'User Edit',
-      components: {default: EditUser},
-      props: {default: true},
-      meta: {
-        auth: true,
-        breadcrumb: 'Edit'
-      }
-    },
-    {
-      path: '/users/new',
-      name: 'New User',
-      components: {default: NewUser},
-      props: {default: true},
-      meta: {auth: true}
+      },
+      children: [
+        {
+          path: '',
+          name: 'users',
+          component: ListUsers
+        },
+        {
+          path: 'new',
+          name: 'user-new',
+          components: {default: NewUser},
+          meta: {
+            breadcrumb: 'New'
+          }
+        },
+        {
+          path: ':id/edit',
+          name: 'user-edit',
+          component: EditUser,
+          props: true,
+          meta: {
+            breadcrumb: 'Edit'
+          }
+        }
+      ]
     },
     {
       path: '/projects',
