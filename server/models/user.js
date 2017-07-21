@@ -16,6 +16,12 @@ module.exports = (sequelize, DataTypes) => {
     return bcrypt.hashSync(password, 12)
   }
 
+  User.safeAttributes = function () {
+    return [
+      'id', 'firstname', 'isActive', 'lastname', 'createdAt', 'updatedAt'
+    ]
+  }
+
   /**
    * Instance Methods
    */

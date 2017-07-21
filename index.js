@@ -7,6 +7,7 @@ const validator = require('express-validator')
 const history = require('connect-history-api-fallback')
 const auth = require('./server/routes/auth')
 const userRoutes = require('./server/routes/user')
+const projectRoutes = require('./server/routes/project')
 const authService = require('./server/services/auth')()
 
 // express config
@@ -32,6 +33,7 @@ router.get('/', (req, res) => {
 })
 router.use('/auth', auth)
 router.use('/users', userRoutes)
+router.use('/projects', projectRoutes)
 app.use('/api', router)
 
 // register global error handler

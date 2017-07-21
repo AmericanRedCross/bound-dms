@@ -192,7 +192,7 @@ describe('API: User', () => {
   describe('DELETE /api/users/:id', () => {
     it('deletes a user', (done) => {
       request(app)
-        .delete('/api/users/1')
+        .delete('/api/users/2')
         .set('Authorization', 'Bearer ' + this.token)
         .expect('Content-Type', /json/)
         .expect(200)
