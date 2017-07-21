@@ -7,6 +7,10 @@ import Users from '@/components/users/List'
 import EditUser from '@/components/users/Edit'
 import NewUser from '@/components/users/New'
 import Editor from '@/components/documents/editor/Editor'
+import ProjectContainer from '@/components/project/Project'
+import ListProjects from '@/components/project/List'
+import EditProject from '@/components/project/Edit'
+import NewProject from '@/components/project/New'
 
 Vue.use(Router)
 
@@ -50,6 +54,29 @@ export default new Router({
       components: {default: NewUser},
       props: {default: true},
       meta: {auth: true}
+    },
+    {
+      path: '/projects',
+      component: ProjectContainer,
+      meta: {auth: true},
+      children: [
+        {
+          path: '',
+          name: 'projects',
+          component: ListProjects
+        },
+        {
+          path: 'new',
+          name: 'project-new',
+          components: {default: NewProject}
+        },
+        {
+          path: ':id/edit',
+          name: 'project-edit',
+          component: EditProject,
+          props: true
+        }
+      ]
     },
     {
       path: '/documents/edit/',

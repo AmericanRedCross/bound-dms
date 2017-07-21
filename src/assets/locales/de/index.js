@@ -1,6 +1,6 @@
 export default{
   common: {
-    cie: 'Bargeld im Notfall'
+    system: 'DMS'
   },
   navbar: {
     language: 'Sprache',

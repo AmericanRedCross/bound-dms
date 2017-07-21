@@ -1,6 +1,6 @@
 export default{
   common: {
-    cie: 'Efectivo en caso de emergencia'
+    system: 'DMS'
   },
   navbar: {
     language: 'Idioma',

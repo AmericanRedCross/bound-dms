@@ -1,6 +1,6 @@
 export default{
   common: {
-    cie: 'Espèces en cas d\'urgence'
+    system: 'DMS'
   },
   navbar: {
     language: 'La langue',
