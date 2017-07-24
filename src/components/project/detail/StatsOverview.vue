@@ -2,7 +2,7 @@
     <div class="row">
       <div class="col-md-12">
         <b-card :title="project.name">
-          <h1>Project Name</h1><small>Owned by Kevin Borrill</small>
+          <small>Owned by Kevin Borrill</small>
           <div class="row">
             <div class="col-md-3 col-sm-6 m-b-10">
               <StatBox :value="50" type="%" description="A description here" colour="#20A8D8" inverse></StatBox>
