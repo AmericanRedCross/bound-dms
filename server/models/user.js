@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     firstname: DataTypes.STRING,
     lastname: DataTypes.STRING,
     email: {type: DataTypes.STRING, unique: true},
+    role: {type: DataTypes.STRING, defaultValue: null},
     password: DataTypes.STRING,
     isActive: {type: DataTypes.BOOLEAN, defaultValue: false}
   })
@@ -18,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
 
   User.safeAttributes = function () {
     return [
-      'id', 'firstname', 'isActive', 'lastname', 'createdAt', 'updatedAt'
+      'id', 'firstname', 'lastname', 'isActive', 'role', 'createdAt', 'updatedAt'
     ]
   }
 
