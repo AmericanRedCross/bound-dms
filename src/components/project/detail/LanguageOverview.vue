@@ -45,7 +45,7 @@
                   </template>
                 </b-table>
                 <div v-if="languages.length > 10" class="row justify-content-center" slot="footer">
-                  <b-pagination size="md" :total-rows="languages.languages.length" :per-page="perPage" v-model="currentPage" />
+                  <b-pagination size="md" :total-rows="languages.length" :per-page="perPage" v-model="currentPage" />
                 </div>
             </div>
           </div>
