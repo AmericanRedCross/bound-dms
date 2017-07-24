@@ -58,7 +58,8 @@ Vue.use(VueAuth, {
     url: 'users/me',
     method: 'GET'
   },
-  tokenName: 'auth_token'
+  tokenName: 'auth_token',
+  rolesVar: 'role'
 })
 
 const i18n = new VueI18n({

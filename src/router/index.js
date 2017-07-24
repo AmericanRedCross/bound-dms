@@ -40,7 +40,7 @@ export default new Router({
       path: '/users/',
       component: UserContainer,
       meta: {
-        auth: true,
+        auth: ['admin'],
         breadcrumb: 'Users'
       },
       children: [
