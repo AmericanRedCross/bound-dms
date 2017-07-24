@@ -1,0 +1,16 @@
+#addLanguage {
+  margin: 0 -20px;
+  // background-color: $dark-grey;
+  // color: white;
+  .addLanguagePadding {
+    padding: 20px;
+    .addInputForm {
+      > * {
+        margin: 0 5px;
+      }
+      .v-select {
+        min-width: 290px;
+      }
+    }
+  }
+}

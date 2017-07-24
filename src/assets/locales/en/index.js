@@ -64,7 +64,9 @@ export default{
       newHeader: 'New Project'
     },
     languages: {
-      noLangs: 'This project does not have a language yet, add one below to get started'
+      add: 'Add a language',
+      select: 'Select a language',
+      noLangs: 'This project does not have a language yet, add one to get started'
     }
   }
 }
