@@ -2,7 +2,7 @@
     <div class="row">
       <div class="col">
         <b-card title="Languages">
-          <div class="row m-b-10">
+          <div class="row m-b-10" id="language-title-wrapper">
             <div class="col">
               <b-btn v-b-toggle.add-language><fa-icon name="plus"></fa-icon> {{ $t('projects.languages.add') }}</b-btn>
             </div>
