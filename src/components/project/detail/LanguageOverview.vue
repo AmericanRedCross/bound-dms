@@ -1,7 +1,15 @@
 <template>
     <div class="row">
-      <div class="col-md-12">
-        <b-card title="Languages"></b-card>
+      <div class="col">
+        <b-card title="Languages">
+          <div class="row">
+            <div class="col">
+              <b-alert show>
+                {{ $t('projects.languages.noLangs') }}
+              </b-alert>
+            </div>
+          </div>
+        </b-card>
       </div>
     </div>
 </template>
