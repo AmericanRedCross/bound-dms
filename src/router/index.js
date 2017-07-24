@@ -72,7 +72,10 @@ export default new Router({
     {
       path: '/projects',
       component: ProjectContainer,
-      meta: {auth: true},
+      meta: {
+        auth: true,
+        breadcrumb: 'Projects'
+      },
       children: [
         {
           path: '',
@@ -82,13 +85,19 @@ export default new Router({
         {
           path: 'new',
           name: 'project-new',
-          components: {default: NewProject}
+          components: {default: NewProject},
+          meta: {
+            breadcrumb: 'New'
+          }
         },
         {
           path: ':id',
           name: 'project-detail',
           component: ProjectDetail,
-          props: true
+          props: true,
+          meta: {
+            breadcrumb: 'Project Name'
+          }
         },
         {
           path: ':id/edit',
