@@ -1,13 +1,13 @@
 <template>
     <div class="project-detail">
-      <StatsOverview></StatsOverview>
-      <LanguageOverview></LanguageOverview>
-      <StructureOverview></StructureOverview>
+      <StatsOverview v-if="project" :project="project" class="mb-3"></StatsOverview>
+      <LanguageOverview v-if="project" :project="project" class="mb-3"></LanguageOverview>
+      <StructureOverview v-if="project" :project="project" class="mb-3"></StructureOverview>
     </div>
 </template>
 
 <script>
-// import { Project } from '../../vuex/modules/project/Project'
+import { mapGetters } from 'vuex'
 import LanguageOverview from './LanguageOverview'
 import StatsOverview from './StatsOverview'
 import StructureOverview from './StructureOverview'
@@ -19,20 +19,23 @@ export default {
     StatsOverview,
     StructureOverview
   },
-  // data () {
-  //   return {
-  //     project: new Project()
-  //   }
-  // },
-  created () {
-    // // Call vuex to retrieve the current project from the backend. This returns a promise so we know when it's finished.
-    // this.$store.dispatch('GET_PROJECT', this.$route.params.id).then(() => {
-    //   // Get the project that was just retrieved (the getProjectById getter is from the vuex getter, there's a special helper
-    //   // called 'mapGetters' in the computed section of this component that gets the project from the vuex state.)
-    //   let project = this.getProjectById(parseInt(this.$route.params.id), 10)
-    //   // Set the project so the component can see it
-    //   this.project = project
-    // })
+  data () {
+    return {
+      project: null
+    }
+  },
+  mounted () {
+    // Call vuex to retrieve the current user from the backend. This returns a promise so we know when it's finished.
+    this.$store.dispatch('GET_PROJECT', this.$route.params.id).then(() => {
+      let project = this.getProjectById(parseInt(this.$route.params.id))
+      // Set the user so the component can see it
+      this.project = project
+    })
+  },
+  computed: {
+    ...mapGetters([
+      'getProjectById'
+    ])
   }
 }
 </script>

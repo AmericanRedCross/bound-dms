@@ -1,7 +1,7 @@
 <template>
     <div class="row">
       <div class="col-md-12">
-        <b-card><h1>Language Overview</h1></b-card>
+        <b-card title="Languages"></b-card>
       </div>
     </div>
 </template>
@@ -10,8 +10,10 @@
 
 export default {
   name: 'lanuage-overview',
-  components: {
-
+  props: {
+    project: {
+      type: Object
+    }
   }
 }
 </script>

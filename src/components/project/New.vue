@@ -14,7 +14,7 @@
             <b-form-fieldset
               label="Description"
               :label-cols="3">
-               <b-form-input :textarea="true" rows="6" v-model.trim="project.description"></b-form-input>
+               <b-form-input :textarea="true" :rows="6" v-model.trim="project.description"></b-form-input>
             </b-form-fieldset>
 
             <b-button type="submit" variant="primary">{{ $t('projects.edit.new') }}</b-button>
@@ -49,10 +49,12 @@ export default {
   },
   methods: {
     onSubmit (e) {
+      this.$v.$touch()
       if (!this.$v.project.$error) {
         this.$store.dispatch('CREATE_PROJECT', this.project).then(() => {
-          this.$router.push({ name: 'projects' })
+          this.$router.push({ name: 'project-detail', params: { id: 1 } })
         }).catch(() => {
+          // TODO error
         })
       }
     }

@@ -6,18 +6,14 @@ const PROJECT_ROOT = '/projects'
 
 const projects = {
   state: {
-    projects: [
-      new Project(1, 'Cash in Emergencies', ['en', 'fr']),
-      new Project(2, 'Another project', ['en', 'es'])
-    ]
+    projects: []
   },
   mutations: {
     SET_PROJECTS: (state, { response }) => {
       if (response.data instanceof Array) {
         state.projects = []
-        // Are we getting an array back from the server?
         response.data.forEach((item) => {
-          state.projects.push(new Project(item.id, item.name, item.languages))
+          state.projects.push(new Project(item.id, item.name, item.description))
         })
       }
     },
@@ -27,8 +23,7 @@ const projects = {
       const newProject = new Project(
         response.data.id,
         response.data.name,
-        response.data.description,
-        response.data.languages
+        response.data.description
       )
 
       if (project) {
@@ -64,12 +59,13 @@ const projects = {
     },
     // PUT a project (create)
     CREATE_PROJECT: function ({ commit }, data) {
+      console.log(data)
       return axios.put(PROJECT_ROOT, {
         name: data.name,
         description: data.description
       }).then((response) => {
         commit('SET_PROJECT', { response: response.data })
-      }, (err) => {
+      }).catch(err => {
         commit('SET_MESSAGE', { message: err })
       })
     },

@@ -1,7 +1,7 @@
 <template>
     <div class="row">
       <div class="col-md-12">
-        <b-card><h1>Project Name</h1><small>Owned by Kevin Borrill</small></b-card>
+        <b-card :title="project.name"><small>Owned by Kevin Borrill</small></b-card>
         <div class="row">
           <div class="col-md-3">
 
@@ -24,8 +24,10 @@
 
 export default {
   name: 'stats-overview',
-  components: {
-
+  props: {
+    project: {
+      type: Object
+    }
   }
 }
 </script>
