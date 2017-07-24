@@ -8,6 +8,7 @@ const history = require('connect-history-api-fallback')
 const auth = require('./server/routes/auth')
 const userRoutes = require('./server/routes/user')
 const projectRoutes = require('./server/routes/project')
+const roleService = require('./server/services/roles')
 const authService = require('./server/services/auth')()
 
 // express config
@@ -22,6 +23,7 @@ app.use(history({
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(authService.initialize())
+app.use(roleService.middleware())
 app.use(validator())
 app.set('port', process.env.PORT || 8000)
 

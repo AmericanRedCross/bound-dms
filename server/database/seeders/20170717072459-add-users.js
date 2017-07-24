@@ -18,14 +18,16 @@ module.exports = {
         lastname: 'User',
         email: 'user@domain.com',
         password: bcrypt.hashSync('12345678', 12),
-        isActive: true
+        isActive: true,
+        role: 'admin'
       },
       {
         firstname: 'Another',
         lastname: 'User',
         email: 'another@domain.com',
         password: bcrypt.hashSync('12345678', 12),
-        isActive: true
+        isActive: true,
+        role: 'admin'
       }
     ], {})
   },
