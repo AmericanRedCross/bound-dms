@@ -17,6 +17,7 @@ import ProjectDetail from '@/components/project/detail/Detail'
 import AccountContainer from '@/components/account/Account'
 import AccountProfile from '@/components/account/Profile'
 import ChangePassword from '@/components/account/PasswordForm'
+import PageNotFound from '@/components/pageNotFound/PageNotFound'
 
 Vue.use(Router)
 
@@ -150,6 +151,9 @@ export default new Router({
           }
         }
       ]
-    }
+    },
+    {
+      path: '*', component: PageNotFound }
   ]
+
 })
