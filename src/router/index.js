@@ -121,6 +121,21 @@ export default new Router({
       name: 'Document Editor',
       components: {default: Editor},
       meta: {auth: true}
+    },
+    {
+      path: '/account/',
+      component: AccountContainer,
+      meta: {
+        auth: ['admin'],
+        breadcrumb: 'Account'
+      },
+      children: [
+        {
+          path: '',
+          name: 'profile',
+          component: Profile
+        }
+      ]
     }
   ]
 })
