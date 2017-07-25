@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
 
   User.safeAttributes = function () {
     return [
-      'id', 'firstname', 'lastname', 'isActive', 'role', 'createdAt', 'updatedAt'
+      'id', 'firstname', 'lastname', 'email', 'isActive', 'role', 'createdAt', 'updatedAt'
     ]
   }
 

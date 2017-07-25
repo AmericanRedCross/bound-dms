@@ -1,8 +1,8 @@
 <template>
   <div class="user-edit">
-    <div class="row justify-content-center">
-      <div class="col-md-8 col-lg-6">
-        <EditForm v-bind:user="user" :newUser="false"></EditForm>
+    <div class="row">
+      <div class="col-lg-8">
+        <EditForm v-if="user" v-bind:user="user" :newUser="false"></EditForm>
       </div>
     </div>
   </div>
@@ -11,7 +11,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import EditForm from '@/components/users/edit/EditForm'
-import { User } from '../../vuex/modules/user/User'
 
 export default {
   name: '',
@@ -20,10 +19,10 @@ export default {
   },
   data () {
     return {
-      user: new User()
+      user: null
     }
   },
-  beforeMount () {
+  mounted () {
     // Call vuex to retrieve the current user from the backend. This returns a promise so we know when it's finished.
     this.$store.dispatch('GET_USER', this.$route.params.id).then(() => {
       // Get the user that was just retrieved (the getUserById getter is from the vuex getter, there's a special helper

@@ -7,6 +7,7 @@ import ListUsers from '@/components/users/List'
 import UserContainer from '@/components/users/user'
 import EditUser from '@/components/users/Edit'
 import NewUser from '@/components/users/New'
+import UserProfile from '@/components/users/Profile'
 import Editor from '@/components/documents/editor/Editor'
 import ProjectContainer from '@/components/project/Project'
 import ListProjects from '@/components/project/List'
@@ -56,6 +57,14 @@ export default new Router({
           components: {default: NewUser},
           meta: {
             breadcrumb: 'New'
+          }
+        },
+        {
+          path: ':id',
+          name: 'user-detail',
+          component: UserProfile,
+          meta: {
+            breadcrumb: 'Profile'
           }
         },
         {
