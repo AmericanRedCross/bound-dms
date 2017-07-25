@@ -12,6 +12,8 @@
           <dd>{{user.createdAt}}</dd>
           <dt>Last Updated</dt>
           <dd>{{user.updatedAt}}</dd>
+          <dt>Status</dt>
+          <dd>{{status}}</dd>
         </dl>
         <p class="card"
         <b-button class="card-link" variant="primary" :to="{ name: 'user-edit', params: { id: user.id }}">Edit User</b-button></b-button>
@@ -42,7 +44,10 @@ export default {
   computed: {
     ...mapGetters([
       'getUserById'
-    ])
+    ]),
+    status () {
+      return this.user.isActive ? 'Active' : 'Disabled'
+    }
   }
 }
 </script>
