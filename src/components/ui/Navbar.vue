@@ -20,7 +20,7 @@
             <v-gravatar v-if="$auth.check()" class="img-fluid user-icon m-l-10 m-r-10" :email="$auth.user().email ? $auth.user().email : ''" default-img="mm" :size="100"></v-gravatar>
             {{ $auth.user().email }}
           </span>
-          <b-dropdown-item to="#">Profile</b-dropdown-item>
+          <b-dropdown-item to="/account/profile">Profile</b-dropdown-item>
           <b-dropdown-item v-if="$auth.check()" v-on:click="$auth.logout()" to="#">Signout</b-dropdown-item>
         </b-nav-item-dropdown>
 

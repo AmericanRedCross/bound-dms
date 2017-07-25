@@ -14,6 +14,8 @@ import ListProjects from '@/components/project/List'
 import EditProject from '@/components/project/Edit'
 import NewProject from '@/components/project/New'
 import ProjectDetail from '@/components/project/detail/Detail'
+import AccountContainer from '@/components/account/account'
+import AccountProfile from '@/components/account/Profile'
 
 Vue.use(Router)
 
@@ -131,9 +133,10 @@ export default new Router({
       },
       children: [
         {
-          path: '',
+          path: 'profile',
           name: 'profile',
-          component: Profile
+          component: AccountProfile,
+          props: true
         }
       ]
     }
