@@ -1,100 +1,100 @@
-// This module handles the global store and requests for the Content endpoint
+// This module handles the global store and requests for the Step endpoint
 import axios from 'axios'
-import { Content } from './Content'
+import { Step } from './Step'
 
-const CONTENT_ROOT = '/contents'
+const STEP_ROOT = '/steps'
 
-const contents = {
+const steps = {
   state: {
-    contents: []
+    steps: []
   },
   mutations: {
-    SET_CONTENTS: (state, { response }) => {
+    SET_STEPS: (state, { response }) => {
       if (response.data instanceof Array) {
-        state.contents = []
+        state.steps = []
         response.data.forEach((item) => {
-          state.contents.push(new Content(item.id, item.name, item.description))
+          state.steps.push(new Step(item.id, item.name, item.description))
         })
       }
     },
-    SET_CONTENT: (state, { response }) => {
-      // Does the content exist already?
-      let content = state.contents.find(content => content.id === response.data.id)
-      const newContent = new Content(
+    SET_STEP: (state, { response }) => {
+      // Does the step exist already?
+      let step = state.steps.find(step => step.id === response.data.id)
+      const newStep = new Step(
         response.data.id,
         response.data.name,
         response.data.description
       )
 
-      if (content) {
-        content = newContent
+      if (step) {
+        step = newStep
       } else {
-        state.contents.push(newContent)
+        state.steps.push(newStep)
       }
     },
-    REMOVE_CONTENT: (state, { id }) => {
-      // Find the content index
-      let contentIndex = state.contents.findIndex(content => content.id === id)
-      if (contentIndex >= 0) {
-        state.contents.splice(contentIndex, 1)
+    REMOVE_STEP: (state, { id }) => {
+      // Find the step index
+      let stepIndex = state.steps.findIndex(step => step.id === id)
+      if (stepIndex >= 0) {
+        state.steps.splice(stepIndex, 1)
       }
     }
   },
   actions: {
-    // GET all contents
-    GET_CONTENTS: function ({ commit }) {
-      return axios.get(CONTENT_ROOT).then((response) => {
-        commit('SET_CONTENTS', { response: response.data })
+    // GET all steps
+    GET_STEPS: function ({ commit }) {
+      return axios.get(STEP_ROOT).then((response) => {
+        commit('SET_STEPS', { response: response.data })
       }, (err) => {
         commit('SET_MESSAGE', { message: err })
       })
     },
-    // GET a content
-    GET_CONTENT: function ({ commit }, id) {
-      return axios.get(CONTENT_ROOT + '/' + id).then((response) => {
-        commit('SET_CONTENT', { response: response.data })
+    // GET a step
+    GET_STEP: function ({ commit }, id) {
+      return axios.get(STEP_ROOT + '/' + id).then((response) => {
+        commit('SET_STEP', { response: response.data })
       }, (err) => {
         commit('SET_MESSAGE', { message: err })
       })
     },
-    // PUT a content (create)
-    CREATE_CONTENT: function ({ commit }, data) {
+    // PUT a step (create)
+    CREATE_STEP: function ({ commit }, data) {
       console.log(data)
-      return axios.put(CONTENT_ROOT, {
+      return axios.put(STEP_ROOT, {
         name: data.name,
         description: data.description
       }).then((response) => {
-        commit('SET_CONTENT', { response: response.data })
+        commit('SET_STEP', { response: response.data })
       }).catch(err => {
         commit('SET_MESSAGE', { message: err })
       })
     },
-    // POST a content (update)
-    UPDATE_CONTENT: function ({ commit }, data) {
-      return axios.post(CONTENT_ROOT + '/' + data.id, {
+    // POST a step (update)
+    UPDATE_STEP: function ({ commit }, data) {
+      return axios.post(STEP_ROOT + '/' + data.id, {
         firstname: data.firstName,
         lastname: data.lastName,
         email: data.email
       }).then((response) => {
-        commit('SET_CONTENT', { response: response.data })
+        commit('SET_STEP', { response: response.data })
       }, (err) => {
         commit('SET_MESSAGE', { message: err })
       })
     },
-    // Delete a content
-    DELETE_CONTENT: function ({commit}, id) {
-      return axios.delete(CONTENT_ROOT + '/' + id).then((response) => {
-        commit('REMOVE_CONTENT', { id })
+    // Delete a step
+    DELETE_STEP: function ({commit}, id) {
+      return axios.delete(STEP_ROOT + '/' + id).then((response) => {
+        commit('REMOVE_STEP', { id })
       }, (err) => {
         commit('SET_MESSAGE', { message: err })
       })
     }
   },
   getters: {
-    getContentById: (state, getters) => (id) => {
-      return state.contents.find(content => content.id === id)
+    getStepById: (state, getters) => (id) => {
+      return state.steps.find(step => step.id === id)
     }
   }
 }
 
-export default contents
+export default steps

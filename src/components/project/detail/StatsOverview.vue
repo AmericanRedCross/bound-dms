@@ -5,16 +5,16 @@
           <small>Owned by Kevin Borrill</small>
           <div class="row">
             <div class="col-md-3 col-sm-6 m-b-10">
-              <StatBox :value="50" type="%" description="A description here" colour="#20A8D8" barColour="#92E3FF" inverse></StatBox>
+              <Statbox :value="50" type="%" description="A description here" colour="#20A8D8" barColour="#92E3FF" inverse></Statbox>
             </div>
             <div class="col-md-3 col-sm-6 m-b-10">
-              <StatBox :value="30" type="%" description="A description here" colour="#FF7914" barColour="#FFBF8F" inverse></StatBox>
+              <Statbox :value="30" type="%" description="A description here" colour="#FF7914" barColour="#FFBF8F" inverse></Statbox>
             </div>
             <div class="col-md-3 col-sm-6 m-b-10">
-              <StatBox :value="75" type="%" description="A description here" colour="#8ED820" barColour="#B8F361"></StatBox>
+              <Statbox :value="75" type="%" description="A description here" colour="#8ED820" barColour="#B8F361"></Statbox>
             </div>
             <div class="col-md-3 col-sm-6 m-b-10">
-              <StatBox :value="100" type="%" description="A description here" colour="#D82069" barColour="#FF8EBB" inverse></StatBox>
+              <Statbox :value="100" type="%" description="A description here" colour="#D82069" barColour="#FF8EBB" inverse></Statbox>
             </div>
           </div>
         </b-card>
@@ -23,7 +23,8 @@
 </template>
 
 <script>
-import StatBox from '../../ui/Statbox'
+import Statbox from '../../ui/Statbox'
+
 export default {
   name: 'stats-overview',
   props: {
@@ -32,7 +33,7 @@ export default {
     }
   },
   components: {
-    StatBox
+    Statbox
   }
 }
 </script>
