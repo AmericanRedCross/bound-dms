@@ -5,6 +5,15 @@
         <p class="card-text">
             <v-gravatar class="img-fluid rounded-circle m-t-10 m-b-10" :email="user.email" default-img="mm" :size="100"> </v-gravatar>
         </p>
+        <dl>
+          <dt>Email</dt>
+          <dd>{{user.email}}</dd>
+          <dt>Account Created</dt>
+          <dd>{{user.createdAt}}</dd>
+          <dt>Last Updated</dt>
+          <dd>{{user.updatedAt}}</dd>
+        </dl>
+        <p class="card"
         <b-button class="card-link" variant="primary" :to="{ name: 'user-edit', params: { id: user.id }}">Edit User</b-button></b-button>
       </b-card>
       <b-card class="edit-card" header="Activity">

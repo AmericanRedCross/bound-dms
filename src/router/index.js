@@ -61,7 +61,7 @@ export default new Router({
         },
         {
           path: ':id',
-          name: 'user-detail',
+          name: 'user-profile',
           component: UserProfile,
           meta: {
             breadcrumb: 'Profile'

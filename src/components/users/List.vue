@@ -1,9 +1,8 @@
 <template>
   <div class="users">
-    <h1 id="changeText" class="text-center">{{ $t('users.header') }}</h1>
       <div class="row justify-content-md-center">
         <div class="col">
-          <b-card id="userList" :header="$t('users.list')">
+          <b-card id="userList" :header="$t('users.header')">
             <b-form-input v-model="filter" placeholder="Type to Search" id="userSearch"></b-form-input>
             <!-- Main table element -->
             <b-table striped hover
@@ -13,6 +12,7 @@
                     :per-page="perPage"
                     :filter="filter"
                     id="userTable"
+                    @row-clicked="rowClicked"
             >
             <template slot="firstname" scope="user">
               {{ user.item.firstName }}
@@ -59,9 +59,8 @@ export default {
           label: 'Last name',
           sortable: true
         },
-        email: {
-          label: 'Email',
-          sortable: true
+        role: {
+          label: 'Role'
         },
         actions: {
           label: 'Actions'
@@ -107,6 +106,9 @@ export default {
           title: this._i18n.t('common.deleted')
         })
       })
+    },
+    rowClicked (user) {
+      this.$router.push({ name: 'user-profile', params: { id: user.id } })
     }
   },
   computed: {
@@ -125,5 +127,9 @@ export default {
   .user-icon {
     border-radius: 50%;
     height: 40px;
+  }
+
+  tr{
+    cursor: hand;
   }
 </style>
