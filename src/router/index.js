@@ -14,9 +14,9 @@ import ListProjects from '@/components/project/List'
 import EditProject from '@/components/project/Edit'
 import NewProject from '@/components/project/New'
 import ProjectDetail from '@/components/project/detail/Detail'
-import AccountContainer from '@/components/account/account'
+import AccountContainer from '@/components/account/Account'
 import AccountProfile from '@/components/account/Profile'
-import ChangePassword from '@/components/account/Password'
+import ChangePassword from '@/components/account/PasswordForm'
 
 Vue.use(Router)
 

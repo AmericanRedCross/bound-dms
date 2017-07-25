@@ -9,7 +9,8 @@ export default{
     gravatar: 'User profile image provided through gravatar',
     validations: {
       required: 'Field is required',
-      email: 'Incorrect email format'
+      email: 'Incorrect email format',
+      sameAsNewPassword: 'Field must match new password'
     },
     saved: 'Saved',
     add: 'Add'
@@ -52,7 +53,7 @@ export default{
       content: 'Content Creator',
       save: 'Save',
       changePass: 'Change Password',
-      currentPass: 'Enter Current Password',
+      currentPass: 'Current Password',
       newPass: 'New Password',
       confirmPass: 'Confirm New Password'
     }

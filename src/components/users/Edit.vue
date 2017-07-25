@@ -19,6 +19,9 @@ export default {
       user: null
     }
   },
+  components: {
+    EditForm
+  },
   mounted () {
     // Call vuex to retrieve the current user from the backend. This returns a promise so we know when it's finished.
     this.$store.dispatch('GET_USER', this.$route.params.id).then(() => {
