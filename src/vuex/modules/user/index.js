@@ -67,11 +67,8 @@ const users = {
     },
     // POST a user (update)
     UPDATE_USER: function ({ commit }, data) {
-      return axios.post(USER_ROOT + '/' + data.id, {
-        firstname: data.firstName,
-        lastname: data.lastName,
-        email: data.email
-      }).then((response) => {
+      return axios.post(USER_ROOT + '/' + data.id, data)
+      .then((response) => {
         commit('SET_USER', { response: response.data })
       }, (err) => {
         commit('SET_MESSAGE', { message: err })
