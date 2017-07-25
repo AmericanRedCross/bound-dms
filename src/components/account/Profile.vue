@@ -15,7 +15,8 @@
             <dd>{{ user.updatedAt }}</dd>
           </dl>
           <p class="card"
-          <b-button class="card-link" variant="primary" :to="{ name: 'user-edit', params: { id: user.id }}">Edit User</b-button></b-button>
+          <b-button class="card-link" variant="primary" :to="{ name: 'user-edit', params: { id: user.id }}">Edit User</b-button>
+          <b-button class="card-link" variant="primary" :to="{ name: 'change-password', params: { id: user.id }}">Change Password</b-button>
         </b-card>
       </div>
     </div>

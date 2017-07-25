@@ -14,9 +14,6 @@ import EditForm from '@/components/users/edit/EditForm'
 
 export default {
   name: '',
-  components: {
-    EditForm
-  },
   data () {
     return {
       user: null

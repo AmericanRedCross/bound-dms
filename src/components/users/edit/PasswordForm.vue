@@ -46,12 +46,12 @@ export default {
   },
   methods: {
     updatePassword () {
-      if (this.errors.has('currentPassword') || this.errors.has('newPassword') || this.errors.has('confirmResetPassword')) {
+      // if (this.errors.has('currentPassword') || this.errors.has('newPassword') || this.errors.has('confirmResetPassword')) {
 
-      } else {
+      // } else {
         // save new password if input currentPassword is the same as saved value
         // this.$store.dispatch('UPDATE_USER', this.user)
-      }
+      // }
     }
   }
 }

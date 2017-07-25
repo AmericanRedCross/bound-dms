@@ -16,6 +16,7 @@ import NewProject from '@/components/project/New'
 import ProjectDetail from '@/components/project/detail/Detail'
 import AccountContainer from '@/components/account/account'
 import AccountProfile from '@/components/account/Profile'
+import ChangePassword from '@/components/account/Password'
 
 Vue.use(Router)
 
@@ -137,6 +138,16 @@ export default new Router({
           name: 'profile',
           component: AccountProfile,
           props: true
+        },
+        {
+          path: 'change-password',
+          name: 'change-password',
+          component: ChangePassword,
+          props: true,
+          meta: {
+            auth: ['admin'],
+            breadcrumb: 'Change Password'
+          }
         }
       ]
     }
