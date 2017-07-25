@@ -13,14 +13,14 @@ const users = {
         state.users = []
         // Are we getting an array back from the server?
         response.data.forEach((item) => {
-          state.users.push(new User(item.id, item.firstname, item.lastname, item.email))
+          state.users.push(new User(item))
         })
       }
     },
     SET_USER: (state, { response }) => {
       // Does the user exist already?
       let user = state.users.find(user => user.id === response.data.id)
-      let newUser = new User(response.data.id, response.data.firstname, response.data.lastname, response.data.email)
+      let newUser = new User(response.data)
       if (user) {
         user = newUser
       } else {
@@ -67,11 +67,8 @@ const users = {
     },
     // POST a user (update)
     UPDATE_USER: function ({ commit }, data) {
-      return axios.post(USER_ROOT + '/' + data.id, {
-        firstname: data.firstName,
-        lastname: data.lastName,
-        email: data.email
-      }).then((response) => {
+      return axios.post(USER_ROOT + '/' + data.id, data)
+      .then((response) => {
         commit('SET_USER', { response: response.data })
       }, (err) => {
         commit('SET_MESSAGE', { message: err })

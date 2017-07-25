@@ -4,13 +4,15 @@ import message from './modules/message'
 import auth from './modules/auth'
 import users from './modules/user'
 import projects from './modules/project'
+import roles from './modules/roles'
 
 Vue.use(Vuex)
 export const modules = {
   message,
   auth,
   users,
-  projects
+  projects,
+  roles
 }
 
 /*
