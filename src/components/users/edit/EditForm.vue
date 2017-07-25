@@ -1,7 +1,7 @@
 <template>
   <b-card class="edit-card" :header="newUser ? $t('users.edit.newHeader') : $t('users.edit.editHeader')">
     <div>
-      <a href="https://gravatar.com" target="_blank"><v-gravatar class="img-fluid rounded-circle m-t-10 m-b-10" :email="user.email" default-img="mm" :size="100"> </v-gravatar></a>
+      <v-gravatar v-if="user.email" class="img-fluid rounded-circle m-t-10 m-b-10" :email="user.email" default-img="mm" :size="100"> </v-gravatar>
       <b-form-fieldset
         :label="$t('users.edit.firstName')"
         :label-cols="3"
