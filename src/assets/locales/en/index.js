@@ -62,6 +62,11 @@ export default{
     edit: {
       new: 'Create new project',
       newHeader: 'New Project'
+    },
+    languages: {
+      add: 'Add a language',
+      select: 'Select a language',
+      noLangs: 'This project does not have a language yet, add one to get started'
     }
   }
 }

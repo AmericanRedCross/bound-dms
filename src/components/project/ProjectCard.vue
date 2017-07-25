@@ -6,7 +6,7 @@
         <li>Published: 20/4/17 12:34</li>
         <li>Updated 10 minutes ago</li>
       </ul>
-      <b-button :block="true" :to="{name: 'project-edit', params: { id: project.id }}">View</b-button>
+      <b-button :block="true" :to="{name: 'project-detail', params: { id: project.id }}">View</b-button>
 
     </b-card>
   </div>

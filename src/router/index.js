@@ -12,6 +12,7 @@ import ProjectContainer from '@/components/project/Project'
 import ListProjects from '@/components/project/List'
 import EditProject from '@/components/project/Edit'
 import NewProject from '@/components/project/New'
+import ProjectDetail from '@/components/project/detail/Detail'
 
 Vue.use(Router)
 
@@ -71,7 +72,10 @@ export default new Router({
     {
       path: '/projects',
       component: ProjectContainer,
-      meta: {auth: true},
+      meta: {
+        auth: true,
+        breadcrumb: 'Projects'
+      },
       children: [
         {
           path: '',
@@ -81,7 +85,19 @@ export default new Router({
         {
           path: 'new',
           name: 'project-new',
-          components: {default: NewProject}
+          components: {default: NewProject},
+          meta: {
+            breadcrumb: 'New'
+          }
+        },
+        {
+          path: ':id',
+          name: 'project-detail',
+          component: ProjectDetail,
+          props: true,
+          meta: {
+            breadcrumb: 'Project Name'
+          }
         },
         {
           path: ':id/edit',
