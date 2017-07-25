@@ -2,9 +2,7 @@
   <b-card class="edit-card" :header="newUser ? $t('users.edit.newHeader') : $t('users.edit.editHeader')">
     <div>
       <div class="form-group">
-        <b-tooltip :content="$t('common.gravatar')" placement="right" :show="showToolTip">
-          <a href="https://gravatar.com" target="_blank"><v-gravatar class="img-fluid user-icon m-t-10 m-b-10" :email="user.email" default-img="mm" :size="100"> </v-gravatar></a>
-        </b-tooltip>
+          <a href="https://gravatar.com" target="_blank"><v-gravatar class="img-fluid rounded-circle m-t-10 m-b-10" :email="user.email" default-img="mm" :size="100"> </v-gravatar></a>
         <b-form-fieldset
           :label="$t('users.edit.firstName')"
           :label-size="1"
@@ -137,10 +135,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-  .user-icon {
-    border-radius: 50%;
-  }
-</style>
