@@ -13,14 +13,14 @@ const users = {
         state.users = []
         // Are we getting an array back from the server?
         response.data.forEach((item) => {
-          state.users.push(new User(item.id, item.firstname, item.lastname, item.email))
+          state.users.push(new User(item))
         })
       }
     },
     SET_USER: (state, { response }) => {
       // Does the user exist already?
       let user = state.users.find(user => user.id === response.data.id)
-      let newUser = new User(response.data.id, response.data.firstname, response.data.lastname, response.data.email)
+      let newUser = new User(response.data)
       if (user) {
         user = newUser
       } else {
