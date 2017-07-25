@@ -11,8 +11,7 @@
 
       <b-nav is-nav-bar>
         <b-nav-item :to="{name: 'projects'}">Projects</b-nav-item>
-        <b-nav-item>Nav 2</b-nav-item>
-        <b-nav-item>Nav 3</b-nav-item>
+        <b-nav-item :to="{name: 'users'}">Users</b-nav-item>
       </b-nav>
 
       <b-nav is-nav-bar class="ml-auto">

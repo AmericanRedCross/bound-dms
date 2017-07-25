@@ -6,10 +6,7 @@
       </div> -->
       <b-nav vertical>
         <b-nav-item to="/dashboard"><span class="sidebar-icon"><fa-icon name="pie-chart"></fa-icon></span>Dashboard</b-nav-item>
-        <b-nav-item to="/users"><span class="sidebar-icon"><fa-icon name="user"></fa-icon></span>Users</b-nav-item>
         <b-nav-item to="/documents/edit/"><span class="sidebar-icon"><fa-icon name="pencil"></fa-icon></span>WYSIWYG</b-nav-item>
-        <b-nav-item>Another Link</b-nav-item>
-        <b-nav-item disabled>Disabled</b-nav-item>
       </b-nav>
     </div>
   </div>
