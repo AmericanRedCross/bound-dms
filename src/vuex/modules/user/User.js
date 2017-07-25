@@ -48,10 +48,19 @@ export class User {
   get role () { return this._role }
 
   // createdAt
-  set createdAt (createdAt) { this._createdAt = createdAt }
   get createdAt () { return this._createdAt }
 
   // updatedAt
-  set updatedAt (updatedAt) { this._updatedAt = updatedAt }
   get updatedAt () { return this._updatedAt }
+
+  toJSON () {
+    return {
+      id: this._id,
+      firstname: this._firstName,
+      lastname: this._lastName,
+      email: this._email,
+      isActive: this._isActive,
+      role: this._role
+    }
+  }
 }
