@@ -1,3 +1,6 @@
+@import '../variables.scss';
+@import '../utilities/mixins.scss';
+
 .breadcrumb-wrapper {
   margin-left: $sidebar-width;
   margin-bottom: 10px;

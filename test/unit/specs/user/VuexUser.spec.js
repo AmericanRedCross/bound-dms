@@ -11,7 +11,7 @@ const mockEmptyState = {
 }
 
 const mockState = {
-  users: [new User(1, 'Test', 'User', 'user@domain.com'), new User(2, 'Kev', 'Borrill', 'kevin.borrill@3sidedcube.com')]
+  users: [new User({id: 1, firstname: 'Test', lastname: 'User', email: 'user@domain.com'}), new User({id: 2, firstname: 'Test', lastname: 'Dude', email: 'dude@domain.com'})]
 }
 
 const expectUser = (mock, userObject) => {
