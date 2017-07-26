@@ -14,9 +14,9 @@ export class Step {
   ) {
     this._id = id
     this._title = title
-    this._heirarchy = hierarchy
+    this._hierarchy = hierarchy
     this._content = content // Maybe its own object?
-    this._attachements = attachments // Loop through and declare each object
+    this._attachments = attachments // Loop through and declare each object
     this._steps = steps // loop through and declare each object
   }
 
