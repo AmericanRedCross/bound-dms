@@ -7,6 +7,9 @@ export default{
     cancel: 'Cancel',
     deleted: 'Deleted!',
     gravatar: 'User profile image provided through gravatar',
+    rename: 'Rename',
+    delete: 'Delete',
+    info: 'Info',
     validations: {
       required: 'Field is required',
       email: 'Incorrect email format',
@@ -63,6 +66,9 @@ export default{
     edit: {
       new: 'Create new project',
       newHeader: 'New Project'
+    },
+    modules: {
+      module: 'Module'
     },
     languages: {
       add: 'Add New Language',

@@ -113,22 +113,21 @@ export default new Router({
         },
         {
           path: ':id/',
-          name: 'project',
           component: ProjectContainer,
           props: true,
+          meta: {
+            breadcrumb: 'Project Name'
+          },
           children: [
             {
-              path: '/',
+              path: '',
               name: 'project-detail',
               component: ProjectDetail,
-              props: true,
-              meta: {
-                breadcrumb: 'Project Name'
-              }
+              props: true
             },
             {
               path: 'structure',
-              name: 'project-new',
+              name: 'project-structure',
               components: {default: Structure},
               meta: {
                 breadcrumb: 'Structure'
