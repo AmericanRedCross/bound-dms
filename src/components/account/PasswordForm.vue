@@ -8,9 +8,9 @@
             <b-form-fieldset
               :label="$t('users.edit.currentPass')"
               :label-cols="3"
-              :feedback="!$v.currentPassword.$error ? $t('common.validations.required') : ''"
-              :state="$v.currentPassword.$error ? 'warning' : ''">
-              <b-form-input name="currentPassword" type="password" v-model="currentPassword" @input="$v.currentPassword.$touch()"></b-form-input>
+              :feedback="!$v.password.$error ? $t('common.validations.required') : ''"
+              :state="$v.password.$error ? 'warning' : ''">
+              <b-form-input name="password" type="password" v-model="password" @input="$v.password.$touch()"></b-form-input>
             </b-form-fieldset>
 
             <b-form-fieldset
@@ -43,14 +43,13 @@ import { required, sameAs, minLength } from 'vuelidate/lib/validators'
 export default {
   data () {
     return {
-      currentPassword: null,
+      password: null,
       newPassword: null,
-      confirmPassword: null,
-      userId: parseInt(this.$auth.user().id, 10)
+      confirmPassword: null
     }
   },
   validations: {
-    currentPassword: {
+    password: {
       required
     },
     newPassword: {
@@ -61,8 +60,21 @@ export default {
       sameAsPassword: sameAs('newPassword')
     }
   },
-  onSubmit () {
-
+  methods: {
+    onSubmit (e) {
+      this.$v.$touch()
+      if (!this.$v.$error) {
+        this.$store.dispatch('UPDATE_USER_PASSWORD', {
+          password: this.password,
+          newPassword: this.newPassword
+        })
+        .then(this.$auth.refresh())
+        .then(this.$router.push({ name: 'profile' }))
+        .catch((error) => {
+          console.log(error)
+        })
+      }
+    }
   },
   computed: {
     ...mapGetters([

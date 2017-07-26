@@ -81,6 +81,10 @@ const users = {
       }, (err) => {
         commit('SET_MESSAGE', { message: err })
       })
+    },
+    // Updates user password
+    UPDATE_USER_PASSWORD: function ({ commit }, data) {
+      return axios.put(USER_ROOT + '/me/password', data)
     }
   },
   getters: {

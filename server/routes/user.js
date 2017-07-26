@@ -65,7 +65,7 @@ router.delete('/:id', authService.authenticate(), controller.deleteUser)
 router.put('/me/password', authService.authenticate(), (req, res, next) => {
   req.checkBody({
     'password': userRules.password,
-    'new_password': userRules.password
+    'newPassword': userRules.password
   })
   req.getValidationResult().then((result) => {
     if (!result.isEmpty()) {
