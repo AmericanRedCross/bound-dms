@@ -1,4 +1,4 @@
-import { Attachment } from '../../../../src/vuex/modules/content/Attachment'
+import { Attachment } from '../../../../src/vuex/modules/structure/Attachment'
 
 describe('Attachment Object Creation', () => {
   it('Create a new Attachment', () => {
