@@ -14,13 +14,13 @@ import EditForm from '@/components/users/edit/EditForm'
 
 export default {
   name: '',
-  components: {
-    EditForm
-  },
   data () {
     return {
       user: null
     }
+  },
+  components: {
+    EditForm
   },
   mounted () {
     // Call vuex to retrieve the current user from the backend. This returns a promise so we know when it's finished.

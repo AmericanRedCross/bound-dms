@@ -51,7 +51,7 @@ module.exports = {
   },
   updatePassword (req, res, next) {
     if (req.user.checkPassword(req.body.password)) {
-      users.updatePassword(req.user.id, req.body.new_password).then((user) => {
+      users.updatePassword(req.user.id, req.body.newPassword).then((user) => {
         res.status(200).json({status: 200, message: 'Password updated'})
       }).catch((err) => {
         res.status(500).json({status: 500, message: 'Password update failed'})

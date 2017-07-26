@@ -40,7 +40,7 @@ module.exports = {
     * @return Promise
     */
   find (id) {
-    return User.findById(id, {attributes: User.safeAttributes()})
+    return User.findById(id)
   },
   /**
     * Returns a single by email address.

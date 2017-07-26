@@ -158,7 +158,7 @@ describe('API: User', () => {
       request(app)
         .put('/api/users/me/password')
         .set('Authorization', 'Bearer ' + this.token)
-        .send({'password': '12345678', 'new_password': '87654321'})
+        .send({'password': '12345678', 'newPassword': '87654321'})
         .expect(200)
         .end((err, res) => {
           expect(res.body).to.have.property('status')
@@ -171,7 +171,7 @@ describe('API: User', () => {
       request(app)
         .put('/api/users/me/password')
         .set('Authorization', 'Bearer ' + this.token)
-        .send({'password': '', 'new_password': '87654321'})
+        .send({'password': '', 'newPassword': '87654321'})
         .expect(400, done)
     })
 
@@ -179,7 +179,7 @@ describe('API: User', () => {
       request(app)
         .put('/api/users/me/password')
         .set('Authorization', 'Bearer ' + this.token)
-        .send({'password': '12345678', 'new_password': ''})
+        .send({'password': '12345678', 'newPassword': ''})
         .expect(400, done)
     })
 
@@ -187,7 +187,7 @@ describe('API: User', () => {
       request(app)
         .put('/api/users/me/password')
         .set('Authorization', 'Bearer ' + this.token)
-        .send({'password': '123456789', 'new_password': '87654321'})
+        .send({'password': '123456789', 'newPassword': '87654321'})
         .expect(400, done)
     })
   })

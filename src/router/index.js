@@ -14,6 +14,9 @@ import ListProjects from '@/components/project/List'
 import EditProject from '@/components/project/Edit'
 import NewProject from '@/components/project/New'
 import ProjectDetail from '@/components/project/detail/Detail'
+import AccountContainer from '@/components/account/Account'
+import AccountProfile from '@/components/account/Profile'
+import ChangePassword from '@/components/account/PasswordForm'
 
 Vue.use(Router)
 
@@ -121,6 +124,32 @@ export default new Router({
       name: 'Document Editor',
       components: {default: Editor},
       meta: {auth: true}
+    },
+    {
+      path: '/account/',
+      component: AccountContainer,
+      meta: {
+        auth: ['admin'],
+        breadcrumb: 'Account'
+      },
+      children: [
+        {
+          path: 'profile',
+          name: 'profile',
+          component: AccountProfile,
+          props: true
+        },
+        {
+          path: 'change-password',
+          name: 'change-password',
+          component: ChangePassword,
+          props: true,
+          meta: {
+            auth: ['admin'],
+            breadcrumb: 'Change Password'
+          }
+        }
+      ]
     }
   ]
 })
