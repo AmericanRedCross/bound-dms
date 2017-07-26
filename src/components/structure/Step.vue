@@ -5,9 +5,12 @@
         <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-if="parent">{{ parent }}.</span>{{ step.hierarchy }}</h4>
         <i class="ml-2">{{ step.title }}</i>
         <div class="ml-auto">
-          <b-button>{{ $t('common.rename') }}</b-button>
-          <b-button>{{ $t('common.delete') }}</b-button>
-          <b-button>{{ $t('common.info') }}</b-button>
+          <b-dropdown class="m-md-2" right>
+            <fa-icon name="cog" slot="text"></fa-icon>
+            <b-dropdown-item href="#">{{ $t('common.rename') }}</b-dropdown-item>
+            <b-dropdown-item href="#">{{ $t('common.delete') }}</b-dropdown-item>
+            <b-dropdown-item href="#">{{ $t('common.info') }}</b-dropdown-item>
+          </b-dropdown>
         </div>
       </div>
     </b-card>
