@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-      <div class="col">
+      <div class="col-md-12">
         <b-card :title="project.name">
           <small>Owned by Kevin Borrill</small>
           <div class="row">
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import StatBox from '../../ui/StatBox'
+import StatBox from '../../ui/Statbox'
 export default {
   name: 'stats-overview',
   props: {

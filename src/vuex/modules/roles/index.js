@@ -3,7 +3,7 @@ const roles = {
     roles: [
       {
         key: 'admin',
-        title: 'Adminstator'
+        title: 'Adminstrator'
       },
       {
         key: 'editor',
