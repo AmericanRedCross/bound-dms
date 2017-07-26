@@ -65,9 +65,20 @@ export default{
       newHeader: 'New Project'
     },
     languages: {
-      add: 'Add a language',
+      add: 'Add a translation',
       select: 'Select a language',
-      noLangs: 'This project does not have a language yet, add one to get started'
+      noLangs: 'This project does not have any translations yet, add one to get started'
+    },
+    dashboard: {
+      modules: 'MODULES',
+      steps: 'STEPS',
+      substeps: 'SUBSTEPS',
+      tools: 'TOOLS',
+      edit: 'Edit Content',
+      lang: 'ENG_GB',
+      content: 'Content & Translations',
+      setcontent: 'Content Set',
+      translations: 'Translations'
     }
   }
 }
