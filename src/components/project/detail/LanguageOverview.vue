@@ -4,11 +4,11 @@
         <h5>{{ $t('projects.dashboard.translations') }}</h5>
         <div class="row m-b-10" id="language-title-wrapper">
           <div class="col">
-            <b-btn v-b-toggle.add-language><fa-icon name="plus"></fa-icon> {{ $t('projects.languages.add') }}</b-btn>
+            <b-btn v-b-toggle.add-language variant="success"><fa-icon name="plus"></fa-icon> {{ $t('projects.languages.add') }}</b-btn>
           </div>
           <div class="col-12" align="center">
-            <br />
-            <b-alert :show="languages.length === 0" class="m-b-0">
+          </br >
+            <b-alert :show="project.languages.length === 0" class="m-b-0">
               {{ $t('projects.languages.noLangs') }}
             </b-alert>
           </div>
@@ -26,43 +26,36 @@
         <div class="row">
           <div class="col">
           <!-- Language Table -->
-              <b-form-input v-model="filter" v-if="languages.length" placeholder="Type to Search"></b-form-input>
+              <b-form-input v-model="filter" v-if="project.languages.length" placeholder="Type to Search"></b-form-input>
+              <br />
               <!-- Main table element -->
               <b-table striped hover
-                      :items="languages"
+                      :items="project.languages"
                       :fields="languageHeaders"
                       :current-page="currentPage"
                       :per-page="perPage"
                       :filter="filter"
                       id="language-table"
-                      v-if="languages.length"
+                      v-if="project.languages.length"
               >
-                <template slot="complete" scope="project">
-                    <b-progress
-                    v-if= "progress === 100"
-                    v-model="progress"
+                <template slot="value" scope="item">
+                  <b-badge>{{ item.value }}</b-badge>
+                </template>
+                <template slot="complete" scope="item">
+                  <b-progress
+                    v-model="item.value"
                     show-progress
                     striped
-                    variant="success">
+                    :variant="item.value === 100 ? 'success' : ''">
                   </b-progress>
-                  <b-progress
-                  v-else
-                  v-model="progress"
-                  show-progress
-                  striped>
-                </b-progress>
                 </template>
-                <template slot="actions" scope="project">
+                <template slot="actions">
                   <b-btn size="sm" variant="danger" class="m-t-5" @click.native="deleteClick"><fa-icon name="trash" label="Delete"></fa-icon> Delete</b-btn>
-                </template>
-                <template slot="value" scope="project">
-                  <b-badge>
-                    
-                  </b-badge>
+                  <b-btn size="sm" variant="success" class="m-t-5" @click.native="editClick"><fa-icon name="edit" label="Edit"></fa-icon> Edit</b-btn>
                 </template>
               </b-table>
-              <div v-if="languages.length > 10" class="row justify-content-center" slot="footer">
-                <b-pagination size="md" :total-rows="languages.length" :per-page="perPage" v-model="currentPage" />
+              <div v-if="project.languages.length > 10" class="row justify-content-center" slot="footer">
+                <b-pagination size="md" :total-rows="project.languages.length" :per-page="perPage" v-model="currentPage" />
               </div>
           </div>
         </div>
@@ -83,13 +76,6 @@ export default {
   },
   data () {
     return {
-      progress: 100,
-      languages: [
-        {
-          value: 'ENG_GB',
-          label: 'English (UK)'
-        }
-      ],
       selectedLang: null,
       options: [
         {label: 'English (UK)', value: 'eng_gb'},
@@ -99,18 +85,23 @@ export default {
       languageHeaders: {
         value: {
           label: null,
-          sortable: true
+          sortable: true,
+          class: 'align-middle text-uppercase h3'
+          // tdClass: 'badge badge-default text-uppercase h3'
         },
         label: {
           label: 'Language',
-          sortable: true
+          sortable: true,
+          class: 'align-middle'
         },
         complete: {
           label: '% Translated',
-          sortable: true
+          sortable: true,
+          class: 'align-middle'
         },
         actions: {
-          label: 'Actions'
+          label: 'Actions',
+          class: 'align-middle'
         }
       },
       perPage: 10,
@@ -141,6 +132,10 @@ export default {
       if (this.progress === 0) {
         return true
       }
+    },
+    deleteClick () {
+    },
+    editClick () {
     }
   }
 }
