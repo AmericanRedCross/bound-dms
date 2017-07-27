@@ -15,7 +15,7 @@
         </div>
         <b-collapse id="add-language" class="alert-info">
           <div class="add-language-padding">
-            <div class="d-flex justify-content-center add-input-form">
+            <div class="d-flex justify-content-center align-items-center add-input-form">
               <label>{{ $t('projects.languages.add') }}</label>
               <v-select :on-change="changeSelected" :options="options" :placeholder="$t('projects.languages.select')"></v-select>
               <b-btn variant="primary" @click.native="addLanguage" :disabled="selectedLang === null">{{ $t('common.add') }}</b-btn>
