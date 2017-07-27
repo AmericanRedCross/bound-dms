@@ -40,6 +40,9 @@
           </b-dropdown>
         </div>
       </div>
+      <b-collapse class="hidden-content" :visible="isOpen" id="collapse-item">
+        <b-card>Hello!</b-card>
+      </b-collapse>
     </b-card>
 
     <transition-group name="step-list">
@@ -98,7 +101,6 @@ export default {
 
     },
     toggleStep (value) {
-      console.log('recieved')
       this.isOpen = value
     }
   }
@@ -123,6 +125,9 @@ export default {
         position: relative;
         min-width: 25px;
       }
+    }
+    .hidden-content {
+      clear: both;
     }
   }
 
