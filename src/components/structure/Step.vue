@@ -1,8 +1,10 @@
 <template>
   <div class="step">
+    <!-- Chevron toggle for expanding sub items (See #collapse-steps for the actual collapsable area) -->
     <chevron-toggle :value="isExpanded" v-on:change="toggleStep" v-if="step.steps.length" class="chevron mt-3"></chevron-toggle>
     <b-card :class="{noToggle: !step.steps.length}">
 
+      <!-- Module Header (The bit that's not hidden) -->
       <div class="d-flex align-items-baseline flex-wrap step-header">
         <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-if="parent">{{ parent }}.</span>{{ step.hierarchy }}</h4>
         <i v-if="!editTitle" class="ml-2">{{ step.title }}</i>
@@ -21,7 +23,7 @@
 
           </b-input-group>
         </span>
-
+        <!-- Push this stuff right-->
         <div class="ml-auto">
           <b-button @click.native="isOpen = !isOpen"><fa-icon name="file-text"></fa-icon></b-button>
           <b-dropdown class="m-md-2 step-actions" right>
@@ -66,11 +68,14 @@
         </div>
       </div>
 
+      <!-- Here's where we want our attachment area -->
       <b-collapse :visible="isOpen" id="collapse-exta-content">
         <b-card>Hello!</b-card>
       </b-collapse>
 
     </b-card>
+
+    <!-- Here's the collapsable area with the steps, uses vue draggable https://github.com/SortableJS/Vue.Draggable -->
     <b-collapse :visible="isExpanded" id="collapse-steps">
       <draggable v-model="step.steps">
         <transition-group name="step-list">
@@ -132,7 +137,10 @@ export default {
       this.step.critical = value.value
     },
     addSubStep () {
-
+      // TODO: Logic for adding new substeps
+    },
+    removeStep () {
+      // TODO: Logic for removing substeps
     },
     toggleStep (value) {
       this.isExpanded = value
