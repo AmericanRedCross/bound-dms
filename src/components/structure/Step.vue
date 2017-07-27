@@ -1,7 +1,8 @@
 <template>
   <div class="step">
-    <ChevronToggle :value="isOpen" v-on:change="toggleStep" class="chevron mt-3"></ChevronToggle>
-    <b-card>
+    <chevron-toggle :value="isExpanded" v-on:change="toggleStep" v-if="step.steps.length" class="chevron mt-3"></chevron-toggle>
+    <b-card :class="{noToggle: !step.steps.length}">
+
       <div class="d-flex align-items-baseline flex-wrap step-header">
         <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-if="parent">{{ parent }}.</span>{{ step.hierarchy }}</h4>
         <i v-if="!editTitle" class="ml-2">{{ step.title }}</i>
@@ -22,6 +23,7 @@
         </span>
 
         <div class="ml-auto">
+          <b-button @click.native="isOpen = !isOpen"><fa-icon name="file-text"></fa-icon></b-button>
           <b-dropdown class="m-md-2 step-actions" right>
             <fa-icon name="cog" slot="text"></fa-icon>
 
@@ -63,33 +65,39 @@
           </b-dropdown>
         </div>
       </div>
-      <b-collapse :visible="isOpen" id="collapse-item">
+
+      <b-collapse :visible="isOpen" id="collapse-exta-content">
         <b-card>Hello!</b-card>
       </b-collapse>
+
     </b-card>
-
-    <transition-group name="step-list">
-      <!-- We need to use a key here so vue can keep track of the steps' identities https://vuejs.org/v2/guide/list.html#key -->
-      <Step
-        v-for="(substep, stepIndex) in step.steps"
-        :key="stepIndex"
-        :step="substep"
-        :parent="parent ? parent + '.' + substep.hierarchy : String(step.hierarchy)"
-        :index="index"
-        class="sub-step ml-5 step-list-item">
-      </Step>
-    </transition-group>
-
+    <b-collapse :visible="isExpanded" id="collapse-steps">
+      <draggable v-model="step.steps">
+        <transition-group name="step-list">
+          <!-- We need to use a key here so vue can keep track of the steps' identities https://vuejs.org/v2/guide/list.html#key -->
+          <Step
+            v-for="(substep, stepIndex) in step.steps"
+            :key="stepIndex"
+            :step="substep"
+            :parent="parent ? parent + '.' + substep.hierarchy : String(step.hierarchy)"
+            :index="index"
+            class="sub-step ml-5 step-list-item">
+          </Step>
+        </transition-group>
+      </draggable>
+    </b-collapse>
   </div>
 </template>
 <script>
 import { Step } from '../../vuex/modules/structure/Step'
 import ChevronToggle from '../ui/ChevronToggle'
+import draggable from 'vuedraggable'
 
 export default {
   name: 'Step',
   components: {
-    ChevronToggle
+    ChevronToggle,
+    draggable
   },
   props: {
     step: {
@@ -110,12 +118,14 @@ export default {
   },
   data () {
     return {
-      isOpen: false,
+      isOpen: false, // Is the Step itself open?
+      isExpanded: false, // Are the child steps viewable?
       editTitle: false
     }
   },
   methods: {
     addStep () {
+      this.isExpanded = true
       this.step.addStepAtIndex({index: this.index})
     },
     updateCritical (value) {
@@ -125,7 +135,7 @@ export default {
 
     },
     toggleStep (value) {
-      this.isOpen = value
+      this.isExpanded = value
     }
   }
 }
@@ -138,6 +148,10 @@ export default {
     }
   }
   .step {
+    .noToggle {
+      // The toggle normally takes up 40px, move the step 40px if no toggle
+      margin-left: 40px;
+    }
     .chevron {
       float: left;
     }
