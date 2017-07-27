@@ -4,31 +4,54 @@
     <b-card>
       <div class="d-flex align-items-baseline flex-wrap step-header">
         <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-if="parent">{{ parent }}.</span>{{ step.hierarchy }}</h4>
-        <i class="ml-2">{{ step.title }}</i>
+        <i v-if="!editTitle" class="ml-2">{{ step.title }}</i>
+
+        <span class="title-input ml-2" v-else>
+          <b-input-group>
+            <b-form-input v-model="step.title"
+                    type="text"
+                    placeholder="Enter a title">
+            </b-form-input>
+
+            <!-- Attach Right button -->
+            <b-input-group-button slot="right" >
+              <b-button @click.native="editTitle = false"><fa-icon name="check"></fa-icon></b-button>
+            </b-input-group-button>
+
+          </b-input-group>
+        </span>
+
         <div class="ml-auto">
           <b-dropdown class="m-md-2 step-actions" right>
             <fa-icon name="cog" slot="text"></fa-icon>
-            <b-dropdown-item href="#" class="step-action">
+
+            <b-dropdown-item-button @click.native="editTitle = true" class="step-action">
               <fa-icon name="font"></fa-icon>
               {{ $t('common.rename') }}
-            </b-dropdown-item>
+            </b-dropdown-item-button>
+
             <b-dropdown-item href="#" class="step-action">
               <fa-icon name="trash"></fa-icon>
               {{ $t('common.delete') }}
             </b-dropdown-item>
+
             <b-dropdown-item href="#" class="step-action">
               <fa-icon name="info-circle"></fa-icon>
               {{ $t('common.info') }}
             </b-dropdown-item>
+
             <b-dropdown-item-button v-if="isModule" @click.native="addStep" class="step-action">
               <fa-icon name="plus-circle"></fa-icon>
               {{ $t('projects.modules.addStep') }}
             </b-dropdown-item-button>
+
             <b-dropdown-item-button v-else @click.native="addSubStep" class="step-action">
               <fa-icon name="plus-circle"></fa-icon>
               {{ $t('projects.modules.addSubStep') }}
             </b-dropdown-item-button>
+
             <b-dropdown-divider></b-dropdown-divider>
+
             <b-dropdown-header>
               <toggle-button
                 :value="step.critical"
@@ -40,7 +63,7 @@
           </b-dropdown>
         </div>
       </div>
-      <b-collapse class="hidden-content" :visible="isOpen" id="collapse-item">
+      <b-collapse :visible="isOpen" id="collapse-item">
         <b-card>Hello!</b-card>
       </b-collapse>
     </b-card>
@@ -87,7 +110,8 @@ export default {
   },
   data () {
     return {
-      isOpen: false
+      isOpen: false,
+      editTitle: false
     }
   },
   methods: {
@@ -119,15 +143,15 @@ export default {
     }
     margin-top: 5px;
     clear: both;
+    .title-input {
+      width: 50%;
+    }
     .step-action {
       svg {
         top: 1px;
         position: relative;
         min-width: 25px;
       }
-    }
-    .hidden-content {
-      clear: both;
     }
   }
 
