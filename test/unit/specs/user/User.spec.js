@@ -14,7 +14,7 @@ describe('User Object Creation', () => {
     expect(newUser).to.have.property('email')
   })
 
-  it('Has the correct propery values', () => {
+  it('Has the correct property values', () => {
     let id = 1
     let firstname = 'First Name'
     let lastname = 'Last Name'
