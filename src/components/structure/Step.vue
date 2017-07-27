@@ -32,7 +32,9 @@
               <toggle-button
                 :value="step.critical"
                 :width="150"
-                :labels="{checked: $t('projects.modules.criticalPathOn'), unchecked: $t('projects.modules.criticalPathOff')}"/>
+                :labels="{checked: $t('projects.modules.criticalPathOn'), unchecked: $t('projects.modules.criticalPathOff')}"
+                @change="updateCritical"
+                />
             </b-dropdown-header>
           </b-dropdown>
         </div>
@@ -78,6 +80,9 @@ export default {
   methods: {
     addStep () {
       this.step.addStepAtIndex({index: this.index})
+    },
+    updateCritical (value) {
+      this.step.critical = value.value
     },
     addSubStep () {
 

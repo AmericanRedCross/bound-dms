@@ -9,7 +9,8 @@ export class Step {
       hierarchy = null,
       content = '# Markdown Content',
       attachments = [],
-      steps = []
+      steps = [],
+      critical = false
     }
   ) {
     this._id = id
@@ -18,6 +19,7 @@ export class Step {
     this._content = content // Maybe its own object?
     this._attachments = attachments // Loop through and declare each object
     this._steps = steps // loop through and declare each object
+    this._critical = critical
   }
 
   // Getters and Setters
@@ -43,6 +45,10 @@ export class Step {
   // steps
   set steps (steps) { this._steps = steps }
   get steps () { return this._steps }
+
+  // critical
+  set critical (critical) { this._critical = critical }
+  get critical () { return this._critical }
 
   /**
    * [addAttachment Add an Attachment to the attachments array]
