@@ -58,8 +58,8 @@ describe('API: Languages', () => {
     })
   })
 
-  describe('DELETE /api/projects', () => {
-    it('deletes an existing project', (done) => {
+  describe('DELETE /api/projects/:id/languages/:code', () => {
+    it('deletes an existing project language', (done) => {
       request(app)
         .delete('/api/projects/1/languages/fr-CA')
         .set('Authorization', 'Bearer ' + this.token)
