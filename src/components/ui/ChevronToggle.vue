@@ -62,7 +62,7 @@ export default {
 .chevronChecked {
    transform: rotate(90deg);
    &:hover {
-      transform: rotate(90deg);
+      transform: rotate(45deg);
    }
 }
 </style>
