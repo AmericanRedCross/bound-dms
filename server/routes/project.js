@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const controller = require('../controllers/project')
+const langController = require('../controllers/language')
 const authService = require('../services/auth')()
 const projectRules = {
   'name': {
@@ -37,5 +38,29 @@ router.post('/:id', authService.authenticate(), (req, res, next) => {
   })
 }, controller.update)
 router.delete('/:id', authService.authenticate(), controller.delete)
+// Languages
+router.get('/:id/languages', authService.authenticate(), langController.getAll)
+router.put('/:id/languages/:code', authService.authenticate(), (req, res, next) => {
+  req.checkParams('id', 'Invalid project id').isInt()
+  req.checkParams('code', 'Invalid language code').notEmpty()
+  req.getValidationResult().then((result) => {
+    if (!result.isEmpty()) {
+      res.status(400).json(result.array())
+      return
+    }
+    next()
+  })
+}, langController.create)
+router.delete('/:id/languages/:code', authService.authenticate(), (req, res, next) => {
+  req.checkParams('id', 'Invalid project id').isInt()
+  req.checkParams('code', 'Invalid language code').notEmpty()
+  req.getValidationResult().then((result) => {
+    if (!result.isEmpty()) {
+      res.status(400).json(result.array())
+      return
+    }
+    next()
+  })
+}, langController.delete)
 
 module.exports = router

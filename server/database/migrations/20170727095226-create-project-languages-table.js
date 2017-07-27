@@ -37,6 +37,10 @@ module.exports = {
         },
         onDelete: 'cascade'
       })
+    }).then(() => {
+      return queryInterface.addConstraint('ProjectLanguages', ['projectId', 'code'], {
+        type: 'unique'
+      })
     })
   },
   down: function (queryInterface, Sequelize) {

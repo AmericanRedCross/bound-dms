@@ -15,6 +15,12 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'createdById',
       targetKey: 'id'
     })
+
+    Project.hasMany(models.ProjectLanguage, {
+      as: 'languages',
+      foreignKey: 'projectId',
+      sourceKey: 'id'
+    })
   }
 
   return Project
