@@ -1,5 +1,6 @@
 <template>
   <div class="step">
+    <ChevronToggle :value="isOpen" v-on:change="toggleStep" class="chevron mt-3"></ChevronToggle>
     <b-card>
       <div class="d-flex align-items-baseline flex-wrap step-header">
         <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-if="parent">{{ parent }}.</span>{{ step.hierarchy }}</h4>
@@ -57,9 +58,13 @@
 </template>
 <script>
 import { Step } from '../../vuex/modules/structure/Step'
+import ChevronToggle from '../ui/ChevronToggle'
 
 export default {
   name: 'Step',
+  components: {
+    ChevronToggle
+  },
   props: {
     step: {
       type: Object,
@@ -77,6 +82,11 @@ export default {
       default: 0
     }
   },
+  data () {
+    return {
+      isOpen: false
+    }
+  },
   methods: {
     addStep () {
       this.step.addStepAtIndex({index: this.index})
@@ -86,6 +96,10 @@ export default {
     },
     addSubStep () {
 
+    },
+    toggleStep (value) {
+      console.log('recieved')
+      this.isOpen = value
     }
   }
 }
@@ -98,6 +112,9 @@ export default {
     }
   }
   .step {
+    .chevron {
+      float: left;
+    }
     margin-top: 5px;
     clear: both;
     .step-action {
