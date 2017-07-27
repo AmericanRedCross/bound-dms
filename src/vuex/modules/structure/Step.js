@@ -75,9 +75,24 @@ export class Step {
    * [addStep description]
    * @param {Step} [step=new Step()] [description]
    */
-  addStep (step = new Step()) {
+  addStep (step = new Step({})) {
     if (step) {
       this._steps.push(step)
+    }
+  }
+
+  /**
+   * [addStepAtIndex description]
+   * @param {Step}   [step=new Step({})]     [description]
+   * @param {[type]} index     [description]
+   */
+  addStepAtIndex ({step = new Step({}), index}) {
+    if (step && index >= 0) {
+      if (index > this._steps.length) {
+        this.addStep(step)
+      } else {
+        this._steps.splice(index, 0, step)
+      }
     }
   }
 

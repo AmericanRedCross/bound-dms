@@ -68,7 +68,11 @@ export default{
       newHeader: 'New Project'
     },
     modules: {
-      module: 'Module'
+      module: 'Module',
+      addStep: 'Add Step',
+      addSubStep: 'Add Substep',
+      criticalPathOn: 'Critical Path',
+      criticalPathOff: 'Enable Critical Path?'
     },
     languages: {
       add: 'Add New Language',
