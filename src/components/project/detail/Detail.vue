@@ -1,8 +1,12 @@
 <template>
     <div class="project-detail">
       <StatsOverview v-if="project" :project="project" class="mb-3"></StatsOverview>
-      <LanguageOverview v-if="project" :project="project" class="mb-3"></LanguageOverview>
-      <StructureOverview v-if="project" :project="project" class="mb-3"></StructureOverview>
+      <b-card :title="$t('projects.dashboard.content')">
+        <StructureOverview v-if="project" :project="project" class="mb-3"></StructureOverview>
+          <hr />
+        <LanguageOverview v-if="project" :project="project" class="mb-3"></LanguageOverview>
+
+    </b-card>
     </div>
 </template>
 
