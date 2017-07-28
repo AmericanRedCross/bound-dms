@@ -18,6 +18,7 @@ import AccountContainer from '@/components/account/Account'
 import AccountProfile from '@/components/account/Profile'
 import ChangePassword from '@/components/account/PasswordForm'
 import PageNotFound from '@/components/pageNotFound/PageNotFound'
+import TranslationWorkflow from '@/components/translations/TranslationWorkflow'
 
 Vue.use(Router)
 
@@ -116,7 +117,19 @@ export default new Router({
           path: ':id/edit',
           name: 'project-edit',
           component: EditProject,
-          props: true
+          props: true,
+          meta: {
+            breadcrumb: 'Edit'
+          }
+        },
+        {
+          path: ':id/translations',
+          name: 'translation-workflow',
+          component: TranslationWorkflow,
+          props: true,
+          meta: {
+            breadcrumb: 'Translation Workflow'
+          }
         }
       ]
     },
