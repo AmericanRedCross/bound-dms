@@ -65,7 +65,7 @@ export default{
       newHeader: 'New Project'
     },
     languages: {
-      add: 'Add a translation',
+      add: 'Add New Language',
       select: 'Select a language',
       noLangs: 'This project does not have any translations yet, add one to get started'
     },
@@ -75,7 +75,7 @@ export default{
       substeps: 'SUBSTEPS',
       tools: 'TOOLS',
       edit: 'Edit Content',
-      lang: 'ENG_GB',
+      languages: 'Languages',
       content: 'Content & Translations',
       setcontent: 'Content Set',
       translations: 'Translations'

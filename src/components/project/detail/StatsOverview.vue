@@ -5,16 +5,16 @@
           <small>Owned by Kevin Borrill</small>
           <div class="row">
             <div class="col-md-3 col-sm-6 m-b-10">
-              <Statbox :value="50" type="%" description="A description here" colour="#20A8D8" barColour="#92E3FF" inverse></Statbox>
+              <Statbox :value="50" type="%" description="A description here" colour="#63c2de" barColour="#54a5bd" inverse></Statbox>
             </div>
             <div class="col-md-3 col-sm-6 m-b-10">
-              <Statbox :value="30" type="%" description="A description here" colour="#FF7914" barColour="#FFBF8F" inverse></Statbox>
+              <Statbox :value="30" type="%" description="A description here" colour="#63c2de" barColour="#54a5bd" inverse></Statbox>
             </div>
             <div class="col-md-3 col-sm-6 m-b-10">
-              <Statbox :value="75" type="%" description="A description here" colour="#8ED820" barColour="#B8F361"></Statbox>
+              <Statbox :value="75" type="%" description="A description here" colour="#63c2de" barColour="#54a5bd" inverse></Statbox>
             </div>
             <div class="col-md-3 col-sm-6 m-b-10">
-              <Statbox :value="100" type="%" description="A description here" colour="#D82069" barColour="#FF8EBB" inverse></Statbox>
+              <Statbox :value="100" type="%" description="A description here" colour="#63c2de" barColour="#54a5bd" inverse></Statbox>
             </div>
           </div>
         </b-card>
