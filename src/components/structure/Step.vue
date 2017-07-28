@@ -5,8 +5,8 @@
     <b-card :class="{noToggle: !step.steps.length}">
 
       <!-- Module Header (The bit that's not hidden) -->
-      <div class="d-flex align-items-baseline flex-wrap step-header">
-        <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-if="parent">{{ parent }}.</span>{{ step.hierarchy }}</h4>
+      <div class="d-flex align-items-baseline flex-wrap step-header content">
+        <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-if="parent">{{ parent }}.</span><span id="hierarchy">{{ step.hierarchy }}</span></h4>
         <i v-if="!editTitle" class="ml-2">{{ step.title }}</i>
 
         <span class="title-input ml-2" v-else>
@@ -77,14 +77,14 @@
 
     <!-- Here's the collapsable area with the steps, uses vue draggable https://github.com/SortableJS/Vue.Draggable -->
     <b-collapse :visible="isExpanded" id="collapse-steps">
-      <draggable v-model="step.steps">
+      <draggable v-model="step.steps" :move="checkMove">
         <transition-group name="step-list">
           <!-- We need to use a key here so vue can keep track of the steps' identities https://vuejs.org/v2/guide/list.html#key -->
           <Step
             v-for="(substep, stepIndex) in step.steps"
             :key="stepIndex"
             :step="substep"
-            :parent="parent ? parent + '.' + substep.hierarchy : String(step.hierarchy)"
+            :parent="parent ? parent + '.' + step.hierarchy : String(substep.hierarchy)"
             :index="index"
             class="sub-step ml-5 step-list-item">
           </Step>
@@ -144,6 +144,9 @@ export default {
     },
     toggleStep (value) {
       this.isExpanded = value
+    },
+    checkMove () {
+      // this.step.hierarchy =
     }
   }
 }

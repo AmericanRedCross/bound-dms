@@ -30,7 +30,7 @@ export class Step {
   set title (title) { this._title = title }
   get title () { return this._title }
 
-  // Heirarchy
+  // Hierarchy
   set hierarchy (hierarchy) { this._hierarchy = hierarchy }
   get hierarchy () { return this._hierarchy }
 

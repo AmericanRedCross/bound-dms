@@ -1,5 +1,6 @@
 <template>
   <div class="structure">
+    <b-button @click.native="saveRevision" variant="success">Save Revision</b-button>
     <StepComp :step="module1" :isModule="true"></StepComp>
     <StepComp :step="module2" :isModule="true"></StepComp>
   </div>
@@ -34,7 +35,14 @@ export default {
               hierarchy: 1,
               content: '# Some other content',
               attachments: []
-            })]
+            }),
+              new Step({
+                id: 3,
+                title: 'Et Harum quidem reprum',
+                hierarchy: 2,
+                content: '# Some other content',
+                attachments: []
+              })]
           })]
         }
       ),
@@ -51,16 +59,29 @@ export default {
             hierarchy: 1,
             content: '# Some other content',
             attachments: [],
-            steps: [new Step({
-              id: 3,
-              title: 'Et Harum quidem reprum',
-              hierarchy: 1,
-              content: '# Some other content',
-              attachments: []
-            })]
+            steps: [
+              new Step({
+                id: 3,
+                title: 'Et Harum quidem reprum',
+                hierarchy: 1,
+                content: '# Some other content',
+                attachments: []
+              }),
+              new Step({
+                id: 4,
+                title: 'Et Harum quidem reprum',
+                hierarchy: 6,
+                content: '# Some other content',
+                attachments: []
+              })
+            ]
           })]
         }
       )
+    }
+  },
+  methods: {
+    saveRevision () {
     }
   },
   props: {
@@ -72,5 +93,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+ol {
 
+}
 </style>
