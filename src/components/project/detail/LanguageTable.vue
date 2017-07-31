@@ -95,13 +95,30 @@ export default {
       }
     },
     deleteClick (language) {
-      this.$store.dispatch('DELETE_LANGUAGE', {
-        id: this.project.id,
-        code: language.code
+      this.$swal({
+        title: this._i18n.t('common.areYouSure'),
+        text: 'All related translations will be deleted',
+        type: 'warning',
+        showCancelButton: true,
+        showLoaderOnConfirm: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: this._i18n.t('common.deleteIt'),
+        // Pre confirm it. Used for async requests. Close the dialoag when this is finished
+        preConfirm: () => {
+          return new Promise((resolve, reject) => {
+            this.$store.dispatch('DELETE_LANGUAGE', {
+              id: this.project.id,
+              code: language.code
+            }).then(resolve)
+          })
+        },
+        allowOutsideClick: false
       }).then(() => {
-        //
-      }).catch(() => {
-        // TODO error
+        this.$swal({
+          type: 'success',
+          title: this._i18n.t('common.deleted')
+        })
       })
     },
     editClick (item) {
