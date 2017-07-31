@@ -7,6 +7,10 @@
       :empty-text="$t('projects.languages.noLangs')"
       id="language-table">
 
+      <template slot="language" scope="item">
+        {{ getLanguageName(item.item.code) }}
+      </template>
+
       <template slot="complete" scope="item">
         <b-progress
           v-model="item.value"
@@ -17,8 +21,8 @@
       </template>
 
       <template slot="actions" scope="item">
-        <b-btn size="sm" variant="primary" @click.native="editClick"><fa-icon name="edit" label="Edit"></fa-icon> Edit</b-btn>
-        <b-btn size="sm" variant="danger" @click.native="deleteClick"><fa-icon name="trash" label="Delete"></fa-icon> Delete</b-btn>
+        <b-btn size="sm" variant="primary" @click="editClick(item.item)"><fa-icon name="edit" label="Edit"></fa-icon> Edit</b-btn>
+        <b-btn size="sm" variant="danger" @click="deleteClick(item.item)"><fa-icon name="trash" label="Delete"></fa-icon> Delete</b-btn>
       </template>
     </b-table>
     <b-btn v-b-modal.add-language variant="primary"><fa-icon name="plus"></fa-icon> {{ $t('projects.languages.add') }}</b-btn>
@@ -33,6 +37,7 @@
 
 <script>
 import vSelect from 'vue-select'
+import {languages} from 'countries-list'
 export default {
   components: {vSelect},
   name: 'language-table',
@@ -44,20 +49,9 @@ export default {
   data () {
     return {
       selectedLang: null,
-      langOptions: [
-        {label: 'English', value: 'en'},
-        {label: 'English (United Kingdom)', value: 'en_GB'},
-        {label: 'English (United States)', value: 'en_US'},
-        {label: 'French', value: 'fr'},
-        {label: 'French (France)', value: 'fr_FR'},
-        {label: 'French (Canadian)', value: 'fr_CA'}
-      ],
       languageHeaders: {
-        label: {
+        language: {
           label: 'Language'
-        },
-        value: {
-          label: 'Code'
         },
         complete: {
           label: '% Translated',
@@ -72,7 +66,14 @@ export default {
   methods: {
     addLanguage () {
       if (this.selectedLang) {
-        this.project.languages.push(this.selectedLang)
+        this.$store.dispatch('ADD_LANGUAGE', {
+          id: this.project.id,
+          code: this.selectedLang.value
+        }).then(() => {
+          //
+        }).catch(() => {
+          // TODO error
+        })
       }
     },
     changeSelected (val) {
@@ -93,12 +94,27 @@ export default {
         return true
       }
     },
-    deleteClick () {
-      if (this.selectedLang) {
-        this.project.languages.pop(this.selectedLang)
-      }
+    deleteClick (language) {
+      this.$store.dispatch('DELETE_LANGUAGE', {
+        id: this.project.id,
+        code: language.code
+      }).then(() => {
+        //
+      }).catch(() => {
+        // TODO error
+      })
     },
-    editClick () {
+    editClick (item) {
+    },
+    getLanguageName (code) {
+      return `${languages[code].name} (${code})`
+    }
+  },
+  computed: {
+    langOptions () {
+      return Object.keys(languages).map((key) => {
+        return { label: `${languages[key].name} (${key})`, value: key }
+      })
     }
   }
 }

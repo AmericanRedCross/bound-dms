@@ -67,7 +67,7 @@ export default{
     languages: {
       add: 'Add New Language',
       select: 'Select a language',
-      noLangs: 'This project does not have any translations yet, add one to get started'
+      noLangs: 'This project does not have any languages yet, add one to get started'
     },
     dashboard: {
       modules: 'MODULES',
