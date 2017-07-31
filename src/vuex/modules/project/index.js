@@ -13,18 +13,14 @@ const projects = {
       if (response.data instanceof Array) {
         state.projects = []
         response.data.forEach((item) => {
-          state.projects.push(new Project(item.id, item.name, item.description))
+          state.projects.push(new Project(item))
         })
       }
     },
     SET_PROJECT: (state, { response }) => {
       // Does the project exist already?
       let project = state.projects.find(project => project.id === response.data.id)
-      const newProject = new Project(
-        response.data.id,
-        response.data.name,
-        response.data.description
-      )
+      const newProject = new Project(response.data)
 
       if (project) {
         project = newProject
@@ -44,30 +40,25 @@ const projects = {
       if (project && response.data instanceof Array) {
         project.languages = []
         response.data.forEach((item) => {
-          // TODO: When we know the model we should create a Language Class
-          // then we should create on for each item here.
           project.languages.push(item)
         })
       }
     },
     SET_LANGUAGE: (state, { response, id }) => {
-      // Does the project exist already?
-      let project = state.projects.find(project => project.id === id)
+      const project = state.projects.find(project => project.id === id)
+      const langIdx = project.languages.findIndex(language => language.id === response.data.id)
 
-      if (project) {
-        if (project.languages) {
-          let language = project.languages.find(language => language.id === response.data.id)
-
-          if (language) {
-            // Language already in array
-          } else {
-            project.languages.push(response.data)
-          }
-        } else {
-          project.languages = []
-          project.languages.push(response.data)
-        }
-        // If it doesn't exist, push it into the project's language Array
+      if (langIdx === -1) {
+        project.languages.push(response.data)
+      } else {
+        project.languages[langIdx] = response.data
+      }
+    },
+    REMOVE_LANGUAGE: (state, { code, id }) => {
+      const projectIdx = state.projects.findIndex(project => project.id === id)
+      const langIdx = state.projects[projectIdx].languages.findIndex(language => language.code === code)
+      if (langIdx >= 0) {
+        state.projects[projectIdx].languages.splice(langIdx, 1)
       }
     }
   },
@@ -120,18 +111,20 @@ const projects = {
         commit('SET_MESSAGE', { message: err })
       })
     },
-    // GET all projects
-    GET_LANGUAGES: function ({ commit }) {
-      return axios.get(PROJECT_ROOT).then((response) => {
-        commit('SET_LANGUAGES', { response: response.data })
-      }, (err) => {
+    // Adds a language to a project
+    ADD_LANGUAGE: function ({commit}, {id, code}) {
+      return axios.put(PROJECT_ROOT + '/' + id + '/languages/' + code)
+      .then((response) => {
+        commit('SET_LANGUAGE', { response: response.data, id: id })
+      }).catch(err => {
         commit('SET_MESSAGE', { message: err })
       })
     },
-    // GET a project
-    GET_LANGUAGE: function ({ commit }, id) {
-      return axios.get(PROJECT_ROOT + '/' + id).then((response) => {
-        commit('SET_LANGUAGE', { response: response.data })
+    // Removes a language from a project
+    DELETE_LANGUAGE: function ({commit}, {id, code}) {
+      return axios.delete(PROJECT_ROOT + '/' + id + '/languages/' + code)
+      .then((response) => {
+        commit('REMOVE_LANGUAGE', { code: code, id: id })
       }, (err) => {
         commit('SET_MESSAGE', { message: err })
       })
