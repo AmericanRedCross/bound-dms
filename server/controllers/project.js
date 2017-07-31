@@ -1,5 +1,6 @@
 const Project = require('../models').Project
 const User = require('../models').User
+const Language = require('../models').ProjectLanguage
 
 module.exports = {
   getAll (req, res, next) {
@@ -8,6 +9,10 @@ module.exports = {
         model: User,
         as: 'createdBy',
         attributes: User.safeAttributes()
+      },
+      {
+        model: Language,
+        as: 'languages'
       }]
     }).then(projects => {
       res.status(200).json({status: 200, data: projects})
@@ -19,6 +24,10 @@ module.exports = {
         model: User,
         as: 'createdBy',
         attributes: User.safeAttributes()
+      },
+      {
+        model: Language,
+        as: 'languages'
       }]
     }).then((project) => {
       if (project === null) {
