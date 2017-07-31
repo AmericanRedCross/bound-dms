@@ -1,8 +1,8 @@
 <template>
   <div class="user-edit">
     <div class="row">
-      <div class="col-lg-8">
-        <EditForm v-if="user" v-bind:user="user" :newUser="false"></EditForm>
+      <div class="col-md-8">
+        <EditForm v-if="user" v-bind:user="user" :newUser="false" align="center"></EditForm>
       </div>
     </div>
   </div>
@@ -39,3 +39,11 @@ export default {
   }
 }
 </script>
+
+<style>
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
