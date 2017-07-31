@@ -77,7 +77,7 @@
           <p>Create New Document</p>
           <small>Create a document in markdown format</small>
           <br />
-          <b-button variant="primary" @click.native="{name: 'Document Editor'}">Create</b-button>
+          <b-button variant="primary" :to="{name: 'Document Editor'}">Create</b-button>
           <hr></hr>
           <fa-icon name="upload"></fa-icon>
           <p>Upload a Document</p>
