@@ -42,6 +42,19 @@
             </div>
           </b-modal>
 
+          <b-modal id="infomodal" v-model="infoShow" title="Module Translations">
+            <div class="info" align="center">
+              <b-table striped hover
+                         :items="items"
+                         :fields="fields"
+              >
+                <template slot="actions" scope="item">
+                  <b-btn size="sm" @click="details(item.item)">Edit</b-btn>
+                </template>
+              </b-table>
+            </div>
+          </b-modal>
+
           <b-dropdown class="m-md-2 step-actions" right>
             <fa-icon name="cog" slot="text"></fa-icon>
 
@@ -55,7 +68,7 @@
               {{ $t('common.delete') }}
             </b-dropdown-item>
 
-            <b-dropdown-item href="#" class="step-action">
+            <b-dropdown-item href="#" class="step-action" @click.native="infoShow = !infoShow">
               <fa-icon name="info-circle"></fa-icon>
               {{ $t('common.info') }}
             </b-dropdown-item>
@@ -142,7 +155,28 @@ export default {
       isOpen: false, // Is the Step itself open?
       isExpanded: false, // Are the child steps viewable?
       editTitle: false,
-      modalShow: false
+      modalShow: false,
+      infoShow: false,
+      items: [
+        {code: 'ESP', name: 'Spanish', translated: 47}
+      ],
+      fields: {
+        code: {
+          label: '',
+          sortable: true
+        },
+        name: {
+          label: 'Language',
+          sortable: true
+        },
+        translated: {
+          label: '% Translated',
+          sortable: true
+        },
+        actions: {
+          label: ''
+        }
+      }
     }
   },
   methods: {
