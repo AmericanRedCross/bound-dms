@@ -26,34 +26,6 @@
         <!-- Push this stuff right-->
         <div class="ml-auto">
           <b-button @click.native="modalShow = !modalShow"><fa-icon name="file-text"></fa-icon></b-button>
-          <b-modal id="docmodal" v-model="modalShow" title="Add a Document">
-            <div class="createDoc" align="center">
-              <fa-icon name="edit"></fa-icon>
-              <p>Create New Document</p>
-              <small>Create a document in markdown format</small>
-              <br />
-              <b-button variant="primary">Create</b-button>
-              <hr></hr>
-              <fa-icon name="upload"></fa-icon>
-              <p>Upload a Document</p>
-              <small>Upload an existing doc or .pdf from your computer</small>
-              <br />
-              <b-button variant="primary">Upload</b-button>
-            </div>
-          </b-modal>
-
-          <b-modal id="infomodal" v-model="infoShow" title="Module Translations">
-            <div class="info" align="center">
-              <b-table striped hover
-                         :items="items"
-                         :fields="fields"
-              >
-                <template slot="actions" scope="item">
-                  <b-btn size="sm" @click="details(item.item)">Edit</b-btn>
-                </template>
-              </b-table>
-            </div>
-          </b-modal>
 
           <b-dropdown class="m-md-2 step-actions" right>
             <fa-icon name="cog" slot="text"></fa-icon>
@@ -98,9 +70,36 @@
       </div>
 
       <!-- Here's where we want our attachment area -->
-      <b-collapse :visible="isOpen" id="collapse-exta-content">
-        <b-card>Hello!</b-card>
-      </b-collapse>
+
+      <b-modal id="docmodal" v-model="modalShow" title="Add a Document">
+        <div class="createDoc" align="center">
+          <fa-icon name="edit"></fa-icon>
+          <p>Create New Document</p>
+          <small>Create a document in markdown format</small>
+          <br />
+          <b-button variant="primary">Create</b-button>
+          <hr></hr>
+          <fa-icon name="upload"></fa-icon>
+          <p>Upload a Document</p>
+          <small>Upload an existing doc or .pdf from your computer</small>
+          <br />
+          <b-button variant="primary">Upload</b-button>
+        </div>
+      </b-modal>
+
+      <b-modal id="infomodal" v-model="infoShow" title="Module Translations">
+        <div class="info" align="center">
+          <b-table striped hover
+                     :items="items"
+                     :fields="fields"
+          >
+            <template slot="actions" scope="item">
+              <b-btn size="sm" @click="details(item.item)">Edit</b-btn>
+            </template>
+          </b-table>
+        </div>
+      </b-modal>
+
 
     </b-card>
 
@@ -202,3 +201,7 @@ export default {
   }
 }
 </script>
+
+<style>
+
+</style>
