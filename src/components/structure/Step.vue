@@ -25,7 +25,23 @@
         </span>
         <!-- Push this stuff right-->
         <div class="ml-auto">
-          <b-button @click.native="isOpen = !isOpen"><fa-icon name="file-text"></fa-icon></b-button>
+          <b-button @click.native="modalShow = !modalShow"><fa-icon name="file-text"></fa-icon></b-button>
+          <b-modal id="docmodal" v-model="modalShow" title="Add a Document">
+            <div class="createDoc" align="center">
+              <fa-icon name="edit"></fa-icon>
+              <p>Create New Document</p>
+              <small>Create a document in markdown format</small>
+              <br />
+              <b-button variant="primary">Create</b-button>
+              <hr></hr>
+              <fa-icon name="upload"></fa-icon>
+              <p>Upload a Document</p>
+              <small>Upload an existing doc or .pdf from your computer</small>
+              <br />
+              <b-button variant="primary">Upload</b-button>
+            </div>
+          </b-modal>
+
           <b-dropdown class="m-md-2 step-actions" right>
             <fa-icon name="cog" slot="text"></fa-icon>
 
@@ -125,7 +141,8 @@ export default {
     return {
       isOpen: false, // Is the Step itself open?
       isExpanded: false, // Are the child steps viewable?
-      editTitle: false
+      editTitle: false,
+      modalShow: false
     }
   },
   methods: {
