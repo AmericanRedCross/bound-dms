@@ -1,9 +1,18 @@
 export class Project {
-  constructor (id, name = '', description = '', languages = []) {
+  constructor ({
+    id = null,
+    name = null,
+    description = null,
+    languages = [],
+    createdAt = null,
+    updatedAt = null
+  }) {
     this._id = id
     this._name = name
     this._description = description
     this._languages = languages
+    this._createdAt = createdAt && new Date(createdAt)
+    this._updatedAt = updatedAt && new Date(updatedAt)
   }
 
   // Getters and Setters
@@ -22,4 +31,10 @@ export class Project {
   // Languages
   set languages (languages = []) { this._languages = languages }
   get languages () { return this._languages }
+
+  // createdAt
+  get createdAt () { return this._createdAt }
+
+  // updatedAt
+  get updatedAt () { return this._updatedAt }
 }
