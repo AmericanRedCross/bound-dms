@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row" align="center">
     <div class="col-lg-8">
       <b-card v-if="user" class="edit-card mb-3" :title="user.fullName" sub-title="Admin">
         <p class="card-text">
