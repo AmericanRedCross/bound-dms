@@ -1,17 +1,17 @@
 <template>
   <b-jumbotron>
-    <h3>Module Info</h3>
+    <h3>1.1</h3>
     <div class="row" align="center">
       <div class="col">
           <div class="row">
             <div class="col-md-6">
               <b-card>
-                <div class="center-card">
-                  Module Title: English Title
+                <div>
+                  Substep Title: English Title
                 </div>
               </b-card>
               <b-card>
-                <fa-icon name="file"></fa-icon> Module Roadmap
+                <fa-icon name="file"></fa-icon> Sample Substep Document
               </b-card>
             </div>
             <div class="col-md-6">
@@ -46,10 +46,4 @@ export default {
     display: -ms-flexbox;
     display: flex;
 }
-.center-card {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
 </style>
