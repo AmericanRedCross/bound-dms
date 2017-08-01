@@ -124,14 +124,18 @@ export default new Router({
               path: '',
               name: 'project-detail',
               component: ProjectDetail,
-              props: true
+              props: true,
+              meta: {
+                showSidebar: true
+              }
             },
             {
               path: 'structure',
               name: 'project-structure',
               components: {default: Structure},
               meta: {
-                breadcrumb: 'Structure'
+                breadcrumb: 'Structure',
+                showSidebar: true
               }
             }
           ]

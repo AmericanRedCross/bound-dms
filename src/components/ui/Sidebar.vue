@@ -1,5 +1,5 @@
 <template>
-  <div v-bind:class="{ sidebar: true, 'sidebar-hidden': isHidden }">
+  <div class="sidebar" v-show="$route.meta.showSidebar === true">
     <div class="sidebar-wrapper">
       <!-- <div class="user-logo">
         <router-link to="dashboard"><img src="../../assets/logo.png"></router-link>
@@ -11,20 +11,6 @@
     </div>
   </div>
 </template>
-
-<script>
-
-export default {
-  computed: {
-    isHidden () {
-      if (this.$route.name === 'project-detail') {
-        return false
-      }
-      return true
-    }
-  }
-}
-</script>
 
 <style>
 .sidebar-hidden {
