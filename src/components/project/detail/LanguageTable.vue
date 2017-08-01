@@ -122,6 +122,7 @@ export default {
       })
     },
     editClick (item) {
+      this.$router.push({name: 'project-structure'})
     },
     getLanguageName (code) {
       return `${languages[code].name} (${code})`
