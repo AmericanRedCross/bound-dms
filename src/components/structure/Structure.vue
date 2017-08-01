@@ -8,6 +8,7 @@
 <script>
 import StepComp from './Step'
 import { Step } from '../../vuex/modules/structure/Step'
+import { Attachment } from '../../vuex/modules/structure/Attachment'
 
 export default {
   name: 'Structure',
@@ -22,7 +23,10 @@ export default {
           title: 'Prepare and analyze',
           hierarchy: 1,
           content: '# Markdown Content',
-          attachments: [],
+          critical: true,
+          attachments: [new Attachment({id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: true}),
+            new Attachment({id: 2, title: 'Another one', url: 'http://somedocument.docx', size: 12000, mime: '', featured: true}),
+            new Attachment({id: 3, title: 'Something else', url: 'http://somedocument.md', size: 12000, mime: '', featured: true})],
           steps: [new Step({
             id: 2,
             title: 'Et Harum quidem reprum',

@@ -25,6 +25,8 @@
         </span>
         <!-- Push this stuff right-->
         <div class="ml-auto">
+          <fa-icon v-if="step.critical" scale="2" name="star" class="critical-icon"></fa-icon>
+
           <b-button @click.native="isOpen = !isOpen"><fa-icon name="file-text"></fa-icon></b-button>
 
           <b-dropdown class="m-md-2 step-actions ignore-drag" right>
@@ -71,8 +73,7 @@
 
       <!-- Here's where we want our attachment area -->
       <b-collapse :visible="isOpen" id="collapse-exta-content">
-          Hidden Content
-          <b-button @click.native="modalShow = !modalShow"><fa-icon name="file-text"></fa-icon></b-button>
+        <Attachments :attachments="step.attachments"></Attachments>
       </b-collapse>
     </b-card>
 
@@ -93,22 +94,6 @@
       </draggable>
     </b-collapse>
 
-    <b-modal id="docmodal" class="ignore-drag" v-model="modalShow" title="Add a Document" :hide-footer="true">
-      <div class="createDoc" align="center">
-        <fa-icon name="edit"></fa-icon>
-        <p>Create New Document</p>
-        <small>Create a document in markdown format</small>
-        <br />
-        <b-button variant="primary" :to="{name: 'Document Editor'}">Create</b-button>
-        <hr />
-        <fa-icon name="upload"></fa-icon>
-        <p>Upload a Document</p>
-        <small>Upload an existing doc or .pdf from your computer</small>
-        <br />
-        <b-button variant="primary">Upload</b-button>
-      </div>
-    </b-modal>
-
     <b-modal id="infomodal" class="ignore-drag" v-model="infoShow" title="Module Translations">
       <div class="info" align="center">
         <b-table striped hover
@@ -128,10 +113,12 @@
 import { Step } from '../../vuex/modules/structure/Step'
 import ChevronToggle from '../ui/ChevronToggle'
 import draggable from 'vuedraggable'
+import Attachments from './Attachments'
 
 export default {
   name: 'Step',
   components: {
+    Attachments,
     ChevronToggle,
     draggable
   },
