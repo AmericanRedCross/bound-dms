@@ -2,11 +2,11 @@
   <div>
     <b-card :title="project.name" class="mb-4" :inverse="true">
       <ul>
-        <li>Languages: en, es, fr</li>
-        <li>Published: 20/4/17 12:34</li>
-        <li>Updated 10 minutes ago</li>
+        <li>{{ $t('projects.projectcard.languages') }}</li>
+        <li>{{ $t('projects.projectcard.published') }}</li>
+        <li>{{ $t('projects.projectcard.updated') }}</li>
       </ul>
-      <b-button :block="true" :to="{name: 'project-detail', params: { id: project.id }}">View</b-button>
+      <b-button :block="true" :to="{name: 'project-detail', params: { id: project.id }}">{{ $t('projects.projectcard.view') }}</b-button>
 
     </b-card>
   </div>

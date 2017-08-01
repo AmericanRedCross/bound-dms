@@ -7,7 +7,7 @@
         </div>
         <div class="col-md-4">
           <b-card class="new-project mb-4">
-            <b-button :block="true" :to="{name: 'project-new'}">Create New Project</b-button>
+            <b-button :block="true" :to="{name: 'project-new'}">{{ $t('projects.edit.new') }}</b-button>
           </b-card>
         </div>
       </div>

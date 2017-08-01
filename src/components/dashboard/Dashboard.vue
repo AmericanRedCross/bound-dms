@@ -5,19 +5,19 @@
         <div class="col-lg-4">
           <b-card id="card1" :header="$t('dashboard.chart1')">
             <line-chart :chart-data="datacollection"></line-chart>
-            <button @click="fillData()">Randomize</button>
+            <button @click="fillData()">{{ $t('dashboard.randomize') }}</button>
           </b-card>
         </div>
         <div class="col-lg-4">
           <b-card id="card2" :header="$t('dashboard.chart2')">
             <bar-chart :chart-data="datacollection"></bar-chart>
-            <button @click="fillData()">Randomize</button>
+            <button @click="fillData()">{{ $t('dashboard.randomize') }}</button>
           </b-card>
         </div>
         <div class="col-lg-4">
           <b-card id="card3" :header="$t('dashboard.chart3')">
             <scatter-chart :chart-data="datacollection"></scatter-chart>
-            <button @click="fillData()">Randomize</button>
+            <button @click="fillData()">{{ $t('dashboard.randomize') }}</button>
           </b-card>
         </div>
       </div>

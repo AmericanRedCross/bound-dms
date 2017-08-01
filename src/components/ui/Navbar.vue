@@ -10,8 +10,8 @@
     <b-collapse is-nav id="nav_collapse">
 
       <b-nav is-nav-bar>
-        <b-nav-item :to="{name: 'projects'}">Projects</b-nav-item>
-        <b-nav-item :to="{name: 'users'}">Users</b-nav-item>
+        <b-nav-item :to="{name: 'projects'}">{{ $t('navbar.projects') }}</b-nav-item>
+        <b-nav-item :to="{name: 'users'}">{{ $t('navbar.users') }}</b-nav-item>
       </b-nav>
 
       <b-nav is-nav-bar class="ml-auto">
@@ -20,8 +20,8 @@
             <v-gravatar v-if="$auth.check()" class="img-fluid user-icon m-l-10 m-r-10" :email="$auth.user().email ? $auth.user().email : ''" default-img="mm" :size="100"></v-gravatar>
             {{ $auth.user().email }}
           </span>
-          <b-dropdown-item to="/account/profile">Profile</b-dropdown-item>
-          <b-dropdown-item v-if="$auth.check()" v-on:click="$auth.logout()" to="#">Signout</b-dropdown-item>
+          <b-dropdown-item to="/account/profile">{{ $t('navbar.profile') }}</b-dropdown-item>
+          <b-dropdown-item v-if="$auth.check()" v-on:click="$auth.logout()" to="#">{{ $t('navbar.signout') }}</b-dropdown-item>
         </b-nav-item-dropdown>
 
         <!-- Navbar dropdowns -->

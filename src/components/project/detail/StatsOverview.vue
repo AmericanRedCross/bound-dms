@@ -7,17 +7,17 @@
             <div class="col-md-3 col-sm-6 m-b-10">
               <b-card>
                 <h2><slot name="value">{{ languageCount }}</slot></h2>
-                <small><slot name="description">Languages</slot></small>
+                <small><slot name="description">{{ $t('projects.detail.languages') }}</slot></small>
               </b-card>
             </div>
             <div class="col-md-3 col-sm-6 m-b-10">
-              <Statbox :value="30" type="%" description="A description here" colour="#63c2de" barColour="#54a5bd" inverse></Statbox>
+              <Statbox :value="30" type="%" :description="$t('projects.detail.description')" colour="#63c2de" barColour="#54a5bd" inverse></Statbox>
             </div>
             <div class="col-md-3 col-sm-6 m-b-10">
-              <Statbox :value="75" type="%" description="A description here" colour="#63c2de" barColour="#54a5bd" inverse></Statbox>
+              <Statbox :value="75" type="%" :description="$t('projects.detail.description')" colour="#63c2de" barColour="#54a5bd" inverse></Statbox>
             </div>
             <div class="col-md-3 col-sm-6 m-b-10">
-              <Statbox :value="100" type="%" description="A description here" colour="#63c2de" barColour="#54a5bd" inverse></Statbox>
+              <Statbox :value="100" type="%" :description="$t('projects.detail.description')" colour="#63c2de" barColour="#54a5bd" inverse></Statbox>
             </div>
           </div>
         </b-card>
