@@ -21,8 +21,8 @@
       </template>
 
       <template slot="actions" scope="item">
-        <b-btn size="sm" variant="primary" @click="editClick(item.item)"><fa-icon name="edit" label="Edit"></fa-icon> Edit</b-btn>
-        <b-btn size="sm" variant="danger" @click="deleteClick(item.item)"><fa-icon name="trash" label="Delete"></fa-icon> Delete</b-btn>
+        <b-btn size="sm" variant="primary" @click="editClick(item.item)"><fa-icon name="edit" label="Edit"></fa-icon> {{ $t('projects.detail.edit') }}</b-btn>
+        <b-btn size="sm" variant="danger" @click="deleteClick(item.item)"><fa-icon name="trash" label="Delete"></fa-icon> {{ $t('projects.detail.delete') }}</b-btn>
       </template>
     </b-table>
     <b-btn v-b-modal.add-language variant="primary"><fa-icon name="plus"></fa-icon> {{ $t('projects.languages.add') }}</b-btn>
@@ -30,7 +30,7 @@
       <form @submit.stop.prevent="addLanguage">
           <v-select :on-change="changeSelected" :options="langOptions" :placeholder="$t('projects.languages.select')"></v-select>
       </form>
-      <small>Adding a new language will update translation statistics for this project</small>
+      <small>{{ $t('projects.detail.newLang') }}</small>
     </b-modal>
   </div>
 </template>

@@ -4,7 +4,7 @@
         <b-card class="edit-card" :header="$t('projects.edit.newHeader')">
           <b-form v-on:submit.native.prevent="onSubmit">
             <b-form-fieldset
-              label="Project Name"
+              :label="$t('projects.new.name')"
               :feedback="!$v.project.name.required ? $t('common.validations.required') : ''"
               :state="$v.project.name.$error ? 'warning' : ''"
               :label-cols="3">
@@ -12,7 +12,7 @@
             </b-form-fieldset>
 
             <b-form-fieldset
-              label="Description"
+              :label="$t('projects.new.description')"
               :label-cols="3">
                <b-form-input :textarea="true" :rows="6" v-model.trim="project.description"></b-form-input>
             </b-form-fieldset>
@@ -24,7 +24,7 @@
       </div>
       <div class="col-lg-4">
         <b-card :inverse="true" variant="info">
-          Enter the details of your new document project. You can assign additional languages later on.
+          {{ $t('projects.new.details') }}
         </b-card>
       </div>
     </div>

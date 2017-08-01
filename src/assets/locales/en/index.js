@@ -20,7 +20,15 @@ export default{
   },
   navbar: {
     language: 'Language',
-    user: 'User'
+    user: 'User',
+    projects: 'Projects',
+    users: 'Users',
+    profile: 'Profile',
+    signout: 'Sign Out'
+  },
+  sidebar: {
+    dashboard: 'Dashboard',
+    wys: 'WYSIWYG'
   },
   hello: {
     test1: 'Welcome to Your Vue.js App'
@@ -34,7 +42,8 @@ export default{
     header: 'Dashboard Placeholder',
     chart1: 'Test Chart 1',
     chart2: 'Test Chart 2',
-    chart3: 'Test Chart 3'
+    chart3: 'Test Chart 3',
+    randomize: 'Randomize'
   },
   users: {
     header: 'User management',
@@ -56,6 +65,11 @@ export default{
       currentPass: 'Current Password',
       newPass: 'New Password',
       confirmPass: 'Confirm New Password'
+    },
+    listview: {
+      type: 'Type to Search',
+      edit: 'Edit',
+      delete: 'Delete'
     }
   },
   projects: {
@@ -79,6 +93,38 @@ export default{
       content: 'Content & Translations',
       setcontent: 'Content Set',
       translations: 'Translations'
+    },
+    projectcard: {
+      languages: 'Languages: en, es, fr',
+      published: 'Published: 20/4/17 12:34',
+      updated: 'Updated 10 minutes ago',
+      view: 'View'
+    },
+    detail: {
+      edit: 'Edit',
+      delete: 'Delete',
+      newLang: 'Adding a new language will update translation statistics for this project',
+      languages: 'Languages',
+      description: 'A description here'
+    },
+    profile: {
+      admin: 'Admin',
+      email: 'Email',
+      created: 'Account Created',
+      updated: 'Last Updated',
+      edituser: 'Edit User',
+      changepassword: 'Change Password',
+      status: 'Status'
+    },
+    new: {
+      name: 'Project Name',
+      description: 'Description',
+      details: 'Enter the details of your new document project. You can assign additional languages later on.'
     }
+  },
+  pagenotfound: {
+    notfound: 'Page Not Found',
+    sorry: 'Sorry, but the page you are looking for either does not exist or you do not have permission to access it',
+    return: 'Return to Dashboard'
   }
 }
