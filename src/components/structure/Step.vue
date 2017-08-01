@@ -6,7 +6,8 @@
 
       <!-- Module Header (The bit that's not hidden) -->
       <div class="d-flex align-items-baseline flex-wrap step-header content">
-        <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-if="parent">{{ parent }}.</span><span id="hierarchy">{{ step.hierarchy }}</span></h4>
+        <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-for="number in stepNumbers">{{ number }}.</span><span>{{ step.hierarchy }}</span></h4>
+
         <i v-if="!editTitle" class="ml-2">{{ step.title }}</i>
 
         <span class="title-input ml-2" v-else>
@@ -86,7 +87,7 @@
             v-for="(substep, stepIndex) in step.steps"
             :key="stepIndex"
             :step="substep"
-            :parent="parent ? parent + '.' + substep.hierarchy : String(step.hierarchy)"
+            :stepNumbers="getSteps()"
             :index="index"
             class="sub-step ml-5 step-list-item">
           </Step>
@@ -127,8 +128,9 @@ export default {
       type: Object,
       default: new Step({})
     },
-    parent: {
-      type: String
+    stepNumbers: {
+      type: Array,
+      default: () => [] // Use a function to return an array/object https://github.com/vuejs/vue/issues/1032
     },
     isModule: {
       type: Boolean,
@@ -187,6 +189,9 @@ export default {
     },
     toggleStep (value) {
       this.isExpanded = value
+    },
+    getSteps () {
+      return [...this.stepNumbers, this.step.hierarchy]
     }
   }
 }

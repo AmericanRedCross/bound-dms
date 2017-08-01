@@ -97,15 +97,27 @@ export class Step {
       if (step.hierarchy === null) {
         // Get next hierachy
         step.hierarchy = this.getHighestChildhierarchy()
-        console.log(this.getHighestChildhierarchy())
-        console.log(step.hierarchy)
       }
       if (index > this._steps.length) {
         this.addStep(step)
       } else {
         this._steps.splice(index, 0, step)
       }
+      // Sort
+      this.sortSteps()
     }
+  }
+
+  sortSteps () {
+    this._steps.sort((a, b) => {
+      if (a.hierarchy < b.hierarchy) {
+        return -1
+      } else if (a.hierarchy > b.hierarchy) {
+        return 1
+      }
+
+      return 0
+    })
   }
 
   /**
@@ -115,7 +127,6 @@ export class Step {
   getHighestChildhierarchy () {
     let hierarchy = 1
     this._steps.forEach((step) => {
-      console.log(step)
       if (step.hierarchy >= hierarchy) {
         hierarchy = step.hierarchy + 1
       }
