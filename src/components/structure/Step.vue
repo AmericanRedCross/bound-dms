@@ -25,9 +25,9 @@
         </span>
         <!-- Push this stuff right-->
         <div class="ml-auto">
-          <b-button @click.native="modalShow = !modalShow"><fa-icon name="file-text"></fa-icon></b-button>
+          <b-button @click.native="isOpen = !isOpen"><fa-icon name="file-text"></fa-icon></b-button>
 
-          <b-dropdown class="m-md-2 step-actions" right>
+          <b-dropdown class="m-md-2 step-actions ignore-drag" right>
             <fa-icon name="cog" slot="text"></fa-icon>
 
             <b-dropdown-item-button @click.native="editTitle = true" class="step-action">
@@ -70,42 +70,15 @@
       </div>
 
       <!-- Here's where we want our attachment area -->
-
-      <b-modal id="docmodal" v-model="modalShow" title="Add a Document">
-        <div class="createDoc" align="center">
-          <fa-icon name="edit"></fa-icon>
-          <p>Create New Document</p>
-          <small>Create a document in markdown format</small>
-          <br />
-          <b-button variant="primary" :to="{name: 'Document Editor'}">Create</b-button>
-          <hr></hr>
-          <fa-icon name="upload"></fa-icon>
-          <p>Upload a Document</p>
-          <small>Upload an existing doc or .pdf from your computer</small>
-          <br />
-          <b-button variant="primary">Upload</b-button>
-        </div>
-      </b-modal>
-
-      <b-modal id="infomodal" v-model="infoShow" title="Module Translations">
-        <div class="info" align="center">
-          <b-table striped hover
-                     :items="items"
-                     :fields="fields"
-          >
-            <template slot="actions" scope="item">
-              <b-btn size="sm" @click="details(item.item)">Edit</b-btn>
-            </template>
-          </b-table>
-        </div>
-      </b-modal>
-
-
+      <b-collapse :visible="isOpen" id="collapse-exta-content">
+          Hidden Content
+          <b-button @click.native="modalShow = !modalShow"><fa-icon name="file-text"></fa-icon></b-button>
+      </b-collapse>
     </b-card>
 
     <!-- Here's the collapsable area with the steps, uses vue draggable https://github.com/SortableJS/Vue.Draggable -->
     <b-collapse :visible="isExpanded" id="collapse-steps">
-      <draggable v-model="step.steps" :move="checkMove">
+      <draggable v-model="step.steps" :options="draggableOptions">
         <transition-group name="step-list">
           <!-- We need to use a key here so vue can keep track of the steps' identities https://vuejs.org/v2/guide/list.html#key -->
           <Step
@@ -119,6 +92,36 @@
         </transition-group>
       </draggable>
     </b-collapse>
+
+    <b-modal id="docmodal" class="ignore-drag" v-model="modalShow" title="Add a Document" :hide-footer="true">
+      <div class="createDoc" align="center">
+        <fa-icon name="edit"></fa-icon>
+        <p>Create New Document</p>
+        <small>Create a document in markdown format</small>
+        <br />
+        <b-button variant="primary" :to="{name: 'Document Editor'}">Create</b-button>
+        <hr />
+        <fa-icon name="upload"></fa-icon>
+        <p>Upload a Document</p>
+        <small>Upload an existing doc or .pdf from your computer</small>
+        <br />
+        <b-button variant="primary">Upload</b-button>
+      </div>
+    </b-modal>
+
+    <b-modal id="infomodal" class="ignore-drag" v-model="infoShow" title="Module Translations">
+      <div class="info" align="center">
+        <b-table striped hover
+                   :items="items"
+                   :fields="fields"
+        >
+          <template slot="actions" scope="item">
+            <b-btn size="sm" @click="details(item.item)">Edit</b-btn>
+          </template>
+        </b-table>
+      </div>
+    </b-modal>
+
   </div>
 </template>
 <script>
@@ -156,6 +159,9 @@ export default {
       editTitle: false,
       modalShow: false,
       infoShow: false,
+      draggableOptions: {
+        filter: '.ignore-drag'
+      },
       items: [
         {code: 'ESP', name: 'Spanish', translated: 47}
       ],
@@ -194,14 +200,7 @@ export default {
     },
     toggleStep (value) {
       this.isExpanded = value
-    },
-    checkMove () {
-      // this.step.hierarchy =
     }
   }
 }
 </script>
-
-<style>
-
-</style>
