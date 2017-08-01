@@ -3,21 +3,29 @@ import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import Login from '@/components/auth/Login'
 import Dashboard from '@/components/dashboard/Dashboard'
+import Editor from '@/components/documents/editor/Editor'
+
+// User components
 import ListUsers from '@/components/users/List'
 import UserContainer from '@/components/users/user'
 import EditUser from '@/components/users/Edit'
 import NewUser from '@/components/users/New'
 import UserProfile from '@/components/users/Profile'
-import Editor from '@/components/documents/editor/Editor'
-import ProjectContainer from '@/components/project/Project'
+
+// Project Components
+import ProjectsContainer from '@/components/project/Projects'
 import ListProjects from '@/components/project/List'
 import EditProject from '@/components/project/Edit'
 import NewProject from '@/components/project/New'
+import ProjectContainer from '@/components/project/Project'
 import ProjectDetail from '@/components/project/detail/Detail'
 import AccountContainer from '@/components/account/Account'
 import AccountProfile from '@/components/account/Profile'
 import ChangePassword from '@/components/account/PasswordForm'
 import PageNotFound from '@/components/pageNotFound/PageNotFound'
+
+// Structure Components
+import Structure from '@/components/structure/Structure'
 
 Vue.use(Router)
 
@@ -84,7 +92,7 @@ export default new Router({
     },
     {
       path: '/projects',
-      component: ProjectContainer,
+      component: ProjectsContainer,
       meta: {
         auth: true,
         breadcrumb: 'Projects'
@@ -104,13 +112,28 @@ export default new Router({
           }
         },
         {
-          path: ':id',
-          name: 'project-detail',
-          component: ProjectDetail,
+          path: ':id/',
+          component: ProjectContainer,
           props: true,
           meta: {
             breadcrumb: 'Project Name'
-          }
+          },
+          children: [
+            {
+              path: '',
+              name: 'project-detail',
+              component: ProjectDetail,
+              props: true
+            },
+            {
+              path: 'structure',
+              name: 'project-structure',
+              components: {default: Structure},
+              meta: {
+                breadcrumb: 'Structure'
+              }
+            }
+          ]
         },
         {
           path: ':id/edit',

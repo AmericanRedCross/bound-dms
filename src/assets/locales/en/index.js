@@ -7,6 +7,11 @@ export default{
     cancel: 'Cancel',
     deleted: 'Deleted!',
     gravatar: 'User profile image provided through gravatar',
+    rename: 'Rename',
+    delete: 'Delete',
+    info: 'Info',
+    create: 'Create',
+    upload: 'Upload',
     validations: {
       required: 'Field is required',
       email: 'Incorrect email format',
@@ -77,6 +82,20 @@ export default{
     edit: {
       new: 'Create new project',
       newHeader: 'New Project'
+    },
+    modules: {
+      module: 'Module',
+      addStep: 'Add Step',
+      addSubStep: 'Add Substep',
+      criticalPathOn: 'Critical Path',
+      criticalPathOff: 'Enable Critical Path?'
+    },
+    attachments: {
+      add: 'Add Attachment',
+      create: 'Create New Document',
+      createSub: 'Create a document in markdown format',
+      upload: 'Upload a Document',
+      uploadSub: 'Upload an existing doc or .pdf from your computer'
     },
     languages: {
       add: 'Add New Language',

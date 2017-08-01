@@ -1,5 +1,5 @@
-import { Step } from '../../../../src/vuex/modules/content/Step'
-import { Attachment } from '../../../../src/vuex/modules/content/Attachment'
+import { Step } from '../../../../src/vuex/modules/structure/Step'
+import { Attachment } from '../../../../src/vuex/modules/structure/Attachment'
 
 describe('Step Object Creation', () => {
   it('Create a new step', () => {

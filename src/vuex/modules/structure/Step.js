@@ -9,7 +9,8 @@ export class Step {
       hierarchy = null,
       content = '# Markdown Content',
       attachments = [],
-      steps = []
+      steps = [],
+      critical = false
     }
   ) {
     this._id = id
@@ -18,6 +19,7 @@ export class Step {
     this._content = content // Maybe its own object?
     this._attachments = attachments // Loop through and declare each object
     this._steps = steps // loop through and declare each object
+    this._critical = critical
   }
 
   // Getters and Setters
@@ -28,7 +30,7 @@ export class Step {
   set title (title) { this._title = title }
   get title () { return this._title }
 
-  // Heirarchy
+  // Hierarchy
   set hierarchy (hierarchy) { this._hierarchy = hierarchy }
   get hierarchy () { return this._hierarchy }
 
@@ -43,6 +45,10 @@ export class Step {
   // steps
   set steps (steps) { this._steps = steps }
   get steps () { return this._steps }
+
+  // critical
+  set critical (critical) { this._critical = critical }
+  get critical () { return this._critical }
 
   /**
    * [addAttachment Add an Attachment to the attachments array]
@@ -75,10 +81,46 @@ export class Step {
    * [addStep description]
    * @param {Step} [step=new Step()] [description]
    */
-  addStep (step = new Step()) {
+  addStep (step = new Step({})) {
     if (step) {
       this._steps.push(step)
     }
+  }
+
+  /**
+   * [addStepAtIndex description]
+   * @param {Step}   [step=new Step({})]     [description]
+   * @param {[type]} index     [description]
+   */
+  addStepAtIndex ({step = new Step({}), index}) {
+    if (step && index >= 0) {
+      if (step.hierarchy === null) {
+        // Get next hierachy
+        step.hierarchy = this.getHighestChildhierarchy()
+        console.log(this.getHighestChildhierarchy())
+        console.log(step.hierarchy)
+      }
+      if (index > this._steps.length) {
+        this.addStep(step)
+      } else {
+        this._steps.splice(index, 0, step)
+      }
+    }
+  }
+
+  /**
+   * [getHighestChildhierarchy description]
+   * @return {[type]} [description]
+   */
+  getHighestChildhierarchy () {
+    let hierarchy = 1
+    this._steps.forEach((step) => {
+      console.log(step)
+      if (step.hierarchy >= hierarchy) {
+        hierarchy = step.hierarchy + 1
+      }
+    })
+    return hierarchy
   }
 
   /**
