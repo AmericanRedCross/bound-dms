@@ -92,7 +92,8 @@ export default{
       languages: 'Sprachen',
       content: 'Inhalt & Übersetzungen',
       setcontent: 'Inhalt Set',
-      translations: 'Übersetzungen'
+      translations: 'Übersetzungen',
+      createdby: 'Erstellt von: '
     },
     projectcard: {
       languages: 'Sprachen: en, es, fr',

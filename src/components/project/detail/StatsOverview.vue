@@ -2,7 +2,7 @@
     <div class="row">
       <div class="col-md-12">
         <b-card :title="project.name">
-          <small>Created by: User Name</small>
+          <small>{{ $t('projects.dashboard.createdby')}}User Name</small>
           <div class="row">
             <div class="col-md-3 col-sm-6 m-b-10">
               <b-card>

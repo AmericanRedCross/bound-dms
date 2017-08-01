@@ -92,7 +92,8 @@ export default{
       languages: 'Idiomas',
       content: 'Contenido y Traducciones',
       setcontent: 'Conjunto de contenido',
-      translations: 'Traducciones'
+      translations: 'Traducciones',
+      createdby: 'Creado por: '
     },
     projectcard: {
       languages: 'Idiomas: en, es, fr',
