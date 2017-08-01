@@ -3,13 +3,15 @@
     <div v-if="$auth.ready()">
       <Sidebar v-if="$auth.check()"></Sidebar>
       <Navbar v-if="$auth.check()"></Navbar>
-      <div class="breadcrumb-wrapper">
-        <breadcrumbs></breadcrumbs>
+      <div class="content-wrapper">
+        <div class="breadcrumb-wrapper">
+          <breadcrumbs></breadcrumbs>
+        </div>
+        <b-alert variant="danger" class="m-t-15 col error-box" dismissible :show="getLocalisedMessage() !== false" @dismissed="clearMessage">
+          {{ getLocalisedMessage() }}
+        </b-alert>
+        <router-view class="main-view container-fluid" :style="$auth.check() ? '' : 'margin-left: 0px'"></router-view>
       </div>
-      <b-alert variant="danger" class="m-t-15 col error-box" dismissible :show="getLocalisedMessage() !== false" @dismissed="clearMessage">
-        {{ getLocalisedMessage() }}
-      </b-alert>
-      <router-view class="main-view container-fluid" :style="$auth.check() ? '' : 'margin-left: 0px'"></router-view>
     </div>
     <div v-if="!$auth.ready()">
         Loading...
@@ -60,9 +62,16 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   min-height: 100vh;
-  .main-view {
-    margin-left: $sidebar-width;
+  .content-wrapper {
+    position: relative;
+    top: $sidebar-top-margin - 1px;
+    .main-view {
+      margin-left: $sidebar-width;
+      position: relative;
+      top: $sidebar-top-margin;
+    }
   }
+
   .error-box {
     position: fixed;
     bottom: 0;

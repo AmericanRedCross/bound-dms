@@ -2,11 +2,13 @@
 @import '../utilities/mixins.scss';
 
 .breadcrumb-wrapper {
+  position: fixed;
+  z-index: 10;
   margin-left: $sidebar-width;
   margin-bottom: 10px;
-  padding-top: $sidebar-top-margin;
   font-size: 0.9em;
   letter-spacing: 1px;
+  width: 100%;
   @include no-select();
   .breadcrumbs {
     background-color: $bread-background;
