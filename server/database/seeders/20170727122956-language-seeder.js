@@ -3,7 +3,7 @@ module.exports = {
     return queryInterface.bulkInsert('ProjectLanguages', [
       {
         projectId: 1,
-        code: 'en_GB'
+        code: 'en'
       },
       {
         projectId: 1,
