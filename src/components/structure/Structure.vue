@@ -74,7 +74,7 @@ export default {
               new Step({
                 id: 4,
                 title: 'Et Harum quidem reprum',
-                hierarchy: 6,
+                hierarchy: 2,
                 content: '# Some other content',
                 attachments: []
               })
