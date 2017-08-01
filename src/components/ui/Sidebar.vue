@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar" v-show="$route.meta.showSidebar === true">
+  <div class="sidebar">
     <div class="sidebar-wrapper">
       <!-- <div class="user-logo">
         <router-link to="dashboard"><img src="../../assets/logo.png"></router-link>
