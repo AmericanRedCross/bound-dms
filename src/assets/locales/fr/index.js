@@ -88,7 +88,8 @@ export default{
       languages: 'Langues',
       content: 'Contenu et traductions',
       setcontent: 'Ensemble de contenu',
-      translations: 'Traductions'
+      translations: 'Traductions',
+      createdby: 'Créé par: '
     },
     projectcard: {
       languages: 'Langues: en, es, fr',
