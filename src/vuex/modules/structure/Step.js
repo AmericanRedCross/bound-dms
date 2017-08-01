@@ -94,12 +94,33 @@ export class Step {
    */
   addStepAtIndex ({step = new Step({}), index}) {
     if (step && index >= 0) {
+      if (step.hierarchy === null) {
+        // Get next hierachy
+        step.hierarchy = this.getHighestChildhierarchy()
+        console.log(this.getHighestChildhierarchy())
+        console.log(step.hierarchy)
+      }
       if (index > this._steps.length) {
         this.addStep(step)
       } else {
         this._steps.splice(index, 0, step)
       }
     }
+  }
+
+  /**
+   * [getHighestChildhierarchy description]
+   * @return {[type]} [description]
+   */
+  getHighestChildhierarchy () {
+    let hierarchy = 1
+    this._steps.forEach((step) => {
+      console.log(step)
+      if (step.hierarchy >= hierarchy) {
+        hierarchy = step.hierarchy + 1
+      }
+    })
+    return hierarchy
   }
 
   /**

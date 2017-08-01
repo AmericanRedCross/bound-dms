@@ -2,7 +2,7 @@
   <div class="step-attachments">
     <hr />
     <b-list-group>
-      <b-list-group-item v-for="attachment in attachments">
+      <b-list-group-item v-for="attachment in attachments" :key="attachment.id">
         {{ attachment.title }}
       </b-list-group-item>
     </b-list-group>

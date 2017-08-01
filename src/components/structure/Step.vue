@@ -86,7 +86,7 @@
             v-for="(substep, stepIndex) in step.steps"
             :key="stepIndex"
             :step="substep"
-            :parent="parent ? parent + '.' + step.hierarchy : String(substep.hierarchy)"
+            :parent="parent ? parent + '.' + substep.hierarchy : String(step.hierarchy)"
             :index="index"
             class="sub-step ml-5 step-list-item">
           </Step>
