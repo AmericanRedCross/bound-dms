@@ -1,6 +1,6 @@
 // This module handles the global store and requests for the Step endpoint
 import axios from 'axios'
-import { Step } from './Step'
+import stepUtils from './utils'
 
 const STEP_ROOT = '/steps'
 
@@ -9,22 +9,15 @@ const steps = {
     steps: []
   },
   mutations: {
-    SET_STEPS: (state, { response }) => {
+    SET_STRUCTURE: (state, { response }) => {
       if (response.data instanceof Array) {
-        state.steps = []
-        response.data.forEach((item) => {
-          state.steps.push(new Step(item.id, item.name, item.description))
-        })
+        state.steps = stepUtils.getSteps(response.data)
       }
     },
     SET_STEP: (state, { response }) => {
       // Does the step exist already?
       let step = state.steps.find(step => step.id === response.data.id)
-      const newStep = new Step(
-        response.data.id,
-        response.data.name,
-        response.data.description
-      )
+      const newStep = stepUtils.getStepObject(response.data)
 
       if (step) {
         step = newStep
@@ -41,12 +34,20 @@ const steps = {
     }
   },
   actions: {
-    // GET all steps
-    GET_STEPS: function ({ commit }) {
-      return axios.get(STEP_ROOT).then((response) => {
-        commit('SET_STEPS', { response: response.data })
-      }, (err) => {
-        commit('SET_MESSAGE', { message: err })
+    // GET entire Structure
+    GET_STRUCTURE: function ({ commit }, projectId) {
+      console.log({stepUtils})
+      // return axios.get(STEP_ROOT).then((response) => {
+      //   commit('SET_STEPS', { response: response.data })
+      // }, (err) => {
+      //   commit('SET_MESSAGE', { message: err })
+      // })
+
+      // Mock structure until we know what the endpoints are.
+      commit('SET_STRUCTURE', {
+        response: {
+          data: stepUtils.getMockStructure()
+        }
       })
     },
     // GET a step
@@ -59,7 +60,6 @@ const steps = {
     },
     // PUT a step (create)
     CREATE_STEP: function ({ commit }, data) {
-      console.log(data)
       return axios.put(STEP_ROOT, {
         name: data.name,
         description: data.description
