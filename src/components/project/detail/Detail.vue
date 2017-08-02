@@ -38,3 +38,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.project-detail {
+  padding-top: 55px
+}
+</style>
