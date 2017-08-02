@@ -74,6 +74,10 @@ export default {
     &.show-sidebar {
       margin-left: $sidebar-width;
     }
+    .main-view {
+    position: relative;
+    top: $sidebar-top-margin;
+    }
   }
 
   .error-box {
