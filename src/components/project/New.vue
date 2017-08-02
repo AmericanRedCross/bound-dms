@@ -44,7 +44,7 @@ export default {
   },
   data () {
     return {
-      project: new Project()
+      project: new Project({})
     }
   },
   methods: {
