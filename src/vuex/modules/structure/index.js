@@ -14,6 +14,9 @@ const steps = {
         state.steps = stepUtils.getSteps(response.data)
       }
     },
+    SET_PARSED_STRUCTURE: (state, { response }) => {
+      state.steps = response.data
+    },
     SET_STEP: (state, { response }) => {
       // Does the step exist already?
       let step = state.steps.find(step => step.id === response.data.id)
@@ -80,6 +83,20 @@ const steps = {
       }, (err) => {
         commit('SET_MESSAGE', { message: err })
       })
+    },
+    // POST a step (update)
+    UPDATE_STRUCTURE: function ({ commit }, data) {
+      // return axios.post(STEP_ROOT + '/' + data.id, {
+      //   firstname: data.firstName,
+      //   lastname: data.lastName,
+      //   email: data.email
+      // }).then((response) => {
+      //   commit('SET_STEP', { response: response.data })
+      // }, (err) => {
+      //   commit('SET_MESSAGE', { message: err })
+      // })
+      console.log({data})
+      commit('SET_PARSED_STRUCTURE', { response: {data} })
     },
     // Delete a step
     DELETE_STEP: function ({commit}, id) {

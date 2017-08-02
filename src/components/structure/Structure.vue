@@ -25,8 +25,14 @@ export default {
     }
   },
   computed: {
-    structure () {
-      return this.$store.state.structure.steps
+    // This is a special layout that vue draggable uses to interact with vuex
+    structure: {
+      get () {
+        return this.$store.state.structure.steps
+      },
+      set (value) {
+        this.$store.dispatch('UPDATE_STRUCTURE', value)
+      }
     }
   },
   props: {
