@@ -3,7 +3,6 @@
     <div v-if="$auth.ready()">
       <Sidebar v-if="$auth.check() && $route.meta.showSidebar === true"></Sidebar>
       <Navbar v-if="$auth.check()"></Navbar>
-      // Sort why v-bind 'invalid'
       <div v-bind:class="{ 'content-wrapper': true, 'show-sidebar': hasSidebar }">
         <div class="breadcrumb-wrapper">
           <breadcrumbs></breadcrumbs>
