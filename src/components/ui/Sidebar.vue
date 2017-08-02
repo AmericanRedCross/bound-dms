@@ -11,9 +11,3 @@
     </div>
   </div>
 </template>
-
-<style>
-.sidebar-hidden {
-  display: none
-}
-</style>
