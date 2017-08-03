@@ -28,6 +28,9 @@ import TranslationWorkflow from '@/components/translations/TranslationWorkflow'
 // Structure Components
 import Structure from '@/components/structure/Structure'
 
+// Admin Components
+import APIList from '@/components/keys/APIList'
+
 Vue.use(Router)
 
 export default new Router({
@@ -191,6 +194,16 @@ export default new Router({
           }
         }
       ]
+    },
+    {
+      path: '/keys',
+      name: 'keys',
+      component: APIList,
+      props: true,
+      meta: {
+        auth: ['admin'],
+        breadcrumb: 'APIs'
+      }
     },
     {
       path: '*', component: PageNotFound }

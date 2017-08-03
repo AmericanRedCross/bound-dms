@@ -24,7 +24,8 @@ export default{
     projects: 'Projekte',
     users: 'Benutzer',
     profile: 'Profil',
-    signout: 'Ausloggen'
+    signout: 'Ausloggen',
+    api: 'APIs'
   },
   sidebar: {
     dashboard: 'Instrumententafel',
