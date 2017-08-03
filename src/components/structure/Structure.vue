@@ -7,6 +7,7 @@
   </div>
 </template>
 <script>
+/** TODO: Refactor this (along with steps) so that we don't have duplicated update code, i.e. setting the structure + hierarchies on drag. */
 import StepComp from './Step'
 import draggable from 'vuedraggable'
 
