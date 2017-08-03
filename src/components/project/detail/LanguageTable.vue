@@ -33,12 +33,15 @@
       </form>
       <small>{{ $t('projects.detail.newLang') }}</small>
     </b-modal>
+    <b-modal id="change-base" title="Change Base Language" no-auto-focus>
+        <v-select :options="projectLangOptions"></v-select>
+    </b-modal>
   </div>
 </template>
 
 <script>
 import vSelect from 'vue-select'
-import {languages} from 'countries-list'
+import { languages } from 'countries-list'
 export default {
   components: {vSelect},
   name: 'language-table',
@@ -63,6 +66,9 @@ export default {
         }
       }
     }
+  },
+  mounted () {
+    console.log(this.project)
   },
   methods: {
     addLanguage () {
@@ -148,6 +154,11 @@ export default {
       }).map((key) => {
         // Then map them to an object
         return { label: `${languages[key].name} (${key})`, value: key }
+      })
+    },
+    projectLangOptions () {
+      return this.project.languages.map((language) => {
+        return { label: `${languages[language.code].name} (${language.code})`, value: language.code }
       })
     }
   }
