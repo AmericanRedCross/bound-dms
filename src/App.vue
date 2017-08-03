@@ -1,16 +1,16 @@
 <template>
   <div id="app">
     <div v-if="$auth.ready()">
-      <Sidebar v-if="$auth.check()"></Sidebar>
+      <Sidebar v-if="$auth.check() && $route.meta.showSidebar === true"></Sidebar>
       <Navbar v-if="$auth.check()"></Navbar>
-      <div class="content-wrapper">
+      <div v-bind:class="{ 'content-wrapper': true, 'show-sidebar': hasSidebar }">
         <div class="breadcrumb-wrapper">
           <breadcrumbs></breadcrumbs>
         </div>
         <b-alert variant="danger" class="m-t-15 col error-box" dismissible :show="getLocalisedMessage() !== false" @dismissed="clearMessage">
           {{ getLocalisedMessage() }}
         </b-alert>
-        <router-view class="main-view container-fluid" :style="$auth.check() ? '' : 'margin-left: 0px'"></router-view>
+        <router-view class="main-view container-fluid" :style="($auth.check() && $route.meta.showSidebar === true) ? '' : 'margin-left: 0px'"></router-view>
       </div>
     </div>
     <div v-if="!$auth.ready()">
@@ -49,7 +49,13 @@ export default {
   computed: {
     ...mapGetters([
       'friendlyHTTPMessage'
-    ])
+    ]),
+    hasSidebar () {
+      if (this.$route.meta.showSidebar === true) {
+        return true
+      }
+      return false
+    }
   }
 }
 </script>
@@ -65,10 +71,12 @@ export default {
   .content-wrapper {
     position: relative;
     top: $sidebar-top-margin - 1px;
-    .main-view {
+    &.show-sidebar {
       margin-left: $sidebar-width;
-      position: relative;
-      top: $sidebar-top-margin;
+    }
+    .main-view {
+    position: relative;
+    top: $sidebar-top-margin;
     }
   }
 
