@@ -1,7 +1,7 @@
 <template>
   <div class="structure">
     <b-button @click.native="saveRevision" variant="success">Save Revision</b-button>
-    <draggable v-model="structure">
+    <draggable v-model="structure" @update="updateDraggable">
       <StepComp v-for="module in structure" :key="module.id" :step="module" :isModule="true"></StepComp>
     </draggable>
   </div>
@@ -22,6 +22,14 @@ export default {
   },
   methods: {
     saveRevision () {
+    },
+    updateDraggable (e) {
+      // get new and old index
+      let newIndex = e.newIndex
+      let oldIndex = e.oldIndex
+
+      // Update Hierarchy
+      this.$store.dispatch('UPDATE_HIERARCHY', {newIndex, oldIndex})
     }
   },
   computed: {

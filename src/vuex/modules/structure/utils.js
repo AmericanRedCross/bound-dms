@@ -61,6 +61,96 @@ let mockStructure = [{
       }
     ]
   }]
+},
+{
+  id: 3,
+  title: 'Prepare and analyze',
+  hierarchy: 3,
+  content: '# Markdown Content',
+  attachments: [],
+  steps: [{
+    id: 2,
+    title: 'Et Harum quidem reprum',
+    hierarchy: 1,
+    content: '# Some other content',
+    attachments: [],
+    steps: [
+      {
+        id: 3,
+        title: 'Et Harum quidem reprum',
+        hierarchy: 1,
+        content: '# Some other content',
+        attachments: []
+      },
+      {
+        id: 4,
+        title: 'Et Harum quidem reprum',
+        hierarchy: 2,
+        content: '# Some other content',
+        attachments: []
+      }
+    ]
+  }]
+},
+{
+  id: 4,
+  title: 'Prepare and analyze',
+  hierarchy: 4,
+  content: '# Markdown Content',
+  attachments: [],
+  steps: [{
+    id: 2,
+    title: 'Et Harum quidem reprum',
+    hierarchy: 1,
+    content: '# Some other content',
+    attachments: [],
+    steps: [
+      {
+        id: 3,
+        title: 'Et Harum quidem reprum',
+        hierarchy: 1,
+        content: '# Some other content',
+        attachments: []
+      },
+      {
+        id: 4,
+        title: 'Et Harum quidem reprum',
+        hierarchy: 2,
+        content: '# Some other content',
+        attachments: []
+      }
+    ]
+  }]
+},
+{
+  id: 5,
+  title: 'Prepare and analyze',
+  hierarchy: 5,
+  content: '# Markdown Content',
+  attachments: [],
+  steps: [{
+    id: 2,
+    title: 'Et Harum quidem reprum',
+    hierarchy: 1,
+    content: '# Some other content',
+    attachments: [],
+    steps: [
+      {
+        id: 3,
+        title: 'Et Harum quidem reprum',
+        hierarchy: 1,
+        content: '# Some other content',
+        attachments: []
+      },
+      {
+        id: 4,
+        title: 'Et Harum quidem reprum',
+        hierarchy: 2,
+        content: '# Some other content',
+        attachments: []
+      }
+    ]
+  }]
 }]
 
 const StepUtils = {

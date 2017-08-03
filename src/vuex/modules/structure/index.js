@@ -1,6 +1,7 @@
 // This module handles the global store and requests for the Step endpoint
 import axios from 'axios'
 import stepUtils from './utils'
+import { Step } from './Step'
 
 const STEP_ROOT = '/steps'
 
@@ -16,6 +17,9 @@ const steps = {
     },
     SET_PARSED_STRUCTURE: (state, { response }) => {
       state.steps = response.data
+    },
+    SET_HIERARCHY: (state, { options }) => {
+      Step.updateHierarchy(options.newIndex, options.oldIndex, state.steps)
     },
     SET_STEP: (state, { response }) => {
       // Does the step exist already?
@@ -39,13 +43,6 @@ const steps = {
   actions: {
     // GET entire Structure
     GET_STRUCTURE: function ({ commit }, projectId) {
-      console.log({stepUtils})
-      // return axios.get(STEP_ROOT).then((response) => {
-      //   commit('SET_STEPS', { response: response.data })
-      // }, (err) => {
-      //   commit('SET_MESSAGE', { message: err })
-      // })
-
       // Mock structure until we know what the endpoints are.
       commit('SET_STRUCTURE', {
         response: {
@@ -86,17 +83,13 @@ const steps = {
     },
     // POST a step (update)
     UPDATE_STRUCTURE: function ({ commit }, data) {
-      // return axios.post(STEP_ROOT + '/' + data.id, {
-      //   firstname: data.firstName,
-      //   lastname: data.lastName,
-      //   email: data.email
-      // }).then((response) => {
-      //   commit('SET_STEP', { response: response.data })
-      // }, (err) => {
-      //   commit('SET_MESSAGE', { message: err })
-      // })
-      console.log({data})
       commit('SET_PARSED_STRUCTURE', { response: {data} })
+    },
+
+    UPDATE_HIERARCHY: function ({ commit }, options) {
+      commit('SET_HIERARCHY', {
+        options
+      })
     },
     // Delete a step
     DELETE_STEP: function ({commit}, id) {
