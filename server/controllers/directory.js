@@ -14,6 +14,9 @@ module.exports = {
   },
   create (req, res, next) {
     Project.findById(parseInt(req.params.id)).then((project) => {
+      if (project === null) {
+        return res.status(404).json({status: 404, message: 'Project not found'})
+      }
       const data = Object.assign(req.body, {
         createdById: req.user.id,
         projectId: project.id
