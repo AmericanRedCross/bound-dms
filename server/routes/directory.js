@@ -5,6 +5,8 @@ const controller = require('../controllers/directory')
 
 // GET /api/projects/:id/directories
 router.get('/:id/directories', authService.authenticate(), controller.getAll)
+// GET /api/projects/:id/directories/:did
+router.get('/:id/directories/:did', authService.authenticate(), controller.get)
 // POST /api/projects/:id/directories
 router.post('/:id/directories', (req, res, next) => {
   req.checkBody('parentId').optional({checkFalsy: true}).isInt()

@@ -12,6 +12,23 @@ module.exports = {
       res.status(200).json({status: 200, data: directories})
     })
   },
+  get (req, res, next) {
+    Directory.findById(req.params.did, {
+      include: [{
+        model: User,
+        as: 'createdBy',
+        attributes: User.safeAttributes()
+      }, {
+        model: Directory,
+        as: 'directories'
+      }]
+    }).then((directory) => {
+      if (directory === null) {
+        return res.status(404).json({status: 404, message: 'Directory not found'})
+      }
+      res.status(200).json({status: 200, data: directory})
+    })
+  },
   create (req, res, next) {
     Project.findById(parseInt(req.params.id)).then((project) => {
       if (project === null) {
