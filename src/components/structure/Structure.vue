@@ -18,7 +18,6 @@ export default {
     draggable
   },
   mounted () {
-    // Call vuex to retrieve the current user from the backend. This returns a promise so we know when it's finished.
     this.$store.dispatch('GET_STRUCTURE', this.$route.params.id)
   },
   methods: {
