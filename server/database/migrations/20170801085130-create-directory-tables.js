@@ -19,6 +19,10 @@ function createDirectoryTable (queryInterface, Sequelize) {
       type: Sequelize.INTEGER,
       defaultValue: 0
     },
+    createdById: {
+      allowNull: false,
+      type: Sequelize.INTEGER
+    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE,
