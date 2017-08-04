@@ -8,6 +8,7 @@ const history = require('connect-history-api-fallback')
 const auth = require('./server/routes/auth')
 const userRoutes = require('./server/routes/user')
 const projectRoutes = require('./server/routes/project')
+const directoryRoutes = require('./server/routes/directory')
 const roleService = require('./server/services/roles')
 const authService = require('./server/services/auth')()
 
@@ -36,6 +37,7 @@ router.get('/', (req, res) => {
 router.use('/auth', auth)
 router.use('/users', userRoutes)
 router.use('/projects', projectRoutes)
+router.use('/projects', directoryRoutes)
 app.use('/api', router)
 
 // register global error handler

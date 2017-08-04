@@ -2,7 +2,7 @@
   <div class="user-edit">
     <div class="row">
       <div class="col-md-8">
-        <EditForm v-if="user" v-bind:user="user" :newUser="false" align="center"></EditForm>
+        <EditForm v-if="user" v-bind:user="user" :newUser="false"></EditForm>
       </div>
     </div>
   </div>
