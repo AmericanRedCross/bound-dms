@@ -1,8 +1,8 @@
 module.exports = (sequelize, DataTypes) => {
   const Directory = sequelize.define('Directory', {
     projectId: {type: DataTypes.INTEGER, allowNull: false},
-    parentId: {type: DataTypes.INTEGER, allowNull: true},
-    order: {type: DataTypes.INTEGER, allowNull: false},
+    parentId: {type: DataTypes.INTEGER, allowNull: true, defaultValue: null},
+    order: {type: DataTypes.INTEGER, allowNull: false, defaultValue: 0},
     createdById: {type: DataTypes.INTEGER, allowNull: false}
   })
 
@@ -21,8 +21,8 @@ module.exports = (sequelize, DataTypes) => {
 
     Directory.hasMany(Directory, {
       as: 'directories',
-      foreignKey: 'id',
-      targetKey: 'parentId'
+      foreignKey: 'parentId',
+      targetKey: 'id'
     })
   }
 
