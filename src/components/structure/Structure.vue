@@ -1,91 +1,46 @@
 <template>
   <div class="structure">
     <b-button @click.native="saveRevision" variant="success">Save Revision</b-button>
-    <StepComp :step="module1" :isModule="true"></StepComp>
-    <StepComp :step="module2" :isModule="true"></StepComp>
+    <draggable v-model="structure" @update="updateDraggable">
+      <StepComp v-for="module in structure" :key="module.id" :step="module" :isModule="true"></StepComp>
+    </draggable>
   </div>
 </template>
 <script>
+/** TODO: Refactor this (along with steps) so that we don't have duplicated update code, i.e. setting the structure + hierarchies on drag. */
 import StepComp from './Step'
-import { Step } from '../../vuex/modules/structure/Step'
-import { Attachment } from '../../vuex/modules/structure/Attachment'
+import draggable from 'vuedraggable'
 
 export default {
   name: 'Structure',
   components: {
-    StepComp
+    StepComp,
+    draggable
   },
-  data () {
-    return {
-      module1: new Step(
-        {
-          id: 1,
-          title: 'Prepare and analyze',
-          hierarchy: 1,
-          content: '# Markdown Content',
-          critical: true,
-          attachments: [new Attachment({id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: true}),
-            new Attachment({id: 2, title: 'Another one', url: 'http://somedocument.docx', size: 12000, mime: '', featured: true}),
-            new Attachment({id: 3, title: 'Something else', url: 'http://somedocument.md', size: 12000, mime: '', featured: true})],
-          steps: [new Step({
-            id: 2,
-            title: 'Et Harum quidem reprum',
-            hierarchy: 1,
-            content: '# Some other content',
-            attachments: [],
-            steps: [new Step({
-              id: 3,
-              title: 'Et Harum quidem reprum',
-              hierarchy: 1,
-              content: '# Some other content',
-              attachments: []
-            }),
-              new Step({
-                id: 3,
-                title: 'Et Harum quidem reprum',
-                hierarchy: 2,
-                content: '# Some other content',
-                attachments: []
-              })]
-          })]
-        }
-      ),
-      module2: new Step(
-        {
-          id: 2,
-          title: 'Prepare and analyze',
-          hierarchy: 2,
-          content: '# Markdown Content',
-          attachments: [],
-          steps: [new Step({
-            id: 2,
-            title: 'Et Harum quidem reprum',
-            hierarchy: 1,
-            content: '# Some other content',
-            attachments: [],
-            steps: [
-              new Step({
-                id: 3,
-                title: 'Et Harum quidem reprum',
-                hierarchy: 1,
-                content: '# Some other content',
-                attachments: []
-              }),
-              new Step({
-                id: 4,
-                title: 'Et Harum quidem reprum',
-                hierarchy: 2,
-                content: '# Some other content',
-                attachments: []
-              })
-            ]
-          })]
-        }
-      )
-    }
+  mounted () {
+    this.$store.dispatch('GET_STRUCTURE', this.$route.params.id)
   },
   methods: {
     saveRevision () {
+    },
+    updateDraggable (e) {
+      // get new and old index
+      let newIndex = e.newIndex
+      let oldIndex = e.oldIndex
+
+      // Update Hierarchy
+      this.$store.dispatch('UPDATE_HIERARCHY', {newIndex, oldIndex})
+    }
+  },
+  computed: {
+    // This is a special layout that vue draggable uses to interact with vuex
+    structure: {
+      get () {
+        return this.$store.state.structure.steps
+      },
+      set (value) {
+        this.$store.dispatch('UPDATE_STRUCTURE', value)
+      }
     }
   },
   props: {
@@ -95,9 +50,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-ol {
-
-}
-</style>

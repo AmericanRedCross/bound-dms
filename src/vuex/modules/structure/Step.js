@@ -151,3 +151,31 @@ export class Step {
     }
   }
 }
+
+Step.updateHierarchy = (updatedIndex, oldIndex, steps) => {
+  // Are we going up or down?
+  let goingUp = updatedIndex > oldIndex
+  // Swap the hierarchy with the one next to it.
+  if (goingUp) {
+    // Swap with the one behind it, if it exists
+    if (steps[updatedIndex - 1]) {
+      steps[updatedIndex].hierarchy = steps[updatedIndex - 1].hierarchy
+    }
+  } else {
+    // Swap with the one in front of it, if it exists
+    if (steps[updatedIndex + 1]) {
+      steps[updatedIndex].hierarchy = steps[updatedIndex + 1].hierarchy
+    }
+  }
+
+  // Between the updated index and the old index update the hierarchies
+  if (goingUp) {
+    for (let i = oldIndex; i < updatedIndex; i++) {
+      steps[i].hierarchy -= 1
+    }
+  } else {
+    for (let i = oldIndex; i > updatedIndex; i--) {
+      steps[i].hierarchy += 1
+    }
+  }
+}
