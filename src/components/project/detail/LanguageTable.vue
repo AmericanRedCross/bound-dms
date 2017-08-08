@@ -133,7 +133,19 @@ export default {
   },
   computed: {
     langOptions () {
-      return Object.keys(languages).map((key) => {
+      return Object.keys(languages).filter((key) => {
+        // Filter out languages that have already been selected first
+        let found = false
+
+        this.project.languages.forEach((element) => {
+          if (element.code === key) {
+            found = true
+          }
+        })
+
+        return !found
+      }).map((key) => {
+        // Then map them to an object
         return { label: `${languages[key].name} (${key})`, value: key }
       })
     }
