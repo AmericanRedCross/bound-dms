@@ -1,7 +1,11 @@
 <template>
   <div class="structure">
-    <v-select :options="projectLangOptions"></v-select>
-    <b-button @click.native="saveRevision" variant="success">Save Revision</b-button>
+    <div class="row">
+      <div class="col-md-2">
+        <v-select :options="projectLangOptions"></v-select>
+      </div>
+      <b-button @click.native="saveRevision" variant="success">Save Revision</b-button>
+    </div>
     <draggable v-model="structure" @update="updateDraggable">
       <StepComp v-for="module in structure" :key="module.id" :step="module" :isModule="true"></StepComp>
     </draggable>
@@ -13,6 +17,8 @@ import StepComp from './Step'
 import draggable from 'vuedraggable'
 import { languages } from 'countries-list'
 import vSelect from 'vue-select'
+import { Project } from '../../vuex/modules/project/Project'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Structure',
@@ -20,11 +26,6 @@ export default {
     StepComp,
     draggable,
     vSelect
-  },
-  props: {
-    project: {
-      type: Object
-    }
   },
   data () {
     return {
@@ -66,6 +67,9 @@ export default {
         this.$store.dispatch('UPDATE_STRUCTURE', value)
       }
     },
+    ...mapGetters([
+      'getProjectById'
+    ]),
     projectLangOptions () {
       return this.project.languages.map((language) => {
         return { label: `${languages[language.code].name} (${language.code})`, value: language.code }
