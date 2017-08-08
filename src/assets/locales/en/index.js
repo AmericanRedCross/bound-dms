@@ -29,7 +29,8 @@ export default{
     projects: 'Projects',
     users: 'Users',
     profile: 'Profile',
-    signout: 'Sign out'
+    signout: 'Sign Out',
+    settings: 'Settings'
   },
   sidebar: {
     dashboard: 'Dashboard',
@@ -89,6 +90,11 @@ export default{
       addSubStep: 'Add substep',
       criticalPathOn: 'Critical path',
       criticalPathOff: 'Enable critical path?'
+    },
+    settings: {
+      header: 'Project Settings',
+      base: 'Change Base Language',
+      name: 'Change Project Name'
     },
     attachments: {
       add: 'Add attachment',

@@ -15,7 +15,6 @@ import UserProfile from '@/components/users/Profile'
 // Project Components
 import ProjectsContainer from '@/components/project/Projects'
 import ListProjects from '@/components/project/List'
-import EditProject from '@/components/project/Edit'
 import NewProject from '@/components/project/New'
 import ProjectContainer from '@/components/project/Project'
 import ProjectDetail from '@/components/project/detail/Detail'
@@ -24,6 +23,7 @@ import AccountProfile from '@/components/account/Profile'
 import ChangePassword from '@/components/account/PasswordForm'
 import PageNotFound from '@/components/pageNotFound/PageNotFound'
 import TranslationWorkflow from '@/components/translations/TranslationWorkflow'
+import ProjectSettings from '@/components/project/Edit'
 
 // Structure Components
 import Structure from '@/components/structure/Structure'
@@ -52,7 +52,10 @@ export default new Router({
       path: '/dashboard',
       name: 'Dashboard',
       component: Dashboard,
-      meta: {auth: true}
+      meta: {
+        auth: true,
+        showSidebar: true
+      }
     },
     {
       path: '/users/',
@@ -133,6 +136,16 @@ export default new Router({
               }
             },
             {
+              path: 'settings',
+              name: 'settings',
+              components: {default: ProjectSettings},
+              meta: {
+                auth: ['admin'],
+                breadcrumb: 'Settings',
+                showSidebar: true
+              }
+            },
+            {
               path: 'structure',
               name: 'project-structure',
               components: {default: Structure},
@@ -142,15 +155,6 @@ export default new Router({
               }
             }
           ]
-        },
-        {
-          path: ':id/edit',
-          name: 'project-edit',
-          component: EditProject,
-          props: true,
-          meta: {
-            breadcrumb: 'Edit'
-          }
         },
         {
           path: ':id/translations',

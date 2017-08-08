@@ -33,9 +33,6 @@
       </form>
       <small>{{ $t('projects.detail.newLang') }}</small>
     </b-modal>
-    <b-modal id="change-base" title="Change Base Language" no-auto-focus>
-        <v-select :options="projectLangOptions"></v-select>
-    </b-modal>
   </div>
 </template>
 
