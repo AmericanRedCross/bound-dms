@@ -24,8 +24,11 @@
 
           </b-input-group>
         </span>
+
         <!-- Push this stuff right-->
         <div class="ml-auto">
+          <b-badge variant="danger" :visible="untranslated">Untranslated</b-badge>
+
           <fa-icon v-if="step.critical" scale="2" name="star" class="critical-icon"></fa-icon>
 
           <b-button @click.native="isOpen = !isOpen"><fa-icon name="file-text"></fa-icon></b-button>
@@ -148,6 +151,7 @@ export default {
       editTitle: false,
       modalShow: false,
       infoShow: false,
+      untranslated: true,
       draggableOptions: {
         filter: '.ignore-drag'
       },
