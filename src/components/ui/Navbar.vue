@@ -10,7 +10,11 @@
     <b-collapse is-nav id="nav_collapse">
 
       <b-nav is-nav-bar>
-        <b-nav-item :to="{name: 'projects'}">{{ $t('navbar.projects') }}</b-nav-item>
+        <b-nav-item-dropdown :text="$t('navbar.projects')">
+          <b-dropdown-item v-for="project in projects" :key="project.id" :to="{name: 'project-detail', params: {id: project.id}}">{{ project.name }}</b-dropdown-item>
+          <div class="dropdown-divider"></div>
+          <b-dropdown-item :to="{name: 'project-new'}"><fa-icon name="plus"></fa-icon> New Project</b-dropdown-item>
+        </b-nav-item-dropdown>
         <b-nav-item :to="{name: 'users'}">{{ $t('navbar.users') }}</b-nav-item>
       </b-nav>
 
@@ -48,6 +52,14 @@ export default {
         return true
       }
       return false
+    }
+  },
+  beforeMount () {
+    this.$store.dispatch('GET_PROJECTS')
+  },
+  computed: {
+    projects () {
+      return this.$store.state.projects.projects
     }
   }
 }
