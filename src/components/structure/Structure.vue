@@ -15,7 +15,6 @@
 /** TODO: Refactor this (along with steps) so that we don't have duplicated update code, i.e. setting the structure + hierarchies on drag. */
 import StepComp from './Step'
 import draggable from 'vuedraggable'
-import { languages } from 'countries-list'
 import vSelect from 'vue-select'
 import { Project } from '../../vuex/modules/project/Project'
 import { mapGetters } from 'vuex'
@@ -68,13 +67,9 @@ export default {
       }
     },
     ...mapGetters([
-      'getProjectById'
-    ]),
-    projectLangOptions () {
-      return this.project.languages.map((language) => {
-        return { label: `${languages[language.code].name} (${language.code})`, value: language.code }
-      })
-    }
+      'getProjectById',
+      'getProjectLangOptions'
+    ])
   }
 }
 </script>

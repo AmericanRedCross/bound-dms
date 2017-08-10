@@ -1,6 +1,7 @@
 // This module handles the global store and requests for the Project endpoint
 import axios from 'axios'
 import { Project } from './Project'
+import { languages } from 'countries-list'
 
 const PROJECT_ROOT = '/projects'
 
@@ -133,6 +134,11 @@ const projects = {
   getters: {
     getProjectById: (state, getters) => (id) => {
       return state.projects.find(project => project.id === id)
+    },
+    getProjectLangOptions: (state, getters) => (id) => {
+      return this.getProjectById(id).languages.map((language) => {
+        return { label: `${languages[language.code].name} (${language.code})`, value: language.code }
+      })
     }
   }
 }
