@@ -136,6 +136,9 @@ const projects = {
       return state.projects.find(project => project.id === id)
     },
     getProjectLangOptions: (state, getters) => (id) => {
+      if (!id) {
+        return []
+      }
       return state.projects.find(project => project.id === id).languages.map((language) => {
         return { label: `${languages[language.code].name} (${language.code})`, value: language.code }
       })
