@@ -41,11 +41,6 @@
               {{ $t('common.rename') }}
             </b-dropdown-item-button>
 
-            <b-dropdown-item href="#" class="step-action">
-              <fa-icon name="trash"></fa-icon>
-              {{ $t('common.delete') }}
-            </b-dropdown-item>
-
             <b-dropdown-item href="#" class="step-action" @click.native="infoShow = !infoShow">
               <fa-icon name="info-circle"></fa-icon>
               {{ $t('common.info') }}
@@ -71,6 +66,14 @@
                 @change="updateCritical"
                 />
             </b-dropdown-header>
+
+            <b-dropdown-divider></b-dropdown-divider>
+
+            <b-dropdown-item-btn href="#" class="step-action" variant="danger">
+              <fa-icon name="trash"></fa-icon>
+              {{ $t('common.delete') }}
+            </b-dropdown-item-btn>
+
           </b-dropdown>
         </div>
       </div>
@@ -200,3 +203,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.red {
+  background: red
+}
+</style>
