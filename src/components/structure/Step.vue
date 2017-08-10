@@ -189,7 +189,8 @@ export default {
       this.step.critical = value.value
     },
     addSubStep () {
-      // TODO: Logic for adding new substeps
+      this.isExpanded = true
+      this.step.addStepAtIndex({index: this.index})
     },
     removeStep () {
       // TODO: Logic for removing substeps
