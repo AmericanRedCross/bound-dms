@@ -64,9 +64,6 @@ export default {
       }
     }
   },
-  mounted () {
-    console.log(this.project)
-  },
   methods: {
     addLanguage () {
       if (this.selectedLang) {
