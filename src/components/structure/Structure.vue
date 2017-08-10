@@ -2,7 +2,7 @@
   <div class="structure">
     <div class="row">
       <div class="col-md-2">
-        <v-select :options="projectLangOptions"></v-select>
+        <v-select v-if="this.project" :options="getLangOptions"></v-select>
       </div>
       <b-button @click.native="saveRevision" variant="success">Save Revision</b-button>
     </div>
@@ -69,7 +69,10 @@ export default {
     ...mapGetters([
       'getProjectById',
       'getProjectLangOptions'
-    ])
+    ]),
+    getLangOptions () {
+      return this.getProjectLangOptions(this.project.id) || []
+    }
   }
 }
 </script>
