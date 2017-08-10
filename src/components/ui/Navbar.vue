@@ -54,7 +54,7 @@ export default {
       return false
     }
   },
-  beforeMount () {
+  created () {
     this.$store.dispatch('GET_PROJECTS')
   },
   computed: {

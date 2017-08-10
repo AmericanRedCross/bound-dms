@@ -23,13 +23,20 @@ export default {
       project: null
     }
   },
-  mounted () {
-    // Call vuex to retrieve the current user from the backend. This returns a promise so we know when it's finished.
-    this.$store.dispatch('GET_PROJECT', this.$route.params.id).then(() => {
-      let project = this.getProjectById(parseInt(this.$route.params.id))
-      // Set the user so the component can see it
-      this.project = project
-    })
+  watch: {
+    // call again if the route changes
+    '$route': 'fetchProject'
+  },
+  beforeMount () {
+    this.fetchProject()
+  },
+  methods: {
+    fetchProject () {
+      this.$store.dispatch('GET_PROJECT', this.$route.params.id).then(() => {
+        let project = this.getProjectById(parseInt(this.$route.params.id))
+        this.project = project
+      })
+    }
   },
   computed: {
     ...mapGetters([
