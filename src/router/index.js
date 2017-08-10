@@ -29,7 +29,7 @@ import TranslationWorkflow from '@/components/translations/TranslationWorkflow'
 import Structure from '@/components/structure/Structure'
 
 // Admin Components
-import APIList from '@/components/keys/APIList'
+import ApiList from '@/components/keys/ApiList'
 
 Vue.use(Router)
 
@@ -198,7 +198,7 @@ export default new Router({
     {
       path: '/keys',
       name: 'keys',
-      component: APIList,
+      component: ApiList,
       props: true,
       meta: {
         auth: ['admin'],
