@@ -2,7 +2,7 @@
   <div class="structure">
     <div class="row">
       <div class="col-md-2">
-        <v-select v-if="this.project != null" :options="dropOptions"></v-select>
+        <v-select v-if="this.project" :options="getLangOptions"></v-select>
       </div>
       <b-button @click.native="saveRevision" variant="success">Save Revision</b-button>
     </div>
@@ -28,8 +28,7 @@ export default {
   },
   data () {
     return {
-      project: new Project({}),
-      dropOptions: ['A', 'B', 'C']
+      project: new Project({})
     }
   },
   mounted () {
@@ -70,10 +69,10 @@ export default {
     ...mapGetters([
       'getProjectById',
       'getProjectLangOptions'
-    ])
-    // getLangOptions () {
-      // return this.getProjectLangOptions(this.project.id) || []
-    // }
+    ]),
+    getLangOptions () {
+      return this.getProjectLangOptions(this.project.id) || []
+    }
   }
 }
 </script>
