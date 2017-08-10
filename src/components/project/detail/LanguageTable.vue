@@ -26,9 +26,9 @@
       </template>
     </b-table>
     <b-btn v-b-modal.add-language variant="primary"><fa-icon name="plus"></fa-icon> {{ $t('projects.languages.add') }}</b-btn>
-    <b-modal id="add-language" :title="$t('projects.languages.add')" @ok="addLanguage" no-auto-focus>
+    <b-modal id="add-language" :title="$t('projects.languages.add')" @ok="addLanguage" @cancel="wipe" no-auto-focus>
       <form @submit.stop.prevent="addLanguage">
-          <v-select :on-change="changeSelected" :options="langOptions" :placeholder="$t('projects.languages.select')"></v-select>
+          <v-select :on-change="changeSelected" :options="langOptions" :placeholder="$t('projects.languages.select')" :value.sync="selectedLang"></v-select>
       </form>
       <small>{{ $t('projects.detail.newLang') }}</small>
     </b-modal>
@@ -75,6 +75,9 @@ export default {
           // TODO error
         })
       }
+    },
+    wipe () {
+      this.selectedLang = null
     },
     changeSelected (val) {
       this.selectedLang = val
@@ -130,7 +133,19 @@ export default {
   },
   computed: {
     langOptions () {
-      return Object.keys(languages).map((key) => {
+      return Object.keys(languages).filter((key) => {
+        // Filter out languages that have already been selected first
+        let found = false
+
+        this.project.languages.forEach((element) => {
+          if (element.code === key) {
+            found = true
+          }
+        })
+
+        return !found
+      }).map((key) => {
+        // Then map them to an object
         return { label: `${languages[key].name} (${key})`, value: key }
       })
     }
