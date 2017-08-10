@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div v-if="$auth.ready()">
-      <Sidebar v-if="$auth.check() && $route.meta.showSidebar === true"></Sidebar>
+      <Sidebar v-if="$auth.check() && $route.meta.showSidebar === true" :projectId="currentProject"></Sidebar>
       <Navbar v-if="$auth.check()"></Navbar>
       <div v-bind:class="{ 'content-wrapper': true, 'show-sidebar': hasSidebar }">
         <div class="breadcrumb-wrapper">
@@ -55,6 +55,9 @@ export default {
         return true
       }
       return false
+    },
+    currentProject () {
+      return parseInt(this.$route.params.id) || null
     }
   }
 }
