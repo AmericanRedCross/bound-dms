@@ -16,7 +16,8 @@
           v-model="item.value"
           show-progress
           striped
-          :variant="item.value === 100 ? 'success' : ''">
+          :variant="item.value === 100 ? 'success' : ''"
+          class="table-progress">
         </b-progress>
       </template>
 
@@ -152,3 +153,11 @@ export default {
   }
 }
 </script>
+
+<style>
+.table-progress {
+  background-color: #a0a0a0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+</style>
