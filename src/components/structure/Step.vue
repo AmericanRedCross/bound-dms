@@ -46,12 +46,12 @@
               {{ $t('common.info') }}
             </b-dropdown-item>
 
-            <b-dropdown-item-button v-if="isModule" @click.native="addStep" class="step-action">
+            <b-dropdown-item-button v-if="isShown" @click.native="addStep" class="step-action">
               <fa-icon name="plus-circle"></fa-icon>
               {{ $t('projects.modules.addStep') }}
             </b-dropdown-item-button>
 
-            <b-dropdown-item-button v-else @click.native="addSubStep" class="step-action">
+            <b-dropdown-item-button v-else-if="$auth.check(['admin', 'editor'])" @click.native="addSubStep" class="step-action">
               <fa-icon name="plus-circle"></fa-icon>
               {{ $t('projects.modules.addSubStep') }}
             </b-dropdown-item-button>
@@ -199,6 +199,14 @@ export default {
     },
     getSteps () {
       return [...this.stepNumbers, this.step.hierarchy]
+    }
+  },
+  computed: {
+    isShown () {
+      if (this.isModule && this.$auth.check(['admin', 'editor'])) {
+        return true
+      }
+      return false
     }
   }
 }

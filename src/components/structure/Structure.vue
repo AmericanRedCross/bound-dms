@@ -4,7 +4,12 @@
       <div class="col-md-2">
         <v-select v-if="this.project" :options="getLangOptions"></v-select>
       </div>
-      <b-button @click.native="saveRevision" variant="success">Save Revision</b-button>
+      <div class="col-md-2">
+        <b-button @click.native="saveRevision" variant="success">Save Revision</b-button>
+      </div>
+      <div class="col-md-2">
+        <b-button v-if="$auth.check(['admin', 'editor'])" @click.native="addModule" variant="primary">Add Module</b-button>
+      </div>
     </div>
     <draggable v-model="structure" @update="updateDraggable">
       <StepComp v-for="module in structure" :key="module.id" :step="module" :isModule="true"></StepComp>
@@ -46,6 +51,8 @@ export default {
   },
   methods: {
     saveRevision () {
+    },
+    addModule () {
     },
     updateDraggable (e) {
       // get new and old index
