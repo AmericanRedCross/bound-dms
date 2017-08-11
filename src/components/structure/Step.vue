@@ -193,8 +193,8 @@ export default {
       this.step.addStepAtIndex({index: this.index})
     },
     removeStep () {
+      this.step.removeStepById(this.step.id)
       this.isExpanded = false
-      this.step.removeStepById(this.id)
     },
     toggleStep (value) {
       this.isExpanded = value
