@@ -109,7 +109,8 @@ export default new Router({
           name: 'project-new',
           components: {default: NewProject},
           meta: {
-            breadcrumb: 'New'
+            breadcrumb: 'New',
+            auth: ['admin']
           }
         },
         {
