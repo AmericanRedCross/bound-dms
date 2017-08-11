@@ -13,9 +13,9 @@
         <b-nav-item-dropdown :text="$t('navbar.projects')">
           <b-dropdown-item v-for="project in projects" :key="project.id" :to="{name: 'project-detail', params: {id: project.id}}">{{ project.name }}</b-dropdown-item>
           <div class="dropdown-divider"></div>
-          <b-dropdown-item :to="{name: 'project-new'}"><fa-icon name="plus"></fa-icon> New Project</b-dropdown-item>
+          <b-dropdown-item v-if="$auth.check('admin')" :to="{name: 'project-new'}"><fa-icon name="plus"></fa-icon> New Project</b-dropdown-item>
         </b-nav-item-dropdown>
-        <b-nav-item :to="{name: 'users'}">{{ $t('navbar.users') }}</b-nav-item>
+        <b-nav-item v-if="$auth.check('admin')" :to="{name: 'users'}">{{ $t('navbar.users') }}</b-nav-item>
       </b-nav>
 
       <b-nav is-nav-bar class="ml-auto">
