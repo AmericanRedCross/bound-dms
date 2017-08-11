@@ -6,7 +6,7 @@
           <ProjectCard :project="project"></ProjectCard>
         </div>
         <div class="col-md-4">
-          <b-card class="new-project mb-4">
+          <b-card v-if="$auth.check('admin')" class="new-project mb-4">
             <b-button :block="true" :to="{name: 'project-new'}">{{ $t('projects.edit.new') }}</b-button>
           </b-card>
         </div>
