@@ -75,5 +75,29 @@ module.exports = {
     }).then(() => {
       res.status(200).json({status: 200, message: 'Project deleted'})
     })
+  },
+  getLatestPublish (req, res, next) {
+    Project.findById(parseInt(req.params.id)).then((project) => {
+      if (project === null) {
+        res.status(404).json({status: 404, message: 'Project not found'})
+      }
+
+      const url = 'http://' + req.hostname + ':' + req.app.settings.port
+      if (req.query.redirect && req.query.redirect === 'true') {
+        const lang = req.query.language === 'fr' ? 'fr' : 'en'
+        const redirect = url + '/static/example_project_' + lang + '.tar.gz'
+        return res.redirect(redirect)
+      }
+
+      return res.status(200).json({
+        status: 200,
+        data: {
+          'id': 'x7wndlweRs',
+          'publish_date': '2017-07-13T10:40:34+00:00',
+          'download_url': url + '/api/projects/' + project.id + '/publishes/latest?redirect=true',
+          'languages': ['en', 'fr']
+        }
+      })
+    })
   }
 }
