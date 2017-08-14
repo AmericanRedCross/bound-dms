@@ -12,6 +12,7 @@ const projectRules = {
 // GET /api/projects
 router.get('/', authService.authenticate(), controller.getAll)
 router.get('/:id', controller.get)
+router.get('/:id/publishes/latest', controller.getLatestPublish)
 router.put('/', authService.authenticate(), (req, res, next) => {
   req.checkBody(projectRules)
   req.getValidationResult().then((result) => {

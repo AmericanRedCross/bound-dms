@@ -29,6 +29,7 @@ app.use(validator())
 app.set('port', process.env.PORT || 8000)
 
 app.use(express.static(path.join(__dirname, 'dist')))
+app.use('/static', express.static(path.join(__dirname, 'static')))
 
 // register api routes
 router.get('/', (req, res) => {
