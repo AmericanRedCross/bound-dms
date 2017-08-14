@@ -95,9 +95,8 @@ const projects = {
     // POST a project (update)
     UPDATE_PROJECT: function ({ commit }, data) {
       return axios.post(PROJECT_ROOT + '/' + data.id, {
-        firstname: data.firstName,
-        lastname: data.lastName,
-        email: data.email
+        name: data.name,
+        description: data.description
       }).then((response) => {
         commit('SET_PROJECT', { response: response.data })
       }, (err) => {

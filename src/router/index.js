@@ -23,13 +23,14 @@ import AccountProfile from '@/components/account/Profile'
 import ChangePassword from '@/components/account/PasswordForm'
 import PageNotFound from '@/components/pageNotFound/PageNotFound'
 import TranslationWorkflow from '@/components/translations/TranslationWorkflow'
-import ProjectSettings from '@/components/project/Edit'
+
+// Settings
+import SettingsContainer from '@/components/project/settings/SettingsContainer'
+import ProjectSettings from '@/components/project/settings/Project'
+import ApiKeys from '@/components/project/settings/ApiKeys'
 
 // Structure Components
 import Structure from '@/components/structure/Structure'
-
-// Admin Components
-import ApiList from '@/components/keys/ApiList'
 
 Vue.use(Router)
 
@@ -136,14 +137,31 @@ export default new Router({
               }
             },
             {
-              path: 'settings',
-              name: 'settings',
-              components: {default: ProjectSettings},
+              path: 'settings/',
+              component: SettingsContainer,
               meta: {
                 auth: ['admin'],
                 breadcrumb: 'Settings',
                 showSidebar: true
-              }
+              },
+              children: [
+                {
+                  path: '',
+                  name: 'settings',
+                  component: ProjectSettings,
+                  meta: {
+                    showSidebar: true
+                  }
+                },
+                {
+                  path: 'apikeys',
+                  name: 'project-apikeys',
+                  component: ApiKeys,
+                  meta: {
+                    showSidebar: true
+                  }
+                }
+              ]
             },
             {
               path: 'structure',
@@ -200,17 +218,8 @@ export default new Router({
       ]
     },
     {
-      path: '/keys',
-      name: 'keys',
-      component: ApiList,
-      props: true,
-      meta: {
-        auth: ['admin'],
-        breadcrumb: 'APIs'
-      }
-    },
-    {
-      path: '*', component: PageNotFound }
+      path: '*', component: PageNotFound
+    }
   ]
 
 })

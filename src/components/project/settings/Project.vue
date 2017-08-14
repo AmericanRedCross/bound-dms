@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <b-card align="center" :header="$t('projects.settings.header')">
-      <div>
+  <div class="row">
+    <div class="col-8">
+      <b-form v-on:submit.native.prevent="onSubmit">
         <b-form-fieldset
           :feedback="!$v.project.name.required ? $t('common.validations.required') : '' "
           :state="$v.project.name.$error ? 'warning' : ''"
+          :label="$t('projects.new.name')"
         >
-          Project Name:
           <b-form-input
             v-model.trim="project.name"
             type="text"
@@ -14,36 +14,28 @@
             v-on:input="$v.project.name.$touch">
           </b-form-input>
         </b-form-fieldset>
-      </div>
-      <div>
         <b-form-fieldset
           :feedback="!$v.project.description.required ? $t('common.validations.required') : '' "
           :state="$v.project.description.$error ? 'warning' : ''"
+          :label="$t('projects.new.description')"
         >
-          Project Description:
           <b-form-input
+            :label-cols="3"
             v-model.trim="project.description"
-            type="text"
-            textarea
+            :textarea="true" :rows="6"
             :value= "project.description"
             v-on:input="$v.project.description.$touch">
           </b-form-input>
         </b-form-fieldset>
-      </div>
-      <div>
-        Base Language:
-        <v-select :options="projectLangOptions"></v-select>
-        <br />
-        <b-alert variant="danger" show>
-          Warning: Only change the base language if 100% of content is translated to this language - otherwise content will be lost.
-        </b-alert>
-      </div>
-      <div>
-        <b-button variant="success" @click.native="updateProject">
-          Save
-        </b-button>
-      </div>
-    </b-card>
+        <b-form-fieldset label="Base language">
+          <b-form-select v-model="selectedLang" :options="projectLangOptions" class="mb-3"></b-form-select>
+          <b-alert variant="danger" show>
+            Warning: Only change the base language if 100% of content is translated to this language - otherwise content will be lost.
+          </b-alert>
+        </b-form-fieldset>
+        <b-button type="submit" variant="primary">Save</b-button>
+      </b-form>
+    </div>
   </div>
 </template>
 
@@ -62,13 +54,14 @@ export default {
   },
   data () {
     return {
+      selectedLang: 'en',
       saving: false
     }
   },
   computed: {
     projectLangOptions () {
       return this.project.languages.map((language) => {
-        return { label: `${languages[language.code].name} (${language.code})`, value: language.code }
+        return { text: `${languages[language.code].name} (${language.code})`, value: language.code }
       })
     }
   },
@@ -83,7 +76,7 @@ export default {
     }
   },
   methods: {
-    updateProject () {
+    onSubmit (e) {
       this.$v.project.$touch()
       if (!this.$v.project.$error) {
         this.saving = true
