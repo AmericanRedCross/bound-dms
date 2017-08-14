@@ -24,7 +24,8 @@ export default{
     projects: 'Proyectos',
     users: 'Usuarios',
     profile: 'Perfil',
-    signout: 'Desconectar'
+    signout: 'Desconectar',
+    api: 'APIs'
   },
   sidebar: {
     dashboard: 'Tablero',

@@ -24,7 +24,8 @@ export default{
     projects: 'Projets',
     users: 'Utilisateurs',
     profile: 'Profil',
-    signout: 'Déconnexion'
+    signout: 'Déconnexion',
+    api: 'APIs'
   },
   hello: {
     test1: 'Bienvenue dans votre application Vue.js'

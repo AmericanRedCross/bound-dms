@@ -38,7 +38,7 @@
 
 <script>
 import vSelect from 'vue-select'
-import {languages} from 'countries-list'
+import { languages } from 'countries-list'
 export default {
   components: {vSelect},
   name: 'language-table',
@@ -148,6 +148,11 @@ export default {
       }).map((key) => {
         // Then map them to an object
         return { label: `${languages[key].name} (${key})`, value: key }
+      })
+    },
+    projectLangOptions () {
+      return this.project.languages.map((language) => {
+        return { label: `${languages[language.code].name} (${language.code})`, value: language.code }
       })
     }
   }
