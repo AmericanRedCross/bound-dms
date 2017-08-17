@@ -69,7 +69,7 @@
 
             <b-dropdown-divider></b-dropdown-divider>
 
-            <b-dropdown-item-btn href="#" class="step-action" variant="danger">
+            <b-dropdown-item-btn href="#" class="step-action" @click.native="removeStep">
               <fa-icon name="trash"></fa-icon>
               {{ $t('common.delete') }}
             </b-dropdown-item-btn>
@@ -189,10 +189,12 @@ export default {
       this.step.critical = value.value
     },
     addSubStep () {
-      // TODO: Logic for adding new substeps
+      this.isExpanded = true
+      this.step.addStepAtIndex({index: this.index})
     },
     removeStep () {
-      // TODO: Logic for removing substeps
+      this.step.removeStepById(this.step.id)
+      this.isExpanded = false
     },
     toggleStep (value) {
       this.isExpanded = value
