@@ -2,56 +2,58 @@
   <div class="login row justify-content-center m-t-100">
     <div class="col-lg-4">
       <b-card header="Login" class="login-card">
-        <div class="form-group">
-          <b-form-fieldset
-            :label="$t('login.email')"
-            :label-size="1"
-            :feedback="(!$v.email.required && emailValidated) ? $t('common.validations.required') : (!$v.email.email && emailValidated) ? $t('common.validations.email') : '' "
-            :state="($v.email.$error && emailValidated) ? 'warning' : ''"
-          >
-            <b-input-group>
-              <b-input-group-addon slot="left">
-                <fa-icon name="at"></fa-icon>
-              </b-input-group-addon>
-              <b-form-input
-                v-model.trim="email"
-                type="email"
-                id="email-input"
-                v-on:input="validate('email')">
-              </b-form-input>
-            </b-input-group>
-          </b-form-fieldset>
-        </div>
+        <b-form v-on:submit.native.prevent="onSubmit">
+          <div class="form-group">
+            <b-form-fieldset
+              :label="$t('login.email')"
+              :label-size="1"
+              :feedback="(!$v.email.required && emailValidated) ? $t('common.validations.required') : (!$v.email.email && emailValidated) ? $t('common.validations.email') : '' "
+              :state="($v.email.$error && emailValidated) ? 'warning' : ''"
+            >
+              <b-input-group>
+                <b-input-group-addon slot="left">
+                  <fa-icon name="at"></fa-icon>
+                </b-input-group-addon>
+                <b-form-input
+                  v-model.trim="email"
+                  type="email"
+                  id="email-input"
+                  v-on:input="validate('email')">
+                </b-form-input>
+              </b-input-group>
+            </b-form-fieldset>
+          </div>
 
-        <div class="form-group">
-          <b-form-fieldset
-            :label="$t('login.password')"
-            :label-size="1"
-            :feedback="(!$v.password.required && passwordValidated) ? $t('common.validations.required') : '' "
-            :state="$v.password.$error ? 'warning' : ''"
-          >
-            <b-input-group>
-              <b-input-group-addon slot="left">
-                <fa-icon name="lock"></fa-icon>
-              </b-input-group-addon>
-              <b-form-input
-                v-model="password"
-                type="password"
-                id="password-input"
-                v-on:input="validate('password')">
-              </b-form-input>
-            </b-input-group>
-          </b-form-fieldset>
-          <b-alert variant="danger" class="m-t-15 col" dismissible :show="error !== ''" @dismissed="error=''">
-              {{ error }}
-          </b-alert>
-        </div>
-        <div slot="footer">
-          <b-button @click.native="authenticate" variant="primary" :disabled='sigingIn' id="login">{{ $t('login.login') }}</b-button>
-          <span v-show="sigingIn" class="m-t-5" style="inline-block">
-            <fa-icon name="refresh" spin></fa-icon>
-          </span>
-        </div>
+          <div class="form-group">
+            <b-form-fieldset
+              :label="$t('login.password')"
+              :label-size="1"
+              :feedback="(!$v.password.required && passwordValidated) ? $t('common.validations.required') : '' "
+              :state="$v.password.$error ? 'warning' : ''"
+            >
+              <b-input-group>
+                <b-input-group-addon slot="left">
+                  <fa-icon name="lock"></fa-icon>
+                </b-input-group-addon>
+                <b-form-input
+                  v-model="password"
+                  type="password"
+                  id="password-input"
+                  v-on:input="validate('password')">
+                </b-form-input>
+              </b-input-group>
+            </b-form-fieldset>
+            <b-alert variant="danger" class="m-t-15 col" dismissible :show="error !== ''" @dismissed="error=''">
+                {{ error }}
+            </b-alert>
+          </div>
+          <div align="center">
+            <b-button @click.native="authenticate" variant="primary" type="submit" :disabled='sigingIn' id="login">{{ $t('login.login') }}</b-button>
+            <span v-show="sigingIn" class="m-t-5" style="inline-block">
+              <fa-icon name="refresh" spin></fa-icon>
+            </span>
+          </div>
+        </b-form>
       </b-card>
     </div>
   </div>
