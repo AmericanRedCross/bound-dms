@@ -27,7 +27,15 @@ module.exports = {
         email: 'another@domain.com',
         password: bcrypt.hashSync('12345678', 12),
         isActive: true,
-        role: 'admin'
+        role: 'editor'
+      },
+      {
+        firstname: 'Third',
+        lastname: 'User',
+        email: 'third@domain.com',
+        password: bcrypt.hashSync('12345678', 12),
+        isActive: true,
+        role: 'translator'
       }
     ], {})
   },
