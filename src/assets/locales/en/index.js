@@ -124,7 +124,8 @@ export default{
       content: 'Content & Translations',
       setcontent: 'Content set',
       translations: 'Translations',
-      createdby: 'Created by: '
+      createdby: 'Created by: ',
+      publish: 'Last Publish'
     },
     projectcard: {
       languages: 'Languages: en, es, fr',
