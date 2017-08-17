@@ -128,7 +128,8 @@ export default{
       publish: 'Last Publish',
       lastPublish: 'Last Publish At: ',
       publisher: 'By: ',
-      viewPublish: 'View Publish Details'
+      viewPublish: 'View Publishing Details',
+      changes: ' Unpublished Changes'
     },
     projectcard: {
       languages: 'Languages: en, es, fr',

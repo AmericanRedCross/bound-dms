@@ -1,7 +1,8 @@
 <template>
     <div class="project-detail">
       <StatsOverview v-if="project" :project="project" class="mb-3"></StatsOverview>
-      <b-card :title="$t('projects.dashboard.publish')" class="mb-3">
+      <b-card v-if="$auth.check(['admin', 'editor'])" :title="$t('projects.dashboard.publish')" class="mb-3">
+        <h5>{{ changes }}{{ $t('projects.dashboard.changes') }}</h5>
         <div>{{ $t('projects.dashboard.lastPublish') }}</div>
         <div class="mb-3">{{ $t('projects.dashboard.publisher') }}</div>
         <div>
@@ -29,7 +30,8 @@ export default {
   },
   data () {
     return {
-      project: null
+      project: null,
+      changes: 36
     }
   },
   watch: {
