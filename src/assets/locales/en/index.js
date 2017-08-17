@@ -125,7 +125,10 @@ export default{
       setcontent: 'Content set',
       translations: 'Translations',
       createdby: 'Created by: ',
-      publish: 'Last Publish'
+      publish: 'Last Publish',
+      lastPublish: 'Last Publish At: ',
+      publisher: 'By: ',
+      viewPublish: 'View Publish Details'
     },
     projectcard: {
       languages: 'Languages: en, es, fr',

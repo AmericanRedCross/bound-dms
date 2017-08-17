@@ -2,11 +2,11 @@
     <div class="project-detail">
       <StatsOverview v-if="project" :project="project" class="mb-3"></StatsOverview>
       <b-card :title="$t('projects.dashboard.publish')" class="mb-3">
-        <div>Last Publish At: </div>
-        <div class="mb-3">By: </div>
+        <div>{{ $t('projects.dashboard.lastPublish') }}</div>
+        <div class="mb-3">{{ $t('projects.dashboard.publisher') }}</div>
         <div>
           <b-button :to="{name: 'project-publish'}">
-            View Publish Details
+            {{ $t('projects.dashboard.viewPublish') }}
           </b-button>
         </div>
       </b-card>
