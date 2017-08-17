@@ -22,6 +22,7 @@ import AccountProfile from '@/components/account/Profile'
 import ChangePassword from '@/components/account/PasswordForm'
 import PageNotFound from '@/components/pageNotFound/PageNotFound'
 import TranslationWorkflow from '@/components/translations/TranslationWorkflow'
+import Publish from '@/components/project/publish/Publish'
 
 // Settings
 import SettingsContainer from '@/components/project/settings/SettingsContainer'
@@ -160,6 +161,15 @@ export default new Router({
               components: {default: Structure},
               meta: {
                 breadcrumb: 'Structure',
+                showSidebar: true
+              }
+            },
+            {
+              path: 'publish',
+              name: 'project-publish',
+              components: {default: Publish},
+              meta: {
+                breadcrumb: 'Publish',
                 showSidebar: true
               }
             }

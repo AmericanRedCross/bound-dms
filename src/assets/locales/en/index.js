@@ -152,6 +152,17 @@ export default{
       name: 'Project name',
       description: 'Description',
       details: 'Enter the details of your new document project. You can assign additional languages later on.'
+    },
+    publish: {
+      publishes: 'Publishes',
+      previous: 'Previous Publishes',
+      recent: 'Unpublished Changes',
+      structure: 'Structure Changes',
+      content: 'Content Changes',
+      base: 'Base Language: ',
+      translate: 'Translated Languages: ',
+      publish: ' Publish These Changes',
+      publishAll: 'Publish All Changes'
     }
   },
   pagenotfound: {
