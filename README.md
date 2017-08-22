@@ -2,7 +2,7 @@
 
 > ARC Cash In Emergencies Web Application
 
-## Build Setup
+## Frontend Environment Setup
 
 ``` bash
 # install dependencies
@@ -27,7 +27,39 @@ npm run e2e
 npm test
 ```
 
-## Docker Container
+## Backend Environment Setup
+
+### Docker Compose
+
+Docker compose is used to run the webpack dev server for development,
+together with the API and associated services e.g. database.
+
+```bash
+# Run all services for development
+docker-compose up
+sh ./migrate.sh
+```
+The application should then be accessible on the host machine at `http://localhost:80`
+
+For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+#### OSX Caveat
+
+bcrypt compiled on OSX will not work on Linux
+
+The solution is to run:
+
+```bash
+docker-compose run server rm -r node_modules
+docker-compose run server npm install
+```
+Should this not solve the problem, try the following:
+
+```bash
+docker-compose run server npm rebuild bcrypt --update-binary
+```
+
+### Docker Container
 
 The docker container can be built from the project. At build time all files are
 copied into the container. Dependencies are freshly installed and the project
@@ -42,15 +74,3 @@ docker build . --tag cie:latest
 docker run -p 80:80 -it --rm --name cie cie:latest
 ```
 
-## Docker Compose
-
-Docker compose can be used to run the webpack dev server for development,
-together with the API and associated services e.g. database.
-
-```bash
-# Run all services for development
-docker compose up
-```
-The application should then be accessible on the host machine at `http://localhost:80`
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
