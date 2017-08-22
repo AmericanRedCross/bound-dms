@@ -95,7 +95,7 @@ export default {
           data: {email: this.email, password: this.password},
           rememberMe: true,
           fetchUser: true, // Do we want to fetch the user after login? Useful for validating roles
-          redirect: {name: 'Dashboard'}, // Where do we want to redirect after?
+          redirect: {name: 'projects'}, // Where do we want to redirect after?
           success (res) {
             this.sigingIn = false
           },
