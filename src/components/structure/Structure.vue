@@ -1,10 +1,10 @@
 <template>
   <div class="structure">
-    <div class="row justify-content-between">
+    <div class="row">
       <div class="col-4">
         <v-select v-if="this.project" :value.sync="selected" :options="getLangOptions"></v-select>
       </div>
-      <div class="col-4 action-items">
+      <div class="col-md-8" align="right">
         <b-button @click.native="saveRevision" variant="success">Save Revision</b-button>
         <b-button v-if="$auth.check(['admin', 'editor'])" @click.native="addModule" variant="primary">Add Module</b-button>
       </div>
@@ -85,11 +85,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-  .action-items {
-    button {
-      float: right;
-      margin: 0 5px;
-    }
-  }
-</style>
