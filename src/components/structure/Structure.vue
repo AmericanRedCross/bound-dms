@@ -1,14 +1,12 @@
 <template>
   <div class="structure">
-    <div class="row">
-      <div class="col-md-2">
-        <v-select v-if="this.project" :options="getLangOptions"></v-select>
+    <div class="row justify-content-between">
+      <div class="col-4">
+        <v-select v-if="this.project" :value.sync="selected" :options="getLangOptions"></v-select>
       </div>
-      <div class="col-md-2">
-        <b-button @click="saveRevision" variant="success">Save Revision</b-button>
-      </div>
-      <div class="col-md-2">
-        <b-button v-if="$auth.check(['admin', 'editor'])" @click="addModule" variant="primary">Add Module</b-button>
+      <div class="col-4 action-items">
+        <b-button @click.native="saveRevision" variant="success">Save Revision</b-button>
+        <b-button v-if="$auth.check(['admin', 'editor'])" @click.native="addModule" variant="primary">Add Module</b-button>
       </div>
     </div>
     <draggable v-model="structure" @update="updateDraggable" :options="draggableOptions">
@@ -36,7 +34,8 @@ export default {
       project: new Project({}),
       draggableOptions: {
         filter: '.ignore-drag'
-      }
+      },
+      selected: 'English (en)'
     }
   },
   mounted () {
@@ -86,3 +85,11 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+  .action-items {
+    button {
+      float: right;
+      margin: 0 5px;
+    }
+  }
+</style>
