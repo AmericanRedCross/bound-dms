@@ -37,7 +37,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .card {
     height: 8rem;
     border-radius: 5px;

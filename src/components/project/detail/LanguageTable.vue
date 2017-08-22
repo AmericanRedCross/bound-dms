@@ -159,7 +159,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .table-progress {
   background-color: #a0a0a0;
   -webkit-box-shadow: none;
