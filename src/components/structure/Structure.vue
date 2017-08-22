@@ -11,7 +11,7 @@
         <b-button v-if="$auth.check(['admin', 'editor'])" @click.native="addModule" variant="primary">Add Module</b-button>
       </div>
     </div>
-    <draggable v-model="structure" @update="updateDraggable">
+    <draggable v-model="structure" @update="updateDraggable" :options="draggableOptions">
       <StepComp v-for="module in structure" :key="module.id" :step="module" :isModule="true"></StepComp>
     </draggable>
   </div>
@@ -33,7 +33,10 @@ export default {
   },
   data () {
     return {
-      project: new Project({})
+      project: new Project({}),
+      draggableOptions: {
+        filter: '.ignore-drag'
+      }
     }
   },
   mounted () {
