@@ -1,7 +1,7 @@
 FROM node:6.11.1
 
 WORKDIR /tmp
-COPY package.json /tmp/
+COPY package.json npm-shrinkwrap.json /tmp/
 
 COPY . /usr/src/app/
 RUN npm install \
