@@ -36,14 +36,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.card {
-    height: 8rem;
-    border-radius: 5px;
-    padding: 20px;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-}
-</style>

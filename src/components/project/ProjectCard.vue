@@ -6,7 +6,7 @@
         <li>{{ $t('projects.projectcard.published') }}</li>
         <li>{{ $t('projects.projectcard.updated') }}</li>
       </ul>
-      <b-button :block="true" :to="{name: 'project-detail', params: { id: project.id }}">{{ $t('projects.projectcard.view') }}</b-button>
+      <b-button :block="true" :to="{name: 'project-detail', params: { id: project.id }}" variant="primary">{{ $t('projects.projectcard.view') }}</b-button>
 
     </b-card>
   </div>
@@ -27,11 +27,5 @@ export default {
 <style lang="scss" scoped>
   .card {
     background-color: #20A8D8;
-  }
-  .image {
-    width: 100%;
-    height: 200px;
-    background-image: url('http://thecatapi.com/api/images/get?format=src&type=jpg');
-    background-size: cover;
   }
 </style>
