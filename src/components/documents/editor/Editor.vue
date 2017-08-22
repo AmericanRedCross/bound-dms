@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-button variant="primary" @click.native="back">
+    <b-button variant="primary" @click="back">
       <fa-icon name="arrow-left"></fa-icon>
        Back
     </b-button>

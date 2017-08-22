@@ -48,7 +48,7 @@
             </b-alert>
           </div>
           <div align="center">
-            <b-button @click.native="authenticate" variant="primary" type="submit" :disabled='sigingIn' id="login">{{ $t('login.login') }}</b-button>
+            <b-button @click="authenticate" variant="primary" :disabled='sigingIn' id="login">{{ $t('login.login') }}</b-button>
             <span v-show="sigingIn" class="m-t-5" style="inline-block">
               <fa-icon name="refresh" spin></fa-icon>
             </span>

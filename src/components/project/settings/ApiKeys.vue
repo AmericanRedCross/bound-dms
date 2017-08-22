@@ -14,7 +14,7 @@
 
         <template slot="details" scope="item">
           <b-button v-b-modal.viewkey variant="primary"><fa-icon name="key" label="Key"></fa-icon> View Key</b-button>
-          <b-button variant="danger" @click.native="deleteClick"><fa-icon name="trash" label="Delete"></fa-icon> Delete</b-button>
+          <b-button variant="danger" @click="deleteClick"><fa-icon name="trash" label="Delete"></fa-icon> Delete</b-button>
         </template>
       </b-table>
       <b-btn v-b-modal.addkey variant="primary"><fa-icon name="plus"></fa-icon> Add API Key</b-btn>

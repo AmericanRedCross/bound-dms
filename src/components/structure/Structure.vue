@@ -5,10 +5,10 @@
         <v-select v-if="this.project" :options="getLangOptions"></v-select>
       </div>
       <div class="col-md-2">
-        <b-button @click.native="saveRevision" variant="success">Save Revision</b-button>
+        <b-button @click="saveRevision" variant="success">Save Revision</b-button>
       </div>
       <div class="col-md-2">
-        <b-button v-if="$auth.check(['admin', 'editor'])" @click.native="addModule" variant="primary">Add Module</b-button>
+        <b-button v-if="$auth.check(['admin', 'editor'])" @click="addModule" variant="primary">Add Module</b-button>
       </div>
     </div>
     <draggable v-model="structure" @update="updateDraggable" :options="draggableOptions">
