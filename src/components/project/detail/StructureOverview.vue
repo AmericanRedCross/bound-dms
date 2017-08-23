@@ -36,17 +36,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.container{
-  display: flex;
-  overflow-x: hidden;
-  overflow-y: auto;
-  white-space: nowrap;
-  max-width: calc(80vw);
-}
-.column-left{ float: left; width: 33%; }
-.column-right{ float: right; width: 33%; }
-.column-center{ float: left; width: 33%; }
-
-</style>

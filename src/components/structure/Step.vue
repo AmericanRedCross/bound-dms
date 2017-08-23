@@ -18,8 +18,8 @@
             </b-form-input>
 
             <!-- Attach Right button -->
-            <b-input-group-button slot="right" >
-              <b-button @click.native="editTitle = false"><fa-icon name="check"></fa-icon></b-button>
+            <b-input-group-button slot="right">
+              <b-button @click="editTitle = false"><fa-icon name="check"></fa-icon></b-button>
             </b-input-group-button>
 
           </b-input-group>
@@ -31,27 +31,27 @@
 
           <fa-icon v-if="step.critical" scale="2" name="star" class="critical-icon"></fa-icon>
 
-          <b-button @click.native="isOpen = !isOpen"><fa-icon name="file-text"></fa-icon></b-button>
-
-          <b-dropdown class="m-md-2 step-actions ignore-drag" right>
+          <b-button @click="isOpen = !isOpen"><fa-icon name="file-text"></fa-icon></b-button>
+          <!-- https://bootstrap-vue.js.org/docs/components/dropdown - alignment is not working at the moment -->
+          <b-dropdown class="m-md-2 step-actions ignore-drag" left>
             <fa-icon name="cog" slot="text"></fa-icon>
 
-            <b-dropdown-item-button @click.native="editTitle = true" class="step-action">
+            <b-dropdown-item-button @click="editTitle = true" class="step-action">
               <fa-icon name="font"></fa-icon>
               {{ $t('common.rename') }}
             </b-dropdown-item-button>
 
-            <b-dropdown-item href="#" class="step-action" @click.native="infoShow = !infoShow">
+            <b-dropdown-item href="#" class="step-action" @click="infoShow = !infoShow">
               <fa-icon name="info-circle"></fa-icon>
               {{ $t('common.info') }}
             </b-dropdown-item>
 
-            <b-dropdown-item-button v-if="isShown" @click.native="addStep" class="step-action">
+            <b-dropdown-item-button v-if="isShown" @click="addStep" class="step-action">
               <fa-icon name="plus-circle"></fa-icon>
               {{ $t('projects.modules.addStep') }}
             </b-dropdown-item-button>
 
-            <b-dropdown-item-button v-else-if="$auth.check(['admin', 'editor'])" @click.native="addSubStep" class="step-action">
+            <b-dropdown-item-button v-else-if="$auth.check(['admin', 'editor'])" @click="addSubStep" class="step-action">
               <fa-icon name="plus-circle"></fa-icon>
               {{ $t('projects.modules.addSubStep') }}
             </b-dropdown-item-button>
@@ -69,7 +69,7 @@
 
             <b-dropdown-divider></b-dropdown-divider>
 
-            <b-dropdown-item-btn href="#" class="step-action" @click.native="removeStep">
+            <b-dropdown-item-btn href="#" class="step-action" @click="removeStep">
               <fa-icon name="trash"></fa-icon>
               {{ $t('common.delete') }}
             </b-dropdown-item-btn>
@@ -213,9 +213,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.red {
-  background: red
-}
-</style>

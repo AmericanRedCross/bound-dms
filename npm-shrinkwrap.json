@@ -226,14 +226,14 @@
       "resolved": "https://registry.npmjs.org/boom/-/boom-2.10.1.tgz"
     },
     "bootstrap": {
-      "version": "4.0.0-alpha.6",
-      "from": "bootstrap@>=4.0.0-alpha.6 <5.0.0",
-      "resolved": "https://registry.npmjs.org/bootstrap/-/bootstrap-4.0.0-alpha.6.tgz"
+      "version": "4.0.0-beta",
+      "from": "bootstrap@>=4.0.0-beta <5.0.0",
+      "resolved": "https://registry.npmjs.org/bootstrap/-/bootstrap-4.0.0-beta.tgz"
     },
     "bootstrap-vue": {
-      "version": "0.17.1",
-      "from": "bootstrap-vue@>=0.17.1 <0.18.0",
-      "resolved": "https://registry.npmjs.org/bootstrap-vue/-/bootstrap-vue-0.17.1.tgz"
+      "version": "1.0.0-beta.5",
+      "from": "bootstrap-vue@latest",
+      "resolved": "https://registry.npmjs.org/bootstrap-vue/-/bootstrap-vue-1.0.0-beta.5.tgz"
     },
     "brace-expansion": {
       "version": "1.1.8",
@@ -1312,7 +1312,7 @@
     },
     "jquery": {
       "version": "3.2.1",
-      "from": "jquery@>=1.9.1",
+      "from": "jquery@>=3.0.0 <4.0.0",
       "resolved": "https://registry.npmjs.org/jquery/-/jquery-3.2.1.tgz"
     },
     "js-beautify": {
@@ -1874,6 +1874,11 @@
       "version": "2.0.1",
       "from": "pinkie-promise@>=2.0.0 <3.0.0",
       "resolved": "https://registry.npmjs.org/pinkie-promise/-/pinkie-promise-2.0.1.tgz"
+    },
+    "popper.js": {
+      "version": "1.12.3",
+      "from": "popper.js@>=1.12.3 <2.0.0",
+      "resolved": "https://registry.npmjs.org/popper.js/-/popper.js-1.12.3.tgz"
     },
     "preserve": {
       "version": "0.2.0",
@@ -2513,6 +2518,11 @@
       "version": "2.7.2",
       "from": "vue-chartjs@>=2.7.1 <3.0.0",
       "resolved": "https://registry.npmjs.org/vue-chartjs/-/vue-chartjs-2.7.2.tgz"
+    },
+    "vue-functional-data-merge": {
+      "version": "1.0.6",
+      "from": "vue-functional-data-merge@>=1.0.6 <2.0.0",
+      "resolved": "https://registry.npmjs.org/vue-functional-data-merge/-/vue-functional-data-merge-1.0.6.tgz"
     },
     "vue-gravatar": {
       "version": "1.1.3",

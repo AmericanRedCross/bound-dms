@@ -18,7 +18,7 @@
             <div class="d-flex justify-content-center align-items-center add-input-form">
               <label>{{ $t('projects.languages.add') }}</label>
               <v-select :on-change="changeSelected" :options="options" :placeholder="$t('projects.languages.select')"></v-select>
-              <b-btn variant="primary" @click.native="addLanguage" :disabled="selectedLang === null">{{ $t('common.add') }}</b-btn>
+              <b-btn variant="primary" @click="addLanguage" :disabled="selectedLang === null">{{ $t('common.add') }}</b-btn>
             </div>
           </div>
         </b-collapse>
@@ -50,8 +50,8 @@
                   </b-progress>
                 </template>
                 <template slot="actions">
-                  <b-btn size="sm" variant="danger" class="m-t-5" @click.native="deleteClick"><fa-icon name="trash" label="Delete"></fa-icon> Delete</b-btn>
-                  <b-btn size="sm" variant="success" class="m-t-5" @click.native="editClick"><fa-icon name="edit" label="Edit"></fa-icon> Edit</b-btn>
+                  <b-btn size="sm" variant="danger" class="m-t-5" @click="deleteClick"><fa-icon name="trash" label="Delete"></fa-icon> Delete</b-btn>
+                  <b-btn size="sm" variant="success" class="m-t-5" @click="editClick"><fa-icon name="edit" label="Edit"></fa-icon> Edit</b-btn>
                 </template>
               </b-table>
               <div v-if="project.languages.length > 10" class="row justify-content-center" slot="footer">

@@ -7,7 +7,7 @@
       </b-list-group-item>
     </b-list-group>
     <hr />
-    <b-button @click.native="modalVisibility = !modalVisibility"><fa-icon name="plus"></fa-icon> {{ $t('projects.attachments.add') }} </b-button>
+    <b-button @click="modalVisibility = !modalVisibility"><fa-icon name="plus"></fa-icon> {{ $t('projects.attachments.add') }} </b-button>
 
     <b-modal id="docmodal" class="ignore-drag" v-model="modalVisibility" :title="$t('projects.attachments.add')" :hide-footer="true">
       <div class="createDoc" align="center">

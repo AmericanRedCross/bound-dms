@@ -36,20 +36,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.card {
-    height: 8rem;
-    border-radius: 5px;
-    padding: 20px;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-}
-.center-card {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-</style>

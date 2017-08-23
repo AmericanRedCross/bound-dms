@@ -39,11 +39,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-</style>

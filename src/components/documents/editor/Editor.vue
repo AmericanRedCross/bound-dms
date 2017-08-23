@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-button variant="primary" @click.native="back">
+    <b-button variant="primary" @click="back">
       <fa-icon name="arrow-left"></fa-icon>
        Back
     </b-button>
@@ -23,8 +23,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-
-</style>

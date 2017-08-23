@@ -78,8 +78,7 @@ export default {
       margin-left: $sidebar-width;
     }
     .main-view {
-    position: relative;
-    top: $sidebar-top-margin;
+      margin-top: 10px;
     }
   }
 
