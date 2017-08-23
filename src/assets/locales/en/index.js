@@ -55,6 +55,8 @@ export default{
     header: 'User management',
     list: 'List of users',
     couldNotFind: 'Could not find the requested user',
+    newSaved: 'New user saved',
+    currentSaved: 'User updated',
     edit: {
       newHeader: 'New user',
       editHeader: 'Edit details',
