@@ -6,6 +6,7 @@ import users from './modules/user'
 import projects from './modules/project'
 import structure from './modules/structure'
 import roles from './modules/roles'
+import apiKey from './modules/apiKey'
 
 Vue.use(Vuex)
 export const modules = {
@@ -14,7 +15,8 @@ export const modules = {
   users,
   projects,
   roles,
-  structure
+  structure,
+  apiKey
 }
 
 /*

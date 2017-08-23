@@ -5,38 +5,39 @@
               :items="keyData"
               :fields="headers"
               :show-empty="true"
-              empty-text="There are no Api Keys assigned to this project"
+              :empty-text="$t('projects.keys.emptystate')"
               id="apikey-table"
       >
         <template slot="name" scope="item">
-          {{ item.value }}
+         {{ item.value }}
         </template>
 
         <template slot="details" scope="item">
-          <b-button v-b-modal.viewkey variant="primary"><fa-icon name="key" label="Key"></fa-icon> View Key</b-button>
-          <b-button variant="danger" @click="deleteClick"><fa-icon name="trash" label="Delete"></fa-icon> Delete</b-button>
+          <b-button v-b-modal.viewkey variant="primary" @click="selectKey(item)"><fa-icon name="key" :label="$t('projects.keys.key')"></fa-icon> {{ $t('projects.keys.view') }}</b-button>
+          <b-button variant="danger" @click="deleteClick(item.item.id)"><fa-icon name="trash" :label="$t('common.delete')"></fa-icon> {{ $t('common.delete') }} </b-button>
         </template>
       </b-table>
-      <b-btn v-b-modal.addkey variant="primary"><fa-icon name="plus"></fa-icon> Add API Key</b-btn>
+      <b-btn v-b-modal.addkey variant="primary"><fa-icon name="plus"></fa-icon> {{ $t('projects.keys.add') }}</b-btn>
     </div>
 
-    <b-modal id="addkey" title="Add an API Key">
+    <b-modal id="addkey" :title="$t('projects.keys.add')" @ok="addKey">
       <b-form>
-        <b-form-fieldset label="Key Name">
+        <b-form-fieldset :label="$t('projects.keys.name')">
           <b-form-input
                 type="text"
-                placeholder="API Key"
+                :placeholder="$t('projects.keys.key')"
+                v-model="newKeyForm.name"
           ></b-form-input>
-          <small>e.g. iOS App</small>
+          <small>{{ $t('projects.keys.example') }}</small>
         </b-form-fieldset>
       </b-form>
     </b-modal>
 
-    <b-modal id="viewkey" title="API Key">
+    <b-modal id="viewkey" :title="$t('projects.keys.key')">
       <b-form>
         <b-form-input
               type="text"
-              placeholder="f54gegsdver46-3sdnec-wsTRFesdwcCwc"
+              :placeholder="selectedKey.key"
               readonly
         ></b-form-input>
       </b-form>
@@ -45,6 +46,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   data () {
     return {
@@ -56,14 +59,31 @@ export default {
           label: ''
         }
       },
-      keyData: [
-        {name: 'iOS App'},
-        {name: 'Android App'}
-      ]
+      keyData: [],
+      selectedKey: '',
+      newKeyForm: {
+        name: ''
+      }
     }
   },
+  beforeMount () {
+    this.fetchKeysForProject()
+  },
   methods: {
-    deleteClick (e) {
+    selectKey (item) {
+      this.selectedKey = item.item
+    },
+    fetchKeysForProject () {
+      this.$store.dispatch('GET_PROJECT_KEYS', this.$route.params.id).then(() => {
+        this.keyData = this.getKeys()
+      })
+    },
+    addKey () {
+      return new Promise((resolve, reject) => {
+        this.$store.dispatch('ADD_KEY', {name: this.newKeyForm.name, projectId: this.$route.params.id}).then(resolve)
+      })
+    },
+    deleteClick (keyId) {
       // Call the swal confirm dialog
       this.$swal({
         title: this._i18n.t('common.areYouSure'),
@@ -74,7 +94,14 @@ export default {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: this._i18n.t('common.deleteIt'),
-        allowOutsideClick: false
+        allowOutsideClick: false,
+        preConfirm: () => {
+          return new Promise((resolve, reject) => {
+            this.$store.dispatch('DELETE_KEY', keyId)
+              .then(resolve)
+              .catch(reject(this._i18n.t('common.error')))
+          })
+        }
       }).then(() => {
         this.$swal({
           type: 'success',
@@ -82,6 +109,11 @@ export default {
         })
       })
     }
+  },
+  computed: {
+    ...mapGetters([
+      'getKeys'
+    ])
   }
 }
 </script>
