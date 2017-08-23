@@ -2,7 +2,7 @@
     <div class="row">
       <div class="col-lg-8">
         <b-card class="edit-card" :header="$t('projects.edit.newHeader')">
-          <b-form v-on:submit.native.prevent="onSubmit">
+          <b-form v-on:submit.prevent="onSubmit">
             <b-form-fieldset
               :label="$t('projects.new.name')"
               :feedback="!$v.project.name.required ? $t('common.validations.required') : ''"
@@ -53,8 +53,23 @@ export default {
       if (!this.$v.project.$error) {
         this.$store.dispatch('CREATE_PROJECT', this.project).then(() => {
           this.$router.push({ name: 'project-detail', params: { id: 1 } })
+          this.$notifications.notify(
+            {
+              message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.created')} ${this.project.name}`,
+              icon: 'info',
+              horizontalAlign: 'right',
+              verticalAlign: 'bottom',
+              type: 'info'
+            })
         }).catch(() => {
-          // TODO error
+          this.$notifications.notify(
+            {
+              message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+              icon: 'exclamation-triangle',
+              horizontalAlign: 'right',
+              verticalAlign: 'bottom',
+              type: 'danger'
+            })
         })
       }
     }

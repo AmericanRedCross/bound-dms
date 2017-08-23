@@ -11,6 +11,9 @@ export default{
     delete: 'Delete',
     info: 'Info',
     create: 'Create',
+    created: 'Created',
+    oops: 'Oops',
+    error: 'Something went wrong',
     upload: 'Upload',
     validations: {
       required: 'Field is required',

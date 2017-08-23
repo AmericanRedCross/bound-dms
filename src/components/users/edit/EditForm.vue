@@ -101,11 +101,8 @@ export default {
   },
   methods: {
     updateUser () {
-      console.log('updating user')
       this.$v.user.$touch()
-      console.log(this.$v.user)
       if (!this.$v.user.$error) {
-        console.log('updating')
         this.saving = true
         let action = this.newUser ? 'CREATE_USER' : 'UPDATE_USER'
         this.$store.dispatch(action, this.user).then(() => {
