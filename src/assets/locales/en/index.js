@@ -12,6 +12,7 @@ export default{
     info: 'Info',
     create: 'Create',
     created: 'Created',
+    updated: 'Updated',
     oops: 'Oops',
     error: 'Something went wrong',
     upload: 'Upload',
