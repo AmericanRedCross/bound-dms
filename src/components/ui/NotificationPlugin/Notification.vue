@@ -1,7 +1,7 @@
 <template>
   <div
     data-notify="container"
-    class="col-xs-11 col-sm-4 alert open alert-with-icon"
+    class="col-xs-11 col-sm-4 alert open"
     role="alert"
     :class="[verticalAlign, horizontalAlign, alertType]"
     :style="customPosition"
@@ -44,9 +44,6 @@
       }
     },
     computed: {
-      hasIcon () {
-        return this.icon && this.icon.length > 0
-      },
       alertType () {
         return `alert-${this.type}`
       },
@@ -157,9 +154,10 @@
     }
 
     .alert-icon {
-      left: 30px;
-      top: 25%;
-      position: absolute;
+      float: left;
+      position: relative;
+      top: 5px;
+      margin-right: 15px;
     }
 
     .close~span {
@@ -171,10 +169,6 @@
       width: 350px;
       padding: 10px 10px 10px 20px;
       border-radius: 4px;
-    }
-
-    &.alert-with-icon {
-      padding-left: 65px;
     }
   }
 
