@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import Login from '@/components/auth/Login'
-import Dashboard from '@/components/dashboard/Dashboard'
 import Editor from '@/components/documents/editor/Editor'
 
 // User components
@@ -48,15 +47,6 @@ export default new Router({
       name: 'Login',
       component: Login,
       meta: {auth: false}
-    },
-    {
-      path: '/dashboard',
-      name: 'Dashboard',
-      component: Dashboard,
-      meta: {
-        auth: true,
-        showSidebar: true
-      }
     },
     {
       path: '/users/',
