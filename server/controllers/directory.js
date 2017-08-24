@@ -13,7 +13,7 @@ module.exports = {
     })
   },
   get (req, res, next) {
-    Directory.findById(req.params.did, {
+    Directory.findById(req.params.id, {
       include: [{
         model: User,
         as: 'createdBy',
