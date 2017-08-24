@@ -52,12 +52,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.container {
-  display: flex
-}
-.publish {
-  height: 100%
-}
-</style>
