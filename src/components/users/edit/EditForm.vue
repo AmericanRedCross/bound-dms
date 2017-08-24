@@ -109,6 +109,14 @@ export default {
           this.saving = false
           let date = new Date()
           this.success = this._i18n.t('common.saved') + ' ' + date.toDateString() + ' ' + date.toTimeString()
+          this.$notifications.notify(
+            {
+              message: `<b>${this._i18n.t('common.saved')}</b><br />  ${this.newUser ? this._i18n.t('users.newSaved') : this._i18n.t('users.currentSaved')}`,
+              icon: 'info',
+              horizontalAlign: 'right',
+              verticalAlign: 'bottom',
+              type: 'info'
+            })
           if (this.newUser) {
             this.$router.push({ name: 'users' })
           }

@@ -4,12 +4,12 @@
       <Sidebar v-if="$auth.check() && $route.meta.showSidebar === true" :projectId="currentProject"></Sidebar>
       <Navbar v-if="$auth.check()"></Navbar>
       <div v-bind:class="{ 'content-wrapper': true, 'show-sidebar': hasSidebar }">
+        <notifications>
+
+        </notifications>
         <div class="breadcrumb-wrapper">
           <breadcrumbs></breadcrumbs>
         </div>
-        <b-alert variant="danger" class="m-t-15 col error-box" dismissible :show="getLocalisedMessage() !== false" @dismissed="clearMessage">
-          {{ getLocalisedMessage() }}
-        </b-alert>
         <router-view class="main-view container-fluid" :style="($auth.check() && $route.meta.showSidebar === true) ? '' : 'margin-left: 0px'"></router-view>
       </div>
     </div>
@@ -23,25 +23,21 @@
 import { mapGetters } from 'vuex'
 import Navbar from './components/ui/Navbar.vue'
 import Sidebar from './components/ui/Sidebar.vue'
+import PaperNotification from './components/ui/NotificationPlugin/Notification.vue'
 
 export default {
   name: 'app',
   components: {
     Navbar,
-    Sidebar
+    Sidebar,
+    PaperNotification
+  },
+  data () {
+    return {
+      type: ['', 'info', 'success', 'warning', 'danger']
+    }
   },
   methods: {
-    getLocalisedMessage () {
-      let localisationString = this.friendlyHTTPMessage
-      if (localisationString !== false) {
-        let message = this._i18n.t(localisationString)
-        if (message === localisationString) {
-          message = this._i18n.t('http.generic') + ': ' + this.$store.state.message.message
-        }
-        return message
-      }
-      return false
-    },
     clearMessage () {
       this.$store.dispatch('CLEAR_MESSAGE')
     }
@@ -80,13 +76,6 @@ export default {
     .main-view {
       margin-top: 10px;
     }
-  }
-
-  .error-box {
-    position: fixed;
-    bottom: 0;
-    right: 15px;
-    width: 500px;
   }
 }
 </style>

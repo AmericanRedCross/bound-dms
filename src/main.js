@@ -13,6 +13,7 @@ import Locales from './assets/locales'
 
 import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
+import Notifications from './components/ui/NotificationPlugin'
 import Vuelidate from 'vuelidate'
 import VueI18n from 'vue-i18n'
 import VueCharts from 'vue-chartjs'
@@ -37,6 +38,7 @@ Vue.use(VueSweetAlert)
 Vue.use(VueSimplemde)
 Vue.use(VueAxios, axios)
 Vue.use(VueBreadcrumbs)
+Vue.use(Notifications)
 Vue.use(ToggleButton)
 Vue.component('v-gravatar', Gravatar)
 Vue.component('fa-icon', Icon)
