@@ -33,6 +33,7 @@
 <script>
 import { Project } from '../../vuex/modules/project/Project'
 import { required } from 'vuelidate/lib/validators'
+import { mapGetters } from 'vuex'
 
 export default {
   validations: {
@@ -47,13 +48,20 @@ export default {
       project: new Project({})
     }
   },
+  computed: {
+    ...mapGetters([
+      'getLatestProject'
+    ])
+  },
   methods: {
     onSubmit (e) {
       this.$v.$touch()
       if (!this.$v.project.$error) {
         this.$store.dispatch('CREATE_PROJECT', this.project).then(() => {
-          let pro = this.getLatestProject()
-          this.$router.push({ name: 'project-detail', params: { id: pro.id } })
+          console.log('then')
+          let project = this.getLatestProject()
+          console.log(project)
+          this.$router.push({ name: 'project-detail', params: { id: project.id } })
           this.$notifications.notify(
             {
               message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.created')} ${this.project.name}`,
@@ -62,7 +70,7 @@ export default {
               verticalAlign: 'bottom',
               type: 'info'
             })
-        }).catch(() => {
+        }).catch((e) => {
           this.$notifications.notify(
             {
               message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
