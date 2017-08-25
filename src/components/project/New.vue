@@ -58,9 +58,7 @@ export default {
       this.$v.$touch()
       if (!this.$v.project.$error) {
         this.$store.dispatch('CREATE_PROJECT', this.project).then(() => {
-          console.log('then')
           let project = this.getLatestProject()
-          console.log(project)
           this.$router.push({ name: 'project-detail', params: { id: project.id } })
           this.$notifications.notify(
             {

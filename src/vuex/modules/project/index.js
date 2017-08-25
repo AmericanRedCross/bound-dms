@@ -142,7 +142,6 @@ const projects = {
       })
     },
     getLatestProject: (state, getters) => () => {
-      console.log()
       let last = state.projects[state.projects.length - 1]
       return last
     }
