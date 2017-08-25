@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const controller = require('../controllers/project')
 const langController = require('../controllers/language')
+const dirController = require('../controllers/directory')
 const authService = require('../services/auth')()
 const projectRules = {
   'name': {
@@ -63,5 +64,20 @@ router.delete('/:id/languages/:code', authService.authenticate(), (req, res, nex
     next()
   })
 }, langController.delete)
+
+// GET /api/projects/:id/directories
+router.get('/:id/directories', authService.authenticate(), dirController.getAll)
+// POST /projects/:id/directories
+router.post('/:id/directories', authService.authenticate(), (req, res, next) => {
+  req.checkBody('parentId').optional({checkFalsy: true}).isInt()
+  req.checkBody('order').optional().isInt()
+  req.getValidationResult().then((result) => {
+    if (!result.isEmpty()) {
+      res.status(400).json({status: 422, errors: result.array()})
+      return
+    }
+    next()
+  })
+}, dirController.create)
 
 module.exports = router

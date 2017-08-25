@@ -4,11 +4,11 @@ const authService = require('../services/auth')()
 const controller = require('../controllers/directory')
 
 // GET /api/projects/:id/directories
-router.get('/:id/directories', authService.authenticate(), controller.getAll)
-// GET /api/projects/:id/directories/:did
-router.get('/:id/directories/:did', authService.authenticate(), controller.get)
-// POST /api/projects/:id/directories
-router.post('/:id/directories', (req, res, next) => {
+router.get('/', authService.authenticate(), controller.getAll)
+// GET /api/directories/:id
+router.get('/:id', authService.authenticate(), controller.get)
+// PUT /api/directories/:id
+router.put('/:id', authService.authenticate(), (req, res, next) => {
   req.checkBody('parentId').optional({checkFalsy: true}).isInt()
   req.checkBody('order').optional().isInt()
   req.getValidationResult().then((result) => {
@@ -18,6 +18,8 @@ router.post('/:id/directories', (req, res, next) => {
     }
     next()
   })
-}, authService.authenticate(), controller.create)
+}, controller.update)
+// DELETE /api/directories/:id
+router.delete('/:id', authService.authenticate(), controller.delete)
 
 module.exports = router
