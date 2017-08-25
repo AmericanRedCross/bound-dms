@@ -14,7 +14,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       createdById: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.INTEGER
       },
       createdAt: {
@@ -37,7 +37,8 @@ module.exports = {
         references: {
           table: 'Users',
           field: 'id'
-        }
+        },
+        onDelete: 'set null'
       })
     })
   },

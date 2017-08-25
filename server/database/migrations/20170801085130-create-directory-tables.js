@@ -20,7 +20,7 @@ function createDirectoryTable (queryInterface, Sequelize) {
       defaultValue: 0
     },
     createdById: {
-      allowNull: false,
+      allowNull: true,
       type: Sequelize.INTEGER
     },
     createdAt: {
@@ -54,6 +54,15 @@ function createDirectoryTable (queryInterface, Sequelize) {
         field: 'id'
       },
       onDelete: 'cascade'
+    })
+  }).then(() => {
+    return queryInterface.addConstraint('Directories', ['createdById'], {
+      type: 'FOREIGN KEY',
+      references: {
+        table: 'Users',
+        field: 'id'
+      },
+      onDelete: 'set null'
     })
   })
 }

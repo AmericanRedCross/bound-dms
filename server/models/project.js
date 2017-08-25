@@ -2,7 +2,7 @@ module.exports = (sequelize, DataTypes) => {
   const Project = sequelize.define('Project', {
     name: {type: DataTypes.STRING, allowNull: false},
     description: DataTypes.STRING,
-    createdById: {type: DataTypes.INTEGER, allowNull: false}
+    createdById: {type: DataTypes.INTEGER, allowNull: true}
   })
 
   Project.massAssignable = function () {

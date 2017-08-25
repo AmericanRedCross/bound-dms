@@ -3,8 +3,12 @@ module.exports = (sequelize, DataTypes) => {
     projectId: {type: DataTypes.INTEGER, allowNull: false},
     parentId: {type: DataTypes.INTEGER, allowNull: true, defaultValue: null},
     order: {type: DataTypes.INTEGER, allowNull: false, defaultValue: 0},
-    createdById: {type: DataTypes.INTEGER, allowNull: false}
+    createdById: {type: DataTypes.INTEGER, allowNull: true}
   })
+
+  Directory.massAssignable = function () {
+    return ['parentId', 'order']
+  }
 
   Directory.associate = (models) => {
     Directory.belongsTo(models.User, {

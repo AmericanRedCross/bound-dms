@@ -38,7 +38,7 @@ router.get('/', (req, res) => {
 router.use('/auth', auth)
 router.use('/users', userRoutes)
 router.use('/projects', projectRoutes)
-router.use('/projects', directoryRoutes)
+router.use('/directories', directoryRoutes)
 app.use('/api', router)
 
 // register global error handler
