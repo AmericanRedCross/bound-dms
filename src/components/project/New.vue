@@ -52,7 +52,8 @@ export default {
       this.$v.$touch()
       if (!this.$v.project.$error) {
         this.$store.dispatch('CREATE_PROJECT', this.project).then(() => {
-          this.$router.push({ name: 'project-detail', params: { id: 1 } })
+          let pro = this.getLatestProject()
+          this.$router.push({ name: 'project-detail', params: { id: pro.id } })
           this.$notifications.notify(
             {
               message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.created')} ${this.project.name}`,

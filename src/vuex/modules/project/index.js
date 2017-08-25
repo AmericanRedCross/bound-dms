@@ -82,7 +82,6 @@ const projects = {
     },
     // PUT a project (create)
     CREATE_PROJECT: function ({ commit }, data) {
-      console.log(data)
       return axios.put(PROJECT_ROOT, {
         name: data.name,
         description: data.description
@@ -141,6 +140,10 @@ const projects = {
       return state.projects.find(project => project.id === id).languages.map((language) => {
         return { label: `${languages[language.code].name} (${language.code})`, value: language.code }
       })
+    },
+    getLatestProject: (state, getters) => () => {
+      let last = state.projects[projects.length - 1]
+      return last
     }
   }
 }

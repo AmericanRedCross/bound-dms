@@ -3,7 +3,7 @@
 
     <b-nav-toggle target="nav_collapse"></b-nav-toggle>
 
-    <b-link class="navbar-brand" :to="{ name: 'Dashboard' }">
+    <b-link class="navbar-brand" :to="{ name: 'projects' }">
       <span>{{ $t('common.system') }}</span>
     </b-link>
 
