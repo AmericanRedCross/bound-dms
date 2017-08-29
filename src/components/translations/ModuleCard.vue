@@ -96,3 +96,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.input-group-addon {
+  background-color: #ffffff;
+}
+</style>
