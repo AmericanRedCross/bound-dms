@@ -121,7 +121,16 @@ export default {
             this.$router.push({ name: 'users' })
           }
         }).catch(() => {
+          console.log('error')
           this.saving = false
+          this.$notifications.notify(
+            {
+              message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+              icon: 'exclamation-triangle',
+              horizontalAlign: 'right',
+              verticalAlign: 'bottom',
+              type: 'danger'
+            })
         })
       }
     }
