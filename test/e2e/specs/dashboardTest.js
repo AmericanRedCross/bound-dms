@@ -2,19 +2,6 @@
 // http://nightwatchjs.org/guide#usage
 
 module.exports = {
-  'check charts present': function (browser) {
-    // automatically uses dev Server port from /config.index.js
-    // default: http://localhost:8080
-    // see nightwatch.conf.js
-    const devServer = browser.globals.devServerURL
-
-    browser
-      .url(devServer + '/dashboard')
-      .waitForElementVisible('.dashboard', 5000)
-      .assert.elementCount('.card', 3)
-      .assert.elementCount('.small', 3)
-      .end()
-  },
 
   'check chart text': function (browser) {
     // automatically uses dev Server port from /config.index.js
