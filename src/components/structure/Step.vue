@@ -5,7 +5,7 @@
     <b-card :class="{noToggle: !step.steps.length}">
 
       <!-- Module Header (The bit that's not hidden) -->
-      <div class="d-flex align-items-baseline flex-wrap step-header content">
+      <div class="d-flex align-items-baseline flex-wrap content">
         <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-for="number in stepNumbers">{{ number }}.</span><span>{{ step.hierarchy }}</span></h4>
 
         <i v-if="!editTitle" class="ml-2">{{ step.title }}</i>
