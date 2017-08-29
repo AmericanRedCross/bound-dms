@@ -15,7 +15,7 @@
               </b-card>
             </div>
             <div class="col-md-6">
-              <b-card :border-variant="getBorderStatus">
+              <b-card>
                 <b-input-group>
                   <b-tooltip :content="getContent">
                     <b-input-group-addon>
@@ -25,7 +25,7 @@
                   <b-form-input type="text" placeholder="Translated Module Name"></b-form-input>
                 </b-input-group>
               </b-card>
-              <b-card :border-variant="getBorderStatus">
+              <b-card>
                 <b-input-group>
                   <b-tooltip :content="getContent">
                     <b-input-group-addon>
