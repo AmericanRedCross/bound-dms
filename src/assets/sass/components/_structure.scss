@@ -4,6 +4,10 @@
   }
 }
 .step {
+  cursor: grab;
+  .sortable-chosen {
+    cursor: grabbing;
+  }
   .noToggle {
     // The toggle normally takes up 40px, move the step 40px if no toggle
     margin-left: 40px;
