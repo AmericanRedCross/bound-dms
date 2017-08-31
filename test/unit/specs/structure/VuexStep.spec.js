@@ -51,7 +51,7 @@ const mockState = {
     new Step({
       id: 3,
       title: 'Module 3',
-      hierarchy: 2,
+      hierarchy: 3,
       content: '# Markdown Content',
       attachments: [
         new Attachment({id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: false})
@@ -62,7 +62,7 @@ const mockState = {
     new Step({
       id: 4,
       title: 'Module 4',
-      hierarchy: 2,
+      hierarchy: 4,
       content: '# Markdown Content',
       attachments: [
         new Attachment({id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: false})
@@ -100,6 +100,19 @@ const expectAttachment = (mock, attachmentObject) => {
   expect(attachmentObject.featured).to.equal(mock.featured)
 }
 
+const moveStepAndExpect = (state, newIndex, oldIndex) => {
+  // Move Steps to the right place... (emulating what sortable.js does on the frontend)
+  let element = state.steps[oldIndex]
+  state.steps.splice(oldIndex, 1)
+  state.steps.splice(newIndex, 0, element)
+  // Call set hierarchy mutation
+  mutations.SET_HIERARCHY(state, { options: {newIndex, oldIndex} })
+  // Expect that the hierarchies are now in seuential order
+  state.steps.forEach((step, index) => {
+    expect(step.hierarchy).to.equal(index + 1)
+  })
+}
+
 const mockSteps = stepUtils.getMockStructure()
 
 describe('Vuex Structure Mutations', () => {
@@ -122,14 +135,18 @@ describe('Vuex Structure Mutations', () => {
   it('SET_HIERARCHY', () => {
     // mock state
     let state = {}
-    // Copy constant mockState to our state variable
+    // Move 0 -> 1 (index based)
     Object.assign(state, mockState)
-    // Move the first module to the bottom....
-    mutations.SET_HIERARCHY(state, {newIndex: mockState.length - 1, oldIndex: 0})
-
-    expect(state.steps[mockState.length - 1].hierarchy).to.equal(1)
-    expect(state.steps[0].hierarchy).to.equal(1)
-    expect(state.steps[mockState.length - 1].title).to.equal(mockState.steps[0].title)
-    expect(state.steps[0].title).to.equal(mockState.steps[mockState.length - 1].title)
+    moveStepAndExpect(state, 1, 0)
+    // Move 0 -> 2 (index based)
+    moveStepAndExpect(state, 2, 0)
+    // Move 0 -> 3 (index based)
+    moveStepAndExpect(state, 3, 0)
+    // Move 3 -> 0 (index based)
+    moveStepAndExpect(state, 0, 3)
+    // Move 3 -> 1 (index based)
+    moveStepAndExpect(state, 0, 2)
+    // Move 3 -> 2 (index based)
+    moveStepAndExpect(state, 0, 1)
   })
 })
