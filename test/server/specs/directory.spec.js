@@ -18,6 +18,7 @@ describe('API: Directories', () => {
         .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {
+          if (err) throw err
           expect(res.body).to.be.an('object')
           expect(res.body.status).to.equal(200)
           expect(res.body.data).to.be.an('array')
@@ -41,6 +42,7 @@ describe('API: Directories', () => {
         .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {
+          if (err) throw err
           expect(res.body).to.be.an('object')
           expect(res.body.status).to.equal(200)
           expect(res.body.data).to.be.an('object')
@@ -66,6 +68,7 @@ describe('API: Directories', () => {
         .send(directory)
         .expect(201)
         .end((err, res) => {
+          if (err) throw err
           expect(res.body.status).to.equal(201)
           expect(res.body.data).to.have.property('id')
           expect(res.body.data).to.have.property('parentId')
@@ -92,6 +95,7 @@ describe('API: Directories', () => {
         .send(directory)
         .expect(200)
         .end((err, res) => {
+          if (err) throw err
           expect(res.body.status).to.equal(200)
           expect(res.body.data).to.have.property('id')
           expect(res.body.data).to.have.property('parentId')
@@ -111,6 +115,7 @@ describe('API: Directories', () => {
         .set('Authorization', 'Bearer ' + this.token)
         .expect(200)
         .end((err, res) => {
+          if (err) throw err
           expect(res.body.status).to.equal(200)
           done()
         })

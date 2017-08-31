@@ -27,7 +27,7 @@ const mockApiKeys = [{
 },
 {
   id: 2,
-  name: 'kevin.borrill@3sidedcube.com',
+  name: 'android',
   key: '1234567890'
 }]
 

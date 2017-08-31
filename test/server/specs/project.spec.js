@@ -18,6 +18,7 @@ describe('API: Projects', () => {
         .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {
+          if (err) throw err
           expect(res.body).to.be.an('object')
           expect(res.body.status).to.equal(200)
           expect(res.body.data).to.be.an('array')
@@ -40,6 +41,7 @@ describe('API: Projects', () => {
         .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {
+          if (err) throw err
           expect(res.body.data).to.be.an('object')
           expect(res.body.status).to.equal(200)
           expect(res.body.data).to.have.property('id')
@@ -59,6 +61,7 @@ describe('API: Projects', () => {
         .expect('Content-Type', /json/)
         .expect(404)
         .end((err, res) => {
+          if (err) throw err
           expect(res.body.status).to.equal(404)
           done()
         })
@@ -77,6 +80,7 @@ describe('API: Projects', () => {
         .send(project)
         .expect(201)
         .end((err, res) => {
+          if (err) throw err
           expect(res.body.status).to.equal(201)
           expect(res.body.data).to.have.property('id')
           expect(res.body.data).to.have.property('name')
@@ -99,6 +103,7 @@ describe('API: Projects', () => {
         .send(project)
         .expect(201)
         .end((err, res) => {
+          if (err) throw err
           expect(res.body.status).to.equal(201)
           expect(res.body.data.createdBy.id).to.equal(this.userId)
           done()
@@ -116,8 +121,9 @@ describe('API: Projects', () => {
         .post('/api/projects/1')
         .set('Authorization', 'Bearer ' + this.token)
         .send(project)
-        .expect(201)
+        .expect(200)
         .end((err, res) => {
+          if (err) throw err
           expect(res.body.status).to.equal(200)
           expect(res.body.data).to.have.property('id')
           expect(res.body.data).to.have.property('name')
@@ -138,6 +144,7 @@ describe('API: Projects', () => {
           .set('Authorization', 'Bearer ' + this.token)
           .expect(200)
           .end((err, res) => {
+            if (err) throw err
             expect(res.body.status).to.equal(200)
             done()
           })

@@ -17,6 +17,7 @@ describe('API: User', () => {
         .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {
+          if (err) throw err
           expect(res.body).to.be.an('object')
           expect(res.body.status).to.equal(200)
           expect(res.body.data).to.be.an('array')
@@ -41,6 +42,7 @@ describe('API: User', () => {
         .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {
+          if (err) throw err
           expect(res.body).to.be.an('object')
           expect(res.body.status).to.equal(200)
           expect(res.body.data).to.have.property('id')
@@ -71,6 +73,7 @@ describe('API: User', () => {
         .send(user)
         .expect(201)
         .end((err, res) => {
+          if (err) throw err
           expect(res.body.status).to.equal(201)
           expect(res.body.data).to.have.property('id')
           expect(res.body.data).to.have.property('email')
@@ -98,6 +101,7 @@ describe('API: User', () => {
         .send(user)
         .expect(201)
         .end((err, res) => {
+          if (err) throw err
           expect(res.body.status).to.equal(201)
           expect(res.body.data).to.have.property('isActive')
           expect(res.body.data.isActive).to.be.false
@@ -114,6 +118,7 @@ describe('API: User', () => {
         .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {
+          if (err) throw err
           expect(res.body.status).to.equal(200)
           expect(res.body.data).to.have.property('id')
           expect(res.body.data.id).to.equal(1)
@@ -141,6 +146,7 @@ describe('API: User', () => {
         .send(user)
         .expect('Content-Type', /json/)
         .end((err, res) => {
+          if (err) throw err
           expect(res.body.data).to.have.property('id')
           expect(res.body.data.id).to.equal(1)
           expect(res.body.data).to.have.property('email')
@@ -161,6 +167,7 @@ describe('API: User', () => {
         .send({'password': '12345678', 'newPassword': '87654321'})
         .expect(200)
         .end((err, res) => {
+          if (err) throw err
           expect(res.body).to.have.property('status')
           expect(res.body.status).to.equal(200)
           done()
@@ -200,6 +207,7 @@ describe('API: User', () => {
         .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {
+          if (err) throw err
           expect(res.body).to.have.property('message')
           expect(res.body.message).to.equal('User deleted')
           done()
