@@ -16,19 +16,22 @@ let mockStructure = [{
     hierarchy: 1,
     content: '# Some other content',
     attachments: [],
+    critical: false,
     steps: [{
       id: 3,
       title: 'Et Harum quidem reprum',
       hierarchy: 1,
       content: '# Some other content',
-      attachments: []
+      attachments: [],
+      critical: true
     },
     {
       id: 4,
       title: 'Et Harum quidem reprum',
       hierarchy: 2,
       content: '# Some other content',
-      attachments: []
+      attachments: [],
+      critical: true
     }]
   }]
 },
@@ -38,26 +41,30 @@ let mockStructure = [{
   hierarchy: 2,
   content: '# Markdown Content',
   attachments: [],
+  critical: false,
   steps: [{
     id: 2,
     title: 'Et Harum quidem reprum',
     hierarchy: 1,
     content: '# Some other content',
     attachments: [],
+    critical: false,
     steps: [
       {
         id: 3,
         title: 'Et Harum quidem reprum',
         hierarchy: 1,
         content: '# Some other content',
-        attachments: []
+        attachments: [],
+        critical: false
       },
       {
         id: 4,
         title: 'Et Harum quidem reprum',
         hierarchy: 2,
         content: '# Some other content',
-        attachments: []
+        attachments: [],
+        critical: false
       }
     ]
   }]
@@ -68,26 +75,30 @@ let mockStructure = [{
   hierarchy: 3,
   content: '# Markdown Content',
   attachments: [],
+  critical: false,
   steps: [{
     id: 2,
     title: 'Et Harum quidem reprum',
     hierarchy: 1,
     content: '# Some other content',
     attachments: [],
+    critical: false,
     steps: [
       {
         id: 3,
         title: 'Et Harum quidem reprum',
         hierarchy: 1,
         content: '# Some other content',
-        attachments: []
+        attachments: [],
+        critical: false
       },
       {
         id: 4,
         title: 'Et Harum quidem reprum',
         hierarchy: 2,
         content: '# Some other content',
-        attachments: []
+        attachments: [],
+        critical: false
       }
     ]
   }]
@@ -98,26 +109,31 @@ let mockStructure = [{
   hierarchy: 4,
   content: '# Markdown Content',
   attachments: [],
+  critical: false,
   steps: [{
     id: 2,
     title: 'Et Harum quidem reprum',
     hierarchy: 1,
     content: '# Some other content',
     attachments: [],
+    critical: false,
     steps: [
       {
         id: 3,
         title: 'Et Harum quidem reprum',
         hierarchy: 1,
         content: '# Some other content',
-        attachments: []
+        attachments: [],
+        critical: false
       },
       {
         id: 4,
         title: 'Et Harum quidem reprum',
         hierarchy: 2,
         content: '# Some other content',
-        attachments: []
+        attachments: [],
+        critical: false,
+        steps: []
       }
     ]
   }]
@@ -128,26 +144,30 @@ let mockStructure = [{
   hierarchy: 5,
   content: '# Markdown Content',
   attachments: [],
+  critical: false,
   steps: [{
     id: 2,
     title: 'Et Harum quidem reprum',
     hierarchy: 1,
     content: '# Some other content',
     attachments: [],
+    critical: false,
     steps: [
       {
         id: 3,
         title: 'Et Harum quidem reprum',
         hierarchy: 1,
         content: '# Some other content',
-        attachments: []
+        attachments: [],
+        critical: false
       },
       {
         id: 4,
         title: 'Et Harum quidem reprum',
         hierarchy: 2,
         content: '# Some other content',
-        attachments: []
+        attachments: [],
+        critical: false
       }
     ]
   }]

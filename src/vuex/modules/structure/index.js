@@ -1,5 +1,3 @@
-/** TODO: All this needs unit testing. */
-
 // This module handles the global store and requests for the Step endpoint
 import stepUtils from './utils'
 import { Step } from './Step'
@@ -18,7 +16,20 @@ const steps = {
       state.steps = response.data
     },
     SET_HIERARCHY: (state, { options }) => {
-      Step.updateHierarchy(options.newIndex, options.oldIndex, state.steps)
+      // Find the right lot of steps.. traverse through
+      let steps = state.steps
+      if (options.stepNumbers !== undefined) {
+        options.stepNumbers.forEach((stepNumber, index) => {
+          if (index === 0) {
+            // an array so a bit different to find
+            steps = steps.find(step => step.hierarchy === stepNumber)
+          } else {
+            steps = steps.steps.find(step => step.hierarchy === stepNumber)
+          }
+        })
+        steps = steps.steps
+      }
+      Step.updateHierarchy(options.newIndex, options.oldIndex, steps)
     }
   },
   actions: {

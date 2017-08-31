@@ -86,7 +86,7 @@
 
     <!-- Here's the collapsable area with the steps, uses vue draggable https://github.com/SortableJS/Vue.Draggable -->
     <b-collapse :visible="isExpanded" id="collapse-steps">
-      <draggable v-model="step.steps" :options="draggableOptions">
+      <draggable v-model="step.steps" @update="updateDraggable" :options="draggableOptions">
         <transition-group name="step-list">
           <!-- We need to use a key here so vue can keep track of the steps' identities https://vuejs.org/v2/guide/list.html#key -->
           <Step
@@ -191,6 +191,13 @@ export default {
     addSubStep () {
       this.isExpanded = true
       this.step.addStepAtIndex({index: this.index})
+    },
+    updateDraggable (e) {
+      let newIndex = e.newIndex
+      let oldIndex = e.oldIndex
+
+      // Update Hierarchy
+      this.$store.dispatch('UPDATE_HIERARCHY', {newIndex, oldIndex, stepNumbers: this.getSteps()})
     },
     removeStep () {
       this.step.removeStepById(this.step.id)
