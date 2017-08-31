@@ -18,6 +18,7 @@ describe('API: Languages', () => {
         .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {
+          if (err) throw err
           expect(res.body).to.be.an('object')
           expect(res.body.status).to.equal(200)
           expect(res.body.data).to.be.an('array')
@@ -38,6 +39,7 @@ describe('API: Languages', () => {
         .set('Authorization', 'Bearer ' + this.token)
         .expect(201)
         .end((err, res) => {
+          if (err) throw err
           expect(res.body.status).to.equal(201)
           expect(res.body.data).to.have.property('code')
           expect(res.body.data).to.have.property('createdAt')
@@ -65,6 +67,7 @@ describe('API: Languages', () => {
         .set('Authorization', 'Bearer ' + this.token)
         .expect(200)
         .end((err, res) => {
+          if (err) throw err
           expect(res.body.status).to.equal(200)
           done()
         })

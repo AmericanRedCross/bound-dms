@@ -14,6 +14,7 @@ describe('API: Authentication', () => {
         .send(user)
         .expect(200)
         .end((err, res) => {
+          if (err) throw err
           expect(res.headers).to.have.property('authorization')
           expect(res.body.token).to.be.a('string')
           expect(res.body).to.have.property('token')
@@ -87,6 +88,7 @@ describe('API: Authentication', () => {
       .expect(200)
       .expect('Content-Type', /json/)
       .end((err, res) => {
+        if (err) throw err
         expect(res.headers).to.have.property('authorization')
         expect(res.body).to.have.property('token')
         done()
