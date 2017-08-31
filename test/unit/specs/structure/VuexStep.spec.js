@@ -107,7 +107,7 @@ const moveStepAndExpect = (state, newIndex, oldIndex) => {
   state.steps.splice(newIndex, 0, element)
   // Call set hierarchy mutation
   mutations.SET_HIERARCHY(state, { options: {newIndex, oldIndex} })
-  // Expect that the hierarchies are now in seuential order
+  // Expect that the hierarchies are now in sequential order
   state.steps.forEach((step, index) => {
     expect(step.hierarchy).to.equal(index + 1)
   })

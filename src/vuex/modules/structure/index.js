@@ -1,5 +1,3 @@
-/** TODO: All this needs unit testing. */
-
 // This module handles the global store and requests for the Step endpoint
 import stepUtils from './utils'
 import { Step } from './Step'

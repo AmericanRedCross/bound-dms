@@ -193,7 +193,6 @@ export default {
       this.step.addStepAtIndex({index: this.index})
     },
     updateDraggable (e) {
-      // get new and old index
       let newIndex = e.newIndex
       let oldIndex = e.oldIndex
 
