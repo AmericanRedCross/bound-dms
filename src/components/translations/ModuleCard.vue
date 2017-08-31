@@ -18,7 +18,7 @@
               <b-card>
                 <b-input-group>
                   <b-tooltip :content="getContent">
-                    <b-input-group-addon>
+                    <b-input-group-addon class="white-icon">
                       <fa-icon :name="getIcon" :class="getIconStatus"></fa-icon>
                     </b-input-group-addon>
                   </b-tooltip>
@@ -28,7 +28,7 @@
               <b-card>
                 <b-input-group>
                   <b-tooltip :content="getContent">
-                    <b-input-group-addon>
+                    <b-input-group-addon class="white-icon">
                       <fa-icon :name="getIcon" :class="getIconStatus"></fa-icon>
                     </b-input-group-addon>
                   </b-tooltip>
@@ -98,7 +98,7 @@ export default {
 </script>
 
 <style>
-.input-group-addon {
+.white-icon {
   background-color: #ffffff;
 }
 </style>
