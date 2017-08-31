@@ -169,6 +169,14 @@ export default{
       translate: 'Translated Languages: ',
       publish: ' Publish These Changes',
       publishAll: 'Publish All Changes'
+    },
+    keys: {
+      view: 'View Key',
+      add: 'Add API Key',
+      name: 'Key Name',
+      key: 'API Key',
+      example: 'e.g. iOS App',
+      emptystate: 'There are no Api Keys assigned to this project'
     }
   },
   pagenotfound: {

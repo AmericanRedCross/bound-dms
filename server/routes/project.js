@@ -3,6 +3,7 @@ const router = express.Router()
 const controller = require('../controllers/project')
 const langController = require('../controllers/language')
 const dirController = require('../controllers/directory')
+const keyController = require('../controllers/apiKey')
 const authService = require('../services/auth')()
 const projectRules = {
   'name': {
@@ -64,6 +65,24 @@ router.delete('/:id/languages/:code', authService.authenticate(), (req, res, nex
     next()
   })
 }, langController.delete)
+
+router.get('/:projectId/api-keys', authService.authenticate(), keyController.getAllForProject)
+
+router.put('/:projectId/api-keys', authService.authenticate(), (req, res, next) => {
+  req.checkParams('projectId', 'Invalid project id').isInt()
+  req.checkBody({
+    'name': {
+      notEmpty: true
+    }
+  })
+  req.getValidationResult().then((result) => {
+    if (!result.isEmpty()) {
+      res.status(400).json(result.array())
+      return
+    }
+    next()
+  })
+}, keyController.create)
 
 // GET /api/projects/:id/directories
 router.get('/:id/directories', authService.authenticate(), dirController.getAll)
