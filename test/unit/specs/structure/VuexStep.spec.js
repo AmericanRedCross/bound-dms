@@ -9,11 +9,11 @@ const { structure } = modules
 const { mutations } = structure
 
 const mockEmptyState = {
-  directories: []
+  structure: []
 }
 
 const mockState = {
-  directories: [
+  structure: [
     new Directory({
       id: 1,
       title: 'Module 1',
@@ -31,11 +31,9 @@ const mockState = {
           attachments: [
             new Attachment({id: 2, title: 'Another Attachment', url: 'http://somedocuments.docx', size: 12000, mime: '', featured: false})
           ],
-          directories: [],
-          critical: true
+          directories: []
         })
-      ],
-      critical: true
+      ]
     }),
     new Directory({
       id: 2,
@@ -45,8 +43,7 @@ const mockState = {
       attachments: [
         new Attachment({id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: false})
       ],
-      directories: [],
-      critical: false
+      directories: []
     }),
     new Directory({
       id: 3,
@@ -56,8 +53,7 @@ const mockState = {
       attachments: [
         new Attachment({id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: false})
       ],
-      directories: [],
-      critical: false
+      directories: []
     }),
     new Directory({
       id: 4,
@@ -67,8 +63,7 @@ const mockState = {
       attachments: [
         new Attachment({id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: false})
       ],
-      directories: [],
-      critical: false
+      directories: []
     })
   ]
 }
@@ -78,7 +73,6 @@ const expectDirectory = (mock, directoryObject) => {
   expect(directoryObject.title).to.equal(mock.title)
   expect(directoryObject.order).to.equal(mock.order)
   expect(directoryObject.content).to.equal(mock.content)
-  expect(directoryObject.critical).to.equal(mock.critical)
   // Check Attachment objects
   mock.attachments.forEach((attachment, index) => {
     expectAttachment(attachment, directoryObject.attachments[index])
@@ -102,13 +96,13 @@ const expectAttachment = (mock, attachmentObject) => {
 
 const moveDirectoryAndExpect = (state, newIndex, oldIndex) => {
   // Move Directories to the right place... (emulating what sortable.js does on the frontend)
-  let element = state.directories[oldIndex]
-  state.directories.splice(oldIndex, 1)
-  state.directories.splice(newIndex, 0, element)
+  let element = state.structure[oldIndex]
+  state.structure.splice(oldIndex, 1)
+  state.structure.splice(newIndex, 0, element)
   // Call set order mutation
   mutations.SET_ORDER(state, { options: {newIndex, oldIndex} })
   // Expect that the hierarchies are now in sequential order
-  state.directories.forEach((directory, index) => {
+  state.structure.forEach((directory, index) => {
     expect(directory.order).to.equal(index + 1)
   })
 }
@@ -123,11 +117,11 @@ describe('Vuex Structure Mutations', () => {
     // Copy constant mockState to our state variable
     Object.assign(state, mockEmptyState)
     // apply mutation with mock users
-    mutations.SET_STRUCTURE(state, {response: {data: mockDirectories}})
+    mutations.SET_STRUCTURE(state, {response: mockDirectories})
     // assert result
     // expect().to.equal(mockUsers)
     mockDirectories.forEach((directory, index) => {
-      expectDirectory(directory, state.directories[index])
+      expectDirectory(directory, state.structure[index])
     })
   })
 
