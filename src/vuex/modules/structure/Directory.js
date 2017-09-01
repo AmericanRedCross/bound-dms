@@ -28,7 +28,7 @@ export class Directory {
   set title (title) { this._title = title }
   get title () { return this._title }
 
-  // Hierarchy
+  // Order
   set order (order) { this._order = order }
   get order () { return this._order }
 

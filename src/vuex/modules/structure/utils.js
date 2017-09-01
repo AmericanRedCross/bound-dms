@@ -4,7 +4,7 @@ import { Attachment } from './Attachment'
 let mockStructure = [{
   id: 1,
   title: 'Prepare and analyze',
-  hierarchy: 1,
+  order: 1,
   content: '# Markdown Content',
   critical: true,
   attachments: [{id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: true},
@@ -13,14 +13,14 @@ let mockStructure = [{
   directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
-    hierarchy: 1,
+    order: 1,
     content: '# Some other content',
     attachments: [],
     critical: false,
     directories: [{
       id: 3,
       title: 'Et Harum quidem reprum',
-      hierarchy: 1,
+      order: 1,
       content: '# Some other content',
       attachments: [],
       critical: true
@@ -28,7 +28,7 @@ let mockStructure = [{
     {
       id: 4,
       title: 'Et Harum quidem reprum',
-      hierarchy: 2,
+      order: 2,
       content: '# Some other content',
       attachments: [],
       critical: true
@@ -38,14 +38,14 @@ let mockStructure = [{
 {
   id: 2,
   title: 'Prepare and analyze',
-  hierarchy: 2,
+  order: 2,
   content: '# Markdown Content',
   attachments: [],
   critical: false,
   directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
-    hierarchy: 1,
+    order: 1,
     content: '# Some other content',
     attachments: [],
     critical: false,
@@ -53,7 +53,7 @@ let mockStructure = [{
       {
         id: 3,
         title: 'Et Harum quidem reprum',
-        hierarchy: 1,
+        order: 1,
         content: '# Some other content',
         attachments: [],
         critical: false
@@ -61,7 +61,7 @@ let mockStructure = [{
       {
         id: 4,
         title: 'Et Harum quidem reprum',
-        hierarchy: 2,
+        order: 2,
         content: '# Some other content',
         attachments: [],
         critical: false
@@ -72,14 +72,14 @@ let mockStructure = [{
 {
   id: 3,
   title: 'Prepare and analyze',
-  hierarchy: 3,
+  order: 3,
   content: '# Markdown Content',
   attachments: [],
   critical: false,
   directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
-    hierarchy: 1,
+    order: 1,
     content: '# Some other content',
     attachments: [],
     critical: false,
@@ -87,7 +87,7 @@ let mockStructure = [{
       {
         id: 3,
         title: 'Et Harum quidem reprum',
-        hierarchy: 1,
+        order: 1,
         content: '# Some other content',
         attachments: [],
         critical: false
@@ -95,7 +95,7 @@ let mockStructure = [{
       {
         id: 4,
         title: 'Et Harum quidem reprum',
-        hierarchy: 2,
+        order: 2,
         content: '# Some other content',
         attachments: [],
         critical: false
@@ -106,14 +106,14 @@ let mockStructure = [{
 {
   id: 4,
   title: 'Prepare and analyze',
-  hierarchy: 4,
+  order: 4,
   content: '# Markdown Content',
   attachments: [],
   critical: false,
   directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
-    hierarchy: 1,
+    order: 1,
     content: '# Some other content',
     attachments: [],
     critical: false,
@@ -121,7 +121,7 @@ let mockStructure = [{
       {
         id: 3,
         title: 'Et Harum quidem reprum',
-        hierarchy: 1,
+        order: 1,
         content: '# Some other content',
         attachments: [],
         critical: false
@@ -129,7 +129,7 @@ let mockStructure = [{
       {
         id: 4,
         title: 'Et Harum quidem reprum',
-        hierarchy: 2,
+        order: 2,
         content: '# Some other content',
         attachments: [],
         critical: false,
@@ -141,14 +141,14 @@ let mockStructure = [{
 {
   id: 5,
   title: 'Prepare and analyze',
-  hierarchy: 5,
+  order: 5,
   content: '# Markdown Content',
   attachments: [],
   critical: false,
   directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
-    hierarchy: 1,
+    order: 1,
     content: '# Some other content',
     attachments: [],
     critical: false,
@@ -156,7 +156,7 @@ let mockStructure = [{
       {
         id: 3,
         title: 'Et Harum quidem reprum',
-        hierarchy: 1,
+        order: 1,
         content: '# Some other content',
         attachments: [],
         critical: false
@@ -164,7 +164,7 @@ let mockStructure = [{
       {
         id: 4,
         title: 'Et Harum quidem reprum',
-        hierarchy: 2,
+        order: 2,
         content: '# Some other content',
         attachments: [],
         critical: false
@@ -176,6 +176,7 @@ let mockStructure = [{
 const DirectoryUtils = {
   // Useful function to get an array of directory objects
   getDirectories (dataArray) {
+    console.log({dataArray})
     let directories = []
     if (Array.isArray(dataArray)) {
       dataArray.forEach((data) => {
@@ -192,7 +193,7 @@ const DirectoryUtils = {
     return new Directory({
       id: data.id,
       title: data.title,
-      hierarchy: data.hierarchy,
+      order: data.order,
       content: data.content,
       critical: data.critical,
       attachments: this.getAttachments(data.attachments),

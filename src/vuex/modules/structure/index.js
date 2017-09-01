@@ -23,8 +23,8 @@ const directories = {
   },
   mutations: {
     SET_STRUCTURE: (state, { response }) => {
-      if (response.data instanceof Array) {
-        state.structure = directoryUtils.getDirectorys(response.data)
+      if (response instanceof Array) {
+        state.structure = directoryUtils.getDirectories(response)
       }
     },
     SET_PARSED_STRUCTURE: (state, { response }) => {
@@ -33,7 +33,7 @@ const directories = {
     SET_DIRECTORIES: (state, { response }) => {
       state.flatDirectories = response.data
     },
-    SET_HIERARCHY: (state, { options }) => {
+    SET_ORDER: (state, { options }) => {
       // Find the right lot of directories.. traverse through
       let directories = state.directories
       if (options.directoryNumbers !== undefined) {
@@ -70,17 +70,13 @@ const directories = {
       //   }
       // })
     },
-    // GET directories
-    GET_DIRECTORIES: function ({ commit }, projectId) {
-
-    },
     // POST a directory (update)
     UPDATE_STRUCTURE: function ({ commit }, data) {
       commit('SET_PARSED_STRUCTURE', { response: {data} })
     },
 
-    UPDATE_HIERARCHY: function ({ commit }, options) {
-      commit('SET_HIERARCHY', {
+    UPDATE_ORDER: function ({ commit }, options) {
+      commit('SET_ORDER', {
         options
       })
     }

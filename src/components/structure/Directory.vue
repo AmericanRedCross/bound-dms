@@ -6,7 +6,7 @@
 
       <!-- Module Header (The bit that's not hidden) -->
       <div class="d-flex align-items-baseline flex-wrap content">
-        <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-for="number in directoryNumbers">{{ number }}.</span><span>{{ directory.hierarchy }}</span></h4>
+        <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-for="number in directoryNumbers">{{ number }}.</span><span>{{ directory.order }}</span></h4>
 
         <i v-if="!editTitle" class="ml-2">{{ directory.title }}</i>
 
@@ -198,8 +198,8 @@ export default {
       let newIndex = e.newIndex
       let oldIndex = e.oldIndex
 
-      // Update Hierarchy
-      this.$store.dispatch('UPDATE_HIERARCHY', {newIndex, oldIndex, directoryNumbers: this.getDirectories()})
+      // Update Order
+      this.$store.dispatch('UPDATE_ORDER', {newIndex, oldIndex, directoryNumbers: this.getDirectories()})
     },
     removeDirectory () {
       this.directory.removeDirectoryById(this.directory.id)
@@ -209,7 +209,7 @@ export default {
       this.isExpanded = value
     },
     getDirectories () {
-      return [...this.directoryNumbers, this.directory.hierarchy]
+      return [...this.directoryNumbers, this.directory.order]
     }
   },
   computed: {

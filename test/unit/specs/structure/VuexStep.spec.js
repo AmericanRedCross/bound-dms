@@ -17,7 +17,7 @@ const mockState = {
     new Directory({
       id: 1,
       title: 'Module 1',
-      hierarchy: 1,
+      order: 1,
       content: '# Markdown Content',
       attachments: [
         new Attachment({id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: true})
@@ -26,7 +26,7 @@ const mockState = {
         new Directory({
           id: 3,
           title: 'Some subdirectory name',
-          hierarchy: 1,
+          order: 1,
           content: '# Markdown Content',
           attachments: [
             new Attachment({id: 2, title: 'Another Attachment', url: 'http://somedocuments.docx', size: 12000, mime: '', featured: false})
@@ -40,7 +40,7 @@ const mockState = {
     new Directory({
       id: 2,
       title: 'Module 2',
-      hierarchy: 2,
+      order: 2,
       content: '# Markdown Content',
       attachments: [
         new Attachment({id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: false})
@@ -51,7 +51,7 @@ const mockState = {
     new Directory({
       id: 3,
       title: 'Module 3',
-      hierarchy: 3,
+      order: 3,
       content: '# Markdown Content',
       attachments: [
         new Attachment({id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: false})
@@ -62,7 +62,7 @@ const mockState = {
     new Directory({
       id: 4,
       title: 'Module 4',
-      hierarchy: 4,
+      order: 4,
       content: '# Markdown Content',
       attachments: [
         new Attachment({id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: false})
@@ -76,7 +76,7 @@ const mockState = {
 const expectDirectory = (mock, directoryObject) => {
   expect(directoryObject.id).to.equal(mock.id)
   expect(directoryObject.title).to.equal(mock.title)
-  expect(directoryObject.hierarchy).to.equal(mock.hierarchy)
+  expect(directoryObject.order).to.equal(mock.order)
   expect(directoryObject.content).to.equal(mock.content)
   expect(directoryObject.critical).to.equal(mock.critical)
   // Check Attachment objects
@@ -105,11 +105,11 @@ const moveDirectoryAndExpect = (state, newIndex, oldIndex) => {
   let element = state.directories[oldIndex]
   state.directories.splice(oldIndex, 1)
   state.directories.splice(newIndex, 0, element)
-  // Call set hierarchy mutation
-  mutations.SET_HIERARCHY(state, { options: {newIndex, oldIndex} })
+  // Call set order mutation
+  mutations.SET_ORDER(state, { options: {newIndex, oldIndex} })
   // Expect that the hierarchies are now in sequential order
   state.directories.forEach((directory, index) => {
-    expect(directory.hierarchy).to.equal(index + 1)
+    expect(directory.order).to.equal(index + 1)
   })
 }
 
@@ -131,8 +131,8 @@ describe('Vuex Structure Mutations', () => {
     })
   })
 
-  // SET_HIERARCHY
-  it('SET_HIERARCHY', () => {
+  // SET_ORDER
+  it('SET_ORDER', () => {
     // mock state
     let state = {}
     // Move 0 -> 1 (index based)

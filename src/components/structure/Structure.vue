@@ -39,9 +39,8 @@ export default {
     }
   },
   mounted () {
-    this.$store.dispatch('GET_STRUCTURE', this.$route.params.id)
-    this.$store.dispatch('GET_DIRECTORIES', this.$route.params.id).then(() => {
-
+    this.$store.dispatch('GET_STRUCTURE', this.$route.params.id).then(() => {
+      console.log(this.$store.state)
     }).catch((e) => {
       this.$notifications.notify(
         {
@@ -73,8 +72,8 @@ export default {
       let newIndex = e.newIndex
       let oldIndex = e.oldIndex
 
-      // Update Hierarchy
-      this.$store.dispatch('UPDATE_HIERARCHY', {newIndex, oldIndex})
+      // Update Order
+      this.$store.dispatch('UPDATE_ORDER', {newIndex, oldIndex})
     }
   },
   computed: {

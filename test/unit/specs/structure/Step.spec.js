@@ -11,7 +11,7 @@ describe('Directory Object Creation', () => {
     let newDirectory = new Directory({})
     expect(newDirectory).to.have.property('id')
     expect(newDirectory).to.have.property('title')
-    expect(newDirectory).to.have.property('hierarchy')
+    expect(newDirectory).to.have.property('order')
     expect(newDirectory).to.have.property('content')
     expect(newDirectory).to.have.property('attachments')
     expect(newDirectory).to.have.property('directories')
@@ -20,14 +20,14 @@ describe('Directory Object Creation', () => {
   it('Has the correct propery values', () => {
     let id = 1
     let title = 'Section 1'
-    let hierarchy = 1
+    let order = 1
     let content = '# Content'
     let attachments = [new Attachment({})]
     let directories = [new Directory({})]
     let newDirectory = new Directory({
       id,
       title,
-      hierarchy,
+      order,
       content,
       attachments,
       directories
@@ -35,7 +35,7 @@ describe('Directory Object Creation', () => {
 
     expect(newDirectory.id).to.equal(id)
     expect(newDirectory.title).to.equal(title)
-    expect(newDirectory.hierarchy).to.equal(hierarchy)
+    expect(newDirectory.order).to.equal(order)
     expect(newDirectory.content).to.equal(content)
     expect(newDirectory.attachments).to.equal(attachments)
     expect(newDirectory.directories).to.equal(directories)
