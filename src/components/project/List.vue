@@ -23,6 +23,16 @@ export default {
   },
   mounted () {
     this.$store.dispatch('GET_PROJECTS')
+    .catch(() => {
+      this.$notifications.notify(
+        {
+          message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+          icon: 'exclamation-triangle',
+          horizontalAlign: 'right',
+          verticalAlign: 'bottom',
+          type: 'danger'
+        })
+    })
   },
   computed: {
     ...mapGetters([
