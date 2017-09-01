@@ -13,6 +13,7 @@
       <DirectoryComp v-for="module in structure" :key="module.id" :directory="module" :isModule="true"></DirectoryComp>
     </draggable>
   </div>
+
 </template>
 <script>
 /** TODO: Refactor this (along with directories) so that we don't have duplicated update code, i.e. setting the structure + hierarchies on drag. */
@@ -80,7 +81,7 @@ export default {
     // This is a special layout that vue draggable uses to interact with vuex
     structure: {
       get () {
-        return this.$store.state.structure.directories
+        return this.$store.state.structure.structure
       },
       set (value) {
         this.$store.dispatch('UPDATE_STRUCTURE', value)

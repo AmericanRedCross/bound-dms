@@ -35,7 +35,7 @@ const directories = {
     },
     SET_ORDER: (state, { options }) => {
       // Find the right lot of directories.. traverse through
-      let directories = state.directories
+      let directories = state.structure
       if (options.directoryNumbers !== undefined) {
         options.directoryNumbers.forEach((directoryNumber, index) => {
           if (index === 0) {
