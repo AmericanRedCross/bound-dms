@@ -6,7 +6,6 @@ let mockStructure = [{
   title: 'Prepare and analyze',
   order: 1,
   content: '# Markdown Content',
-  critical: true,
   attachments: [{id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: true},
     {id: 2, title: 'Another one', url: 'http://somedocument.docx', size: 12000, mime: '', featured: true},
     {id: 3, title: 'Something else', url: 'http://somedocument.md', size: 12000, mime: '', featured: true}],
@@ -16,22 +15,19 @@ let mockStructure = [{
     order: 1,
     content: '# Some other content',
     attachments: [],
-    critical: false,
     directories: [{
       id: 3,
       title: 'Et Harum quidem reprum',
       order: 1,
       content: '# Some other content',
-      attachments: [],
-      critical: true
+      attachments: []
     },
     {
       id: 4,
       title: 'Et Harum quidem reprum',
       order: 2,
       content: '# Some other content',
-      attachments: [],
-      critical: true
+      attachments: []
     }]
   }]
 },
@@ -41,30 +37,26 @@ let mockStructure = [{
   order: 2,
   content: '# Markdown Content',
   attachments: [],
-  critical: false,
   directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
     order: 1,
     content: '# Some other content',
     attachments: [],
-    critical: false,
     directories: [
       {
         id: 3,
         title: 'Et Harum quidem reprum',
         order: 1,
         content: '# Some other content',
-        attachments: [],
-        critical: false
+        attachments: []
       },
       {
         id: 4,
         title: 'Et Harum quidem reprum',
         order: 2,
         content: '# Some other content',
-        attachments: [],
-        critical: false
+        attachments: []
       }
     ]
   }]
@@ -82,23 +74,20 @@ let mockStructure = [{
     order: 1,
     content: '# Some other content',
     attachments: [],
-    critical: false,
     directories: [
       {
         id: 3,
         title: 'Et Harum quidem reprum',
         order: 1,
         content: '# Some other content',
-        attachments: [],
-        critical: false
+        attachments: []
       },
       {
         id: 4,
         title: 'Et Harum quidem reprum',
         order: 2,
         content: '# Some other content',
-        attachments: [],
-        critical: false
+        attachments: []
       }
     ]
   }]
@@ -109,22 +98,19 @@ let mockStructure = [{
   order: 4,
   content: '# Markdown Content',
   attachments: [],
-  critical: false,
   directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
     order: 1,
     content: '# Some other content',
     attachments: [],
-    critical: false,
     directories: [
       {
         id: 3,
         title: 'Et Harum quidem reprum',
         order: 1,
         content: '# Some other content',
-        attachments: [],
-        critical: false
+        attachments: []
       },
       {
         id: 4,
@@ -132,7 +118,6 @@ let mockStructure = [{
         order: 2,
         content: '# Some other content',
         attachments: [],
-        critical: false,
         directories: []
       }
     ]
@@ -144,30 +129,26 @@ let mockStructure = [{
   order: 5,
   content: '# Markdown Content',
   attachments: [],
-  critical: false,
   directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
     order: 1,
     content: '# Some other content',
     attachments: [],
-    critical: false,
     directories: [
       {
         id: 3,
         title: 'Et Harum quidem reprum',
         order: 1,
         content: '# Some other content',
-        attachments: [],
-        critical: false
+        attachments: []
       },
       {
         id: 4,
         title: 'Et Harum quidem reprum',
         order: 2,
         content: '# Some other content',
-        attachments: [],
-        critical: false
+        attachments: []
       }
     ]
   }]
@@ -176,7 +157,6 @@ let mockStructure = [{
 const DirectoryUtils = {
   // Useful function to get an array of directory objects
   getDirectories (dataArray) {
-    console.log({dataArray})
     let directories = []
     if (Array.isArray(dataArray)) {
       dataArray.forEach((data) => {
