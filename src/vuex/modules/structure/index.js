@@ -1,48 +1,80 @@
-// This module handles the global store and requests for the Step endpoint
-import stepUtils from './utils'
-import { Step } from './Step'
+// This module handles the global store and requests for the Directory endpoint
+import axios from 'axios'
+import directoryUtils from './utils'
+import { Directory } from './Directory'
 
-const steps = {
+/**
+ *  GET /api/projects/:id/directories
+      ✓ returns a collection of directories
+    GET /api/directories/:id
+      ✓ returns a single directory object
+    POST /api/projects/:id/directories
+      ✓ creates a new directory
+    PUT /api/directories/:id
+      ✓ updates an existing directory
+    DELETE /api/directories/:id
+      ✓ deletes an existing project language
+ *
+ */
+const directories = {
   state: {
-    steps: []
+    structure: [],
+    flatDirectories: []
   },
   mutations: {
     SET_STRUCTURE: (state, { response }) => {
       if (response.data instanceof Array) {
-        state.steps = stepUtils.getSteps(response.data)
+        state.structure = directoryUtils.getDirectorys(response.data)
       }
     },
     SET_PARSED_STRUCTURE: (state, { response }) => {
-      state.steps = response.data
+      state.structure = response.data
+    },
+    SET_DIRECTORIES: (state, { response }) => {
+      state.flatDirectories = response.data
     },
     SET_HIERARCHY: (state, { options }) => {
-      // Find the right lot of steps.. traverse through
-      let steps = state.steps
-      if (options.stepNumbers !== undefined) {
-        options.stepNumbers.forEach((stepNumber, index) => {
+      // Find the right lot of directories.. traverse through
+      let directories = state.directories
+      if (options.directoryNumbers !== undefined) {
+        options.directoryNumbers.forEach((directoryNumber, index) => {
           if (index === 0) {
             // an array so a bit different to find
-            steps = steps.find(step => step.hierarchy === stepNumber)
+            directories = directories.find(directory => directory.order === directoryNumber)
           } else {
-            steps = steps.steps.find(step => step.hierarchy === stepNumber)
+            directories = directories.directories.find(directory => directory.order === directoryNumber)
           }
         })
-        steps = steps.steps
+        directories = directories.directories
       }
-      Step.updateHierarchy(options.newIndex, options.oldIndex, steps)
+      Directory.updateOrder(options.newIndex, options.oldIndex, directories)
     }
   },
   actions: {
     // GET entire Structure
     GET_STRUCTURE: function ({ commit }, projectId) {
-      // Mock structure until we know what the endpoints are.
-      commit('SET_STRUCTURE', {
-        response: {
-          data: stepUtils.getMockStructure()
-        }
+      // GET DIRECTORIES
+      // api/projects/:id/directories
+      axios.get('projects/' + projectId + '/directories').then((response) => {
+        commit('SET_DIRECTORIES', { response: response.data })
+        commit('SET_STRUCTURE', { response: getStructure(response.data.data) })
+        // Build the structure...
+      }, (err) => {
+        commit('SET_MESSAGE', { message: err })
       })
+      // BUILD STRUCTURE
+      // Mock structure until we know what the endpoints are.
+      // commit('SET_STRUCTURE', {
+      //   response: {
+      //     data: directoryUtils.getMockStructure()
+      //   }
+      // })
     },
-    // POST a step (update)
+    // GET directories
+    GET_DIRECTORIES: function ({ commit }, projectId) {
+
+    },
+    // POST a directory (update)
     UPDATE_STRUCTURE: function ({ commit }, data) {
       commit('SET_PARSED_STRUCTURE', { response: {data} })
     },
@@ -54,10 +86,31 @@ const steps = {
     }
   },
   getters: {
-    getStepById: (state, getters) => (id) => {
-      return state.steps.find(step => step.id === id)
+    getDirectoryById: (state, getters) => (id) => {
+      return state.directories.find(directory => directory.id === id)
     }
   }
 }
 
-export default steps
+const getStructure = (directories) => {
+  let structure = []
+  Object.assign(structure, directories)
+  directories.forEach((directory, index) => {
+    if (directory.parentId !== null) {
+      // It's a child of a directory, move it to the correct place...
+      let removed = structure.splice(index, 1)[0]
+      // Find the parent
+      let parent = structure.find(directory => directory.id === removed.parentId)
+      if (parent) {
+        // Does parent have a directories array?
+        if (parent.directories === undefined) {
+          parent.directories = []
+        }
+        parent.directories.push(removed)
+      }
+    }
+  })
+  return structure
+}
+
+export default directories
