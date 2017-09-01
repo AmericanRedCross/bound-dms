@@ -23,6 +23,7 @@ import ChangePassword from '@/components/account/PasswordForm'
 import PageNotFound from '@/components/pageNotFound/PageNotFound'
 import TranslationWorkflow from '@/components/translations/TranslationWorkflow'
 import Publish from '@/components/project/publish/Publish'
+import DocumentList from '@/components/project/documents/DocumentList'
 
 // Settings
 import SettingsContainer from '@/components/project/settings/SettingsContainer'
@@ -125,6 +126,16 @@ export default new Router({
               component: ProjectDetail,
               props: true,
               meta: {
+                showSidebar: true
+              }
+            },
+            {
+              path: 'documents',
+              name: 'project-documents',
+              component: DocumentList,
+              props: true,
+              meta: {
+                breadcrumb: 'Documents',
                 showSidebar: true
               }
             },
