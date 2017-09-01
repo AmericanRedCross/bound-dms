@@ -1,18 +1,18 @@
 <template>
-  <div class="step">
-    <!-- Chevron toggle for expanding sub items (See #collapse-steps for the actual collapsable area) -->
-    <chevron-toggle :value="isExpanded" v-on:change="toggleStep" v-if="step.steps.length" class="chevron mt-3"></chevron-toggle>
-    <b-card :class="{noToggle: !step.steps.length}">
+  <div class="directory">
+    <!-- Chevron toggle for expanding sub items (See #collapse-directories for the actual collapsable area) -->
+    <chevron-toggle :value="isExpanded" v-on:change="toggleDirectory" v-if="directory.directories.length" class="chevron mt-3"></chevron-toggle>
+    <b-card :class="{noToggle: !directory.directories.length}">
 
       <!-- Module Header (The bit that's not hidden) -->
       <div class="d-flex align-items-baseline flex-wrap content">
-        <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-for="number in stepNumbers">{{ number }}.</span><span>{{ step.hierarchy }}</span></h4>
+        <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-for="number in directoryNumbers">{{ number }}.</span><span>{{ directory.hierarchy }}</span></h4>
 
-        <i v-if="!editTitle" class="ml-2">{{ step.title }}</i>
+        <i v-if="!editTitle" class="ml-2">{{ directory.title }}</i>
 
         <span class="title-input ml-2" v-else>
           <b-input-group>
-            <b-form-input v-model="step.title"
+            <b-form-input v-model="directory.title"
                     type="text"
                     placeholder="Enter a title">
             </b-form-input>
@@ -29,32 +29,32 @@
         <div class="ml-auto">
           <b-badge variant="danger" :visible="untranslated">Untranslated</b-badge>
 
-          <fa-icon v-if="step.critical" scale="2" name="star" class="critical-icon"></fa-icon>
+          <fa-icon v-if="directory.critical" scale="2" name="star" class="critical-icon"></fa-icon>
 
           <b-button @click="isOpen = !isOpen"><fa-icon name="file-text"></fa-icon></b-button>
 
           <!-- https://bootstrap-vue.js.org/docs/components/dropdown - alignment is not working at the moment -->
-          <b-dropdown right no-flip class="m-md-2 step-actions ignore-drag">
+          <b-dropdown right no-flip class="m-md-2 directory-actions ignore-drag">
             <fa-icon name="cog" slot="text"></fa-icon>
 
-            <b-dropdown-item-button @click="editTitle = true" class="step-action">
+            <b-dropdown-item-button @click="editTitle = true" class="directory-action">
               <fa-icon name="font"></fa-icon>
               {{ $t('common.rename') }}
             </b-dropdown-item-button>
 
-            <b-dropdown-item href="#" class="step-action" @click="infoShow = !infoShow">
+            <b-dropdown-item href="#" class="directory-action" @click="infoShow = !infoShow">
               <fa-icon name="info-circle"></fa-icon>
               {{ $t('common.info') }}
             </b-dropdown-item>
 
-            <b-dropdown-item-button v-if="isShown" @click="addStep" class="step-action">
+            <b-dropdown-item-button v-if="isShown" @click="addDirectory" class="directory-action">
               <fa-icon name="plus-circle"></fa-icon>
-              {{ $t('projects.modules.addStep') }}
+              {{ $t('projects.modules.addDirectory') }}
             </b-dropdown-item-button>
 
-            <b-dropdown-item-button v-else-if="$auth.check(['admin', 'editor'])" @click="addSubStep" class="step-action">
+            <b-dropdown-item-button v-else-if="$auth.check(['admin', 'editor'])" @click="addSubDirectory" class="directory-action">
               <fa-icon name="plus-circle"></fa-icon>
-              {{ $t('projects.modules.addSubStep') }}
+              {{ $t('projects.modules.addSubDirectory') }}
             </b-dropdown-item-button>
 
             <b-dropdown-divider v-if="$auth.check(['admin'])"></b-dropdown-divider>
@@ -62,7 +62,7 @@
             <b-dropdown-header>
               <toggle-button
                 v-if="$auth.check(['admin'])"
-                :value="step.critical"
+                :value="directory.critical"
                 :width="150"
                 :labels="{checked: $t('projects.modules.criticalPathOn'), unchecked: $t('projects.modules.criticalPathOff')}"
                 @change="updateCritical"
@@ -71,7 +71,7 @@
 
             <b-dropdown-divider></b-dropdown-divider>
 
-            <b-dropdown-item-btn href="#" class="step-action" @click="removeStep">
+            <b-dropdown-item-btn href="#" class="directory-action" @click="removeDirectory">
               <fa-icon name="trash"></fa-icon>
               {{ $t('common.delete') }}
             </b-dropdown-item-btn>
@@ -82,23 +82,23 @@
 
       <!-- Here's where we want our attachment area -->
       <b-collapse :visible="isOpen" id="collapse-exta-content">
-        <Attachments :attachments="step.attachments"></Attachments>
+        <Attachments :attachments="directory.attachments"></Attachments>
       </b-collapse>
     </b-card>
 
-    <!-- Here's the collapsable area with the steps, uses vue draggable https://github.com/SortableJS/Vue.Draggable -->
-    <b-collapse :visible="isExpanded" id="collapse-steps">
-      <draggable v-model="step.steps" @update="updateDraggable" :options="draggableOptions">
-        <transition-group name="step-list">
-          <!-- We need to use a key here so vue can keep track of the steps' identities https://vuejs.org/v2/guide/list.html#key -->
-          <Step
-            v-for="(substep, stepIndex) in step.steps"
-            :key="stepIndex"
-            :step="substep"
-            :stepNumbers="getSteps()"
+    <!-- Here's the collapsable area with the directories, uses vue draggable https://github.com/SortableJS/Vue.Draggable -->
+    <b-collapse :visible="isExpanded" id="collapse-directories">
+      <draggable v-model="directory.directories" @update="updateDraggable" :options="draggableOptions">
+        <transition-group name="directory-list">
+          <!-- We need to use a key here so vue can keep track of the directories' identities https://vuejs.org/v2/guide/list.html#key -->
+          <Directory
+            v-for="(subdirectory, directoryIndex) in directory.directories"
+            :key="directoryIndex"
+            :directory="subdirectory"
+            :directoryNumbers="getDirectories()"
             :index="index"
-            class="sub-step ml-5 step-list-item">
-          </Step>
+            class="sub-directory ml-5 directory-list-item">
+          </Directory>
         </transition-group>
       </draggable>
     </b-collapse>
@@ -119,24 +119,24 @@
   </div>
 </template>
 <script>
-import { Step } from '../../vuex/modules/structure/Step'
+import { Directory } from '../../vuex/modules/structure/Directory'
 import ChevronToggle from '../ui/ChevronToggle'
 import draggable from 'vuedraggable'
 import Attachments from './Attachments'
 
 export default {
-  name: 'Step',
+  name: 'Directory',
   components: {
     Attachments,
     ChevronToggle,
     draggable
   },
   props: {
-    step: {
+    directory: {
       type: Object,
-      default: new Step({})
+      default: new Directory({})
     },
-    stepNumbers: {
+    directoryNumbers: {
       type: Array,
       default: () => [] // Use a function to return an array/object https://github.com/vuejs/vue/issues/1032
     },
@@ -151,8 +151,8 @@ export default {
   },
   data () {
     return {
-      isOpen: false, // Is the Step itself open?
-      isExpanded: false, // Are the child steps viewable?
+      isOpen: false, // Is the Directory itself open?
+      isExpanded: false, // Are the child directories viewable?
       editTitle: false,
       modalShow: false,
       infoShow: false,
@@ -183,33 +183,33 @@ export default {
     }
   },
   methods: {
-    addStep () {
+    addDirectory () {
       this.isExpanded = true
-      this.step.addStepAtIndex({index: this.index})
+      this.directory.addDirectoryAtIndex({index: this.index})
     },
     updateCritical (value) {
-      this.step.critical = value.value
+      this.directory.critical = value.value
     },
-    addSubStep () {
+    addSubDirectory () {
       this.isExpanded = true
-      this.step.addStepAtIndex({index: this.index})
+      this.directory.addDirectoryAtIndex({index: this.index})
     },
     updateDraggable (e) {
       let newIndex = e.newIndex
       let oldIndex = e.oldIndex
 
       // Update Hierarchy
-      this.$store.dispatch('UPDATE_HIERARCHY', {newIndex, oldIndex, stepNumbers: this.getSteps()})
+      this.$store.dispatch('UPDATE_HIERARCHY', {newIndex, oldIndex, directoryNumbers: this.getDirectories()})
     },
-    removeStep () {
-      this.step.removeStepById(this.step.id)
+    removeDirectory () {
+      this.directory.removeDirectoryById(this.directory.id)
       this.isExpanded = false
     },
-    toggleStep (value) {
+    toggleDirectory (value) {
       this.isExpanded = value
     },
-    getSteps () {
-      return [...this.stepNumbers, this.step.hierarchy]
+    getDirectories () {
+      return [...this.directoryNumbers, this.directory.hierarchy]
     }
   },
   computed: {

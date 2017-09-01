@@ -1,25 +1,23 @@
 import { Attachment } from './Attachment'
 
 // Spec: https://gist.github.com/rjbaker/8d9a4b6a7ca2bc0fe4fa9325cdf64702
-export class Step {
+export class Directory {
   constructor (
     {
       id = null,
       title = null,
-      hierarchy = null,
+      order = null,
       content = '# Markdown Content',
       attachments = [],
-      steps = [],
-      critical = false
+      directories = []
     }
   ) {
     this._id = id
     this._title = title
-    this._hierarchy = hierarchy
+    this._order = order
     this._content = content // Maybe its own object?
     this._attachments = attachments // Loop through and declare each object
-    this._steps = steps // loop through and declare each object
-    this._critical = critical
+    this._directories = directories // loop through and declare each object
   }
 
   // Getters and Setters
@@ -31,8 +29,8 @@ export class Step {
   get title () { return this._title }
 
   // Hierarchy
-  set hierarchy (hierarchy) { this._hierarchy = hierarchy }
-  get hierarchy () { return this._hierarchy }
+  set order (order) { this._order = order }
+  get order () { return this._order }
 
   // Content
   set content (content) { this._content = content }
@@ -42,13 +40,9 @@ export class Step {
   set attachments (attachments) { this._attachments = attachments }
   get attachments () { return this._attachments }
 
-  // steps
-  set steps (steps) { this._steps = steps }
-  get steps () { return this._steps }
-
-  // critical
-  set critical (critical) { this._critical = critical }
-  get critical () { return this._critical }
+  // directories
+  set directories (directories) { this._directories = directories }
+  get directories () { return this._directories }
 
   /**
    * [addAttachment Add an Attachment to the attachments array]
@@ -78,41 +72,41 @@ export class Step {
   }
 
   /**
-   * [addStep description]
-   * @param {Step} [step=new Step()] [description]
+   * [addDirectory description]
+   * @param {Directory} [directory=new Directory()] [description]
    */
-  addStep (step = new Step({})) {
-    if (step) {
-      this._steps.push(step)
+  addDirectory (directory = new Directory({})) {
+    if (directory) {
+      this._directories.push(directory)
     }
   }
 
   /**
-   * [addStepAtIndex description]
-   * @param {Step}   [step=new Step({})]     [description]
+   * [addDirectoryAtIndex description]
+   * @param {Directory}   [directory=new Directory({})]     [description]
    * @param {[type]} index     [description]
    */
-  addStepAtIndex ({step = new Step({}), index}) {
-    if (step && index >= 0) {
-      if (step.hierarchy === null) {
+  addDirectoryAtIndex ({directory = new Directory({}), index}) {
+    if (directory && index >= 0) {
+      if (directory.order === null) {
         // Get next hierachy
-        step.hierarchy = this.getHighestChildhierarchy()
+        directory.order = this.getHighestChildorder()
       }
-      if (index > this._steps.length) {
-        this.addStep(step)
+      if (index > this._directories.length) {
+        this.addDirectory(directory)
       } else {
-        this._steps.splice(index, 0, step)
+        this._directories.splice(index, 0, directory)
       }
       // Sort
-      this.sortSteps()
+      this.sortDirectories()
     }
   }
 
-  sortSteps () {
-    this._steps.sort((a, b) => {
-      if (a.hierarchy < b.hierarchy) {
+  sortDirectories () {
+    this._directories.sort((a, b) => {
+      if (a.order < b.order) {
         return -1
-      } else if (a.hierarchy > b.hierarchy) {
+      } else if (a.order > b.order) {
         return 1
       }
 
@@ -121,61 +115,61 @@ export class Step {
   }
 
   /**
-   * [getHighestChildhierarchy description]
+   * [getHighestChildorder description]
    * @return {[type]} [description]
    */
-  getHighestChildhierarchy () {
-    let hierarchy = 1
-    this._steps.forEach((step) => {
-      if (step.hierarchy >= hierarchy) {
-        hierarchy = step.hierarchy + 1
+  getHighestChildorder () {
+    let order = 1
+    this._directories.forEach((directory) => {
+      if (directory.order >= order) {
+        order = directory.order + 1
       }
     })
-    return hierarchy
+    return order
   }
 
   /**
-   * [removeStepById description]
+   * [removeDirectoryById description]
    * @param  {Number} id [description]
    * @return {[type]}    [description]
    */
-  removeStepById (id) {
+  removeDirectoryById (id) {
     if (id) {
-      let index = this._steps.findIndex((step) => {
-        return step.id === id
+      let index = this._directories.findIndex((directory) => {
+        return directory.id === id
       })
 
       if (index > -1) {
-        this._steps.splice(index, 1)
+        this._directories.splice(index, 1)
       }
     }
   }
 }
 
-Step.updateHierarchy = (updatedIndex, oldIndex, steps) => {
+Directory.updateOrder = (updatedIndex, oldIndex, directories) => {
   // Are we going up or down?
   let goingUp = updatedIndex > oldIndex
-  // Swap the hierarchy with the one next to it.
+  // Swap the order with the one next to it.
   if (goingUp) {
     // Swap with the one behind it, if it exists
-    if (steps[updatedIndex - 1]) {
-      steps[updatedIndex].hierarchy = steps[updatedIndex - 1].hierarchy
+    if (directories[updatedIndex - 1]) {
+      directories[updatedIndex].order = directories[updatedIndex - 1].order
     }
   } else {
     // Swap with the one in front of it, if it exists
-    if (steps[updatedIndex + 1]) {
-      steps[updatedIndex].hierarchy = steps[updatedIndex + 1].hierarchy
+    if (directories[updatedIndex + 1]) {
+      directories[updatedIndex].order = directories[updatedIndex + 1].order
     }
   }
 
   // Between the updated index and the old index update the hierarchies
   if (goingUp) {
     for (let i = oldIndex; i < updatedIndex; i++) {
-      steps[i].hierarchy -= 1
+      directories[i].order -= 1
     }
   } else {
     for (let i = oldIndex; i > updatedIndex; i--) {
-      steps[i].hierarchy += 1
+      directories[i].order += 1
     }
   }
 }

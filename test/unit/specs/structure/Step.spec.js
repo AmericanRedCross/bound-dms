@@ -1,20 +1,20 @@
-import { Step } from '../../../../src/vuex/modules/structure/Step'
+import { Directory } from '../../../../src/vuex/modules/structure/Directory'
 import { Attachment } from '../../../../src/vuex/modules/structure/Attachment'
 
-describe('Step Object Creation', () => {
-  it('Create a new step', () => {
-    let newStep = new Step({})
-    expect(newStep).to.be.an('object')
+describe('Directory Object Creation', () => {
+  it('Create a new directory', () => {
+    let newDirectory = new Directory({})
+    expect(newDirectory).to.be.an('object')
   })
 
   it('Has the correct properties', () => {
-    let newStep = new Step({})
-    expect(newStep).to.have.property('id')
-    expect(newStep).to.have.property('title')
-    expect(newStep).to.have.property('hierarchy')
-    expect(newStep).to.have.property('content')
-    expect(newStep).to.have.property('attachments')
-    expect(newStep).to.have.property('steps')
+    let newDirectory = new Directory({})
+    expect(newDirectory).to.have.property('id')
+    expect(newDirectory).to.have.property('title')
+    expect(newDirectory).to.have.property('hierarchy')
+    expect(newDirectory).to.have.property('content')
+    expect(newDirectory).to.have.property('attachments')
+    expect(newDirectory).to.have.property('directories')
   })
 
   it('Has the correct propery values', () => {
@@ -23,21 +23,21 @@ describe('Step Object Creation', () => {
     let hierarchy = 1
     let content = '# Content'
     let attachments = [new Attachment({})]
-    let steps = [new Step({})]
-    let newStep = new Step({
+    let directories = [new Directory({})]
+    let newDirectory = new Directory({
       id,
       title,
       hierarchy,
       content,
       attachments,
-      steps
+      directories
     })
 
-    expect(newStep.id).to.equal(id)
-    expect(newStep.title).to.equal(title)
-    expect(newStep.hierarchy).to.equal(hierarchy)
-    expect(newStep.content).to.equal(content)
-    expect(newStep.attachments).to.equal(attachments)
-    expect(newStep.steps).to.equal(steps)
+    expect(newDirectory.id).to.equal(id)
+    expect(newDirectory.title).to.equal(title)
+    expect(newDirectory.hierarchy).to.equal(hierarchy)
+    expect(newDirectory.content).to.equal(content)
+    expect(newDirectory.attachments).to.equal(attachments)
+    expect(newDirectory.directories).to.equal(directories)
   })
 })

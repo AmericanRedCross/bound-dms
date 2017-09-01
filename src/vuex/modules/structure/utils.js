@@ -1,4 +1,4 @@
-import { Step } from './Step'
+import { Directory } from './Directory'
 import { Attachment } from './Attachment'
 
 let mockStructure = [{
@@ -10,14 +10,14 @@ let mockStructure = [{
   attachments: [{id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: true},
     {id: 2, title: 'Another one', url: 'http://somedocument.docx', size: 12000, mime: '', featured: true},
     {id: 3, title: 'Something else', url: 'http://somedocument.md', size: 12000, mime: '', featured: true}],
-  steps: [{
+  directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
     hierarchy: 1,
     content: '# Some other content',
     attachments: [],
     critical: false,
-    steps: [{
+    directories: [{
       id: 3,
       title: 'Et Harum quidem reprum',
       hierarchy: 1,
@@ -42,14 +42,14 @@ let mockStructure = [{
   content: '# Markdown Content',
   attachments: [],
   critical: false,
-  steps: [{
+  directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
     hierarchy: 1,
     content: '# Some other content',
     attachments: [],
     critical: false,
-    steps: [
+    directories: [
       {
         id: 3,
         title: 'Et Harum quidem reprum',
@@ -76,14 +76,14 @@ let mockStructure = [{
   content: '# Markdown Content',
   attachments: [],
   critical: false,
-  steps: [{
+  directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
     hierarchy: 1,
     content: '# Some other content',
     attachments: [],
     critical: false,
-    steps: [
+    directories: [
       {
         id: 3,
         title: 'Et Harum quidem reprum',
@@ -110,14 +110,14 @@ let mockStructure = [{
   content: '# Markdown Content',
   attachments: [],
   critical: false,
-  steps: [{
+  directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
     hierarchy: 1,
     content: '# Some other content',
     attachments: [],
     critical: false,
-    steps: [
+    directories: [
       {
         id: 3,
         title: 'Et Harum quidem reprum',
@@ -133,7 +133,7 @@ let mockStructure = [{
         content: '# Some other content',
         attachments: [],
         critical: false,
-        steps: []
+        directories: []
       }
     ]
   }]
@@ -145,14 +145,14 @@ let mockStructure = [{
   content: '# Markdown Content',
   attachments: [],
   critical: false,
-  steps: [{
+  directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
     hierarchy: 1,
     content: '# Some other content',
     attachments: [],
     critical: false,
-    steps: [
+    directories: [
       {
         id: 3,
         title: 'Et Harum quidem reprum',
@@ -173,30 +173,30 @@ let mockStructure = [{
   }]
 }]
 
-const StepUtils = {
-  // Useful function to get an array of step objects
-  getSteps (dataArray) {
-    let steps = []
+const DirectoryUtils = {
+  // Useful function to get an array of directory objects
+  getDirectories (dataArray) {
+    let directories = []
     if (Array.isArray(dataArray)) {
       dataArray.forEach((data) => {
-        let step = this.getStepObject(data)
-        step.sortSteps()
-        steps.push(step)
+        let directory = this.getDirectoryObject(data)
+        directory.sortDirectories()
+        directories.push(directory)
       })
     }
-    return steps
+    return directories
   },
 
-  // Useful function to build a step object
-  getStepObject (data) {
-    return new Step({
+  // Useful function to build a directory object
+  getDirectoryObject (data) {
+    return new Directory({
       id: data.id,
       title: data.title,
       hierarchy: data.hierarchy,
       content: data.content,
       critical: data.critical,
       attachments: this.getAttachments(data.attachments),
-      steps: this.getSteps(data.steps)
+      directories: this.getDirectories(data.directories)
     })
   },
 
@@ -211,7 +211,7 @@ const StepUtils = {
     return attachments
   },
 
-  // Useful function to build a step object
+  // Useful function to build a directory object
   getAttachmentObject (data) {
     return new Attachment({
       id: data.id,
@@ -229,4 +229,4 @@ const StepUtils = {
   }
 }
 
-export default StepUtils
+export default DirectoryUtils

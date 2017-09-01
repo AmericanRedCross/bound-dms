@@ -86,8 +86,8 @@ export default{
     },
     dashboard: {
       modules: 'MÓDULOS',
-      steps: 'PASOS',
-      substeps: 'SUB-PASOS',
+      directories: 'PASOS',
+      subDirectories: 'SUB-PASOS',
       tools: 'HERRAMIENTAS',
       edit: 'Editar contenido',
       languages: 'Idiomas',

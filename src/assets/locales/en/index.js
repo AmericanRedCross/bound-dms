@@ -92,8 +92,8 @@ export default{
     },
     modules: {
       module: 'Module',
-      addStep: 'Add step',
-      addSubStep: 'Add substep',
+      addDirectory: 'Add directory',
+      addSubDirectory: 'Add subdirectory',
       criticalPathOn: 'Critical path',
       criticalPathOff: 'Enable critical path?'
     },
@@ -116,8 +116,8 @@ export default{
     },
     dashboard: {
       modules: 'MODULES',
-      steps: 'STEPS',
-      substeps: 'SUBSTEPS',
+      directories: 'DIRECTORIES',
+      subDirectories: 'DIRECTORIES',
       tools: 'TOOLS',
       edit: 'Edit Content',
       languages: 'Languages',

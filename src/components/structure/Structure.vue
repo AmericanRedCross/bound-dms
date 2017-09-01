@@ -10,13 +10,13 @@
       </div>
     </div>
     <draggable v-model="structure" @update="updateDraggable" :options="draggableOptions">
-      <StepComp v-for="module in structure" :key="module.id" :step="module" :isModule="true"></StepComp>
+      <DirectoryComp v-for="module in structure" :key="module.id" :directory="module" :isModule="true"></DirectoryComp>
     </draggable>
   </div>
 </template>
 <script>
-/** TODO: Refactor this (along with steps) so that we don't have duplicated update code, i.e. setting the structure + hierarchies on drag. */
-import StepComp from './Step'
+/** TODO: Refactor this (along with directories) so that we don't have duplicated update code, i.e. setting the structure + hierarchies on drag. */
+import DirectoryComp from './Directory'
 import draggable from 'vuedraggable'
 import vSelect from 'vue-select'
 import { Project } from '../../vuex/modules/project/Project'
@@ -25,7 +25,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'Structure',
   components: {
-    StepComp,
+    DirectoryComp,
     draggable,
     vSelect
   },
@@ -40,6 +40,18 @@ export default {
   },
   mounted () {
     this.$store.dispatch('GET_STRUCTURE', this.$route.params.id)
+    this.$store.dispatch('GET_DIRECTORIES', this.$route.params.id).then(() => {
+
+    }).catch((e) => {
+      this.$notifications.notify(
+        {
+          message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+          icon: 'exclamation-triangle',
+          horizontalAlign: 'right',
+          verticalAlign: 'bottom',
+          type: 'danger'
+        })
+    })
   },
   beforeMount () {
     // Call vuex to retrieve the current project from the backend. This returns a promise so we know when it's finished.
@@ -69,7 +81,7 @@ export default {
     // This is a special layout that vue draggable uses to interact with vuex
     structure: {
       get () {
-        return this.$store.state.structure.steps
+        return this.$store.state.structure.directories
       },
       set (value) {
         this.$store.dispatch('UPDATE_STRUCTURE', value)
