@@ -3,11 +3,14 @@
     text-transform: uppercase;
   }
 }
+.sortable-chosen .sortable-drag {
+  cursor: grabbing;
+}
+.sortable-ghost {
+  opacity: 0.5;
+}
 .directory {
   cursor: grab;
-  .sortable-chosen {
-    cursor: grabbing;
-  }
   .noToggle {
     // The toggle normally takes up 40px, move the directory 40px if no toggle
     margin-left: 40px;

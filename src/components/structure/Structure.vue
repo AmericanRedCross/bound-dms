@@ -34,7 +34,8 @@ export default {
     return {
       project: new Project({}),
       draggableOptions: {
-        filter: '.ignore-drag'
+        filter: '.ignore-drag',
+        animation: 150
       },
       selected: 'English (en)'
     }

@@ -158,7 +158,8 @@ export default {
       infoShow: false,
       untranslated: true,
       draggableOptions: {
-        filter: '.ignore-drag'
+        filter: '.ignore-drag',
+        animation: 150
       },
       items: [
         {code: 'ESP', name: 'Spanish', translated: 47}
