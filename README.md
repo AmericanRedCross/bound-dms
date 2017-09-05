@@ -23,6 +23,9 @@ npm run unit
 # run e2e tests
 npm run e2e
 
+# run server tests (requires a fresh migration each time)
+sh ./migrate.sh && docker-compose run server npm run test:server
+
 # run all tests
 npm test
 ```
@@ -45,7 +48,7 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 #### OSX Caveat
 
-bcrypt compiled on OSX will not work on Linux
+bcrypt and sharp compiled on OSX will not work on Linux
 
 The solution is to run:
 
@@ -57,6 +60,7 @@ Should this not solve the problem, try the following:
 
 ```bash
 docker-compose run server npm rebuild bcrypt --update-binary
+docker-compose run server npm rebuild sharp
 ```
 
 ### Docker Container

@@ -197,7 +197,26 @@ export default{
     },
     documents: {
       title: 'Documents',
-      upload: 'Document upload'
+      upload: 'Document upload',
+      dropzone: {
+        dictDefaultMessage: 'Drop files here',
+        dictFallbackMessage: 'Your browser does not support drag\'n\'drop file uploads.',
+        dictFallbackText: 'Please use the fallback form below to upload your files like in the olden days.',
+        dictFileTooBig: 'File is too big ({{filesize}}MiB). Max filesize: {{maxFilesize}}MiB.',
+        dictInvalidFileType: 'You can\'t upload files of this type.',
+        dictResponseError: 'Server responded with {{statusCode}} code.',
+        dictCancelUpload: 'Cancel upload',
+        dictCancelUploadConfirmation: 'Are you sure you want to cancel this upload?',
+        dictRemoveFile: 'Remove file',
+        dictMaxFilesExceeded: 'You can not upload any more files.',
+        dictFileSizeUnits: {tb: 'TB', gb: 'GB', mb: 'MB', kb: 'KB', b: 'b'}
+      }
+    }
+  },
+  files: {
+    emptystate: 'No files have been uploaded yet',
+    listview: {
+      type: 'Type to search'
     }
   },
   pagenotfound: {
