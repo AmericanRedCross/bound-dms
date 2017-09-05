@@ -5,7 +5,7 @@
         <v-select v-if="this.project" :value.sync="selected" :options="getLangOptions"></v-select>
       </div>
       <div class="col-md-8" align="right">
-        <b-button @click.native="saveRevision" variant="success">Save Revision</b-button>
+        <b-button @click="save" variant="success">Save</b-button>
         <b-button v-if="$auth.check(['admin', 'editor'])" @click.native="addModule" variant="primary">Add Module</b-button>
       </div>
     </div>
@@ -65,7 +65,26 @@ export default {
     })
   },
   methods: {
-    saveRevision () {
+    save () {
+      this.$store.dispatch('SAVE_STRUCTURE', this.project.id).then(() => {
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.updated')}`,
+            icon: 'info',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'info'
+          })
+      }).catch(() => {
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+            icon: 'exclamation-triangle',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'danger'
+          })
+      })
     },
     addModule () {
     },

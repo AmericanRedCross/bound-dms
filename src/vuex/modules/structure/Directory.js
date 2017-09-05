@@ -9,7 +9,8 @@ export class Directory {
       order = null,
       content = '# Markdown Content',
       attachments = [],
-      directories = []
+      directories = [],
+      parentId = null
     }
   ) {
     this._id = id
@@ -18,6 +19,7 @@ export class Directory {
     this._content = content // Maybe its own object?
     this._attachments = attachments // Loop through and declare each object
     this._directories = directories // loop through and declare each object
+    this._parentId = parentId
   }
 
   // Getters and Setters
@@ -44,9 +46,13 @@ export class Directory {
   set directories (directories) { this._directories = directories }
   get directories () { return this._directories }
 
+  // parentId
+  set parentId (parentId) { this._parentId = parentId }
+  get parentId () { return this._parentId }
+
   /**
    * [addAttachment Add an Attachment to the attachments array]
-   * @param {Attachment} [attachment=new Attachment()] [description]
+   * @param {Attachment} [attachment=new Attachment()] A new attachment object
    */
   addAttachment (attachment = new Attachment()) {
     if (attachment) {
@@ -56,8 +62,8 @@ export class Directory {
 
   /**
    * [removeAttachmentById Remove an Attachment from the attachments array by ID]
-   * @param  {Number} id [ID to remove]
-   * @return {[type]}    [description]
+   * @param  {Number} id ID to remove
+   * @return {Attachment} Returns the removed attachment
    */
   removeAttachmentById (id) {
     if (id) {
@@ -66,27 +72,28 @@ export class Directory {
       })
 
       if (index > -1) {
-        this._attachements.splice(index, 1)
+        return this._attachements.splice(index, 1)
       }
     }
   }
 
   /**
-   * [addDirectory description]
-   * @param {Directory} [directory=new Directory()] [description]
+   * [addDirectory add a directory]
+   * @param {Directory} [directory=new Directory()] A new directory object
    */
   addDirectory (directory = new Directory({})) {
     if (directory) {
+      directory.parentId = this.id
       this._directories.push(directory)
     }
   }
 
   /**
-   * [addDirectoryAtIndex description]
-   * @param {Directory}   [directory=new Directory({})]     [description]
-   * @param {[type]} index     [description]
+   * [addDirectoryAtIndex add a directory at index]
+   * @param {Directory}   [directory=new Directory({})] A new directory to add
    */
   addDirectoryAtIndex ({directory = new Directory({}), index}) {
+    directory.parentId = this.id
     if (directory && index >= 0) {
       if (directory.order === null) {
         // Get next hierachy
@@ -102,6 +109,9 @@ export class Directory {
     }
   }
 
+  /**
+   * [sortDirectories Sort the directories by order]
+   */
   sortDirectories () {
     this._directories.sort((a, b) => {
       if (a.order < b.order) {
@@ -115,8 +125,8 @@ export class Directory {
   }
 
   /**
-   * [getHighestChildorder description]
-   * @return {[type]} [description]
+   * [getHighestChildorder Get the highest up child order]
+   * @return {Number} Order
    */
   getHighestChildorder () {
     let order = 1
@@ -129,9 +139,9 @@ export class Directory {
   }
 
   /**
-   * [removeDirectoryById description]
-   * @param  {Number} id [description]
-   * @return {[type]}    [description]
+   * [removeDirectoryById Remove a directory by ID]
+   * @param  {Number} id
+   * @return {Directory} Removed Directory
    */
   removeDirectoryById (id) {
     if (id) {
@@ -140,9 +150,26 @@ export class Directory {
       })
 
       if (index > -1) {
-        this._directories.splice(index, 1)
+        return this._directories.splice(index, 1)
       }
     }
+  }
+
+  /**
+   * [flatten Get backend friendly Directory object]
+   * @return {Object} The directory object (without the nesting)
+   */
+  flatten () {
+    let directoryObject = {
+      id: this.id,
+      attachments: this.attachments.map(attachment => {
+        attachment.flatten()
+      }),
+      content: this.content,
+      order: this.order,
+      parentId: this.parentId
+    }
+    return directoryObject
   }
 }
 

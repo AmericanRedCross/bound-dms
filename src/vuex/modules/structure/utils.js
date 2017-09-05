@@ -175,9 +175,9 @@ const DirectoryUtils = {
       title: data.title,
       order: data.order,
       content: data.content,
-      critical: data.critical,
       attachments: this.getAttachments(data.attachments),
-      directories: this.getDirectories(data.directories)
+      directories: this.getDirectories(data.directories),
+      parentId: data.parentId
     })
   },
 
@@ -207,6 +207,18 @@ const DirectoryUtils = {
   // Use a mock structure until we know what the endpoints will be
   getMockStructure () {
     return mockStructure
+  },
+
+  getFlatStructure (structure, flatStructure = []) {
+    console.log(structure)
+    structure.forEach(directory => {
+      let childDirectories = directory.directories
+      if (Array.isArray(childDirectories)) {
+        this.getFlatStructure(childDirectories, flatStructure)
+      }
+      flatStructure.push(directory.flatten())
+    })
+    return flatStructure
   }
 }
 

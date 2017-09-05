@@ -16,6 +16,7 @@ import { Directory } from './Directory'
       ✓ deletes an existing project language
  *
  */
+const DIRECTORY_ROOT = 'directories/'
 const directories = {
   state: {
     structure: [],
@@ -25,6 +26,15 @@ const directories = {
     SET_STRUCTURE: (state, { response }) => {
       if (response instanceof Array) {
         state.structure = directoryUtils.getDirectories(response)
+        state.structure.sort((a, b) => {
+          if (a.order < b.order) {
+            return -1
+          } else if (a.order > b.order) {
+            return 1
+          }
+
+          return 0
+        })
       }
     },
     SET_PARSED_STRUCTURE: (state, { response }) => {
@@ -32,6 +42,16 @@ const directories = {
     },
     SET_DIRECTORIES: (state, { response }) => {
       state.flatDirectories = response.data
+    },
+    SET_DIRECTORY: (state, {response}) => {
+      // Does the project exist already?
+      let directory = state.flatDirectories.find(directory => directory.id === response.data.id)
+
+      if (directory) {
+        directory = response.data
+      } else {
+        state.flatDirectories.push(response.data)
+      }
     },
     SET_ORDER: (state, { options }) => {
       // Find the right lot of directories.. traverse through
@@ -48,6 +68,8 @@ const directories = {
         directories = directories.directories
       }
       Directory.updateOrder(options.newIndex, options.oldIndex, directories)
+      // Set flat structure
+      state.flatDirectories = directoryUtils.getFlatStructure(state.structure)
     }
   },
   actions: {
@@ -62,17 +84,51 @@ const directories = {
       }, (err) => {
         commit('SET_MESSAGE', { message: err })
       })
-      // BUILD STRUCTURE
-      // Mock structure until we know what the endpoints are.
-      // commit('SET_STRUCTURE', {
-      //   response: {
-      //     data: directoryUtils.getMockStructure()
-      //   }
-      // })
     },
-    // POST a directory (update)
+
     UPDATE_STRUCTURE: function ({ commit }, data) {
       commit('SET_PARSED_STRUCTURE', { response: {data} })
+    },
+
+    SAVE_STRUCTURE: function ({commit, state}, projectId) {
+      let promises = []
+      // Loop through each directory item and save
+      state.flatDirectories.forEach((directory) => {
+        if (directory.id !== null && directory.id !== undefined) {
+          // Update
+          promises.push(axios.put(DIRECTORY_ROOT + directory.id, directory))
+        } else {
+          // Create a new one
+          promises.push(axios.post('projects/' + projectId + '/directories', directory))
+        }
+      })
+      return Promise.all(promises)
+    },
+
+    // POST a new directory to projects
+    NEW_DIRECTORY: function ({ commit }, projectId, directory) {
+
+    },
+
+    // PUT a directory
+    UPDATE_DIRECTORY: function ({ commit, state }, directory) {
+      return axios.put(DIRECTORY_ROOT + directory.id, {
+        attachments: directory.attachments,
+        content: directory.content,
+        order: directory.order,
+        title: directory.title
+      }).then((response) => {
+        commit('SET_PROJECT', { response: response.data })
+        // Re create the structure
+        commit('SET_STRUCTURE', { response: getStructure(state.flatDirectories) })
+      }).catch(err => {
+        commit('SET_MESSAGE', { message: err })
+      })
+    },
+
+    // DELETE a directory
+    REMOVE_DIRECTORY: function ({ commit }, data) {
+
     },
 
     UPDATE_ORDER: function ({ commit }, options) {
@@ -91,21 +147,38 @@ const directories = {
 const getStructure = (directories) => {
   let structure = []
   Object.assign(structure, directories)
+  let toRemove = []
   directories.forEach((directory, index) => {
     if (directory.parentId !== null) {
+      console.log(directory.parentId)
       // It's a child of a directory, move it to the correct place...
-      let removed = structure.splice(index, 1)[0]
+      // let removed = structure.splice(index, 1)[0]
+      let copiedDirectory = {}
+
+      Object.assign(copiedDirectory, structure[index])
+      console.log(copiedDirectory)
       // Find the parent
-      let parent = structure.find(directory => directory.id === removed.parentId)
-      if (parent) {
-        // Does parent have a directories array?
-        if (parent.directories === undefined) {
-          parent.directories = []
+      if (copiedDirectory) {
+        let parent = structure.find(directory => directory.id === copiedDirectory.parentId)
+        if (parent) {
+          // Does parent have a directories array?
+          if (parent.directories === undefined) {
+            parent.directories = []
+          }
+          parent.directories.push(copiedDirectory)
+          toRemove.push(structure[index])
         }
-        parent.directories.push(removed)
       }
     }
   })
+  // Remove each top level directory we've nested already
+  toRemove.forEach(directory => {
+    let index = structure.indexOf(directory)
+    if (index !== -1) {
+      structure.splice(index, 1)
+    }
+  })
+
   return structure
 }
 
