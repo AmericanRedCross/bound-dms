@@ -32,8 +32,9 @@
           <fa-icon v-if="step.critical" scale="2" name="star" class="critical-icon"></fa-icon>
 
           <b-button @click="isOpen = !isOpen"><fa-icon name="file-text"></fa-icon></b-button>
+
           <!-- https://bootstrap-vue.js.org/docs/components/dropdown - alignment is not working at the moment -->
-          <b-dropdown class="m-md-2 step-actions ignore-drag" left>
+          <b-dropdown right no-flip class="m-md-2 step-actions ignore-drag">
             <fa-icon name="cog" slot="text"></fa-icon>
 
             <b-dropdown-item-button @click="editTitle = true" class="step-action">
@@ -56,10 +57,11 @@
               {{ $t('projects.modules.addSubStep') }}
             </b-dropdown-item-button>
 
-            <b-dropdown-divider></b-dropdown-divider>
+            <b-dropdown-divider v-if="$auth.check(['admin'])"></b-dropdown-divider>
 
             <b-dropdown-header>
               <toggle-button
+                v-if="$auth.check(['admin'])"
                 :value="step.critical"
                 :width="150"
                 :labels="{checked: $t('projects.modules.criticalPathOn'), unchecked: $t('projects.modules.criticalPathOff')}"

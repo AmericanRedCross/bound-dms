@@ -18,8 +18,9 @@
           <small>{{ $t('projects.publish.content') }}</small>
         </b-button>
       </div>
-      <div class="col-md-3 col-sm-6 m-b-10 container">
-        <b-button variant="success" :block="true" class="publish" v-b-modal.publishThese><fa-icon name="send" ></fa-icon>{{ $t('projects.publish.publish') }}</b-button>
+      <div class="col-md-3 col-sm-6 m-b-10 align-publish">
+        <b-button variant="success" :block="true" class="publish" v-b-modal.publishThese><fa-icon name="send" ></fa-icon>{{ $t('projects.publish.publish') }}
+        </b-button>
       </div>
     </div>
     <div>
@@ -52,3 +53,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.align-publish {
+  display: flex;
+}
+</style>

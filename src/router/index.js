@@ -75,7 +75,8 @@ export default new Router({
           name: 'user-profile',
           component: UserProfile,
           meta: {
-            breadcrumb: 'Profile'
+            breadcrumb: 'Profile',
+            auth: ['admin']
           }
         },
         {
@@ -142,7 +143,8 @@ export default new Router({
                   name: 'settings',
                   component: ProjectSettings,
                   meta: {
-                    showSidebar: true
+                    showSidebar: true,
+                    auth: ['admin']
                   }
                 },
                 {
@@ -170,7 +172,8 @@ export default new Router({
               components: {default: Publish},
               meta: {
                 breadcrumb: 'Publish',
-                showSidebar: true
+                showSidebar: true,
+                auth: ['admin']
               }
             }
           ]
@@ -196,7 +199,6 @@ export default new Router({
       path: '/account/',
       component: AccountContainer,
       meta: {
-        auth: ['admin'],
         breadcrumb: 'Account'
       },
       children: [
@@ -212,7 +214,6 @@ export default new Router({
           component: ChangePassword,
           props: true,
           meta: {
-            auth: ['admin'],
             breadcrumb: 'Change Password'
           }
         }
