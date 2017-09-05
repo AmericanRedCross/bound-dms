@@ -102,12 +102,14 @@ const directories = {
       let promises = []
       // Loop through each directory item and save
       state.flatDirectories.forEach((directory) => {
-        if (directory.id !== null && directory.id !== undefined) {
-          // Update
-          promises.push(axios.put(DIRECTORY_ROOT + directory.id, directory))
-        } else {
-          // Create a new one
-          promises.push(axios.post('projects/' + projectId + '/directories', directory))
+        if (directory.needsSaving) {
+          if (directory.id !== null && directory.id !== undefined) {
+            // Update
+            promises.push(axios.put(DIRECTORY_ROOT + directory.id, directory))
+          } else {
+            // Create a new one
+            promises.push(axios.post('projects/' + projectId + '/directories', directory))
+          }
         }
       })
       return Promise.all(promises)

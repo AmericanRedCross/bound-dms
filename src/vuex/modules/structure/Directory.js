@@ -20,6 +20,7 @@ export class Directory {
     this._attachments = attachments // Loop through and declare each object
     this._directories = directories // loop through and declare each object
     this._parentId = parentId
+    this._needsSaving = false
   }
 
   // Getters and Setters
@@ -49,6 +50,10 @@ export class Directory {
   // parentId
   set parentId (parentId) { this._parentId = parentId }
   get parentId () { return this._parentId }
+
+  // Needs Saving
+  set needsSaving (needsSaving) { this._needsSaving = needsSaving }
+  get needsSaving () { return this._needsSaving }
 
   /**
    * [addAttachment Add an Attachment to the attachments array]
@@ -94,6 +99,7 @@ export class Directory {
    */
   addDirectoryAtIndex ({directory = new Directory({}), index}) {
     directory.parentId = this.id
+    directory.needsSaving = true
     if (directory && index >= 0) {
       if (directory.order === null) {
         // Get next hierachy
@@ -167,7 +173,8 @@ export class Directory {
       }),
       content: this.content,
       order: this.order,
-      parentId: this.parentId
+      parentId: this.parentId,
+      needsSaving: this.needsSaving
     }
     return directoryObject
   }
@@ -189,14 +196,18 @@ Directory.updateOrder = (updatedIndex, oldIndex, directories) => {
     }
   }
 
+  directories[updatedIndex].needsSaving = true
+
   // Between the updated index and the old index update the hierarchies
   if (goingUp) {
     for (let i = oldIndex; i < updatedIndex; i++) {
       directories[i].order -= 1
+      directories[i].needsSaving = true
     }
   } else {
     for (let i = oldIndex; i > updatedIndex; i--) {
       directories[i].order += 1
+      directories[i].needsSaving = true
     }
   }
 }
