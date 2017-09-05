@@ -21,10 +21,10 @@
 			"hierarchy": "1.1"
 		},
 		"attachments": [{
-				"title": "CTP Preparedness Guidance Stage",
-				"url": "http://webviz.redcross.org/ctp/docs/en/1.%20toolkit/Module%201%20Preparedness/M1_1%20Prepare%20and%20analyze/M1_1_0a%20CTP%20Preparedness%20guidance-stage.pdf",
-				"mime": "application/pdf",
-				"size": 156712
+			"title": "CTP Preparedness Guidance Stage",
+			"url": "http://webviz.redcross.org/ctp/docs/en/1.%20toolkit/Module%201%20Preparedness/M1_1%20Prepare%20and%20analyze/M1_1_0a%20CTP%20Preparedness%20guidance-stage.pdf",
+			"mime": "application/pdf",
+			"size": 156712
 		}],
 		"directories": [{
 				"id": 3,
@@ -57,62 +57,62 @@
 				},
 				"attachments": [],
 				"directories": [{
-					"id": 5,
-					"title": "Key Stakeholders Matrix Template",
-					"order": 0,
-					"content": null,
-					"metadata": {
-						"hierarchy": "1.1.2.1",
-						"tool": true,
-						"critical_path": true
+						"id": 5,
+						"title": "Key Stakeholders Matrix Template",
+						"order": 0,
+						"content": null,
+						"metadata": {
+							"hierarchy": "1.1.2.1",
+							"tool": true,
+							"critical_path": true
+						},
+						"attachments": [{
+							"title": "Key stakeholders matrix template",
+							"url": "http://webviz.redcross.org/ctp/docs/en/1.%20toolkit/Module%201%20Preparedness/M1_1%20Prepare%20and%20analyze/M1_1_2%20Primary%20data%20collection%20and%20analysis/M1_1_2_1%20Key%20stakeholders%20matrix%20template.docx",
+							"mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+							"size": 35141
+						}],
+						"directories": []
 					},
-					"attachments": [{
-						"title": "Key stakeholders matrix template",
-						"url": "http://webviz.redcross.org/ctp/docs/en/1.%20toolkit/Module%201%20Preparedness/M1_1%20Prepare%20and%20analyze/M1_1_2%20Primary%20data%20collection%20and%20analysis/M1_1_2_1%20Key%20stakeholders%20matrix%20template.docx",
-						"mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-						"size": 35141
-					}],
-					"directories": []
-				},
-				{
-					"id": 6,
-					"title": "Baseline interviews checklist",
-					"order": 1,
-					"content": null,
-					"metadata": {
-						"hierarchy": "1.1.2.2",
-						"tool": true
-					},
-					"attachments": [{
+					{
+						"id": 6,
 						"title": "Baseline interviews checklist",
-						"url": "http://webviz.redcross.org/ctp/docs/en/1.%20toolkit/Module%201%20Preparedness/M1_1%20Prepare%20and%20analyze/M1_1_2%20Primary%20data%20collection%20and%20analysis/M1_1_2_2%20Baseline%20interviews%20checklist.docx",
-						"mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-						"size": 39027
-					}],
-					"directories":[]
-				},
-				{
-					"id": 7,
-					"title": "CTP 4Ws matrix template",
-					"order": 2,
-					"content": null,
-					"metadata": {
-						"hierarchy": "1.1.2.3",
-						"tool": true,
-						"critical_path": true
+						"order": 1,
+						"content": null,
+						"metadata": {
+							"hierarchy": "1.1.2.2",
+							"tool": true
+						},
+						"attachments": [{
+							"title": "Baseline interviews checklist",
+							"url": "http://webviz.redcross.org/ctp/docs/en/1.%20toolkit/Module%201%20Preparedness/M1_1%20Prepare%20and%20analyze/M1_1_2%20Primary%20data%20collection%20and%20analysis/M1_1_2_2%20Baseline%20interviews%20checklist.docx",
+							"mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+							"size": 39027
+						}],
+						"directories": []
 					},
-					"attachments": [{
+					{
+						"id": 7,
 						"title": "CTP 4Ws matrix template",
-						"url": "http://webviz.redcross.org/ctp/docs/en/1.%20toolkit/Module%201%20Preparedness/M1_1%20Prepare%20and%20analyze/M1_1_2%20Primary%20data%20collection%20and%20analysis/M1_1_2_3%20CTP%204Ws%20matrix%20template.xls",
-						"mime": "application/vnd.ms-excel",
-						"size": 129024
-					}]
-				}]
-			}]
-		}]
+						"order": 2,
+						"content": null,
+						"metadata": {
+							"hierarchy": "1.1.2.3",
+							"tool": true,
+							"critical_path": true
+						},
+						"attachments": [{
+							"title": "CTP 4Ws matrix template",
+							"url": "http://webviz.redcross.org/ctp/docs/en/1.%20toolkit/Module%201%20Preparedness/M1_1%20Prepare%20and%20analyze/M1_1_2%20Primary%20data%20collection%20and%20analysis/M1_1_2_3%20CTP%204Ws%20matrix%20template.xls",
+							"mime": "application/vnd.ms-excel",
+							"size": 129024
+						}]
+					}
+				]
+			}
+		]
 	}]
-},
-{
+}, {
 	"id": 8,
 	"title": "Assessment",
 	"order": 1,
@@ -122,8 +122,7 @@
 	},
 	"attachments": [],
 	"directories": []
-},
-{
+}, {
 	"id": 8,
 	"title": "Response Analysis",
 	"order": 2,
@@ -133,8 +132,7 @@
 	},
 	"attachments": [],
 	"directories": []
-},
-{
+}, {
 	"id": 9,
 	"title": "Set-Up & Implementation",
 	"order": 3,
@@ -144,8 +142,7 @@
 	},
 	"attachments": [],
 	"directories": []
-},
-{
+}, {
 	"id": 10,
 	"title": "Monitoring & Evaluation",
 	"order": 4,
