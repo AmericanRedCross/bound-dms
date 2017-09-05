@@ -42,7 +42,6 @@ export default {
   },
   mounted () {
     this.$store.dispatch('GET_STRUCTURE', this.$route.params.id).then(() => {
-      console.log(this.$store.state)
     }).catch((e) => {
       this.$notifications.notify(
         {
@@ -75,6 +74,7 @@ export default {
             verticalAlign: 'bottom',
             type: 'info'
           })
+        this.$store.dispatch('GET_STRUCTURE', this.project.id)
       }).catch(() => {
         this.$notifications.notify(
           {

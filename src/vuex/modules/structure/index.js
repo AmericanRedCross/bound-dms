@@ -70,6 +70,10 @@ const directories = {
       Directory.updateOrder(options.newIndex, options.oldIndex, directories)
       // Set flat structure
       state.flatDirectories = directoryUtils.getFlatStructure(state.structure)
+    },
+    FLAT_STRUCTURE_PARSE: (state) => {
+      // Set flat structure
+      state.flatDirectories = directoryUtils.getFlatStructure(state.structure)
     }
   },
   actions: {
@@ -90,6 +94,10 @@ const directories = {
       commit('SET_PARSED_STRUCTURE', { response: {data} })
     },
 
+    SET_FLAT_STRUCTURE: function ({ commit }) {
+      commit('FLAT_STRUCTURE_PARSE')
+    },
+
     SAVE_STRUCTURE: function ({commit, state}, projectId) {
       let promises = []
       // Loop through each directory item and save
@@ -103,11 +111,6 @@ const directories = {
         }
       })
       return Promise.all(promises)
-    },
-
-    // POST a new directory to projects
-    NEW_DIRECTORY: function ({ commit }, projectId, directory) {
-
     },
 
     // PUT a directory

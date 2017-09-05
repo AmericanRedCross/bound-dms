@@ -8,8 +8,10 @@
       <div class="d-flex align-items-baseline flex-wrap content">
         <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-for="number in directoryNumbers">{{ number }}.</span><span>{{ directory.order }}</span></h4>
 
+        <pre>
+          Id: {{ directory.id }}, parentId: {{ directory.parentId }}
+        </pre>
         <i v-if="!editTitle" class="ml-2">{{ directory.title }}</i>
-
         <span class="title-input ml-2" v-else>
           <b-input-group>
             <b-form-input v-model="directory.title"
@@ -52,7 +54,7 @@
               {{ $t('projects.modules.addDirectory') }}
             </b-dropdown-item-button>
 
-            <b-dropdown-item-button v-else-if="$auth.check(['admin', 'editor'])" @click="addSubDirectory" class="directory-action">
+            <b-dropdown-item-button v-else-if="$auth.check(['admin', 'editor'])" @click="addDirectory" class="directory-action">
               <fa-icon name="plus-circle"></fa-icon>
               {{ $t('projects.modules.addSubDirectory') }}
             </b-dropdown-item-button>
@@ -187,13 +189,10 @@ export default {
     addDirectory () {
       this.isExpanded = true
       this.directory.addDirectoryAtIndex({index: this.index})
+      this.$store.dispatch('SET_FLAT_STRUCTURE')
     },
     updateCritical (value) {
       this.directory.critical = value.value
-    },
-    addSubDirectory () {
-      this.isExpanded = true
-      this.directory.addDirectoryAtIndex({index: this.index})
     },
     updateDraggable (e) {
       let newIndex = e.newIndex
