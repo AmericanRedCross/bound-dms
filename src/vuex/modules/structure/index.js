@@ -145,27 +145,35 @@ const directories = {
 }
 
 const getStructure = (directories) => {
+  // The structure we're going to return
   let structure = []
+  // Make a copy
   Object.assign(structure, directories)
+  // Directories we're going to remove from the top level after we've made a copy (if they need to be nested)
   let toRemove = []
+  let movedDirectories = []
+  // Loop through the directories, find any directories that have a parentId and store them as a child to that parent
   directories.forEach((directory, index) => {
     if (directory.parentId !== null) {
-      console.log(directory.parentId)
       // It's a child of a directory, move it to the correct place...
-      // let removed = structure.splice(index, 1)[0]
       let copiedDirectory = {}
-
       Object.assign(copiedDirectory, structure[index])
-      console.log(copiedDirectory)
       // Find the parent
       if (copiedDirectory) {
-        let parent = structure.find(directory => directory.id === copiedDirectory.parentId)
+        let parent
+        // Have we already copied it? if so check the moved directory record
+        parent = movedDirectories.find(directory => directory.id === copiedDirectory.parentId)
+        // else check the structure for it
+        if (!parent) {
+          parent = structure.find(directory => directory.id === copiedDirectory.parentId)
+        }
         if (parent) {
           // Does parent have a directories array?
           if (parent.directories === undefined) {
             parent.directories = []
           }
           parent.directories.push(copiedDirectory)
+          movedDirectories.push(copiedDirectory)
           toRemove.push(structure[index])
         }
       }
@@ -178,7 +186,6 @@ const getStructure = (directories) => {
       structure.splice(index, 1)
     }
   })
-
   return structure
 }
 
