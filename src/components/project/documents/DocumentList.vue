@@ -25,8 +25,9 @@
 
     </div>
     <div>
-      <dropzone id="fileUpload">
-        <input type="hidden" name="token" value="xxx">
+      <dropzone id="fileUpload" url="https://httpbin.org/post" v-on:vdropzone-success="showSuccess">
+          <!-- Optional parameters if any! -->
+          <input type="hidden" name="token" value="xxx">
       </dropzone>
     </div>
   </b-card>
@@ -38,6 +39,11 @@ import Dropzone from 'vue2-dropzone'
 export default {
   components: {
     Dropzone
+  },
+  methods: {
+    'showSuccess': function (file) {
+      console.log('A file was successfully uploaded')
+    }
   },
   data () {
     return {
