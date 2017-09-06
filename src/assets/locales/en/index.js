@@ -33,7 +33,7 @@ export default{
     projects: 'Projects',
     users: 'Users',
     profile: 'Profile',
-    signout: 'Sign Out',
+    signout: 'Sign out',
     settings: 'Settings'
   },
   sidebar: {
@@ -98,9 +98,9 @@ export default{
       criticalPathOff: 'Enable critical path?'
     },
     settings: {
-      header: 'Project Settings',
-      base: 'Change Base Language',
-      name: 'Change Project Name'
+      header: 'Project settings',
+      base: 'Change base language',
+      name: 'Change project name'
     },
     attachments: {
       add: 'Add attachment',
@@ -119,17 +119,17 @@ export default{
       steps: 'STEPS',
       substeps: 'SUBSTEPS',
       tools: 'TOOLS',
-      edit: 'Edit Content',
+      edit: 'Edit content',
       languages: 'Languages',
-      content: 'Content & Translations',
+      content: 'Content & translations',
       setcontent: 'Content set',
       translations: 'Translations',
       createdby: 'Created by: ',
-      publish: 'Last Publish',
-      lastPublish: 'Last Publish At: ',
+      publish: 'Last publish',
+      lastPublish: 'Last publish at: ',
       publisher: 'By: ',
-      viewPublish: 'View Publishing Details',
-      changes: ' Unpublished Changes',
+      viewPublish: 'View publishing details',
+      changes: ' Unpublished changes',
       publishing: 'Publishing'
     },
     projectcard: {
@@ -161,21 +161,21 @@ export default{
     },
     publish: {
       publishes: 'Publishes',
-      previous: 'Previous Publishes',
-      recent: 'Unpublished Changes',
-      structure: 'Structure Changes',
-      content: 'Content Changes',
-      base: 'Base Language: ',
-      translate: 'Translated Languages: ',
-      publish: ' Publish These Changes',
-      publishAll: 'Publish All Changes'
+      previous: 'Previous publishes',
+      recent: 'Unpublished changes',
+      structure: 'Structure changes',
+      content: 'Content changes',
+      base: 'Base language: ',
+      translate: 'Translated languages: ',
+      publish: ' Publish These changes',
+      publishAll: 'Publish All changes'
     },
     keys: {
-      view: 'View Key',
-      add: 'Add API Key',
-      name: 'Key Name',
-      key: 'API Key',
-      example: 'e.g. iOS App',
+      view: 'View key',
+      add: 'Add API key',
+      name: 'Key name',
+      key: 'API key',
+      example: 'e.g. iOS app',
       emptystate: 'There are no Api Keys assigned to this project'
     }
   },
