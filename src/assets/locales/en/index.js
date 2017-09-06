@@ -177,6 +177,9 @@ export default{
       key: 'API Key',
       example: 'e.g. iOS App',
       emptystate: 'There are no Api Keys assigned to this project'
+    },
+    documents: {
+      title: 'Documents'
     }
   },
   pagenotfound: {
