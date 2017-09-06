@@ -177,6 +177,13 @@ export default{
       key: 'API Key',
       example: 'e.g. iOS App',
       emptystate: 'There are no Api Keys assigned to this project'
+    },
+    meta: {
+      emptystate: 'There is no metadata assigned to this project',
+      add: 'Add metadata',
+      name: 'Metadata item name',
+      meta: 'Metadata',
+      example: 'e.g. critical_path'
     }
   },
   pagenotfound: {
