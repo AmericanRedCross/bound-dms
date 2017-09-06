@@ -180,34 +180,12 @@ export class Directory {
   }
 }
 
-Directory.updateOrder = (updatedIndex, oldIndex, directories) => {
-  // Are we going up or down?
-  let goingUp = updatedIndex > oldIndex
-  // Swap the order with the one next to it.
-  if (goingUp) {
-    // Swap with the one behind it, if it exists
-    if (directories[updatedIndex - 1]) {
-      directories[updatedIndex].order = directories[updatedIndex - 1].order
-    }
-  } else {
-    // Swap with the one in front of it, if it exists
-    if (directories[updatedIndex + 1]) {
-      directories[updatedIndex].order = directories[updatedIndex + 1].order
-    }
-  }
-
-  directories[updatedIndex].needsSaving = true
-
-  // Between the updated index and the old index update the hierarchies
-  if (goingUp) {
-    for (let i = oldIndex; i < updatedIndex; i++) {
-      directories[i].order -= 1
-      directories[i].needsSaving = true
-    }
-  } else {
-    for (let i = oldIndex; i > updatedIndex; i--) {
-      directories[i].order += 1
-      directories[i].needsSaving = true
-    }
+/**
+ * [updateOrder Update an array of directories orders if the array has been moved about]
+ * @param  {Array} directories The directories
+ */
+Directory.updateOrder = (directories) => {
+  for (let i = 0; i < directories.length; i++) {
+    directories[i].order = i + 1
   }
 }
