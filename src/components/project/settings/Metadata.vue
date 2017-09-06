@@ -45,14 +45,17 @@ export default {
         name: {
           label: 'Key'
         },
-        type: {
+        valuetype: {
           label: 'Value Type'
         },
         actions: {
           label: ''
         }
       },
-      metadata: [],
+      metadata: [
+        {name: 'hierarchy', valuetype: 'String'},
+        {name: 'tool', valuetype: 'Boolean'}
+      ],
       selectedKey: '',
       selected: null,
       typeOptions: [
