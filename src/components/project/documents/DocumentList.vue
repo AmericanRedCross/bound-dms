@@ -2,11 +2,15 @@
   <b-card :title="$t('projects.documents.title')">
     <div class="row">
       <div class="col">
+        <b-form-input v-model="filter" :placeholder="$t('users.listview.type')" id="userSearch"></b-form-input>
         <b-table striped hover
                 :items="metadata"
                 :fields="headers"
+                :current-page="currentPage"
+                :per-page="perPage"
                 :show-empty="true"
                 :empty-text="$t('projects.meta.emptystate')"
+                :filter="filter"
                 id="meta-table"
         >
           <template slot="icon" scope="item">
@@ -30,28 +34,34 @@ export default {
     return {
       headers: {
         id: {
-          label: 'ID'
+          label: 'ID',
+          sortable: true
         },
         thumbnail: {
           label: 'Thumbnail'
         },
         icon: {
-          label: ''
+          label: '',
+          sortable: true
         },
         title: {
-          label: 'Title'
+          label: 'Title',
+          sortable: true
         },
         description: {
           label: 'Description'
         },
         path: {
-          label: 'Path'
+          label: 'Path',
+          sortable: true
         },
         createdAt: {
-          label: 'Created at'
+          label: 'Created at',
+          sortable: true
         },
         createdBy: {
-          label: 'Created by'
+          label: 'Created by',
+          sortable: true
         }
       },
       metadata: [
@@ -63,7 +73,10 @@ export default {
         'String',
         'Boolean',
         'Number'
-      ]
+      ],
+      perPage: 10,
+      currentPage: 1,
+      filter: null
     }
   }
 }
