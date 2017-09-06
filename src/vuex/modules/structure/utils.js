@@ -210,7 +210,6 @@ const DirectoryUtils = {
   },
 
   getFlatStructure (structure, flatStructure = []) {
-    console.log(structure)
     structure.forEach(directory => {
       let childDirectories = directory.directories
       if (Array.isArray(childDirectories)) {
