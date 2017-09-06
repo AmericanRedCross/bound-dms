@@ -150,48 +150,18 @@ const directories = {
   }
 }
 
-const getStructure = (directories) => {
-  // The structure we're going to return
-  let structure = []
-  // Make a copy
-  Object.assign(structure, directories)
-  // Directories we're going to remove from the top level after we've made a copy (if they need to be nested)
-  let toRemove = []
-  let movedDirectories = []
-  // Loop through the directories, find any directories that have a parentId and store them as a child to that parent
-  directories.forEach((directory, index) => {
-    if (directory.parentId !== null) {
-      // It's a child of a directory, move it to the correct place...
-      let copiedDirectory = {}
-      Object.assign(copiedDirectory, structure[index])
-      // Find the parent
-      if (copiedDirectory) {
-        let parent
-        // Have we already copied it? if so check the moved directory record
-        parent = movedDirectories.find(directory => directory.id === copiedDirectory.parentId)
-        // else check the structure for it
-        if (!parent) {
-          parent = structure.find(directory => directory.id === copiedDirectory.parentId)
-        }
-        if (parent) {
-          // Does parent have a directories array?
-          if (parent.directories === undefined) {
-            parent.directories = []
-          }
-          parent.directories.push(copiedDirectory)
-          movedDirectories.push(copiedDirectory)
-          toRemove.push(structure[index])
-        }
-      }
-    }
-  })
-  // Remove each top level directory we've nested already
-  toRemove.forEach(directory => {
-    let index = structure.indexOf(directory)
-    if (index !== -1) {
-      structure.splice(index, 1)
-    }
-  })
+const getStructure = (flatStructure) => {
+  // Build the structure we're going to return (starting with the root directories)
+  let structure = flatStructure.filter(directory => directory.parentId === null)
+
+  const buildStructure = (parent) => {
+    parent.directories = flatStructure.filter(child => child.parentId === parent.id)
+    // Loop through and build structure
+    parent.directories.forEach(child => buildStructure(child))
+  }
+
+  structure.forEach(parent => buildStructure(parent))
+
   return structure
 }
 
