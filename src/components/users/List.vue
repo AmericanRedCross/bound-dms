@@ -103,7 +103,16 @@ export default {
             let user = this.getUserById(parseInt(e.target.dataset.id, 10))
             if (user) {
               // If the user exists then call the delete
-              this.$store.dispatch('DELETE_USER', parseInt(e.target.dataset.id, 10)).then(resolve)
+              this.$store.dispatch('DELETE_USER', parseInt(e.target.dataset.id, 10)).then(resolve).catch(() => {
+                this.$notifications.notify(
+                  {
+                    message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+                    icon: 'exclamation-triangle',
+                    horizontalAlign: 'right',
+                    verticalAlign: 'bottom',
+                    type: 'danger'
+                  })
+              })
             } else {
               reject(this._i18n.t('users.couldNotFind'))
             }

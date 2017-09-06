@@ -198,7 +198,6 @@ export default {
       let newIndex = e.newIndex
       let oldIndex = e.oldIndex
 
-      // Update Order
       this.$store.dispatch('UPDATE_ORDER', {newIndex, oldIndex, directoryNumbers: this.getDirectories()})
     },
     removeDirectory () {

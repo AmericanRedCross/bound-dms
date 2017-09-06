@@ -102,6 +102,15 @@ export default {
             this.sigingIn = false
             // Dispatch an error update to vuex (we can then re-use a generic error toast or something)
           }
+        }).catch(() => {
+          this.$notifications.notify(
+            {
+              message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+              icon: 'exclamation-triangle',
+              horizontalAlign: 'right',
+              verticalAlign: 'bottom',
+              type: 'danger'
+            })
         })
       }
     },

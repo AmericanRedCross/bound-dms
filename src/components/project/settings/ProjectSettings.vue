@@ -90,8 +90,24 @@
           let action = 'UPDATE_PROJECT'
           this.$store.dispatch(action, this.project).then(() => {
             this.saving = false
+            this.$notifications.notify(
+              {
+                message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.updated')} ${this.project.name}`,
+                icon: 'info',
+                horizontalAlign: 'right',
+                verticalAlign: 'bottom',
+                type: 'info'
+              })
           }).catch(() => {
             this.saving = false
+            this.$notifications.notify(
+              {
+                message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+                icon: 'exclamation-triangle',
+                horizontalAlign: 'right',
+                verticalAlign: 'bottom',
+                type: 'danger'
+              })
           })
         }
       }

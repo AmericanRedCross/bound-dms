@@ -41,8 +41,7 @@ export default {
     }
   },
   mounted () {
-    this.$store.dispatch('GET_STRUCTURE', this.$route.params.id).then(() => {
-    }).catch((e) => {
+    this.$store.dispatch('GET_STRUCTURE', this.$route.params.id).catch(() => {
       this.$notifications.notify(
         {
           message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
@@ -61,6 +60,15 @@ export default {
       let project = this.getProjectById(parseInt(this.$route.params.id), 10)
     // Set the project so the component can see it
       this.project = project
+    }).catch(() => {
+      this.$notifications.notify(
+        {
+          message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+          icon: 'exclamation-triangle',
+          horizontalAlign: 'right',
+          verticalAlign: 'bottom',
+          type: 'danger'
+        })
     })
   },
   methods: {
