@@ -221,7 +221,7 @@ export default new Router({
       ]
     },
     {
-      path: '/unauthorised',
+      path: '/403',
       name: 'Unauthorised',
       component: NotAuthorised
     },
