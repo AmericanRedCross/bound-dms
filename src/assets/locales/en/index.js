@@ -167,8 +167,8 @@ export default{
       content: 'Content changes',
       base: 'Base language: ',
       translate: 'Translated languages: ',
-      publish: ' Publish These changes',
-      publishAll: 'Publish All changes'
+      publish: ' Publish these changes',
+      publishAll: 'Publish all changes'
     },
     keys: {
       view: 'View key',
@@ -176,7 +176,7 @@ export default{
       name: 'Key name',
       key: 'API key',
       example: 'e.g. iOS app',
-      emptystate: 'There are no Api Keys assigned to this project'
+      emptystate: 'There are no API Keys assigned to this project'
     }
   },
   pagenotfound: {
