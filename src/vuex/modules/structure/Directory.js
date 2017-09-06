@@ -186,6 +186,9 @@ export class Directory {
  */
 Directory.updateOrder = (directories) => {
   for (let i = 0; i < directories.length; i++) {
-    directories[i].order = i + 1
+    if (directories[i].order !== i + 1) {
+      directories[i].order = i + 1
+      directories[i].needsSaving = true
+    }
   }
 }

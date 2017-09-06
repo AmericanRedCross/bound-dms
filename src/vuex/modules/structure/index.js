@@ -67,7 +67,7 @@ const directories = {
         })
         directories = directories.directories
       }
-      Directory.updateOrder(options.newIndex, options.oldIndex, directories)
+      Directory.updateOrder(directories)
       // Set flat structure
       state.flatDirectories = directoryUtils.getFlatStructure(state.structure)
     },
