@@ -65,7 +65,9 @@ const mockState = {
       ],
       directories: []
     })
-  ]
+  ],
+  directoriesToDelete: [],
+  flatDirectories: []
 }
 
 const expectDirectory = (mock, directoryObject) => {
@@ -142,5 +144,16 @@ describe('Vuex Structure Mutations', () => {
     moveDirectoryAndExpect(state, 0, 2)
     // Move 3 -> 2 (index based)
     moveDirectoryAndExpect(state, 0, 1)
+  })
+
+  it('FIND_REMOVE_DIRECTORY', () => {
+    // mock state
+    let state = {}
+
+    state = JSON.parse(JSON.stringify(mockState)) // Object.assign(...) does not do deep cloning
+    mutations.FIND_REMOVE_DIRECTORY(state, { options: {directoryNumbers: [], directory: state.structure[0]} })
+    // Length should now be one less...
+    expect(state.structure.length).to.equal(mockState.structure.length - 1)
+    expect(state.directoriesToDelete.length).to.equal(1)
   })
 })
