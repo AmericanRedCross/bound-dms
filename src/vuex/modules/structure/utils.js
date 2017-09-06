@@ -218,6 +218,21 @@ const DirectoryUtils = {
       flatStructure.push(directory.flatten())
     })
     return flatStructure
+  },
+
+  traverseWithOrder (directories, directoryNumbers) {
+    if (directoryNumbers !== undefined) {
+      directoryNumbers.forEach((directoryNumber, index) => {
+        if (index === 0) {
+          // an array so a bit different to find
+          directories = directories.find(directory => directory.order === directoryNumber)
+        } else {
+          directories = directories.directories.find(directory => directory.order === directoryNumber)
+        }
+      })
+      directories = directories.directories
+    }
+    return directories
   }
 }
 

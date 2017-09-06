@@ -3,24 +3,12 @@ import axios from 'axios'
 import directoryUtils from './utils'
 import { Directory } from './Directory'
 
-/**
- *  GET /api/projects/:id/directories
-      ✓ returns a collection of directories
-    GET /api/directories/:id
-      ✓ returns a single directory object
-    POST /api/projects/:id/directories
-      ✓ creates a new directory
-    PUT /api/directories/:id
-      ✓ updates an existing directory
-    DELETE /api/directories/:id
-      ✓ deletes an existing project language
- *
- */
 const DIRECTORY_ROOT = 'directories/'
 const directories = {
   state: {
     structure: [],
-    flatDirectories: []
+    flatDirectories: [],
+    directoriesToDelete: []
   },
   mutations: {
     SET_STRUCTURE: (state, { response }) => {
@@ -35,15 +23,20 @@ const directories = {
 
           return 0
         })
+        // Reset to delete as we have reset the structure
+        state.directoriesToDelete = []
       }
     },
+
     SET_PARSED_STRUCTURE: (state, { response }) => {
       state.structure = response.data
     },
+
     SET_DIRECTORIES: (state, { response }) => {
       state.flatDirectories = response.data
     },
-    SET_DIRECTORY: (state, {response}) => {
+
+    SET_DIRECTORY: (state, { response }) => {
       // Does the project exist already?
       let directory = state.flatDirectories.find(directory => directory.id === response.data.id)
 
@@ -53,24 +46,27 @@ const directories = {
         state.flatDirectories.push(response.data)
       }
     },
+
+    FIND_REMOVE_DIRECTORY: (state, { options }) => {
+      // Find the right lot of directories.. traverse through
+      let directories = options.directoryNumbers.length ? directoryUtils.traverseWithOrder(state.structure, options.directoryNumbers) : state.structure
+      if (directories) {
+        let indexToRemove = directories.indexOf(options.directory)
+        if (indexToRemove !== -1) {
+          state.directoriesToDelete.push(directories.splice(indexToRemove, 1)[0])
+          Directory.updateOrder(directories)
+        }
+      }
+    },
+
     SET_ORDER: (state, { options }) => {
       // Find the right lot of directories.. traverse through
-      let directories = state.structure
-      if (options.directoryNumbers !== undefined) {
-        options.directoryNumbers.forEach((directoryNumber, index) => {
-          if (index === 0) {
-            // an array so a bit different to find
-            directories = directories.find(directory => directory.order === directoryNumber)
-          } else {
-            directories = directories.directories.find(directory => directory.order === directoryNumber)
-          }
-        })
-        directories = directories.directories
-      }
+      let directories = directoryUtils.traverseWithOrder(state.structure, options.directoryNumbers)
       Directory.updateOrder(directories)
       // Set flat structure
       state.flatDirectories = directoryUtils.getFlatStructure(state.structure)
     },
+
     FLAT_STRUCTURE_PARSE: (state) => {
       // Set flat structure
       state.flatDirectories = directoryUtils.getFlatStructure(state.structure)
@@ -79,12 +75,10 @@ const directories = {
   actions: {
     // GET entire Structure
     GET_STRUCTURE: function ({ commit }, projectId) {
-      // GET DIRECTORIES
       // api/projects/:id/directories
       axios.get('projects/' + projectId + '/directories').then((response) => {
         commit('SET_DIRECTORIES', { response: response.data })
         commit('SET_STRUCTURE', { response: getStructure(response.data.data) })
-        // Build the structure...
       }, (err) => {
         commit('SET_MESSAGE', { message: err })
       })
@@ -112,11 +106,17 @@ const directories = {
           }
         }
       })
+      state.directoriesToDelete.forEach((directory) => {
+        if (directory.id !== null && directory.id !== undefined) {
+          // Update
+          promises.push(axios.delete(DIRECTORY_ROOT + directory.id))
+        }
+      })
       return Promise.all(promises)
     },
 
-    // PUT a directory
     UPDATE_DIRECTORY: function ({ commit, state }, directory) {
+      // /api/directories/:id
       return axios.put(DIRECTORY_ROOT + directory.id, {
         attachments: directory.attachments,
         content: directory.content,
@@ -131,9 +131,10 @@ const directories = {
       })
     },
 
-    // DELETE a directory
-    REMOVE_DIRECTORY: function ({ commit }, data) {
-
+    REMOVE_DIRECTORY: function ({ commit }, options) {
+      commit('FIND_REMOVE_DIRECTORY', {
+        options
+      })
     },
 
     UPDATE_ORDER: function ({ commit }, options) {

@@ -14,6 +14,7 @@ export default{
     created: 'Created',
     updated: 'Updated',
     oops: 'Oops',
+    noPermission: 'Looks like you don\'t have permission to do that',
     error: 'Something went wrong',
     upload: 'Upload',
     validations: {

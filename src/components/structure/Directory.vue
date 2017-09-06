@@ -202,8 +202,27 @@ export default {
       this.$store.dispatch('UPDATE_ORDER', {newIndex, oldIndex, directoryNumbers: this.getDirectories()})
     },
     removeDirectory () {
-      this.directory.removeDirectoryById(this.directory.id)
-      this.isExpanded = false
+      // this.directory.removeDirectoryById(this.directory.id)
+      if (this.$auth.check(['admin', 'editor'])) {
+        this.$swal({
+          title: this._i18n.t('common.areYouSure'),
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: this._i18n.t('common.deleteIt'),
+          allowOutsideClick: false
+        }).then(() => {
+          this.$store.dispatch('REMOVE_DIRECTORY', {directoryNumbers: this.directoryNumbers, directory: this.directory})
+          this.isExpanded = false
+        })
+      } else {
+        this.$swal({
+          title: this._i18n.t('common.oops'),
+          text: this._i18n.t('common.noPermission'),
+          type: 'info'
+        })
+      }
     },
     toggleDirectory (value) {
       this.isExpanded = value
