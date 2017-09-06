@@ -24,12 +24,21 @@
       </div>
 
     </div>
+    <div>
+      <dropzone id="fileUpload">
+        <input type="hidden" name="token" value="xxx">
+      </dropzone>
+    </div>
   </b-card>
 </template>
 
 <script>
+import Dropzone from 'vue2-dropzone'
 
 export default {
+  components: {
+    Dropzone
+  },
   data () {
     return {
       headers: {
