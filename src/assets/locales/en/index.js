@@ -185,8 +185,10 @@ export default{
     }
   },
   pagenotfound: {
-    notfound: 'Page not found',
-    sorry: 'Sorry, but the page you are looking for either does not exist or you do not have permission to access it',
+    notFound: 'Page not found',
+    notAuth: 'Unauthorised access',
+    sorry: 'Sorry, the page you are looking for does not exist',
+    sorryAuth: 'Sorry, you do not have permission to access the page you are looking for',
     return: 'Return to projects'
   }
 }
