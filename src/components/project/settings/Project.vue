@@ -33,7 +33,7 @@
             Warning: Only change the base language if 100% of content is translated to this language - otherwise content will be lost.
           </b-alert>
         </b-form-fieldset>
-        <b-button type="submit" variant="primary">Save</b-button>
+        <b-button type="submit" variant="primary"><fa-icon v-show="saving" name="refresh" spin></fa-icon>  Save</b-button>
       </b-form>
     </div>
   </div>
@@ -93,7 +93,6 @@ export default {
             })
         }).catch(() => {
           this.saving = false
-          // TODO error
           this.$notifications.notify(
             {
               message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
