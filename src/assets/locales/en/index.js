@@ -103,9 +103,14 @@ export default{
       criticalPathOff: 'Enable critical path?'
     },
     settings: {
-      header: 'Project Settings',
-      base: 'Change Base Language',
-      name: 'Change Project Name'
+      header: 'Project settings',
+      base: 'Change base language',
+      name: 'Change project name',
+      warning: 'Warning: Only change the base language if 100% of content is translated to this language - otherwise content will be lost.',
+      projectName: 'Project name:',
+      projectDescription: 'Project description: ',
+      baseLanguage: 'Base language:',
+      save: 'Save'
     },
     attachments: {
       add: 'Add attachment',
