@@ -34,7 +34,7 @@ export default{
     projects: 'Projects',
     users: 'Users',
     profile: 'Profile',
-    signout: 'Sign Out',
+    signout: 'Sign out',
     settings: 'Settings'
   },
   sidebar: {
@@ -108,7 +108,7 @@ export default{
       name: 'Change project name',
       warning: 'Warning: Only change the base language if 100% of content is translated to this language - otherwise content will be lost.',
       projectName: 'Project name:',
-      projectDescription: 'Project description: ',
+      projectDescription: 'Project description:',
       baseLanguage: 'Base language:',
       save: 'Save'
     },
@@ -129,17 +129,17 @@ export default{
       directories: 'DIRECTORIES',
       subDirectories: 'DIRECTORIES',
       tools: 'TOOLS',
-      edit: 'Edit Content',
+      edit: 'Edit content',
       languages: 'Languages',
-      content: 'Content & Translations',
+      content: 'Content & translations',
       setcontent: 'Content set',
       translations: 'Translations',
       createdby: 'Created by: ',
-      publish: 'Last Publish',
-      lastPublish: 'Last Publish At: ',
+      publish: 'Last publish',
+      lastPublish: 'Last publish at: ',
       publisher: 'By: ',
-      viewPublish: 'View Publishing Details',
-      changes: ' Unpublished Changes',
+      viewPublish: 'View publishing details',
+      changes: ' Unpublished changes',
       publishing: 'Publishing'
     },
     projectcard: {
@@ -171,14 +171,14 @@ export default{
     },
     publish: {
       publishes: 'Publishes',
-      previous: 'Previous Publishes',
-      recent: 'Unpublished Changes',
-      structure: 'Structure Changes',
-      content: 'Content Changes',
-      base: 'Base Language: ',
-      translate: 'Translated Languages: ',
-      publish: ' Publish These Changes',
-      publishAll: 'Publish All Changes'
+      previous: 'Previous publishes',
+      recent: 'Unpublished changes',
+      structure: 'Structure changes',
+      content: 'Content changes',
+      base: 'Base language: ',
+      translate: 'Translated languages: ',
+      publish: ' Publish these changes',
+      publishAll: 'Publish all changes'
     },
     keys: {
       view: 'View Key',
@@ -186,7 +186,7 @@ export default{
       name: 'Key Name',
       key: 'API Key',
       example: 'e.g. iOS App',
-      emptystate: 'There are no Api Keys assigned to this project'
+      emptystate: 'There are no API Keys assigned to this project'
     },
     documents: {
       title: 'Documents',
