@@ -47,7 +47,11 @@ export default{
   login: {
     email: 'Email',
     password: 'Password',
-    login: 'Login'
+    login: 'Login',
+    errors: {
+      title: 'Error logging in',
+      unauth: 'Password or email does not match'
+    }
   },
   dashboard: {
     header: 'Dashboard placeholder',
