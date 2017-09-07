@@ -77,11 +77,8 @@
 
     </div>
     <div slot="footer">
-      <b-button @click="updateUser" variant="primary" :disabled='saving'>{{ $t('users.edit.save') }}</b-button>
+      <b-button @click="updateUser" variant="primary" :disabled='saving'><fa-icon name="refresh" spin  v-show="saving"></fa-icon> {{ $t('users.edit.save') }}</b-button>
       <b-button variant="warning" :disabled='saving' :to="{ name: 'users' }">{{ $t('common.cancel') }}</b-button>
-      <span v-show="saving" class="m-t-5" style="inline-block">
-        <fa-icon name="refresh" spin></fa-icon>
-      </span>
       <small>{{ this.success }}</small>
     </div>
   </b-card>
@@ -121,7 +118,16 @@ export default {
             this.$router.push({ name: 'users' })
           }
         }).catch(() => {
+          console.log('error')
           this.saving = false
+          this.$notifications.notify(
+            {
+              message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+              icon: 'exclamation-triangle',
+              horizontalAlign: 'right',
+              verticalAlign: 'bottom',
+              type: 'danger'
+            })
         })
       }
     }

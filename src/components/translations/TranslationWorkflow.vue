@@ -3,8 +3,8 @@
       <TranslationInfo></TranslationInfo>
       <br />
       <ModuleCard></ModuleCard>
-      <div class="substep-cards">
-        <SubstepCard></SubstepCard>
+      <div class="subdirectory-cards">
+        <SubDirectoryCard></SubDirectoryCard>
       </div>
     </div>
 </template>
@@ -13,12 +13,12 @@
 import { mapGetters } from 'vuex'
 import ModuleCard from '@/components/translations/ModuleCard'
 import TranslationInfo from '@/components/translations/TranslationInfo'
-import SubstepCard from '@/components/translations/SubstepCard'
+import SubDirectoryCard from '@/components/translations/SubDirectoryCard'
 
 export default {
   name: 'translation-workflow',
   components: {
-    ModuleCard, TranslationInfo, SubstepCard
+    ModuleCard, TranslationInfo, SubDirectoryCard
   },
   data () {
     return {

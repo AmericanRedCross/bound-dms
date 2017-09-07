@@ -9,7 +9,7 @@
             </b-badge></h3>
           </div>
           <div class="column-left" align="left">
-            {{ this.modules }} {{ $t('projects.dashboard.modules') }} | {{ this.steps }} {{ $t('projects.dashboard.steps') }} | {{ this.substeps }} {{ $t('projects.dashboard.substeps') }} | {{ this.tools }} {{ $t('projects.dashboard.tools') }}
+            {{ this.modules }} {{ $t('projects.dashboard.modules') }} | {{ this.directories }} {{ $t('projects.dashboard.directories') }} | {{ this.subDirectories }} {{ $t('projects.dashboard.subDirectories') }} | {{ this.tools }} {{ $t('projects.dashboard.tools') }}
           </div>
           <div class="column-right" align="right">
             <b-button>{{ $t('projects.dashboard.edit') }}</b-button>
@@ -29,8 +29,8 @@ export default {
   data () {
     return {
       modules: 5,
-      steps: 100,
-      substeps: 500,
+      directories: 100,
+      subDirectories: 500,
       tools: 600
     }
   }

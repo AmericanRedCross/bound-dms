@@ -31,6 +31,16 @@ export default {
       // Set the user so the component can see it
       this.user = user
     })
+    .catch(() => {
+      this.$notifications.notify(
+        {
+          message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+          icon: 'exclamation-triangle',
+          horizontalAlign: 'right',
+          verticalAlign: 'bottom',
+          type: 'danger'
+        })
+    })
   },
   computed: {
     ...mapGetters([

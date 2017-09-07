@@ -21,6 +21,7 @@ import AccountContainer from '@/components/account/Account'
 import AccountProfile from '@/components/account/Profile'
 import ChangePassword from '@/components/account/PasswordForm'
 import PageNotFound from '@/components/pageNotFound/PageNotFound'
+import NotAuthorised from '@/components/pageNotFound/NotAuthorised'
 import TranslationWorkflow from '@/components/translations/TranslationWorkflow'
 import Publish from '@/components/project/publish/Publish'
 import DocumentList from '@/components/project/documents/DocumentList'
@@ -76,7 +77,8 @@ export default new Router({
           name: 'user-profile',
           component: UserProfile,
           meta: {
-            breadcrumb: 'Profile'
+            breadcrumb: 'Profile',
+            auth: ['admin']
           }
         },
         {
@@ -153,7 +155,8 @@ export default new Router({
                   name: 'settings',
                   component: ProjectSettings,
                   meta: {
-                    showSidebar: true
+                    showSidebar: true,
+                    auth: ['admin']
                   }
                 },
                 {
@@ -181,7 +184,8 @@ export default new Router({
               components: {default: Publish},
               meta: {
                 breadcrumb: 'Publish',
-                showSidebar: true
+                showSidebar: true,
+                auth: ['admin']
               }
             }
           ]
@@ -207,7 +211,6 @@ export default new Router({
       path: '/account/',
       component: AccountContainer,
       meta: {
-        auth: ['admin'],
         breadcrumb: 'Account'
       },
       children: [
@@ -223,11 +226,15 @@ export default new Router({
           component: ChangePassword,
           props: true,
           meta: {
-            auth: ['admin'],
             breadcrumb: 'Change Password'
           }
         }
       ]
+    },
+    {
+      path: '/403',
+      name: 'Unauthorised',
+      component: NotAuthorised
     },
     {
       path: '*', component: PageNotFound

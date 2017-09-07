@@ -114,6 +114,14 @@ export default {
       if (this.selectedLang) {
         this.project.languages.push(this.selectedLang)
       }
+      this.$notifications.notify(
+        {
+          message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.updated')} ${this.project.name}`,
+          icon: 'info',
+          horizontalAlign: 'right',
+          verticalAlign: 'bottom',
+          type: 'info'
+        })
     },
     changeSelected (val) {
       this.selectedLang = val

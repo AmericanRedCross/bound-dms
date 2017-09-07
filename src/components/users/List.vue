@@ -1,39 +1,36 @@
 <template>
   <div class="users">
-      <div class="row justify-content-md-center">
-        <div class="col">
-          <b-card id="userList" :header="$t('users.header')">
-            <b-form-input v-model="filter" :placeholder="$t('users.listview.type')" id="userSearch"></b-form-input>
-            <!-- Main table element -->
-            <b-table striped hover
-                    :items="users.users"
-                    :fields="headers"
-                    :current-page="currentPage"
-                    :per-page="perPage"
-                    :filter="filter"
-                    id="userTable"
-                    @row-clicked="rowClicked"
-            >
-            <template slot="firstname" scope="user">
-              {{ user.item.firstName }}
-            </template>
-            <template slot="picture" scope="user">
-              <v-gravatar class="user-icon" :email="user.item.email" default-img="mm" :size="80"> </v-gravatar>
-            </template>
-            <template slot="actions" scope="user">
-              <b-btn size="sm" variant="primary" :to="{ name: 'user-edit', params: { id: user.item.id }}" class="m-t-5"><fa-icon name="edit" label="Edit"></fa-icon> {{ $t('users.listview.edit') }}</b-btn>
-              <b-btn size="sm" variant="danger" class="m-t-5" @click="deleteClick" :data-id="user.item.id"><fa-icon name="trash" label="Delete"></fa-icon> {{ $t('users.listview.delete') }}</b-btn>
-            </template>
-            </b-table>
-            <div v-if="users.users.length > 10" class="row justify-content-center" slot="footer">
-              <b-pagination size="md" :total-rows="users.users.length" :per-page="perPage" v-model="currentPage" />
-            </div>
-            <div slot="footer">
-              <b-button variant="primary" :to="{ name: 'user-new' }">{{ $t('common.add') }}</b-button>
-            </div>
-          </b-card>
-        </div>
+    <div class="row justify-content-md-center">
+      <div class="col">
+        <b-card id="userList" :header="$t('users.header')">
+          <b-form-input v-model="filter" :placeholder="$t('users.listview.type')" id="userSearch"></b-form-input>
+          <!-- Main table element -->
+          <b-table striped hover
+                  :items="users.users"
+                  :fields="headers"
+                  :current-page="currentPage"
+                  :per-page="perPage"
+                  :filter="filter"
+                  id="userTable"
+                  @row-clicked="rowClicked"
+          >
+          <template slot="picture" scope="user">
+            <v-gravatar class="user-icon" :email="user.item.email" default-img="mm" :size="80"> </v-gravatar>
+          </template>
+          <template slot="actions" scope="user">
+            <b-btn size="sm" variant="primary" :to="{ name: 'user-edit', params: { id: user.item.id }}" class="m-t-5"><fa-icon name="edit" label="Edit"></fa-icon> {{ $t('users.listview.edit') }}</b-btn>
+            <b-btn size="sm" variant="danger" class="m-t-5" @click="deleteClick" :data-id="user.item.id"><fa-icon name="trash" label="Delete"></fa-icon> {{ $t('users.listview.delete') }}</b-btn>
+          </template>
+          </b-table>
+          <div v-if="users.users.length > 10" class="row justify-content-center" slot="footer">
+            <b-pagination size="md" :total-rows="users.users.length" :per-page="perPage" v-model="currentPage" />
+          </div>
+          <div slot="footer">
+            <b-button variant="primary" :to="{ name: 'user-new' }">{{ $t('common.add') }}</b-button>
+          </div>
+        </b-card>
       </div>
+    </div>
   </div>
 </template>
 
@@ -55,7 +52,7 @@ export default {
           label: 'First name',
           sortable: true
         },
-        lastName: {
+        lastname: {
           label: 'Last name',
           sortable: true
         },
@@ -73,6 +70,16 @@ export default {
   },
   mounted () {
     this.$store.dispatch('GET_USERS')
+    .catch(() => {
+      this.$notifications.notify(
+        {
+          message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+          icon: 'exclamation-triangle',
+          horizontalAlign: 'right',
+          verticalAlign: 'bottom',
+          type: 'danger'
+        })
+    })
   },
   methods: {
     deleteClick (e) {
@@ -93,7 +100,16 @@ export default {
             let user = this.getUserById(parseInt(e.target.dataset.id, 10))
             if (user) {
               // If the user exists then call the delete
-              this.$store.dispatch('DELETE_USER', parseInt(e.target.dataset.id, 10)).then(resolve)
+              this.$store.dispatch('DELETE_USER', parseInt(e.target.dataset.id, 10)).then(resolve).catch(() => {
+                this.$notifications.notify(
+                  {
+                    message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+                    icon: 'exclamation-triangle',
+                    horizontalAlign: 'right',
+                    verticalAlign: 'bottom',
+                    type: 'danger'
+                  })
+              })
             } else {
               reject(this._i18n.t('users.couldNotFind'))
             }
