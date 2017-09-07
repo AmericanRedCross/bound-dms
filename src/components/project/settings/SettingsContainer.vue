@@ -4,6 +4,7 @@
       <b-nav v-if="project" tabs class="card-header-tabs">
         <b-nav-item :to="{name: 'settings', params: {id: project.id}}">Project Settings</b-nav-item>
         <b-nav-item :to="{name: 'project-apikeys', params: {id: project.id}}">Api Keys</b-nav-item>
+        <b-nav-item :to="{name: 'project-meta', params: {id: project.id}}">Metadata</b-nav-item>
       </b-nav>
     </div>
     <router-view v-if="project" :project="project"></router-view>

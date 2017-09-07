@@ -186,7 +186,14 @@ export default{
       name: 'Key Name',
       key: 'API Key',
       example: 'e.g. iOS App',
-      emptystate: 'There are no API Keys assigned to this project'
+      emptystate: 'There are no Api Keys assigned to this project'
+    },
+    meta: {
+      emptystate: 'There is no metadata assigned to this project',
+      add: 'Add metadata',
+      name: 'Metadata item name',
+      meta: 'Metadata',
+      example: 'e.g. colour'
     },
     documents: {
       title: 'Documents',

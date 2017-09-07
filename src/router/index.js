@@ -30,6 +30,7 @@ import DocumentList from '@/components/project/documents/DocumentList'
 import SettingsContainer from '@/components/project/settings/SettingsContainer'
 import ProjectSettings from '@/components/project/settings/Project'
 import ApiKeys from '@/components/project/settings/ApiKeys'
+import Metadata from '@/components/project/settings/Metadata'
 
 // Structure Components
 import Structure from '@/components/structure/Structure'
@@ -163,6 +164,14 @@ export default new Router({
                   path: 'apikeys',
                   name: 'project-apikeys',
                   component: ApiKeys,
+                  meta: {
+                    showSidebar: true
+                  }
+                },
+                {
+                  path: 'metadata',
+                  name: 'project-meta',
+                  component: Metadata,
                   meta: {
                     showSidebar: true
                   }
