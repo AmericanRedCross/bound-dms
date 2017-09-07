@@ -71,7 +71,7 @@ export default {
           id: this.project.id,
           code: this.selectedLang.value
         }).then(() => {
-          //
+          this.selectedLang = null
         }).catch(() => {
           // TODO error
         })
