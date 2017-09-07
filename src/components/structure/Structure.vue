@@ -5,18 +5,19 @@
         <v-select v-if="this.project" :value.sync="selected" :options="getLangOptions"></v-select>
       </div>
       <div class="col-md-8" align="right">
-        <b-button @click.native="saveRevision" variant="success">Save Revision</b-button>
+        <b-button @click="save" variant="success">Save</b-button>
         <b-button v-if="$auth.check(['admin', 'editor'])" @click.native="addModule" variant="primary">Add Module</b-button>
       </div>
     </div>
     <draggable v-model="structure" @update="updateDraggable" :options="draggableOptions">
-      <StepComp v-for="module in structure" :key="module.id" :step="module" :isModule="true"></StepComp>
+      <DirectoryComp v-for="module in structure" :key="module.id" :directory="module" :isModule="true"></DirectoryComp>
     </draggable>
   </div>
+
 </template>
 <script>
-/** TODO: Refactor this (along with steps) so that we don't have duplicated update code, i.e. setting the structure + hierarchies on drag. */
-import StepComp from './Step'
+/** TODO: Refactor this (along with directories) so that we don't have duplicated update code, i.e. setting the structure + hierarchies on drag. */
+import DirectoryComp from './Directory'
 import draggable from 'vuedraggable'
 import vSelect from 'vue-select'
 import { Project } from '../../vuex/modules/project/Project'
@@ -25,7 +26,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'Structure',
   components: {
-    StepComp,
+    DirectoryComp,
     draggable,
     vSelect
   },
@@ -33,13 +34,24 @@ export default {
     return {
       project: new Project({}),
       draggableOptions: {
-        filter: '.ignore-drag'
+        filter: '.ignore-drag',
+        animation: 150
       },
       selected: 'English (en)'
     }
   },
   mounted () {
-    this.$store.dispatch('GET_STRUCTURE', this.$route.params.id)
+    this.$store.dispatch('GET_STRUCTURE', this.$route.params.id).then(() => {
+    }).catch((e) => {
+      this.$notifications.notify(
+        {
+          message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+          icon: 'exclamation-triangle',
+          horizontalAlign: 'right',
+          verticalAlign: 'bottom',
+          type: 'danger'
+        })
+    })
   },
   beforeMount () {
     // Call vuex to retrieve the current project from the backend. This returns a promise so we know when it's finished.
@@ -52,7 +64,27 @@ export default {
     })
   },
   methods: {
-    saveRevision () {
+    save () {
+      this.$store.dispatch('SAVE_STRUCTURE', this.project.id).then(() => {
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.updated')}`,
+            icon: 'info',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'info'
+          })
+        this.$store.dispatch('GET_STRUCTURE', this.project.id)
+      }).catch(() => {
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+            icon: 'exclamation-triangle',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'danger'
+          })
+      })
     },
     addModule () {
     },
@@ -61,15 +93,15 @@ export default {
       let newIndex = e.newIndex
       let oldIndex = e.oldIndex
 
-      // Update Hierarchy
-      this.$store.dispatch('UPDATE_HIERARCHY', {newIndex, oldIndex})
+      // Update Order
+      this.$store.dispatch('UPDATE_ORDER', {newIndex, oldIndex})
     }
   },
   computed: {
     // This is a special layout that vue draggable uses to interact with vuex
     structure: {
       get () {
-        return this.$store.state.structure.steps
+        return this.$store.state.structure.structure
       },
       set (value) {
         this.$store.dispatch('UPDATE_STRUCTURE', value)

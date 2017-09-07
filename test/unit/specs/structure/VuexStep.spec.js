@@ -1,7 +1,7 @@
 import { modules } from '../../../../src/vuex'
-import { Step } from '../../../../src/vuex/modules/structure/Step'
+import { Directory } from '../../../../src/vuex/modules/structure/Directory'
 import { Attachment } from '../../../../src/vuex/modules/structure/Attachment'
-import stepUtils from '../../../../src/vuex/modules/structure/utils'
+import directoryUtils from '../../../../src/vuex/modules/structure/utils'
 
 // destructure assign users
 const { structure } = modules
@@ -9,84 +9,80 @@ const { structure } = modules
 const { mutations } = structure
 
 const mockEmptyState = {
-  steps: []
+  structure: []
 }
 
 const mockState = {
-  steps: [
-    new Step({
+  structure: [
+    new Directory({
       id: 1,
       title: 'Module 1',
-      hierarchy: 1,
+      order: 1,
       content: '# Markdown Content',
       attachments: [
         new Attachment({id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: true})
       ],
-      steps: [
-        new Step({
+      directories: [
+        new Directory({
           id: 3,
-          title: 'Some substep name',
-          hierarchy: 1,
+          title: 'Some subdirectory name',
+          order: 1,
           content: '# Markdown Content',
           attachments: [
             new Attachment({id: 2, title: 'Another Attachment', url: 'http://somedocuments.docx', size: 12000, mime: '', featured: false})
           ],
-          steps: [],
-          critical: true
+          directories: []
         })
-      ],
-      critical: true
+      ]
     }),
-    new Step({
+    new Directory({
       id: 2,
       title: 'Module 2',
-      hierarchy: 2,
+      order: 2,
       content: '# Markdown Content',
       attachments: [
         new Attachment({id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: false})
       ],
-      steps: [],
-      critical: false
+      directories: []
     }),
-    new Step({
+    new Directory({
       id: 3,
       title: 'Module 3',
-      hierarchy: 3,
+      order: 3,
       content: '# Markdown Content',
       attachments: [
         new Attachment({id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: false})
       ],
-      steps: [],
-      critical: false
+      directories: []
     }),
-    new Step({
+    new Directory({
       id: 4,
       title: 'Module 4',
-      hierarchy: 4,
+      order: 4,
       content: '# Markdown Content',
       attachments: [
         new Attachment({id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: false})
       ],
-      steps: [],
-      critical: false
+      directories: []
     })
-  ]
+  ],
+  directoriesToDelete: [],
+  flatDirectories: []
 }
 
-const expectStep = (mock, stepObject) => {
-  expect(stepObject.id).to.equal(mock.id)
-  expect(stepObject.title).to.equal(mock.title)
-  expect(stepObject.hierarchy).to.equal(mock.hierarchy)
-  expect(stepObject.content).to.equal(mock.content)
-  expect(stepObject.critical).to.equal(mock.critical)
+const expectDirectory = (mock, directoryObject) => {
+  expect(directoryObject.id).to.equal(mock.id)
+  expect(directoryObject.title).to.equal(mock.title)
+  expect(directoryObject.order).to.equal(mock.order)
+  expect(directoryObject.content).to.equal(mock.content)
   // Check Attachment objects
   mock.attachments.forEach((attachment, index) => {
-    expectAttachment(attachment, stepObject.attachments[index])
+    expectAttachment(attachment, directoryObject.attachments[index])
   })
-  if (mock.steps !== undefined) {
-    // Recursively check steps
-    mock.steps.forEach((step, index) => {
-      expectStep(step, stepObject.steps[index])
+  if (mock.directories !== undefined) {
+    // Recursively check directories
+    mock.directories.forEach((directory, index) => {
+      expectDirectory(directory, directoryObject.directories[index])
     })
   }
 }
@@ -100,20 +96,20 @@ const expectAttachment = (mock, attachmentObject) => {
   expect(attachmentObject.featured).to.equal(mock.featured)
 }
 
-const moveStepAndExpect = (state, newIndex, oldIndex) => {
-  // Move Steps to the right place... (emulating what sortable.js does on the frontend)
-  let element = state.steps[oldIndex]
-  state.steps.splice(oldIndex, 1)
-  state.steps.splice(newIndex, 0, element)
-  // Call set hierarchy mutation
-  mutations.SET_HIERARCHY(state, { options: {newIndex, oldIndex} })
+const moveDirectoryAndExpect = (state, newIndex, oldIndex) => {
+  // Move Directories to the right place... (emulating what sortable.js does on the frontend)
+  let element = state.structure[oldIndex]
+  state.structure.splice(oldIndex, 1)
+  state.structure.splice(newIndex, 0, element)
+  // Call set order mutation
+  mutations.SET_ORDER(state, { options: {newIndex, oldIndex} })
   // Expect that the hierarchies are now in sequential order
-  state.steps.forEach((step, index) => {
-    expect(step.hierarchy).to.equal(index + 1)
+  state.structure.forEach((directory, index) => {
+    expect(directory.order).to.equal(index + 1)
   })
 }
 
-const mockSteps = stepUtils.getMockStructure()
+const mockDirectories = directoryUtils.getMockStructure()
 
 describe('Vuex Structure Mutations', () => {
   // SET_STRUCTURE
@@ -123,30 +119,41 @@ describe('Vuex Structure Mutations', () => {
     // Copy constant mockState to our state variable
     Object.assign(state, mockEmptyState)
     // apply mutation with mock users
-    mutations.SET_STRUCTURE(state, {response: {data: mockSteps}})
+    mutations.SET_STRUCTURE(state, {response: mockDirectories})
     // assert result
     // expect().to.equal(mockUsers)
-    mockSteps.forEach((step, index) => {
-      expectStep(step, state.steps[index])
+    mockDirectories.forEach((directory, index) => {
+      expectDirectory(directory, state.structure[index])
     })
   })
 
-  // SET_HIERARCHY
-  it('SET_HIERARCHY', () => {
+  // SET_ORDER
+  it('SET_ORDER', () => {
     // mock state
     let state = {}
     // Move 0 -> 1 (index based)
     Object.assign(state, mockState)
-    moveStepAndExpect(state, 1, 0)
+    moveDirectoryAndExpect(state, 1, 0)
     // Move 0 -> 2 (index based)
-    moveStepAndExpect(state, 2, 0)
+    moveDirectoryAndExpect(state, 2, 0)
     // Move 0 -> 3 (index based)
-    moveStepAndExpect(state, 3, 0)
+    moveDirectoryAndExpect(state, 3, 0)
     // Move 3 -> 0 (index based)
-    moveStepAndExpect(state, 0, 3)
+    moveDirectoryAndExpect(state, 0, 3)
     // Move 3 -> 1 (index based)
-    moveStepAndExpect(state, 0, 2)
+    moveDirectoryAndExpect(state, 0, 2)
     // Move 3 -> 2 (index based)
-    moveStepAndExpect(state, 0, 1)
+    moveDirectoryAndExpect(state, 0, 1)
+  })
+
+  it('FIND_REMOVE_DIRECTORY', () => {
+    // mock state
+    let state = {}
+
+    state = JSON.parse(JSON.stringify(mockState)) // Object.assign(...) does not do deep cloning
+    mutations.FIND_REMOVE_DIRECTORY(state, { options: {directoryNumbers: [], directory: state.structure[0]} })
+    // Length should now be one less...
+    expect(state.structure.length).to.equal(mockState.structure.length - 1)
+    expect(state.directoriesToDelete.length).to.equal(1)
   })
 })
