@@ -71,9 +71,24 @@ export default {
           id: this.project.id,
           code: this.selectedLang.value
         }).then(() => {
-          //
+          this.selectedLang = null
+          this.$notifications.notify(
+            {
+              message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.updated')} ${this.project.name}`,
+              icon: 'info',
+              horizontalAlign: 'right',
+              verticalAlign: 'bottom',
+              type: 'info'
+            })
         }).catch(() => {
-          // TODO error
+          this.$notifications.notify(
+            {
+              message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+              icon: 'exclamation-triangle',
+              horizontalAlign: 'right',
+              verticalAlign: 'bottom',
+              type: 'danger'
+            })
         })
       }
     },
@@ -123,6 +138,15 @@ export default {
           type: 'success',
           title: this._i18n.t('common.deleted')
         })
+      }).catch(() => {
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+            icon: 'exclamation-triangle',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'danger'
+          })
       })
     },
     editClick (item) {

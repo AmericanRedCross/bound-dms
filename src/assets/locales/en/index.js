@@ -14,6 +14,7 @@ export default{
     created: 'Created',
     updated: 'Updated',
     oops: 'Oops',
+    noPermission: 'Looks like you don\'t have permission to do that',
     error: 'Something went wrong',
     upload: 'Upload',
     validations: {
@@ -33,7 +34,7 @@ export default{
     projects: 'Projects',
     users: 'Users',
     profile: 'Profile',
-    signout: 'Sign Out',
+    signout: 'Sign out',
     settings: 'Settings'
   },
   sidebar: {
@@ -46,7 +47,11 @@ export default{
   login: {
     email: 'Email',
     password: 'Password',
-    login: 'Login'
+    login: 'Login',
+    errors: {
+      title: 'Error logging in',
+      unauth: 'Password or email does not match'
+    }
   },
   dashboard: {
     header: 'Dashboard placeholder',
@@ -92,15 +97,20 @@ export default{
     },
     modules: {
       module: 'Module',
-      addStep: 'Add step',
-      addSubStep: 'Add substep',
+      addDirectory: 'Add directory',
+      addSubDirectory: 'Add subdirectory',
       criticalPathOn: 'Critical path',
       criticalPathOff: 'Enable critical path?'
     },
     settings: {
-      header: 'Project Settings',
-      base: 'Change Base Language',
-      name: 'Change Project Name'
+      header: 'Project settings',
+      base: 'Change base language',
+      name: 'Change project name',
+      warning: 'Warning: Only change the base language if 100% of content is translated to this language - otherwise content will be lost.',
+      projectName: 'Project name:',
+      projectDescription: 'Project description:',
+      baseLanguage: 'Base language:',
+      save: 'Save'
     },
     attachments: {
       add: 'Add attachment',
@@ -116,20 +126,20 @@ export default{
     },
     dashboard: {
       modules: 'MODULES',
-      steps: 'STEPS',
-      substeps: 'SUBSTEPS',
+      directories: 'DIRECTORIES',
+      subDirectories: 'DIRECTORIES',
       tools: 'TOOLS',
-      edit: 'Edit Content',
+      edit: 'Edit content',
       languages: 'Languages',
-      content: 'Content & Translations',
+      content: 'Content & translations',
       setcontent: 'Content set',
       translations: 'Translations',
       createdby: 'Created by: ',
-      publish: 'Last Publish',
-      lastPublish: 'Last Publish At: ',
+      publish: 'Last publish',
+      lastPublish: 'Last publish at: ',
       publisher: 'By: ',
-      viewPublish: 'View Publishing Details',
-      changes: ' Unpublished Changes',
+      viewPublish: 'View publishing details',
+      changes: ' Unpublished changes',
       publishing: 'Publishing'
     },
     projectcard: {
@@ -161,14 +171,14 @@ export default{
     },
     publish: {
       publishes: 'Publishes',
-      previous: 'Previous Publishes',
-      recent: 'Unpublished Changes',
-      structure: 'Structure Changes',
-      content: 'Content Changes',
-      base: 'Base Language: ',
-      translate: 'Translated Languages: ',
-      publish: ' Publish These Changes',
-      publishAll: 'Publish All Changes'
+      previous: 'Previous publishes',
+      recent: 'Unpublished changes',
+      structure: 'Structure changes',
+      content: 'Content changes',
+      base: 'Base language: ',
+      translate: 'Translated languages: ',
+      publish: ' Publish these changes',
+      publishAll: 'Publish all changes'
     },
     keys: {
       view: 'View Key',
@@ -183,12 +193,18 @@ export default{
       add: 'Add metadata',
       name: 'Metadata item name',
       meta: 'Metadata',
-      example: 'e.g. critical_path'
+      example: 'e.g. colour'
+    },
+    documents: {
+      title: 'Documents',
+      upload: 'Document upload'
     }
   },
   pagenotfound: {
-    notfound: 'Page not found',
-    sorry: 'Sorry, but the page you are looking for either does not exist or you do not have permission to access it',
+    notFound: 'Page not found',
+    notAuth: 'Unauthorised access',
+    sorry: 'Sorry, the page you are looking for does not exist',
+    sorryAuth: 'Sorry, you do not have permission to access the page you are looking for',
     return: 'Return to projects'
   }
 }

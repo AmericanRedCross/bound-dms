@@ -7,11 +7,11 @@
             <div class="col-md-6">
               <b-card>
                 <div>
-                  Substep Title: English Title
+                  Subdirectory Title: English Title
                 </div>
               </b-card>
               <b-card>
-                <fa-icon name="file"></fa-icon> Sample Substep Document
+                <fa-icon name="file"></fa-icon> Sample Subdirectory Document
               </b-card>
             </div>
             <div class="col-md-6">

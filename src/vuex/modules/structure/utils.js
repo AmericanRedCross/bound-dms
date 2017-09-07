@@ -1,70 +1,62 @@
-import { Step } from './Step'
+import { Directory } from './Directory'
 import { Attachment } from './Attachment'
 
 let mockStructure = [{
   id: 1,
   title: 'Prepare and analyze',
-  hierarchy: 1,
+  order: 1,
   content: '# Markdown Content',
-  critical: true,
   attachments: [{id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: true},
     {id: 2, title: 'Another one', url: 'http://somedocument.docx', size: 12000, mime: '', featured: true},
     {id: 3, title: 'Something else', url: 'http://somedocument.md', size: 12000, mime: '', featured: true}],
-  steps: [{
+  directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
-    hierarchy: 1,
+    order: 1,
     content: '# Some other content',
     attachments: [],
-    critical: false,
-    steps: [{
+    directories: [{
       id: 3,
       title: 'Et Harum quidem reprum',
-      hierarchy: 1,
+      order: 1,
       content: '# Some other content',
-      attachments: [],
-      critical: true
+      attachments: []
     },
     {
       id: 4,
       title: 'Et Harum quidem reprum',
-      hierarchy: 2,
+      order: 2,
       content: '# Some other content',
-      attachments: [],
-      critical: true
+      attachments: []
     }]
   }]
 },
 {
   id: 2,
   title: 'Prepare and analyze',
-  hierarchy: 2,
+  order: 2,
   content: '# Markdown Content',
   attachments: [],
-  critical: false,
-  steps: [{
+  directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
-    hierarchy: 1,
+    order: 1,
     content: '# Some other content',
     attachments: [],
-    critical: false,
-    steps: [
+    directories: [
       {
         id: 3,
         title: 'Et Harum quidem reprum',
-        hierarchy: 1,
+        order: 1,
         content: '# Some other content',
-        attachments: [],
-        critical: false
+        attachments: []
       },
       {
         id: 4,
         title: 'Et Harum quidem reprum',
-        hierarchy: 2,
+        order: 2,
         content: '# Some other content',
-        attachments: [],
-        critical: false
+        attachments: []
       }
     ]
   }]
@@ -72,33 +64,30 @@ let mockStructure = [{
 {
   id: 3,
   title: 'Prepare and analyze',
-  hierarchy: 3,
+  order: 3,
   content: '# Markdown Content',
   attachments: [],
   critical: false,
-  steps: [{
+  directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
-    hierarchy: 1,
+    order: 1,
     content: '# Some other content',
     attachments: [],
-    critical: false,
-    steps: [
+    directories: [
       {
         id: 3,
         title: 'Et Harum quidem reprum',
-        hierarchy: 1,
+        order: 1,
         content: '# Some other content',
-        attachments: [],
-        critical: false
+        attachments: []
       },
       {
         id: 4,
         title: 'Et Harum quidem reprum',
-        hierarchy: 2,
+        order: 2,
         content: '# Some other content',
-        attachments: [],
-        critical: false
+        attachments: []
       }
     ]
   }]
@@ -106,34 +95,30 @@ let mockStructure = [{
 {
   id: 4,
   title: 'Prepare and analyze',
-  hierarchy: 4,
+  order: 4,
   content: '# Markdown Content',
   attachments: [],
-  critical: false,
-  steps: [{
+  directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
-    hierarchy: 1,
+    order: 1,
     content: '# Some other content',
     attachments: [],
-    critical: false,
-    steps: [
+    directories: [
       {
         id: 3,
         title: 'Et Harum quidem reprum',
-        hierarchy: 1,
+        order: 1,
         content: '# Some other content',
-        attachments: [],
-        critical: false
+        attachments: []
       },
       {
         id: 4,
         title: 'Et Harum quidem reprum',
-        hierarchy: 2,
+        order: 2,
         content: '# Some other content',
         attachments: [],
-        critical: false,
-        steps: []
+        directories: []
       }
     ]
   }]
@@ -141,62 +126,58 @@ let mockStructure = [{
 {
   id: 5,
   title: 'Prepare and analyze',
-  hierarchy: 5,
+  order: 5,
   content: '# Markdown Content',
   attachments: [],
-  critical: false,
-  steps: [{
+  directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
-    hierarchy: 1,
+    order: 1,
     content: '# Some other content',
     attachments: [],
-    critical: false,
-    steps: [
+    directories: [
       {
         id: 3,
         title: 'Et Harum quidem reprum',
-        hierarchy: 1,
+        order: 1,
         content: '# Some other content',
-        attachments: [],
-        critical: false
+        attachments: []
       },
       {
         id: 4,
         title: 'Et Harum quidem reprum',
-        hierarchy: 2,
+        order: 2,
         content: '# Some other content',
-        attachments: [],
-        critical: false
+        attachments: []
       }
     ]
   }]
 }]
 
-const StepUtils = {
-  // Useful function to get an array of step objects
-  getSteps (dataArray) {
-    let steps = []
+const DirectoryUtils = {
+  // Useful function to get an array of directory objects
+  getDirectories (dataArray) {
+    let directories = []
     if (Array.isArray(dataArray)) {
       dataArray.forEach((data) => {
-        let step = this.getStepObject(data)
-        step.sortSteps()
-        steps.push(step)
+        let directory = this.getDirectoryObject(data)
+        directory.sortDirectories()
+        directories.push(directory)
       })
     }
-    return steps
+    return directories
   },
 
-  // Useful function to build a step object
-  getStepObject (data) {
-    return new Step({
+  // Useful function to build a directory object
+  getDirectoryObject (data) {
+    return new Directory({
       id: data.id,
       title: data.title,
-      hierarchy: data.hierarchy,
+      order: data.order,
       content: data.content,
-      critical: data.critical,
       attachments: this.getAttachments(data.attachments),
-      steps: this.getSteps(data.steps)
+      directories: this.getDirectories(data.directories),
+      parentId: data.parentId
     })
   },
 
@@ -211,7 +192,7 @@ const StepUtils = {
     return attachments
   },
 
-  // Useful function to build a step object
+  // Useful function to build a directory object
   getAttachmentObject (data) {
     return new Attachment({
       id: data.id,
@@ -226,7 +207,33 @@ const StepUtils = {
   // Use a mock structure until we know what the endpoints will be
   getMockStructure () {
     return mockStructure
+  },
+
+  getFlatStructure (structure, flatStructure = []) {
+    structure.forEach(directory => {
+      let childDirectories = directory.directories
+      if (Array.isArray(childDirectories)) {
+        this.getFlatStructure(childDirectories, flatStructure)
+      }
+      flatStructure.push(directory.flatten())
+    })
+    return flatStructure
+  },
+
+  traverseWithOrder (directories, directoryNumbers) {
+    if (directoryNumbers !== undefined) {
+      directoryNumbers.forEach((directoryNumber, index) => {
+        if (index === 0) {
+          // an array so a bit different to find
+          directories = directories.find(directory => directory.order === directoryNumber)
+        } else {
+          directories = directories.directories.find(directory => directory.order === directoryNumber)
+        }
+      })
+      directories = directories.directories
+    }
+    return directories
   }
 }
 
-export default StepUtils
+export default DirectoryUtils

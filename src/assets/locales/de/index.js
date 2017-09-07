@@ -86,8 +86,8 @@ export default{
     },
     dashboard: {
       modules: 'MODULE',
-      steps: 'SCHRITTE',
-      substeps: 'SUBSCHRITTE',
+      directories: 'SCHRITTE',
+      subDirectories: 'SUBSCHRITTE',
       tools: 'WERKZEUGE',
       edit: 'Inhalt bearbeiten',
       languages: 'Sprachen',

@@ -46,6 +46,15 @@ export default {
       this.$store.dispatch('GET_PROJECT', this.$route.params.id).then(() => {
         let project = this.getProjectById(parseInt(this.$route.params.id))
         this.project = project
+      }).catch(() => {
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+            icon: 'exclamation-triangle',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'danger'
+          })
       })
     }
   },
