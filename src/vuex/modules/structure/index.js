@@ -123,7 +123,6 @@ const directories = {
         order: directory.order,
         title: directory.title
       }).then((response) => {
-        commit('SET_PROJECT', { response: response.data })
         // Re create the structure
         commit('SET_STRUCTURE', { response: getStructure(state.flatDirectories) })
       }).catch(err => {

@@ -2,7 +2,7 @@
   <div>
     <div class="row justify-content-center">
       <div class="col-md-8 col-lg-6">
-        <EditSettings v-bind:project="project" :newProject="false"></EditSettings>
+        <EditSettings v-bind:project="currentProject" :newProject="false"></EditSettings>
       </div>
     </div>
   </div>
@@ -18,34 +18,13 @@ export default {
   components: {
     EditSettings
   },
-  data () {
-    return {
-      project: new Project({})
-    }
-  },
-  beforeMount () {
-    // Call vuex to retrieve the current project from the backend. This returns a promise so we know when it's finished.
-    this.$store.dispatch('GET_PROJECT', this.$route.params.id).then(() => {
-     // Get the project that was just retrieved (the getProjectById getter is from the vuex getter, there's a special helper
-     // called 'mapGetters' in the computed section of this component that gets the project from the vuex state.)
-      let project = this.getProjectById(parseInt(this.$route.params.id), 10)
-    // Set the project so the component can see it
-      this.project = project
-    }).catch(() => {
-      this.$notifications.notify(
-        {
-          message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
-          icon: 'exclamation-triangle',
-          horizontalAlign: 'right',
-          verticalAlign: 'bottom',
-          type: 'danger'
-        })
-    })
-  },
   computed: {
     ...mapGetters([
       'getProjectById'
-    ])
+    ]),
+    currentProject () {
+      return this.getProjectById(parseInt(this.$route.params.id))
+    }
   }
 }
 </script>

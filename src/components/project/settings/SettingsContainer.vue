@@ -1,13 +1,13 @@
 <template>
   <b-card>
     <div slot="header">
-      <b-nav v-if="project" tabs class="card-header-tabs">
-        <b-nav-item :to="{name: 'settings', params: {id: project.id}}">Project Settings</b-nav-item>
-        <b-nav-item :to="{name: 'project-apikeys', params: {id: project.id}}">Api Keys</b-nav-item>
-        <b-nav-item :to="{name: 'project-meta', params: {id: project.id}}">Metadata</b-nav-item>
+      <b-nav v-if="currentProject" tabs class="card-header-tabs">
+        <b-nav-item :to="{name: 'settings', params: {id: currentProject.id}}">Project Settings</b-nav-item>
+        <b-nav-item :to="{name: 'project-apikeys', params: {id: currentProject.id}}">Api Keys</b-nav-item>
+        <b-nav-item :to="{name: 'project-meta', params: {id: currentProject.id}}">Metadata</b-nav-item>
       </b-nav>
     </div>
-    <router-view v-if="project" :project="project"></router-view>
+    <router-view v-if="currentProject" :project="currentProject"></router-view>
   </b-card>
 </template>
 
@@ -21,34 +21,13 @@ export default {
       project: null
     }
   },
-  watch: {
-    // call again if the route changes
-    '$route': 'fetchProject'
-  },
-  beforeMount () {
-    this.fetchProject()
-  },
-  methods: {
-    fetchProject () {
-      this.$store.dispatch('GET_PROJECT', this.$route.params.id).then(() => {
-        let project = this.getProjectById(parseInt(this.$route.params.id))
-        this.project = project
-      }).catch(() => {
-        this.$notifications.notify(
-          {
-            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
-            icon: 'exclamation-triangle',
-            horizontalAlign: 'right',
-            verticalAlign: 'bottom',
-            type: 'danger'
-          })
-      })
-    }
-  },
   computed: {
     ...mapGetters([
       'getProjectById'
-    ])
+    ]),
+    currentProject () {
+      return this.getProjectById(parseInt(this.$route.params.id))
+    }
   }
 }
 </script>
