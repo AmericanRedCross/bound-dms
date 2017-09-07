@@ -40,6 +40,16 @@ export default {
         let user = this.getUserById(id)
         this.user = user
       })
+      .catch(() => {
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+            icon: 'exclamation-triangle',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'danger'
+          })
+      })
     } else {
       // oops
     }

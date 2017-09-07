@@ -68,10 +68,26 @@ export default {
           password: this.password,
           newPassword: this.newPassword
         })
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.updated')} ${this.project.name}`,
+            icon: 'info',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'info'
+          })
         .then(this.$auth.refresh())
         .then(this.$router.push({ name: 'profile' }))
         .catch((error) => {
           console.log(error)
+          this.$notifications.notify(
+            {
+              message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+              icon: 'exclamation-triangle',
+              horizontalAlign: 'right',
+              verticalAlign: 'bottom',
+              type: 'danger'
+            })
         })
       }
     }

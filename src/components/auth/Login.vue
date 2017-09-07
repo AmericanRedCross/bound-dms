@@ -2,29 +2,26 @@
   <div class="login row justify-content-center m-t-100">
     <div class="col-lg-4">
       <b-card header="Login" class="login-card">
-        <b-form v-on:submit.native.prevent="onSubmit">
-          <div class="form-group">
-            <b-form-fieldset
-              :label="$t('login.email')"
-              :label-size="1"
-              :feedback="(!$v.email.required && emailValidated) ? $t('common.validations.required') : (!$v.email.email && emailValidated) ? $t('common.validations.email') : '' "
-              :state="($v.email.$error && emailValidated) ? 'warning' : ''"
-            >
-              <b-input-group>
-                <b-input-group-addon slot="left">
-                  <fa-icon name="at"></fa-icon>
-                </b-input-group-addon>
-                <b-form-input
-                  v-model.trim="email"
-                  type="email"
-                  id="email-input"
-                  v-on:input="validate('email')">
-                </b-form-input>
-              </b-input-group>
-            </b-form-fieldset>
-          </div>
+        <b-form v-on:submit.prevent="onSubmit">
+          <b-form-group
+            :label="$t('login.email')"
+            :label-size="1"
+            :feedback="(!$v.email.required && emailValidated) ? $t('common.validations.required') : (!$v.email.email && emailValidated) ? $t('common.validations.email') : '' "
+            :state="($v.email.$error && emailValidated) ? 'warning' : ''">
+            <b-input-group>
+              <b-input-group-addon slot="left">
+                <fa-icon name="at"></fa-icon>
+              </b-input-group-addon>
+              <b-form-input
+                v-model.trim="email"
+                type="email"
+                id="email-input"
+                v-on:input="validate('email')">
+              </b-form-input>
+            </b-input-group>
+          </b-form-group>
 
-          <div class="form-group">
+          <b-form-group>
             <b-form-fieldset
               :label="$t('login.password')"
               :label-size="1"
@@ -43,15 +40,9 @@
                 </b-form-input>
               </b-input-group>
             </b-form-fieldset>
-            <b-alert variant="danger" class="m-t-15 col" dismissible :show="error !== ''" @dismissed="error=''">
-                {{ error }}
-            </b-alert>
-          </div>
+          </b-form-group>
           <div align="center">
-            <b-button @click="authenticate" variant="primary" :disabled='sigingIn' id="login">{{ $t('login.login') }}</b-button>
-            <span v-show="sigingIn" class="m-t-5" style="inline-block">
-              <fa-icon name="refresh" spin></fa-icon>
-            </span>
+            <b-button @click="authenticate" type="submit" variant="primary" :disabled='sigingIn' id="login"><fa-icon  v-show="sigingIn" name="refresh" spin></fa-icon> {{ $t('login.login') }}</b-button>
           </div>
         </b-form>
       </b-card>
@@ -67,7 +58,6 @@ export default {
     return {
       email: '',
       password: '',
-      error: '',
       emailValidated: false,
       passwordValidated: false,
       sigingIn: false
@@ -83,7 +73,8 @@ export default {
     }
   },
   methods: {
-    authenticate () {
+    authenticate (evt) {
+      evt.preventDefault()
       this.validate('email')
       this.validate('password')
 
@@ -100,8 +91,17 @@ export default {
             this.sigingIn = false
           },
           error (res) {
-            this.error = res.message
             this.sigingIn = false
+            let message = res.response.status === 401 ? `<b>${this._i18n.t('login.errors.title')}</b><br /> ${this._i18n.t('login.errors.unauth')}`
+                                                      : `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')} (${res.response.status})`
+            this.$notifications.notify(
+              {
+                message,
+                icon: 'exclamation-triangle',
+                horizontalAlign: 'right',
+                verticalAlign: 'bottom',
+                type: 'danger'
+              })
             // Dispatch an error update to vuex (we can then re-use a generic error toast or something)
           }
         })

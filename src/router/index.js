@@ -21,13 +21,16 @@ import AccountContainer from '@/components/account/Account'
 import AccountProfile from '@/components/account/Profile'
 import ChangePassword from '@/components/account/PasswordForm'
 import PageNotFound from '@/components/pageNotFound/PageNotFound'
+import NotAuthorised from '@/components/pageNotFound/NotAuthorised'
 import TranslationWorkflow from '@/components/translations/TranslationWorkflow'
 import Publish from '@/components/project/publish/Publish'
+import DocumentList from '@/components/project/documents/DocumentList'
 
 // Settings
 import SettingsContainer from '@/components/project/settings/SettingsContainer'
 import ProjectSettings from '@/components/project/settings/Project'
 import ApiKeys from '@/components/project/settings/ApiKeys'
+import Metadata from '@/components/project/settings/Metadata'
 
 // Structure Components
 import Structure from '@/components/structure/Structure'
@@ -75,7 +78,8 @@ export default new Router({
           name: 'user-profile',
           component: UserProfile,
           meta: {
-            breadcrumb: 'Profile'
+            breadcrumb: 'Profile',
+            auth: ['admin']
           }
         },
         {
@@ -129,6 +133,16 @@ export default new Router({
               }
             },
             {
+              path: 'documents',
+              name: 'project-documents',
+              component: DocumentList,
+              props: true,
+              meta: {
+                breadcrumb: 'Documents',
+                showSidebar: true
+              }
+            },
+            {
               path: 'settings/',
               component: SettingsContainer,
               meta: {
@@ -142,13 +156,22 @@ export default new Router({
                   name: 'settings',
                   component: ProjectSettings,
                   meta: {
-                    showSidebar: true
+                    showSidebar: true,
+                    auth: ['admin']
                   }
                 },
                 {
                   path: 'apikeys',
                   name: 'project-apikeys',
                   component: ApiKeys,
+                  meta: {
+                    showSidebar: true
+                  }
+                },
+                {
+                  path: 'metadata',
+                  name: 'project-meta',
+                  component: Metadata,
                   meta: {
                     showSidebar: true
                   }
@@ -170,7 +193,8 @@ export default new Router({
               components: {default: Publish},
               meta: {
                 breadcrumb: 'Publish',
-                showSidebar: true
+                showSidebar: true,
+                auth: ['admin']
               }
             }
           ]
@@ -196,7 +220,6 @@ export default new Router({
       path: '/account/',
       component: AccountContainer,
       meta: {
-        auth: ['admin'],
         breadcrumb: 'Account'
       },
       children: [
@@ -212,11 +235,15 @@ export default new Router({
           component: ChangePassword,
           props: true,
           meta: {
-            auth: ['admin'],
             breadcrumb: 'Change Password'
           }
         }
       ]
+    },
+    {
+      path: '/403',
+      name: 'Unauthorised',
+      component: NotAuthorised
     },
     {
       path: '*', component: PageNotFound

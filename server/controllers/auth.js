@@ -3,7 +3,11 @@ const config = require('../config')
 const users = require('../services/users')
 
 const generateJwtPayload = (user) => {
-  return {sub: user.id, expiresIn: '1 day'}
+  return {sub: user.id}
+}
+
+const jwtOptions = {
+  expiresIn: '1 day'
 }
 
 module.exports = {
@@ -11,7 +15,7 @@ module.exports = {
   login (req, res, next) {
     users.findByEmail(req.body.email).then((user) => {
       if (user.checkPassword(req.body.password)) {
-        const token = jwt.sign(generateJwtPayload(user), config.jwtSecretKey)
+        const token = jwt.sign(generateJwtPayload(user), config.jwtSecretKey, jwtOptions)
         res.append('Authorization', token)
         res.status(200).json({message: 'ok', token: token})
       } else {
@@ -25,7 +29,7 @@ module.exports = {
   // Issues a new JWT token
   refresh (req, res, next) {
     // TODO blacklist old token
-    const token = jwt.sign(generateJwtPayload(req.user), config.jwtSecretKey)
+    const token = jwt.sign(generateJwtPayload(req.user), config.jwtSecretKey, jwtOptions)
     res.append('Authorization', token)
     res.status(200).json({message: 'ok', token: token})
   }

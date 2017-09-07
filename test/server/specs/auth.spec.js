@@ -14,6 +14,7 @@ describe('API: Authentication', () => {
         .send(user)
         .expect(200)
         .end((err, res) => {
+          if (err) throw err
           expect(res.headers).to.have.property('authorization')
           expect(res.body.token).to.be.a('string')
           expect(res.body).to.have.property('token')
@@ -48,11 +49,25 @@ describe('API: Authentication', () => {
         .send(user)
         .expect(401, done)
     })
+
+    it('returns a JWT containing a future expiry time', (done) => {
+      const user = {email: 'user@domain.com', password: '12345678'}
+
+      request(app)
+        .post('/api/auth')
+        .send(user)
+        .end((err, res) => {
+          if (err) throw err
+          const token = jwt.verify(res.body.token, config.jwtSecretKey)
+          expect(token.exp).to.be.above(Math.floor(new Date() / 1000))
+          done()
+        })
+    })
   })
 
   describe('GET /api/auth/refresh', () => {
     beforeEach(() => {
-      this.token = jwt.sign({sub: 1, expiresIn: '1 day'}, config.jwtSecretKey)
+      this.token = jwt.sign({sub: 1}, config.jwtSecretKey, {expiresIn: '1 day'})
     })
 
     it('returns 401 unauthorized if no token is supplied', (done) => {
@@ -87,6 +102,7 @@ describe('API: Authentication', () => {
       .expect(200)
       .expect('Content-Type', /json/)
       .end((err, res) => {
+        if (err) throw err
         expect(res.headers).to.have.property('authorization')
         expect(res.body).to.have.property('token')
         done()

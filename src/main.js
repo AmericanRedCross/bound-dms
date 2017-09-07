@@ -25,6 +25,7 @@ import VueBreadcrumbs from 'vue-breadcrumbs'
 import ToggleButton from 'vue-js-toggle-button'
 import axios from 'axios'
 import Gravatar from 'vue-gravatar'
+import Dropzone from 'vue2-dropzone'
 
 Vue.config.productionTip = false
 
@@ -40,6 +41,7 @@ Vue.use(VueAxios, axios)
 Vue.use(VueBreadcrumbs)
 Vue.use(Notifications)
 Vue.use(ToggleButton)
+Vue.use(Dropzone)
 Vue.component('v-gravatar', Gravatar)
 Vue.component('fa-icon', Icon)
 

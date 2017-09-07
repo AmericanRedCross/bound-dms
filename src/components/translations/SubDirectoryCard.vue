@@ -6,12 +6,12 @@
           <div class="row">
             <div class="col-md-6">
               <b-card>
-                <div class="center-card">
-                  Substep Title: English Title
+                <div>
+                  Subdirectory Title: English Title
                 </div>
               </b-card>
               <b-card>
-                <fa-icon name="file"></fa-icon> Substep Sample Document
+                <fa-icon name="file"></fa-icon> Sample Subdirectory Document
               </b-card>
             </div>
             <div class="col-md-6">
