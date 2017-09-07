@@ -8,13 +8,13 @@ describe('Project Object Creation', () => {
 
   it('Has the correct properties', () => {
     let newProject = new Project({})
-    expect(newStep).to.have.property('id')
-    expect(newStep).to.have.property('name')
-    expect(newStep).to.have.property('description')
-    expect(newStep).to.have.property('languages')
-    expect(newStep).to.have.property('createdAt')
-    expect(newStep).to.have.property('updatedAt')
-    // expect(newStep).to.have.property('keys')
+    expect(newDirectory).to.have.property('id')
+    expect(newDirectory).to.have.property('name')
+    expect(newDirectory).to.have.property('description')
+    expect(newDirectory).to.have.property('languages')
+    expect(newDirectory).to.have.property('createdAt')
+    expect(newDirectory).to.have.property('updatedAt')
+    // expect(newDirectory).to.have.property('keys')
   })
 
   it('Has the correct propery values', () => {

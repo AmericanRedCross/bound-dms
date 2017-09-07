@@ -82,8 +82,8 @@ export default{
     },
     dashboard: {
       modules: 'MODULES',
-      steps: 'PAS',
-      substeps: 'SUB-PAS',
+      directories: 'PAS',
+      subDirectories: 'SUB-PAS',
       tools: 'OUTILS',
       edit: 'Modifier le contenu',
       languages: 'Langues',

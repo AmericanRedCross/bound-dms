@@ -14,6 +14,7 @@ export default{
     created: 'Created',
     updated: 'Updated',
     oops: 'Oops',
+    noPermission: 'Looks like you don\'t have permission to do that',
     error: 'Something went wrong',
     upload: 'Upload',
     validations: {
@@ -46,7 +47,11 @@ export default{
   login: {
     email: 'Email',
     password: 'Password',
-    login: 'Login'
+    login: 'Login',
+    errors: {
+      title: 'Error logging in',
+      unauth: 'Password or email does not match'
+    }
   },
   dashboard: {
     header: 'Dashboard placeholder',
@@ -92,15 +97,20 @@ export default{
     },
     modules: {
       module: 'Module',
-      addStep: 'Add step',
-      addSubStep: 'Add substep',
+      addDirectory: 'Add directory',
+      addSubDirectory: 'Add subdirectory',
       criticalPathOn: 'Critical path',
       criticalPathOff: 'Enable critical path?'
     },
     settings: {
       header: 'Project settings',
       base: 'Change base language',
-      name: 'Change project name'
+      name: 'Change project name',
+      warning: 'Warning: Only change the base language if 100% of content is translated to this language - otherwise content will be lost.',
+      projectName: 'Project name:',
+      projectDescription: 'Project description:',
+      baseLanguage: 'Base language:',
+      save: 'Save'
     },
     attachments: {
       add: 'Add attachment',
@@ -116,8 +126,8 @@ export default{
     },
     dashboard: {
       modules: 'MODULES',
-      steps: 'STEPS',
-      substeps: 'SUBSTEPS',
+      directories: 'DIRECTORIES',
+      subDirectories: 'DIRECTORIES',
       tools: 'TOOLS',
       edit: 'Edit content',
       languages: 'Languages',
@@ -171,17 +181,23 @@ export default{
       publishAll: 'Publish all changes'
     },
     keys: {
-      view: 'View key',
-      add: 'Add API key',
-      name: 'Key name',
-      key: 'API key',
-      example: 'e.g. iOS app',
+      view: 'View Key',
+      add: 'Add API Key',
+      name: 'Key Name',
+      key: 'API Key',
+      example: 'e.g. iOS App',
       emptystate: 'There are no API Keys assigned to this project'
+    },
+    documents: {
+      title: 'Documents',
+      upload: 'Document upload'
     }
   },
   pagenotfound: {
-    notfound: 'Page not found',
-    sorry: 'Sorry, but the page you are looking for either does not exist or you do not have permission to access it',
+    notFound: 'Page not found',
+    notAuth: 'Unauthorised access',
+    sorry: 'Sorry, the page you are looking for does not exist',
+    sorryAuth: 'Sorry, you do not have permission to access the page you are looking for',
     return: 'Return to projects'
   }
 }

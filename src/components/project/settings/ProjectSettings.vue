@@ -6,7 +6,7 @@
           :feedback="!$v.project.name.required ? $t('common.validations.required') : '' "
           :state="$v.project.name.$error ? 'warning' : ''"
         >
-          Project Name:
+          {{ $t('projects.settings.projectName') }}
           <b-form-input
             v-model.trim="project.name"
             type="text"
@@ -20,7 +20,7 @@
           :feedback="!$v.project.description.required ? $t('common.validations.required') : '' "
           :state="$v.project.description.$error ? 'warning' : ''"
         >
-          Project Description:
+          {{ $t('projects.settings.projectDescription') }}
           <b-form-input
             v-model.trim="project.description"
             type="text"
@@ -31,16 +31,16 @@
         </b-form-fieldset>
       </div>
       <div>
-        Base Language:
+        {{ $t('projects.settings.baseLanguage') }}
         <v-select :options="projectLangOptions"></v-select>
         <br />
         <b-alert variant="danger" show>
-          Warning: Only change the base language if 100% of content is translated to this language - otherwise content will be lost.
+          {{ $t('projects.settings.warning') }}
         </b-alert>
       </div>
       <div>
         <b-button variant="success" @click.native="updateProject">
-          Save
+          {{ $t('projects.settings.save') }}
         </b-button>
       </div>
     </b-card>
@@ -90,8 +90,24 @@
           let action = 'UPDATE_PROJECT'
           this.$store.dispatch(action, this.project).then(() => {
             this.saving = false
+            this.$notifications.notify(
+              {
+                message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.updated')} ${this.project.name}`,
+                icon: 'info',
+                horizontalAlign: 'right',
+                verticalAlign: 'bottom',
+                type: 'info'
+              })
           }).catch(() => {
             this.saving = false
+            this.$notifications.notify(
+              {
+                message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+                icon: 'exclamation-triangle',
+                horizontalAlign: 'right',
+                verticalAlign: 'bottom',
+                type: 'danger'
+              })
           })
         }
       }

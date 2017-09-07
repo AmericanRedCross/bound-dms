@@ -1,5 +1,5 @@
 <template>
-  <div class="step-attachments">
+  <div class="directory-attachments">
     <hr />
     <b-list-group>
       <b-list-group-item v-for="attachment in attachments" :key="attachment.id">
@@ -29,7 +29,7 @@
 
 <script>
 export default {
-  name: 'Step-Attachments',
+  name: 'Directory-Attachments',
   props: {
     attachments: {
       type: Array,

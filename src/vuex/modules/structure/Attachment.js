@@ -41,4 +41,20 @@ export class Attachment {
   // Featured
   set featured (featured) { this._featured = featured }
   get featured () { return this._featured }
+
+  /**
+   * [flatten Get backend friendly Attachment object]
+   * @return {Object} The attachment object (without the nesting)
+   */
+  flatten () {
+    let attachmentObject = {
+      id: this.id,
+      title: this.title,
+      url: this.url,
+      mime: this.mime,
+      size: this.size,
+      featured: this.featured
+    }
+    return attachmentObject
+  }
 }
