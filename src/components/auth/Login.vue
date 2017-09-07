@@ -40,15 +40,9 @@
                 </b-form-input>
               </b-input-group>
             </b-form-fieldset>
-            <b-alert variant="danger" class="m-t-15 col" dismissible :show="error !== ''" @dismissed="error=''">
-                {{ error }}
-            </b-alert>
           </b-form-group>
           <div align="center">
-            <b-button @click="authenticate" type="submit" variant="primary" :disabled='sigingIn' id="login">{{ $t('login.login') }}</b-button>
-            <span v-show="sigingIn" class="m-t-5" style="inline-block">
-              <fa-icon name="refresh" spin></fa-icon>
-            </span>
+            <b-button @click="authenticate" type="submit" variant="primary" :disabled='sigingIn' id="login"><fa-icon  v-show="sigingIn" name="refresh" spin></fa-icon> {{ $t('login.login') }}</b-button>
           </div>
         </b-form>
       </b-card>
@@ -64,7 +58,6 @@ export default {
     return {
       email: '',
       password: '',
-      error: '',
       emailValidated: false,
       passwordValidated: false,
       sigingIn: false
@@ -98,19 +91,19 @@ export default {
             this.sigingIn = false
           },
           error (res) {
-            this.error = res.message
             this.sigingIn = false
+            let message = res.response.status === 401 ? `<b>${this._i18n.t('login.errors.title')}</b><br /> ${this._i18n.t('login.errors.unauth')}`
+                                                      : `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')} (${res.response.status})`
+            this.$notifications.notify(
+              {
+                message,
+                icon: 'exclamation-triangle',
+                horizontalAlign: 'right',
+                verticalAlign: 'bottom',
+                type: 'danger'
+              })
             // Dispatch an error update to vuex (we can then re-use a generic error toast or something)
           }
-        }).catch(() => {
-          this.$notifications.notify(
-            {
-              message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
-              icon: 'exclamation-triangle',
-              horizontalAlign: 'right',
-              verticalAlign: 'bottom',
-              type: 'danger'
-            })
         })
       }
     },
