@@ -179,7 +179,8 @@ export default{
       emptystate: 'There are no Api Keys assigned to this project'
     },
     documents: {
-      title: 'Documents'
+      title: 'Documents',
+      upload: 'Document upload'
     }
   },
   pagenotfound: {
