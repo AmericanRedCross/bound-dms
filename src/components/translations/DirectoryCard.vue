@@ -18,23 +18,21 @@
               <div class="col-md-6">
                 <b-card>
                   <b-input-group>
-                    <b-tooltip :content="getContent">
-                      <b-input-group-addon class="white-icon">
-                        <fa-icon :name="getIcon" :class="getIconStatus"></fa-icon>
-                      </b-input-group-addon>
-                    </b-tooltip>
+                    <b-input-group-addon class="white-icon" :id="'modNameFlag' + directory.id">
+                      <fa-icon :name="getIcon" :class="getIconStatus"></fa-icon>
+                    </b-input-group-addon>
                     <b-form-input type="text" placeholder="Translated Module Name"></b-form-input>
                   </b-input-group>
+                  <b-tooltip :title="getContent" :target="'modNameFlag' + directory.id"></b-tooltip>
                 </b-card>
                 <b-card>
                   <b-input-group>
-                    <b-tooltip :content="getContent">
-                      <b-input-group-addon class="white-icon">
-                        <fa-icon :name="getIcon" :class="getIconStatus"></fa-icon>
-                      </b-input-group-addon>
-                    </b-tooltip>
+                    <b-input-group-addon class="white-icon" :id="'fileFlag' + directory.id">
+                      <fa-icon :name="getIcon" :class="getIconStatus"></fa-icon>
+                    </b-input-group-addon>
                     <b-form-file></b-form-file>
                   </b-input-group>
+                  <b-tooltip :title="getContent" :target="'fileFlag' + directory.id"></b-tooltip>
                 </b-card>
               </div>
             </div>
