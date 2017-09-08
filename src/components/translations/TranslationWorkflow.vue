@@ -1,7 +1,7 @@
 <template>
     <div class="translation-workflow" align="center">
       <TranslationInfo></TranslationInfo>
-      <DirectoryCard></DirectoryCard>
+      <DirectoryCard v-for="directory in structure" :key="directory.id" :directory="directory"></DirectoryCard>
     </div>
 </template>
 
@@ -39,9 +39,6 @@ export default {
     structure: {
       get () {
         return this.$store.state.structure.structure
-      },
-      set (value) {
-        this.$store.dispatch('UPDATE_STRUCTURE', value)
       }
     }
   }
