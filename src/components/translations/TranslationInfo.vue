@@ -28,7 +28,7 @@
       <span>Translation Language</span>
     </div>
     <div class="translation-progress col-md-3" align="center">
-      <b-progress v-model="translated" :precision="1" animated></b-progress>
+      <b-progress v-model="translated" :precision="1"></b-progress>
       <small>
       {{ translated }}% of content translated
       </small>

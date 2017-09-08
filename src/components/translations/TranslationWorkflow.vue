@@ -1,24 +1,20 @@
 <template>
     <div class="translation-workflow" align="center">
       <TranslationInfo></TranslationInfo>
-      <br />
-      <ModuleCard></ModuleCard>
-      <div class="subdirectory-cards">
-        <SubDirectoryCard></SubDirectoryCard>
-      </div>
+      <DirectoryCard></DirectoryCard>
+
     </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import ModuleCard from '@/components/translations/ModuleCard'
+import DirectoryCard from '@/components/translations/DirectoryCard'
 import TranslationInfo from '@/components/translations/TranslationInfo'
-import SubDirectoryCard from '@/components/translations/SubDirectoryCard'
 
 export default {
   name: 'translation-workflow',
   components: {
-    ModuleCard, TranslationInfo, SubDirectoryCard
+    DirectoryCard, TranslationInfo
   },
   data () {
     return {
