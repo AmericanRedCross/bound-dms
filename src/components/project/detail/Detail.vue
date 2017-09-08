@@ -30,21 +30,8 @@ export default {
   },
   data () {
     return {
-      project: null,
       changes: 36
     }
-  },
-  watch: {
-    // call again if the route changes
-    '$route': 'fetchProject'
-  },
-  mounted () {
-    // this.fetchProject()
-  },
-  methods: {
-    // fetchProject () {
-    //   this.project = this.getProjectById(parseInt(this.$route.params.id))
-    // }
   },
   computed: {
     ...mapGetters([
