@@ -1,44 +1,42 @@
 <template>
   <div>
-    <b-jumbotron>
-      <h3>Module Info</h3>
-      <div class="row" align="center">
-        <div class="col">
-            <div class="row">
-              <div class="col-md-6">
-                <b-card>
-                  <div class="center-card">
-                    Module Title: English Title
-                  </div>
-                </b-card>
-                <b-card>
-                  <fa-icon name="file"></fa-icon> Module Roadmap
-                </b-card>
+      <div>
+        <h3>Module Info</h3>
+        <div class="row" align="center">
+          <div class="col">
+              <div class="row">
+                <div class="col-md-6">
+                  <b-card>
+                    <div class="center-card">
+                      Module Title: English Title
+                    </div>
+                  </b-card>
+                  <b-card>
+                    <fa-icon name="file"></fa-icon> Module Roadmap
+                  </b-card>
+                </div>
+                <div class="col-md-6">
+                  <b-card>
+                    <b-input-group>
+                      <b-input-group-addon class="white-icon" v-b-tooltip="getContent">
+                        <fa-icon :name="getIcon" :class="getIconStatus"></fa-icon>
+                      </b-input-group-addon>
+                      <b-form-input type="text" placeholder="Translated Module Name"></b-form-input>
+                    </b-input-group>
+                  </b-card>
+                  <b-card>
+                    <b-input-group>
+                      <b-input-group-addon class="white-icon" v-b-tooltip="getContent">
+                        <fa-icon :name="getIcon" :class="getIconStatus"></fa-icon>
+                      </b-input-group-addon>
+                      <b-form-file></b-form-file>
+                    </b-input-group>
+                  </b-card>
+                </div>
               </div>
-              <div class="col-md-6">
-                <b-card>
-                  <b-input-group>
-                    <b-input-group-addon class="white-icon" :id="'modNameFlag' + directory.id">
-                      <fa-icon :name="getIcon" :class="getIconStatus"></fa-icon>
-                    </b-input-group-addon>
-                    <b-form-input type="text" placeholder="Translated Module Name"></b-form-input>
-                  </b-input-group>
-                  <b-tooltip :title="getContent" :target="'modNameFlag' + directory.id"></b-tooltip>
-                </b-card>
-                <b-card>
-                  <b-input-group>
-                    <b-input-group-addon class="white-icon" :id="'fileFlag' + directory.id">
-                      <fa-icon :name="getIcon" :class="getIconStatus"></fa-icon>
-                    </b-input-group-addon>
-                    <b-form-file></b-form-file>
-                  </b-input-group>
-                  <b-tooltip :title="getContent" :target="'fileFlag' + directory.id"></b-tooltip>
-                </b-card>
-              </div>
-            </div>
+          </div>
         </div>
       </div>
-    </b-jumbotron>
     <DirectoryCard v-for="subdirectory in directory.directories" :key="directory.id" :directory="subdirectory"></DirectoryCard>
   </div>
 </template>
