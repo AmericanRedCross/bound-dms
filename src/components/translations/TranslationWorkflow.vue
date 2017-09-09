@@ -1,6 +1,6 @@
 <template>
-    <div class="translation-workflow" align="center">
-      <TranslationInfo></TranslationInfo>
+    <div class="translation-workflow" align="center" v-if="currentProject">
+      <TranslationInfo :languageList="currentProject.languages" :selectedLang="selectedLang" :filter="filter"></TranslationInfo>
       <DirectoryCard v-for="directory in structure" :key="directory.id" :directory="directory"></DirectoryCard>
     </div>
 </template>
@@ -17,7 +17,12 @@ export default {
   },
   data () {
     return {
-      project: null
+      selectedLang: null,
+      filter: {
+        all: true,
+        needsTranslation: false,
+        needsRevision: false
+      }
     }
   },
   mounted () {
@@ -40,6 +45,9 @@ export default {
       get () {
         return this.$store.state.structure.structure
       }
+    },
+    currentProject () {
+      return this.getProjectById(parseInt(this.$route.params.id))
     }
   }
 }
