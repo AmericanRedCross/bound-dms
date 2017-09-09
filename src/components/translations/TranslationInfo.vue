@@ -1,13 +1,13 @@
 <template>
   <div class="translation-info">
     <div class="visible-toggle" align="center">
-      <b-button :pressed.sync="filter.all" variant="outline-primary">All Content</b-button>
-      <b-button :pressed.sync="filter.needsTranslation" variant="outline-primary">Needs Translation</b-button>
-      <b-button :pressed.sync="filter.needsRevision" variant="outline-primary">Needs Revision</b-button>
+      <b-button :pressed.sync="filter.all" variant="outline-primary">{{ $t('translationWorkflow.filters.allContent') }}</b-button>
+      <b-button :pressed.sync="filter.needsTranslation" variant="outline-primary">{{ $t('translationWorkflow.filters.needsTranslation') }}</b-button>
+      <b-button :pressed.sync="filter.needsRevision" variant="outline-primary">{{ $t('translationWorkflow.filters.needsRevision') }}</b-button>
     </div>
     <br />
     <div class="translation-info" align="center">
-      <span>Base Language</span>
+      <span>{{ $t('translationWorkflow.baseLanguage') }}</span>
       <span class="ml-auto">
         <b-dropdown class="m-md-2" right text="EN">
 
@@ -23,12 +23,12 @@
           </b-dropdown-item-button>
         </b-dropdown>
       </span>
-      <span>Translation Language</span>
+      <span>{{ $t('translationWorkflow.translationLanguage') }}</span>
     </div>
     <div class="translation-progress col-md-3" align="center">
       <b-progress v-model="translated" :precision="1"></b-progress>
       <small>
-      {{ translated }}% of content translated
+      {{ translated }}{{ $t('translationWorkflow.percentTranslated') }}
       </small>
     </div>
   </div>
