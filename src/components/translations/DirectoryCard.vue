@@ -1,38 +1,36 @@
 <template>
   <div>
       <div>
-        <h3>Module Info</h3>
+        <h3 class="text-left directory-header mb-2">Module Info</h3>
         <div class="row" align="center">
           <div class="col">
+            <div class="row">
+                <b-card class="col ml-3 m-2">
+                  <div class="center-card">
+                    Module Title: English Title
+                  </div>
+                </b-card>
+                <b-card class="col mr-3 m-2">
+                  <b-input-group>
+                    <b-input-group-addon class="white-icon" v-b-tooltip="getContent">
+                      <fa-icon :name="getIcon" :class="getIconStatus"></fa-icon>
+                    </b-input-group-addon>
+                    <b-form-input type="text" placeholder="Translated Module Name"></b-form-input>
+                  </b-input-group>
+                </b-card>
+              </div>
               <div class="row">
-                <div class="col-md-6">
-                  <b-card>
-                    <div class="center-card">
-                      Module Title: English Title
-                    </div>
-                  </b-card>
-                  <b-card>
-                    <fa-icon name="file"></fa-icon> Module Roadmap
-                  </b-card>
-                </div>
-                <div class="col-md-6">
-                  <b-card>
-                    <b-input-group>
-                      <b-input-group-addon class="white-icon" v-b-tooltip="getContent">
-                        <fa-icon :name="getIcon" :class="getIconStatus"></fa-icon>
-                      </b-input-group-addon>
-                      <b-form-input type="text" placeholder="Translated Module Name"></b-form-input>
-                    </b-input-group>
-                  </b-card>
-                  <b-card>
-                    <b-input-group>
-                      <b-input-group-addon class="white-icon" v-b-tooltip="getContent">
-                        <fa-icon :name="getIcon" :class="getIconStatus"></fa-icon>
-                      </b-input-group-addon>
-                      <b-form-file></b-form-file>
-                    </b-input-group>
-                  </b-card>
-                </div>
+                <b-card class="col ml-3 m-2">
+                  <fa-icon name="file"></fa-icon> Module Roadmap
+                </b-card>
+                <b-card class="col mr-3 m-2">
+                  <b-input-group>
+                    <b-input-group-addon class="white-icon" v-b-tooltip="getContent">
+                      <fa-icon :name="getIcon" :class="getIconStatus"></fa-icon>
+                    </b-input-group-addon>
+                    <b-form-file id="file_input1" v-model="file" class="w-100"></b-form-file>
+                  </b-input-group>
+                </b-card>
               </div>
           </div>
         </div>
@@ -56,7 +54,8 @@ export default {
     return {
       untranslated: true,
       isUpdated: false,
-      isNew: false
+      isNew: false,
+      file: null
     }
   },
   computed: {

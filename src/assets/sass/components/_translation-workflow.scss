@@ -1,0 +1,12 @@
+.translation-workflow {
+  .directory-header {
+    background: #efefef;
+    margin: 0 -15px;
+    padding: 5px 15px;
+  }
+  .custom-file-control {
+    // override the border radius for the file picker
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+  }
+}
