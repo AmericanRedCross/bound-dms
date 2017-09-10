@@ -1,6 +1,6 @@
 <template>
     <div class="translation-workflow" align="center" v-if="currentProject">
-      <TranslationInfo :languageList="currentProject.languages" :selectedLang="selectedLang" :filter="filter"></TranslationInfo>
+      <TranslationInfo :languageList="currentProject.languages" :languageOptions="languageOptions" :filter="filter"></TranslationInfo>
       <DirectoryCard v-for="directory in structure" :key="directory.id" :directory="directory"></DirectoryCard>
     </div>
 </template>
@@ -17,7 +17,10 @@ export default {
   },
   data () {
     return {
-      selectedLang: null,
+      languageOptions: {
+        selectedLang: 'FR',
+        baseLanguage: 'EN'
+      },
       filter: {
         all: true,
         needsTranslation: false,
