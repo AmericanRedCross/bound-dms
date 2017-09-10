@@ -1,7 +1,12 @@
 <template>
   <div>
       <div>
-        <h3 class="text-left directory-header mb-2">Module Info</h3>
+        <h3 class="text-left directory-header mb-2">
+          <span v-if="directoryNumbers.length === 0">{{ $t('projects.modules.module') }} </span>
+          <span :class="'ml-' + directoryNumbers.length">
+            <span v-for="number in directoryNumbers">{{ number }}.</span><span>{{ directory.order }}</span>
+          </span>
+        </h3>
         <div class="row" align="center">
           <div class="col">
             <div class="row">
@@ -35,7 +40,7 @@
           </div>
         </div>
       </div>
-    <DirectoryCard v-for="subdirectory in directory.directories" :key="directory.id" :directory="subdirectory"></DirectoryCard>
+    <DirectoryCard v-for="subdirectory in directory.directories" :key="directory.id" :directory="subdirectory" :directoryNumbers="getDirectories()"></DirectoryCard></DirectoryCard>
   </div>
 </template>
 
@@ -48,6 +53,10 @@ export default {
     directory: {
       type: Object,
       default: new Directory({})
+    },
+    directoryNumbers: {
+      type: Array,
+      default: () => [] // Use a function to return an array/object https://github.com/vuejs/vue/issues/1032
     }
   },
   data () {
@@ -56,6 +65,11 @@ export default {
       isUpdated: false,
       isNew: false,
       file: null
+    }
+  },
+  methods: {
+    getDirectories () {
+      return [...this.directoryNumbers, this.directory.order]
     }
   },
   computed: {
