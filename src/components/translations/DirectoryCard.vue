@@ -1,45 +1,62 @@
 <template>
   <div>
-      <div>
-        <h3 class="text-left directory-header mb-2">
-          <span v-if="directoryNumbers.length === 0">{{ $t('projects.modules.module') }} </span>
-          <span :class="'ml-' + directoryNumbers.length">
-            <span v-for="number in directoryNumbers">{{ number }}.</span><span>{{ directory.order }}</span>
-          </span>
-        </h3>
-        <div class="row" align="center">
-          <div class="col">
-            <div class="row">
-                <b-card class="col ml-3 m-2">
-                  <div class="center-card">
-                    Module Title: English Title
+    <div>
+      <h3 class="text-left directory-header mb-2">
+        <span v-if="directoryNumbers.length === 0">{{ $t('projects.modules.module') }} </span>
+        <span :class="'ml-' + directoryNumbers.length">
+          <span>{{ getHierarchy }}</span>
+        </span>
+      </h3>
+      <div class="row">
+        <div class="col">
+          <div class="row">
+              <b-card class="col ml-3 m-2">
+                <div class="center-card text-left">
+                  <small>{{ getHierarchy }} {{ $t('translationWorkflow.translations.directoryTitle') }}</small>
+                  <div v-if="directory.title && !editTitle" class="font-weight-bold title-wrapper" @click="editTitle = true">
+                    <fa-icon name="check" class="text-success"></fa-icon>
+                    {{ directory.title }}
                   </div>
-                </b-card>
-                <b-card class="col mr-3 m-2">
-                  <b-input-group>
-                    <b-input-group-addon class="white-icon" v-b-tooltip="getContent">
-                      <fa-icon :name="getIcon" :class="getIconStatus"></fa-icon>
-                    </b-input-group-addon>
-                    <b-form-input type="text" placeholder="Translated Module Name"></b-form-input>
-                  </b-input-group>
-                </b-card>
-              </div>
-              <div class="row">
-                <b-card class="col ml-3 m-2">
-                  <fa-icon name="file"></fa-icon> Module Roadmap
-                </b-card>
-                <b-card class="col mr-3 m-2">
-                  <b-input-group>
-                    <b-input-group-addon class="white-icon" v-b-tooltip="getContent">
-                      <fa-icon :name="getIcon" :class="getIconStatus"></fa-icon>
-                    </b-input-group-addon>
-                    <b-form-file id="file_input1" v-model="file" class="w-100"></b-form-file>
-                  </b-input-group>
-                </b-card>
-              </div>
-          </div>
+                  <div v-else>
+                    <span v-if="!editTitle" @click="editTitle = true" class="font-weight-bold title-wrapper"><fa-icon name="flag" class="text-danger"></fa-icon> {{ $t('translationWorkflow.translations.noTitle') }}</span>
+                    <b-input-group v-else>
+                      <b-input-group-addon class="white-icon">
+                        <fa-icon :name="directory.title ? 'check' : 'flag'" :class="directory.title ? 'text-success' : 'text-danger'"></fa-icon>
+                      </b-input-group-addon>
+                      <b-form-input type="text" v-model="directory.title" :placeholder="$t('translationWorkflow.translations.titlePlaceholder')"></b-form-input>
+
+                      <b-input-group-button slot="right">
+                        <b-button @click="editTitle = false"><fa-icon name="check"></fa-icon></b-button>
+                      </b-input-group-button>
+                    </b-input-group>
+                  </div>
+                </div>
+              </b-card>
+              <b-card class="col mr-3 m-2">
+                <b-input-group>
+                  <b-input-group-addon class="white-icon">
+                    <fa-icon :name="isTranslated ? 'check' : 'flag'" :class="isTranslated ? 'text-success' : 'text-danger'"></fa-icon>
+                  </b-input-group-addon>
+                  <b-form-input type="text" :placeholder="$t('translationWorkflow.translations.titlePlaceholder')"></b-form-input>
+                </b-input-group>
+              </b-card>
+            </div>
+            <div class="row">
+              <b-card class="col ml-3 m-2">
+                <fa-icon name="file"></fa-icon> Module Roadmap
+              </b-card>
+              <b-card class="col mr-3 m-2">
+                <b-input-group>
+                  <b-input-group-addon class="white-icon">
+                    <fa-icon :name="isTranslated ? 'check' : 'flag'" :class="isTranslated ? 'text-success' : 'text-danger'"></fa-icon>
+                  </b-input-group-addon>
+                  <b-form-file id="file_input1" v-model="file" class="w-100"></b-form-file>
+                </b-input-group>
+              </b-card>
+            </div>
         </div>
       </div>
+    </div>
     <DirectoryCard v-for="subdirectory in directory.directories" :key="directory.id" :directory="subdirectory" :directoryNumbers="getDirectories()"></DirectoryCard></DirectoryCard>
   </div>
 </template>
@@ -61,65 +78,39 @@ export default {
   },
   data () {
     return {
-      untranslated: true,
-      isUpdated: false,
-      isNew: false,
-      file: null
+      file: null,
+      editTitle: false
     }
   },
   methods: {
     getDirectories () {
       return [...this.directoryNumbers, this.directory.order]
+    },
+    isTranslated ({ isTitle }) {
+      return true
     }
   },
   computed: {
-    getBorderStatus () {
-      let status = ''
-      if (this.isUpdated) {
-        status = 'warning'
-      }
-      if (this.isNew) {
-        status = 'danger'
-      }
-      return status
-    },
-    getIcon () {
-      let icon = ''
-      if (this.isUpdated || this.isNew) {
-        icon = 'flag'
-      } else {
-        icon = 'check'
-      }
-      return icon
-    },
-    getIconStatus () {
-      let iconStatus = ''
-      if (this.isUpdated) {
-        iconStatus = 'text-warning'
-      } else if (this.isNew) {
-        iconStatus = 'text-danger'
-      } else {
-        iconStatus = 'text-success'
-      }
-      return iconStatus
-    },
-    getContent () {
-      let content = ''
-      if (this.isUpdated) {
-        content = 'Updated in the base language'
-      } else if (this.isNew) {
-        content = 'New to the base language'
-      } else {
-        content = 'Up to date!'
-      }
-      return content
+    getHierarchy () {
+      let hierarchy = ''
+      this.directoryNumbers.forEach((number) => {
+        hierarchy += number + '.'
+      })
+      hierarchy += this.directory.order
+      return hierarchy
     }
   }
 }
 </script>
 
-<style>
+<style scoped lang='scss'>
 .white-icon {
   background-color: #ffffff;
+}
+.flag-icon {
+  color: #ec0c16;
+}
+.title-wrapper {
+  cursor: pointer;
 }
 </style>

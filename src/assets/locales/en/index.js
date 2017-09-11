@@ -213,6 +213,12 @@ export default{
       needsTranslation: 'Needs translation',
       needsRevision: 'Needs revision'
     },
+    translations: {
+      directoryTitle: ' Directory title',
+      noTitle: 'No title set',
+      titlePlaceholder: 'Translated directory title',
+      originalDocument: 'Original Document'
+    },
     baseLanguage: 'Base language',
     translationLanguage: 'Translation language',
     percentTranslated: '% of content translated'
