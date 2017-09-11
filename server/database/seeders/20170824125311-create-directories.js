@@ -5,19 +5,19 @@ module.exports = {
         projectId: 1,
         parentId: null,
         createdById: 1,
-        order: 1
+        order: 0
       },
       {
         projectId: 1,
         parentId: 1,
         createdById: 1,
-        order: 1
+        order: 0
       },
       {
         projectId: 1,
         parentId: null,
         createdById: 1,
-        order: 2
+        order: 1
       }
     ], {})
   },
