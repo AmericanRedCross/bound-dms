@@ -1,6 +1,14 @@
 <template>
     <div class="translation-workflow" align="center" v-if="currentProject">
       <TranslationInfo :languageList="currentProject.languages" :languageOptions="languageOptions" :filter="filter"></TranslationInfo>
+      <div class="row mt-1 mb-1">
+        <div class="col font-weight-bold">
+          {{ languageOptions.baseLanguage }}
+        </div>
+        <div class="col font-weight-bold">
+          {{ languageOptions.selectedLang }}
+        </div>
+      </div>
       <DirectoryCard v-for="directory in structure" :key="directory.id" :directory="directory"></DirectoryCard>
     </div>
 </template>
