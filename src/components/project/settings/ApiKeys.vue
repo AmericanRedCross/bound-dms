@@ -14,7 +14,7 @@
 
         <template slot="details" scope="item">
           <b-button v-b-modal.viewkey variant="primary" @click="selectKey(item)"><fa-icon name="key" :label="$t('projects.keys.key')"></fa-icon> {{ $t('projects.keys.view') }}</b-button>
-          <b-button variant="danger" @click="deleteClick(item.item.id)"><fa-icon name="trash" :label="$t('common.delete')"></fa-icon> {{ $t('common.delete') }} </b-button>
+          <b-button variant="danger" @click="deleteClick(item.item._id)"><fa-icon name="trash" :label="$t('common.delete')"></fa-icon> {{ $t('common.delete') }} </b-button>
         </template>
       </b-table>
       <b-btn v-b-modal.addkey variant="primary"><fa-icon name="plus"></fa-icon> {{ $t('projects.keys.add') }}</b-btn>
@@ -37,7 +37,7 @@
       <b-form>
         <b-form-input
               type="text"
-              :placeholder="selectedKey.key"
+              :placeholder="selectedKey._key"
               readonly
         ></b-form-input>
       </b-form>
