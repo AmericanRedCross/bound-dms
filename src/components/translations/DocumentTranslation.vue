@@ -2,7 +2,6 @@
     <div class="document-translation" align="center">
       <TranslationInfo></TranslationInfo>
       <br />
-
     </div>
 </template>
 

@@ -206,5 +206,21 @@ export default{
     sorry: 'Sorry, the page you are looking for does not exist',
     sorryAuth: 'Sorry, you do not have permission to access the page you are looking for',
     return: 'Return to projects'
+  },
+  translationWorkflow: {
+    filters: {
+      allContent: 'All content',
+      needsTranslation: 'Needs translation',
+      needsRevision: 'Needs revision'
+    },
+    translations: {
+      directoryTitle: ' Directory title',
+      noTitle: 'No title set',
+      titlePlaceholder: 'Translated directory title',
+      originalDocument: 'Original Document'
+    },
+    baseLanguage: 'Base language',
+    translationLanguage: 'Translation language',
+    percentTranslated: '% of content translated'
   }
 }

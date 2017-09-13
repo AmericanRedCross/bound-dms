@@ -1,6 +1,6 @@
 <template>
     <div class="project-detail">
-      <StatsOverview v-if="project" :project="project" class="mb-3"></StatsOverview>
+      <StatsOverview v-if="currentProject" :project="currentProject" class="mb-3"></StatsOverview>
       <b-card v-if="$auth.check(['admin', 'editor'])" :title="$t('projects.dashboard.publishing')" class="mb-3">
         <h5>{{ changes }}{{ $t('projects.dashboard.changes') }}</h5>
         <div>{{ $t('projects.dashboard.lastPublish') }}</div>
@@ -12,7 +12,7 @@
         </div>
       </b-card>
       <b-card :title="$t('projects.dashboard.languages')">
-        <LanguageTable v-if="project" :project="project" class="mb-3"></LanguageTable>
+        <LanguageTable v-if="currentProject" :project="currentProject" class="mb-3"></LanguageTable>
       </b-card>
     </div>
 </template>
@@ -30,38 +30,16 @@ export default {
   },
   data () {
     return {
-      project: null,
       changes: 36
-    }
-  },
-  watch: {
-    // call again if the route changes
-    '$route': 'fetchProject'
-  },
-  beforeMount () {
-    this.fetchProject()
-  },
-  methods: {
-    fetchProject () {
-      this.$store.dispatch('GET_PROJECT', this.$route.params.id).then(() => {
-        let project = this.getProjectById(parseInt(this.$route.params.id))
-        this.project = project
-      }).catch(() => {
-        this.$notifications.notify(
-          {
-            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
-            icon: 'exclamation-triangle',
-            horizontalAlign: 'right',
-            verticalAlign: 'bottom',
-            type: 'danger'
-          })
-      })
     }
   },
   computed: {
     ...mapGetters([
       'getProjectById'
-    ])
+    ]),
+    currentProject () {
+      return this.getProjectById(parseInt(this.$route.params.id))
+    }
   }
 }
 </script>
