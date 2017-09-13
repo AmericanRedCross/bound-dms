@@ -49,12 +49,12 @@
               {{ $t('common.info') }}
             </b-dropdown-item>
 
-            <b-dropdown-item-button v-if="isShown" @click="addDirectory" class="directory-action">
+            <b-dropdown-item-button v-if="isShown" @click="addDirectory" class="directory-action" :disabled="directory.id === null">
               <fa-icon name="plus-circle"></fa-icon>
               {{ $t('projects.modules.addDirectory') }}
             </b-dropdown-item-button>
 
-            <b-dropdown-item-button v-else-if="$auth.check(['admin', 'editor'])" @click="addDirectory" class="directory-action">
+            <b-dropdown-item-button v-else-if="$auth.check(['admin', 'editor'])" @click="addDirectory" class="directory-action" :disabled="directory.id === null">
               <fa-icon name="plus-circle"></fa-icon>
               {{ $t('projects.modules.addSubDirectory') }}
             </b-dropdown-item-button>
@@ -187,9 +187,11 @@ export default {
   },
   methods: {
     addDirectory () {
-      this.isExpanded = true
-      this.directory.addDirectoryAtIndex({index: this.index})
-      this.$store.dispatch('SET_FLAT_STRUCTURE')
+      if (this.directory.id !== null) {
+        this.isExpanded = true
+        this.directory.addDirectoryAtIndex({index: this.index})
+        this.$store.dispatch('SET_FLAT_STRUCTURE')
+      }
     },
     updateCritical (value) {
       this.directory.critical = value.value

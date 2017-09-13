@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
 import Login from '@/components/auth/Login'
 import Editor from '@/components/documents/editor/Editor'
 
@@ -42,9 +41,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: Hello,
-      meta: {auth: true}
+      redirect: '/projects'
     },
     {
       path: '/login',
