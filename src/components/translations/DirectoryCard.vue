@@ -102,15 +102,3 @@ export default {
   }
 }
 </script>
-
-<style scoped lang='scss'>
-.white-icon {
-  background-color: #ffffff;
-}
-.flag-icon {
-  color: #ec0c16;
-}
-.title-wrapper {
-  cursor: pointer;
-}
-</style>
