@@ -1,8 +1,8 @@
 // This module handles the global store and requests for the Translations endpoint + some frontend bits
 const translations = {
   state: {
-    baseLanguage: '',
-    selectedLanguage: '',
+    baseLanguage: 'EN',
+    selectedLanguage: 'FR',
     filter: {
       all: true,
       needsTranslation: false,
