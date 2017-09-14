@@ -1,12 +1,11 @@
 <template>
-    <div class="translation-workflow" align="center" v-if="currentProject">
-      <TranslationInfo :languageList="currentProject.languages" :languageOptions="languageOptions" :filter="filter"></TranslationInfo>
+    <div class="translation-workflow" align="center">
       <div class="row mt-1 mb-1">
         <div class="col font-weight-bold">
-          {{ languageOptions.baseLanguage }}
+          {{ baseLanguage }}
         </div>
         <div class="col font-weight-bold">
-          {{ languageOptions.selectedLang }}
+          {{ selectedLanguage }}
         </div>
       </div>
       <DirectoryCard v-for="directory in structure" :key="directory.id" :directory="directory"></DirectoryCard>
@@ -14,27 +13,12 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import DirectoryCard from '@/components/translations/DirectoryCard'
-import TranslationInfo from '@/components/translations/TranslationInfo'
 
 export default {
   name: 'translation-workflow',
   components: {
-    DirectoryCard, TranslationInfo
-  },
-  data () {
-    return {
-      languageOptions: {
-        selectedLang: 'FR',
-        baseLanguage: 'EN'
-      },
-      filter: {
-        all: true,
-        needsTranslation: false,
-        needsRevision: false
-      }
-    }
+    DirectoryCard
   },
   mounted () {
     this.$store.dispatch('GET_STRUCTURE', this.$route.params.id).catch(() => {
@@ -49,16 +33,19 @@ export default {
     })
   },
   computed: {
-    ...mapGetters([
-      'getProjectById'
-    ]),
     structure: {
       get () {
         return this.$store.state.structure.structure
       }
     },
-    currentProject () {
-      return this.getProjectById(parseInt(this.$route.params.id))
+    filter () {
+      return this.$store.state.translations.filter
+    },
+    selectedLanguage () {
+      return this.$store.state.translations.selectedLanguage
+    },
+    baseLanguage () {
+      return this.$store.state.translations.baseLanguage
     }
   }
 }
