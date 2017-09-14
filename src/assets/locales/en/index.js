@@ -215,9 +215,11 @@ export default{
     },
     translations: {
       directoryTitle: ' Directory title',
+      directoryContent: ' Directory content',
       noTitle: 'No title set',
+      noContent: 'No content set',
       titlePlaceholder: 'Translated directory title',
-      originalDocument: 'Original Document'
+      originalDocument: 'Original document'
     },
     baseLanguage: 'Base language',
     translationLanguage: 'Translation language',

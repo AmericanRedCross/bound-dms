@@ -10,6 +10,7 @@ import App from './App'
 import router from './router'
 import store from './vuex'
 import Locales from './assets/locales'
+import filters from './filters'
 
 import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
@@ -68,6 +69,9 @@ Vue.use(VueAuth, {
   tokenName: 'auth_token',
   rolesVar: 'role'
 })
+
+// filters
+Vue.filter('truncate', filters.truncate)
 
 const i18n = new VueI18n({
   locale: 'en',
