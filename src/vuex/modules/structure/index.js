@@ -144,7 +144,8 @@ const directories = {
   },
   getters: {
     getDirectoryById: (state, getters) => (id) => {
-      return state.directories.find(directory => directory.id === id)
+      let flatDirectory = state.flatDirectories.find(directory => directory.id === id)
+      return directoryUtils.getDirectoryObject(flatDirectory)
     }
   }
 }

@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/auth/Login'
-import Editor from '@/components/documents/editor/Editor'
 
 // User components
 import ListUsers from '@/components/users/List'
@@ -21,9 +20,16 @@ import AccountProfile from '@/components/account/Profile'
 import ChangePassword from '@/components/account/PasswordForm'
 import PageNotFound from '@/components/pageNotFound/PageNotFound'
 import NotAuthorised from '@/components/pageNotFound/NotAuthorised'
-import TranslationWorkflow from '@/components/translations/TranslationWorkflow'
 import Publish from '@/components/project/publish/Publish'
+import FilesContainer from '@/components/project/documents/Files'
+import FileList from '@/components/project/documents/FileList'
 import DocumentList from '@/components/project/documents/DocumentList'
+import FileEditor from '@/components/project/documents/editor/Editor'
+
+// Translation components
+import TranslationContainer from '@/components/translations/Translations'
+import TranslationWorkflow from '@/components/translations/TranslationWorkflow'
+import ContentTranslation from '@/components/translations/ContentTranslation'
 
 // Settings
 import SettingsContainer from '@/components/project/settings/SettingsContainer'
@@ -130,14 +136,43 @@ export default new Router({
               }
             },
             {
-              path: 'documents',
-              name: 'project-documents',
-              component: DocumentList,
-              props: true,
+              path: 'files',
+              component: FilesContainer,
               meta: {
-                breadcrumb: 'Documents',
+                breadcrumb: 'Files',
                 showSidebar: true
-              }
+              },
+              children: [
+                {
+                  path: '',
+                  name: 'project-files',
+                  component: FileList,
+                  props: true,
+                  meta: {
+                    breadcrumb: 'List',
+                    showSidebar: true
+                  }
+                },
+                {
+                  path: 'documents',
+                  name: 'project-documents',
+                  component: DocumentList,
+                  props: true,
+                  meta: {
+                    breadcrumb: 'Documents',
+                    showSidebar: true
+                  }
+                },
+                {
+                  path: 'edit',
+                  name: 'document-edit',
+                  components: {default: FileEditor},
+                  meta: {
+                    breadcrumb: 'Edit',
+                    showSidebar: true
+                  }
+                }
+              ]
             },
             {
               path: 'settings/',
@@ -193,25 +228,41 @@ export default new Router({
                 showSidebar: true,
                 auth: ['admin']
               }
+            },
+            {
+              path: 'translations',
+              component: TranslationContainer,
+              meta: {
+                auth: true,
+                breadcrumb: 'Translations',
+                showSidebar: true
+              },
+              children: [
+                {
+                  path: '',
+                  name: 'translation-workflow',
+                  component: TranslationWorkflow,
+                  props: true,
+                  meta: {
+                    breadcrumb: 'Translation workflow',
+                    showSidebar: true
+                  }
+                },
+                {
+                  path: 'content',
+                  name: 'content-translation',
+                  component: ContentTranslation,
+                  props: true,
+                  meta: {
+                    breadcrumb: 'Content translation',
+                    showSidebar: true
+                  }
+                }
+              ]
             }
           ]
-        },
-        {
-          path: ':id/translations',
-          name: 'translation-workflow',
-          component: TranslationWorkflow,
-          props: true,
-          meta: {
-            breadcrumb: 'Translation Workflow'
-          }
         }
       ]
-    },
-    {
-      path: '/documents/edit/',
-      name: 'Document Editor',
-      components: {default: Editor},
-      meta: {auth: true}
     },
     {
       path: '/account/',

@@ -1,0 +1,25 @@
+@import '../variables.scss';
+
+.media-picker {
+  .file-picker {
+    max-height: 500px;
+    overflow-y: scroll;
+    .file {
+      cursor: pointer;
+      &:hover {
+        img {
+          border-color: black;
+        }
+        svg {
+          color: lighten($font-color, 10);
+        }
+      }
+      img {
+        border: 1px solid transparent;
+      }
+    }
+  }
+  .file-title {
+    word-break: break-all;
+  }
+}

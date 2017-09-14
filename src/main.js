@@ -10,6 +10,7 @@ import App from './App'
 import router from './router'
 import store from './vuex'
 import Locales from './assets/locales'
+import filters from './filters'
 
 import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
@@ -26,6 +27,7 @@ import ToggleButton from 'vue-js-toggle-button'
 import axios from 'axios'
 import Gravatar from 'vue-gravatar'
 import Dropzone from 'vue2-dropzone'
+import VueLazyload from 'vue-lazyload'
 
 Vue.config.productionTip = false
 
@@ -42,6 +44,9 @@ Vue.use(VueBreadcrumbs)
 Vue.use(Notifications)
 Vue.use(ToggleButton)
 Vue.use(Dropzone)
+Vue.use(VueLazyload, {
+  preLoad: 1
+})
 Vue.component('v-gravatar', Gravatar)
 Vue.component('fa-icon', Icon)
 
@@ -68,6 +73,9 @@ Vue.use(VueAuth, {
   tokenName: 'auth_token',
   rolesVar: 'role'
 })
+
+// filters
+Vue.filter('truncate', filters.truncate)
 
 const i18n = new VueI18n({
   locale: 'en',

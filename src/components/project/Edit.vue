@@ -11,7 +11,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import EditSettings from './settings/ProjectSettings'
-import { Project } from '../../vuex/modules/project/Project'
 
 export default {
   name: '',

@@ -1,8 +1,12 @@
-.translation-workflow {
-  .directory-header {
-    background: #efefef;
-    margin: 0 -15px;
-    padding: 5px 15px;
+.translations {
+  .markdown-preview {
+    background-color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: #e0e0e0 1px solid;
+    img {
+      max-width: 100%;
+    }
   }
   .custom-file-control {
     // override the border radius for the file picker
@@ -15,7 +19,17 @@
   .flag-icon {
     color: #ec0c16;
   }
-  .title-wrapper {
-    cursor: pointer;
+  .translation-workflow {
+    .directory-header {
+      background: #efefef;
+      margin: 0 -15px;
+      padding: 5px 15px;
+    }
+    .title-wrapper {
+      cursor: pointer;
+    }
+    pre {
+      white-space: normal;
+    }
   }
 }

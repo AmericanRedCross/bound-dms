@@ -4,6 +4,7 @@ const controller = require('../controllers/project')
 const langController = require('../controllers/language')
 const dirController = require('../controllers/directory')
 const keyController = require('../controllers/apiKey')
+const documentController = require('../controllers/document')
 const authService = require('../services/auth')()
 const projectRules = {
   'name': {
@@ -98,5 +99,22 @@ router.post('/:id/directories', authService.authenticate(), (req, res, next) => 
     next()
   })
 }, dirController.create)
+
+// GET /api/projects/:id/documents
+router.get('/:id/documents', authService.authenticate(), documentController.getAll)
+
+// POST /api/projects/:id/documents
+router.post('/:id/documents', authService.authenticate(), (req, res, next) => {
+  req.checkBody('language', 'Invalid language code').notEmpty()
+  req.checkBody('title', 'Invalid title').isAscii()
+  req.checkBody('content').optional({checkFalsy: true})
+  req.getValidationResult().then((result) => {
+    if (!result.isEmpty()) {
+      res.status(400).json({status: 400, errors: result.array()})
+      return
+    }
+    next()
+  })
+}, documentController.create)
 
 module.exports = router
