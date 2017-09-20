@@ -7,7 +7,8 @@ const translations = {
       all: true,
       needsTranslation: false,
       needsRevision: false
-    }
+    },
+    contentIdToEdit: ''
   },
   mutations: {
     SET_BASE_LANGUAGE: (state, baseLanguage) => {
@@ -16,21 +17,27 @@ const translations = {
     SET_SELECTED_LANGUAGE: (state, selectedLanguage) => {
       state.selectedLanguage = selectedLanguage
     },
-    CHANGE_TRANSLATION_FILTER: (state, filter) => {
+    SET_TRANSLATION_FILTER: (state, filter) => {
       state.filter.all = filter.all
       state.filter.needsTranslation = filter.needsTranslation
       state.filter.needsRevision = filter.needsRevision
+    },
+    SET_CONTENT_ID: (state, id) => {
+      state.contentIdToEdit = id
     }
   },
   actions: {
-    CHANGE_BASE_LANGUAGE: function ({ commit }, baseLanguage) {
+    CHANGE_BASE_LANGUAGE: ({ commit }, baseLanguage) => {
       commit('SET_BASE_LANGUAGE', baseLanguage)
     },
-    CHANGE_SELECTED_LANGUAGE: function ({ commit }, selectedLanguage) {
+    CHANGE_SELECTED_LANGUAGE: ({ commit }, selectedLanguage) => {
       commit('SET_SELECTED_LANGUAGE', selectedLanguage)
     },
-    CHANGE_TRANSLATION_FILTER: function ({ commit }, filter) {
+    CHANGE_TRANSLATION_FILTER: ({ commit }, filter) => {
       commit('SET_TRANSLATION_FILTER', filter)
+    },
+    CHANGE_EDIT_CONTENT_ID: ({ commit }, id) => {
+      commit('SET_CONTENT_ID', id)
     }
   }
 }
