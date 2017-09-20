@@ -14,6 +14,10 @@ module.exports = {
         model: User,
         as: 'createdBy',
         attributes: User.safeAttributes()
+      }, {
+        model: DirectoryTrans,
+        as: 'translations',
+        attributes: ['title', 'language']
       }]
     }).then((directories) => {
       res.status(200).json({status: 200, data: directories})
@@ -28,6 +32,10 @@ module.exports = {
       }, {
         model: Directory,
         as: 'directories'
+      }, {
+        model: DirectoryTrans,
+        as: 'translations',
+        attributes: ['title', 'language']
       }]
     }).then((directory) => {
       if (directory === null) {
