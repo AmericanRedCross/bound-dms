@@ -121,4 +121,34 @@ describe('API: Directories', () => {
         })
     })
   })
+
+  describe('PUT /api/directories/:id/translations/:lang', () => {
+    it('Updates a directory translation', (done) => {
+      request(app)
+        .put('/api/directories/2/translations/en')
+        .send({title: 'test title'})
+        .set('Authorization', 'Bearer ' + this.token)
+        .expect(200)
+        .end((err, res) => {
+          if (err) throw err
+          expect(res.body.status).to.equal(200)
+          expect(res.body.data).to.have.property('title')
+          expect(res.body.data.title).to.equal('test title')
+          done()
+        })
+    })
+
+    it('Ensures project has assigned language', (done) => {
+      request(app)
+        .put('/api/directories/2/translations/ug')
+        .send({title: 'test title'})
+        .set('Authorization', 'Bearer ' + this.token)
+        .expect(400)
+        .end((err, res) => {
+          if (err) throw err
+          expect(res.body.status).to.equal(400)
+          done()
+        })
+    })
+  })
 })

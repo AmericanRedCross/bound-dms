@@ -1,6 +1,8 @@
 const Directory = require('../models').Directory
 const Project = require('../models').Project
 const User = require('../models').User
+const ProjectLanguage = require('../models').ProjectLanguage
+const DirectoryTrans = require('../models').DirectoryTranslation
 
 module.exports = {
   getAll (req, res, next) {
@@ -83,6 +85,28 @@ module.exports = {
       return dir.destroy()
     }).then(() => {
       res.status(200).json({status: 200, message: 'Directory deleted'})
+    })
+  },
+  updateTranslation (req, res, next) {
+    Directory.findById(req.params.id).then((directory) => {
+      if (directory === null) {
+        throw new Error('Directory not found')
+      }
+      return ProjectLanguage.findOne({where: {projectId: directory.projectId, code: req.params.lang}})
+    }).then((lang) => {
+      if (lang === null) {
+        throw new Error('Project language has not been configured')
+      }
+      return DirectoryTrans.findOne({where: {directoryId: req.params.id, language: lang.code}})
+    }).then((translation) => {
+      if (translation !== null) {
+        return translation.update({title: req.body.title})
+      }
+      return DirectoryTrans.create({directoryId: req.params.id, language: req.params.lang, title: req.body.title})
+    }).then((translation) => {
+      return res.status(200).json({status: 200, data: translation})
+    }).catch((err) => {
+      return res.status(400).json({status: 400, message: err.message})
     })
   }
 }
