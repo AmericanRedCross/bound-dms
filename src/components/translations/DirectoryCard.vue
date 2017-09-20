@@ -58,13 +58,13 @@
                 </div>
               </b-card>
               <b-card class="col mr-3 m-2" v-b-tooltip.bottom="directory.content ? '' : 'No content to set'">
-                  <b-button
-                    variant="outline-primary"
-                    class="w-100"
-                    :disabled="directory.content ? false : true"
-                    :to="{ name: 'content-translation', params: { content: directory.content }}">
-                    Edit
-                  </b-button>
+                <b-button
+                  variant="outline-primary"
+                  class="w-100"
+                  :disabled="directory.content ? false : true"
+                  @click="setContentEditId(directory.id)">
+                  Edit
+                </b-button>
               </b-card>
             </div>
             <div class="row">
@@ -119,6 +119,10 @@ export default {
     },
     isTranslated ({ isTitle }) {
       return true
+    },
+    setContentEditId (id) {
+      this.$store.dispatch('CHANGE_EDIT_CONTENT_ID', id)
+      this.$router.push({ name: 'content-translation' })
     }
   },
   computed: {
