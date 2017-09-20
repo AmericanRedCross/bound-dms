@@ -6,18 +6,16 @@
         <div class="col font-weight-bold">
         </div>
       </div>
-      <div class="row">
+      <div class="row" v-for="(block, index) in blocks" :key="index" v-if="block.content">
         <div class="col-6">
           <!-- Base language -->
-          <ContentBlock v-for="(token, index) in tokens" :key="index" :block.sync="token" class="text-left"></ContentBlock>
+          <ContentBlock :block.sync="block" class="text-left"></ContentBlock>
+          <hr />
         </div>
         <div class="col-6">
-
-          <div class="text-left" v-html="renderedContent">
-
-          </div>
           <!-- Selected Language -->
-
+          <ContentBlock :block.sync="block" class="text-left"></ContentBlock>
+          <hr />
         </div>
       </div>
     </div>
@@ -40,7 +38,8 @@ export default {
   data () {
     return {
       directory: null,
-      tokens: [],
+      blocks: [],
+      translationBlocks: [],
       md: new MarkdownIt(),
       rendered: ''
     }
@@ -50,7 +49,8 @@ export default {
     if (directoryId) {
       // Get directory content to edit...
       this.directory = this.getDirectoryById(directoryId)
-      this.tokens = this.md.parse(this.directory.content, {})
+      // this.tokens = this.md.parse(this.directory.content, {})
+      this.blocks = this.directory.content.split('\n\n').map(block => ({content: block}))
     } else {
       this.$router.push({name: 'projects'})
     }
@@ -64,7 +64,18 @@ export default {
       'getDirectoryById'
     ]),
     renderedContent () {
-      return this.md.renderer.render(this.tokens, this.md.options, {})
+      // return toMarkdown(this.md.renderer.render(this.tokens, this.md.options, {}))
+      let markdown = ''
+      this.blocks.forEach(block => {
+        markdown += block.content + '\n\n'
+      })
+      return markdown
+    },
+    selectedLanguage () {
+      return this.$store.state.translations.selectedLanguage
+    },
+    baseLanguage () {
+      return this.$store.state.translations.baseLanguage
     }
   }
 }

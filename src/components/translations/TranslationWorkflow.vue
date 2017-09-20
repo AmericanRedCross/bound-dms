@@ -1,13 +1,5 @@
 <template>
     <div class="translation-workflow" align="center">
-      <div class="row mt-1 mb-1">
-        <div class="col font-weight-bold">
-          {{ baseLanguage }}
-        </div>
-        <div class="col font-weight-bold">
-          {{ selectedLanguage }}
-        </div>
-      </div>
       <DirectoryCard v-for="directory in structure" :key="directory.id" :directory="directory"></DirectoryCard>
     </div>
 </template>
@@ -40,12 +32,6 @@ export default {
     },
     filter () {
       return this.$store.state.translations.filter
-    },
-    selectedLanguage () {
-      return this.$store.state.translations.selectedLanguage
-    },
-    baseLanguage () {
-      return this.$store.state.translations.baseLanguage
     }
   }
 }

@@ -1,6 +1,14 @@
 <template>
   <div class="translations" v-if="currentProject">
     <TranslationInfo :languageList="currentProject.languages"></TranslationInfo>
+    <div class="row mt-1 mb-1">
+      <div class="col font-weight-bold">
+        {{ baseLanguage }}
+      </div>
+      <div class="col font-weight-bold">
+        {{ selectedLanguage }}
+      </div>
+    </div>
     <router-view></router-view>
   </div>
 </template>
@@ -27,6 +35,12 @@ export default {
     ]),
     currentProject () {
       return this.getProjectById(parseInt(this.$route.params.id))
+    },
+    selectedLanguage () {
+      return this.$store.state.translations.selectedLanguage
+    },
+    baseLanguage () {
+      return this.$store.state.translations.baseLanguage
     }
   }
 }
