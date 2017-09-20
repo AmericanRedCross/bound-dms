@@ -6,16 +6,14 @@
         <div class="col font-weight-bold">
         </div>
       </div>
-      <div class="row" v-for="(block, index) in blocks" :key="index" v-if="block.content">
+      <div class="row mb-4" v-for="(block, index) in blocks" :key="index" v-if="block.content">
         <div class="col-6">
           <!-- Base language -->
-          <ContentBlock :block.sync="block" class="text-left"></ContentBlock>
-          <hr />
+          <ContentBlock :block.sync="block" class="text-left h-100"></ContentBlock>
         </div>
         <div class="col-6">
           <!-- Selected Language -->
-          <ContentBlock :block.sync="block" class="text-left"></ContentBlock>
-          <hr />
+          <ContentBlock :block.sync="block" class="text-left h-100"></ContentBlock>
         </div>
       </div>
     </div>
