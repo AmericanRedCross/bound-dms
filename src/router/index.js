@@ -203,7 +203,8 @@ export default new Router({
               component: TranslationContainer,
               meta: {
                 auth: true,
-                breadcrumb: 'Translations'
+                breadcrumb: 'Translations',
+                showSidebar: true
               },
               children: [
                 {
@@ -212,7 +213,8 @@ export default new Router({
                   component: TranslationWorkflow,
                   props: true,
                   meta: {
-                    breadcrumb: 'Translation workflow'
+                    breadcrumb: 'Translation workflow',
+                    showSidebar: true
                   }
                 },
                 {
@@ -221,7 +223,8 @@ export default new Router({
                   component: ContentTranslation,
                   props: true,
                   meta: {
-                    breadcrumb: 'Content translation'
+                    breadcrumb: 'Content translation',
+                    showSidebar: true
                   }
                 }
               ]
