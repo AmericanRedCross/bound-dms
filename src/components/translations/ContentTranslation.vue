@@ -1,12 +1,21 @@
 <template>
-    <div class="document-translation" align="center">
-      <div class="row mt-1 mb-1">
-        <div class="col font-weight-bold">
-        </div>
-        <div class="col font-weight-bold">
+    <div class="document-translation">
+      <div class="row">
+        <div class="col">
+          <toggle-button :value="viewMd" @change="updateMdView" color="#007bff"/>
         </div>
       </div>
-      <div class="row mb-4" v-for="(block, index) in blocks" :key="index" v-if="block.content">
+      <div class="row" v-if="viewMd">
+        <div class="col-6">
+          <!-- Base language -->
+          <vue-markdown>{{ renderedContent }}</vue-markdown>
+        </div>
+        <div class="col-6">
+          <!-- Selected Language -->
+          <vue-markdown>{{ renderedContent }}</vue-markdown>
+        </div>
+      </div>
+      <div class="row mb-4" v-for="(block, index) in blocks" :key="index" v-else>
         <div class="col-6">
           <!-- Base language -->
           <ContentBlock :block.sync="block" class="text-left h-100"></ContentBlock>
@@ -39,7 +48,8 @@ export default {
       blocks: [],
       translationBlocks: [],
       md: new MarkdownIt(),
-      rendered: ''
+      rendered: '',
+      viewMd: false
     }
   },
   mounted () {
@@ -54,7 +64,9 @@ export default {
     }
   },
   methods: {
-
+    updateMdView (value) {
+      this.viewMd = value.value
+    }
   },
   computed: {
     ...mapGetters([
