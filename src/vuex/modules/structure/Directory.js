@@ -7,7 +7,7 @@ export class Directory {
       id = null,
       title = null,
       order = null,
-      content = '# here is some content \n ## here is some other content',
+      content = '# here is some content \n\n ## here is some other content',
       attachments = [],
       directories = [],
       parentId = null
