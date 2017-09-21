@@ -21,14 +21,6 @@ export default {
   components: {
     TranslationInfo
   },
-  data () {
-    return {
-
-    }
-  },
-  methods: {
-
-  },
   computed: {
     ...mapGetters([
       'getProjectById'
