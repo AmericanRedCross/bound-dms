@@ -223,6 +223,7 @@ export default{
     },
     baseLanguage: 'Base language',
     translationLanguage: 'Translation language',
-    percentTranslated: '% of content translated'
+    percentTranslated: '% of content translated',
+    previewMarkdown: 'Preview markdown'
   }
 }
