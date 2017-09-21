@@ -1,32 +1,32 @@
 <template>
-    <div class="document-translation">
-      <div class="row">
-        <div class="col">
-          <toggle-button :value="viewMd" @change="updateMdView" color="#007bff"/>
-          {{ $t('translationWorkflow.previewMarkdown') }}
-        </div>
-      </div>
-      <div class="row" v-if="viewMd">
-        <div class="col-6">
-          <!-- Base language -->
-          <vue-markdown class="markdown-preview mb-2">{{ renderedContent }}</vue-markdown>
-        </div>
-        <div class="col-6">
-          <!-- Selected Language -->
-          <vue-markdown class="markdown-preview mb-2">{{ renderedContent }}</vue-markdown>
-        </div>
-      </div>
-      <div class="row mb-4" v-for="(block, index) in blocks" :key="index" v-else>
-        <div class="col-6">
-          <!-- Base language -->
-          <ContentBlock :block.sync="block" @update:block="updateRender" class="text-left h-100"></ContentBlock>
-        </div>
-        <div class="col-6">
-          <!-- Selected Language -->
-          <ContentBlock :block.sync="block" class="text-left h-100"></ContentBlock>
-        </div>
+  <div class="document-translation">
+    <div class="row">
+      <div class="col">
+        <toggle-button :value="viewMd" @change="updateMdView" color="#007bff"/>
+        {{ $t('translationWorkflow.previewMarkdown') }}
       </div>
     </div>
+    <div class="row" v-if="viewMd">
+      <div class="col-6">
+        <!-- Base language -->
+        <vue-markdown class="markdown-preview mb-2">{{ renderedContent }}</vue-markdown>
+      </div>
+      <div class="col-6">
+        <!-- Selected Language -->
+        <vue-markdown class="markdown-preview mb-2">{{ renderedContent }}</vue-markdown>
+      </div>
+    </div>
+    <div class="row mb-4" v-for="(block, index) in blocks" :key="index" v-else>
+      <div class="col-6">
+        <!-- Base language -->
+        <ContentBlock :block.sync="block" @update:block="updateRender" class="text-left h-100"></ContentBlock>
+      </div>
+      <div class="col-6">
+        <!-- Selected Language -->
+        <ContentBlock :block.sync="block" class="text-left h-100"></ContentBlock>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
