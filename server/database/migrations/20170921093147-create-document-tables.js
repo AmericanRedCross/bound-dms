@@ -49,8 +49,8 @@ function createDocumentsTable (queryInterface, Sequelize) {
   })
 }
 
-function createDocumentContentTable (queryInterface, Sequelize) {
-  return queryInterface.createTable('DocumentContent', {
+function createDocumentTranslationsTable (queryInterface, Sequelize) {
+  return queryInterface.createTable('DocumentTranslations', {
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -64,6 +64,10 @@ function createDocumentContentTable (queryInterface, Sequelize) {
     language: {
       allowNull: false,
       type: Sequelize.STRING(10)
+    },
+    title: {
+      allowNull: false,
+      type: Sequelize.STRING
     },
     content: {
       type: Sequelize.TEXT,
@@ -84,7 +88,7 @@ function createDocumentContentTable (queryInterface, Sequelize) {
       charset: 'utf8mb4'
     }
   ).then(() => {
-    return queryInterface.addConstraint('DocumentContent', ['documentId'], {
+    return queryInterface.addConstraint('DocumentTranslations', ['documentId'], {
       type: 'FOREIGN KEY',
       references: {
         table: 'Documents',
@@ -93,7 +97,7 @@ function createDocumentContentTable (queryInterface, Sequelize) {
       onDelete: 'cascade'
     })
   }).then(() => {
-    return queryInterface.addIndex('DocumentContent', ['language'])
+    return queryInterface.addIndex('DocumentTranslations', ['language'])
   })
 }
 
@@ -101,11 +105,11 @@ module.exports = {
   up: function (queryInterface, Sequelize) {
     return createDocumentsTable(queryInterface, Sequelize)
     .then(() => {
-      return createDocumentContentTable(queryInterface, Sequelize)
+      return createDocumentTranslationsTable(queryInterface, Sequelize)
     })
   },
   down: function (queryInterface, Sequelize) {
-    return queryInterface.dropTable('DocumentContent').then(() => {
+    return queryInterface.dropTable('DocumentTranslations').then(() => {
       return queryInterface.dropTable('Documents')
     })
   }

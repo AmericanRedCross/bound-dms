@@ -21,8 +21,8 @@ module.exports = (sequelize, DataTypes) => {
       targetKey: 'id'
     })
 
-    Document.hasMany(models.DocumentContent, {
-      as: 'content',
+    Document.hasMany(models.DocumentTranslations, {
+      as: 'translations',
       foreignKey: 'documentId',
       sourceKey: 'id'
     })
