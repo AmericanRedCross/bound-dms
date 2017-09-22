@@ -10,6 +10,7 @@ const userRoutes = require('./server/routes/user')
 const projectRoutes = require('./server/routes/project')
 const apiKeyRoutes = require('./server/routes/apiKeys')
 const directoryRoutes = require('./server/routes/directory')
+const documentRoutes = require('./server/routes/document')
 const roleService = require('./server/services/roles')
 const authService = require('./server/services/auth')()
 
@@ -41,6 +42,7 @@ router.use('/users', userRoutes)
 router.use('/projects', projectRoutes)
 router.use('/directories', directoryRoutes)
 router.use('/api-keys', apiKeyRoutes)
+router.use('/documents', documentRoutes)
 app.use('/api', router)
 
 // register global error handler

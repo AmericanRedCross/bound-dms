@@ -39,4 +39,65 @@ describe('API: Documents', () => {
         })
     })
   })
+
+  describe('GET /api/documents/:id/translations', () => {
+    it('returns a collection of document translations', (done) => {
+      request(app)
+        .get('/api/documents/1/translations')
+        .set('Authorization', 'Bearer ' + this.token)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+          if (err) throw err
+          expect(res.body).to.be.an('object')
+          expect(res.body.status).to.equal(200)
+          expect(res.body.data).to.be.an('array')
+          expect(res.body.data[0]).to.be.an('object')
+          expect(res.body.data[0]).to.have.property('language')
+          expect(res.body.data[0]).to.have.property('title')
+          expect(res.body.data[0]).to.have.property('createdAt')
+          expect(res.body.data[0]).to.have.property('updatedAt')
+          expect(res.body.data[0]).to.not.have.property('content')
+          done()
+        })
+    })
+  })
+
+  describe('GET /api/documents/:id/translations/:language', () => {
+    it('returns the content of a document translation', (done) => {
+      request(app)
+        .get('/api/documents/1/translations/en')
+        .set('Authorization', 'Bearer ' + this.token)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+          if (err) throw err
+          expect(res.body).to.be.an('object')
+          expect(res.body.status).to.equal(200)
+          expect(res.body.data).to.be.an('object')
+          expect(res.body.data).to.have.property('language')
+          expect(res.body.data).to.have.property('title')
+          expect(res.body.data).to.have.property('content')
+          expect(res.body.data).to.have.property('createdAt')
+          expect(res.body.data).to.have.property('updatedAt')
+
+          done()
+        })
+    })
+
+    it('returns 404 if translation does not exist', (done) => {
+      request(app)
+        .get('/api/documents/1/translations/jp')
+        .set('Authorization', 'Bearer ' + this.token)
+        .expect('Content-Type', /json/)
+        .expect(404)
+        .end((err, res) => {
+          if (err) throw err
+          expect(res.body).to.be.an('object')
+          expect(res.body.status).to.equal(404)
+
+          done()
+        })
+    })
+  })
 })
