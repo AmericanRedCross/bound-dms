@@ -41,7 +41,7 @@ module.exports = {
   getTranslation (req, res, next) {
     return DocumentTranslations.findOne({
       where: {
-        id: req.params.id,
+        documentId: req.params.id,
         language: req.params.language
       }
     }).then((translation) => {
