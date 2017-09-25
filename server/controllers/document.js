@@ -1,7 +1,7 @@
 const Project = require('../models').Project
 const Document = require('../models').Document
 const DocumentTranslations = require('../models').DocumentTranslations
-const User = require('../models').User
+const util = require('util')
 
 module.exports = {
   create (req, res, next) {
@@ -49,6 +49,35 @@ module.exports = {
         return res.status(404).json({status: 404, message: 'Translation not found'})
       }
       res.status(200).json({status: 200, data: translation})
+    })
+  },
+  storeTranslation (req, res, next) {
+    Document.findById(req.params.id).then((doc) => {
+      if (doc === null) {
+        return res.status(404).json({status: 404, message: 'Document not found'})
+      }
+
+      return DocumentTranslations.findOrCreate({
+        where: {
+          documentId: doc.id,
+          language: req.params.language
+        },
+        defaults: {
+          title: req.body.title,
+          content: req.body.content
+        }
+      }).spread((translation, created) => {
+        if (created) {
+          return res.status(201).json({status: 201, data: translation})
+        } else {
+          translation.update({
+            title: req.body.title,
+            content: req.body.content
+          }).then((translation) => {
+            return res.status(200).json({status: 200, data: translation})
+          })
+        }
+      })
     })
   }
 }
