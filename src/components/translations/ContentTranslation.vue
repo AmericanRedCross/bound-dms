@@ -58,7 +58,6 @@ export default {
     if (directoryId) {
       // Get directory content to edit...
       this.directory = this.getDirectoryById(directoryId)
-      // this.tokens = this.md.parse(this.directory.content, {})
       this.blocks = this.directory.content.split('\n\n').map(block => ({content: block}))
       this.updateRender()
     } else {

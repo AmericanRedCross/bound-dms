@@ -57,13 +57,13 @@
                   <fa-icon name="flag" class="text-danger"></fa-icon> {{ $t('translationWorkflow.translations.noContent') }}
                 </div>
               </b-card>
-              <b-card class="col mr-3 m-2" v-b-tooltip.bottom="directory.content ? '' : 'No content to set'">
+              <b-card class="col mr-3 m-2" v-b-tooltip.bottom="directory.content ? '' : $t('translationWorkflow.translations.noContent')">
                 <b-button
                   variant="outline-primary"
                   class="w-100"
                   :disabled="directory.content ? false : true"
                   @click="setContentEditId(directory.id)">
-                  Edit
+                  {{ $t('common.edit') }}
                 </b-button>
               </b-card>
             </div>
