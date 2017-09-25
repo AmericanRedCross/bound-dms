@@ -146,4 +146,38 @@ describe('API: Documents', () => {
         })
     })
   })
+
+  describe('DELETE /api/documents/:id/translations/:language', () => {
+    it('deletes an existing translation of the specified language', (done) => {
+      request(app)
+        .delete('/api/documents/1/translations/es')
+        .set('Authorization', 'Bearer ' + this.token)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+          if (err) throw err
+          expect(res.body).to.be.an('object')
+          expect(res.body.status).to.equal(200)
+
+          done()
+        })
+    })
+  })
+
+  describe('DELETE /api/documents/:id', () => {
+    it('deletes an existing document', (done) => {
+      request(app)
+        .delete('/api/documents/1')
+        .set('Authorization', 'Bearer ' + this.token)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+          if (err) throw err
+          expect(res.body).to.be.an('object')
+          expect(res.body.status).to.equal(200)
+
+          done()
+        })
+    })
+  })
 })

@@ -20,4 +20,9 @@ router.put('/:id/translations/:language', authService.authenticate(), (req, res,
   })
 }, controller.storeTranslation)
 
+// DELETE /api/documents/:id/translations/:language
+router.delete('/:id/translations/:language', authService.authenticate(), controller.deleteTranslation)
+// DELETE /api/documents/:id
+router.delete('/:id', authService.authenticate(), controller.delete)
+
 module.exports = router

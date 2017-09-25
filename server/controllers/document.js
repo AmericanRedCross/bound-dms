@@ -25,6 +25,16 @@ module.exports = {
       return res.status(201).json({status: 201, data: doc})
     })
   },
+  delete (req, res, next) {
+    Document.findById(parseInt(req.params.id)).then((document) => {
+      if (document === null) {
+        res.status(404).json({status: 404, message: 'Document not found'})
+      }
+      return document.destroy()
+    }).then(() => {
+      res.status(200).json({status: 200, message: 'Document deleted'})
+    })
+  },
   getAllTranslations (req, res, next) {
     return DocumentTranslations.findAll({
       where: {
@@ -78,6 +88,21 @@ module.exports = {
           })
         }
       })
+    })
+  },
+  deleteTranslation (req, res, next) {
+    DocumentTranslations.findOne({
+      where: {
+        documentId: req.params.id,
+        language: req.params.language
+      }
+    }).then((translation) => {
+      if (translation === null) {
+        res.status(404).json({status: 404, message: 'Translation not found'})
+      }
+      return translation.destroy()
+    }).then(() => {
+      res.status(200).json({status: 200, message: 'Translation deleted'})
     })
   }
 }
