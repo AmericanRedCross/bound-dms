@@ -1,0 +1,26 @@
+$light-blue: #20A8D8;
+$dark-grey: #263238;
+$grey: #CFD8DC;
+$light-grey: #F5F5F5;
+$white: #FFFFFF;
+
+
+/* Body */
+$body-background: $light-grey;
+
+/* Navbar */
+$nav-background: $white;
+$nav-border-bottom: $grey;
+
+/* breadcrumbs */
+$bread-background: $white;
+$bread-border-bottom: $grey;
+$bread-last-child: #b0bec5;
+
+/* Sidebar */
+$sidebar-width: 200px;
+$sidebar-top-margin: 56px;
+$sidebar-background: $dark-grey;
+$sidebar-color: $white;
+$sidebar-active-background: lighten($dark-grey, 5%);
+$sidebar-hover-background: $light-blue;

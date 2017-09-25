@@ -1,0 +1,62 @@
+@import '../variables.scss';
+
+.sidebar {
+  position: fixed;
+  max-height: 100%;
+  height: 100%;
+  margin-top: $sidebar-top-margin;
+  .sidebar-wrapper {
+    position: relative;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: $sidebar-width;
+    z-index: 4;
+    box-shadow: inset -1px 0px 0px 0px #DDDDDD;
+    background-color: $sidebar-background;
+    color: $sidebar-color;
+    line-height: 30px;
+    font-weight: 600;
+    .user-logo {
+      margin: 10px auto;
+      background-color: white;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      img {
+        margin-top: 12px;
+        max-height: 30px;
+      }
+    }
+    .nav {
+      .nav-item {
+        text-align: left;
+        .nav-link {
+          color: $sidebar-color;
+          font-weight: normal;
+          font-size: 0.9em;
+          &.active {
+            color: $sidebar-color;
+            background-color: $sidebar-active-background;
+          }
+          &:hover {
+            background-color: $sidebar-hover-background;
+            .sidebar-icon {
+              color: $sidebar-color;
+            }
+          }
+          .sidebar-icon {
+            position: relative;
+            display: inline-block;
+            top: 1px;
+            margin-right: 10px;
+            color: $sidebar-hover-background;
+            width: 20px;
+          }
+        }
+
+      }
+    }
+  }
+}

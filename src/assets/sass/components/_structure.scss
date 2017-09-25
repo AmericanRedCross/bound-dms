@@ -1,0 +1,50 @@
+.directory-header {
+  i {
+    text-transform: uppercase;
+  }
+}
+.sortable-chosen .sortable-drag {
+  cursor: grabbing;
+}
+.sortable-ghost {
+  opacity: 0.5;
+}
+.directory {
+  cursor: grab;
+  .noToggle {
+    // The toggle normally takes up 40px, move the directory 40px if no toggle
+    margin-left: 40px;
+  }
+  .chevron {
+    float: left;
+  }
+  margin-top: 5px;
+  clear: both;
+  .title-input {
+    width: 50%;
+  }
+  .directory-action {
+    svg {
+      top: 1px;
+      position: relative;
+      min-width: 25px;
+    }
+  }
+  .critical-icon {
+    position: relative;
+    top: 11px;
+    margin-right: 10px;
+  }
+}
+
+.directory-list-item {
+  transition: all 0.5s ease-out;
+}
+.directory-list-enter, .directory-list-leave-to
+/* .directory-list-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateX(30px);
+}
+.directory-list-leave-active {
+  position: absolute;
+}

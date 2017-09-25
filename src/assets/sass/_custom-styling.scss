@@ -1,0 +1,14 @@
+@import 'variables.scss';
+
+body {
+  background: $body-background;
+}
+
+a {
+  color: $light-blue;
+}
+
+.v-select {
+  background: white;
+  border-radius: 3px;
+}

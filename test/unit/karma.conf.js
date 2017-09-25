@@ -14,9 +14,11 @@ module.exports = function (config) {
     browsers: ['PhantomJS'],
     frameworks: ['mocha', 'sinon-chai', 'phantomjs-shim'],
     reporters: ['spec', 'coverage'],
-    files: ['./index.js'],
+    files: ['../../node_modules/es6-promise/dist/es6-promise.auto.js', './index.js', '../../node_modules/babel-polyfill/dist/polyfill.js'],
     preprocessors: {
-      './index.js': ['webpack', 'sourcemap']
+      './index.js': ['webpack', 'sourcemap'],
+      'src/**/*.js': ['babel'],
+      'test/**/*.js': ['babel']
     },
     webpack: webpackConfig,
     webpackMiddleware: {
@@ -28,6 +30,18 @@ module.exports = function (config) {
         { type: 'lcov', subdir: '.' },
         { type: 'text-summary' }
       ]
+    },
+    babelPreprocessor: {
+      options: {
+        presets: ['es2015'],
+        sourceMap: 'inline'
+      },
+      filename: function (file) {
+        return file.originalPath.replace(/\.js$/, '.es5.js')
+      },
+      sourceFileName: function (file) {
+        return file.originalPath
+      }
     }
   })
 }

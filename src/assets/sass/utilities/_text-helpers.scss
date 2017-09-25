@@ -1,0 +1,16 @@
+/*
+This .scss loop will create "text align helpers"
+It will generate three classes:
+
+text-align-l (left align)
+text-align-r (right align)
+text-align-c (center align)
+*/
+
+$alignments: (left, right, center); // Leave this variable alone
+
+@each $align in $alignments {
+  .text-align-#{str-slice($align, 0, 1)} {
+    text-align: #{$align} !important;
+  }
+}
