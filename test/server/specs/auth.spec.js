@@ -50,7 +50,7 @@ describe('API: Authentication', () => {
         .expect(401, done)
     })
 
-    it('returns a JWT containing a future expiry time', (done) => {
+    it('returns a JWT expiring in 24 hours', (done) => {
       const user = {email: 'user@domain.com', password: '12345678'}
 
       request(app)
@@ -59,7 +59,11 @@ describe('API: Authentication', () => {
         .end((err, res) => {
           if (err) throw err
           const token = jwt.verify(res.body.token, config.jwtSecretKey)
-          expect(token.exp).to.be.above(Math.floor(new Date() / 1000))
+          const now = Math.floor(new Date() / 1000)
+          const diff = token.exp - now
+          expect(token.exp).to.be.above(now)
+          expect(Math.floor(diff / 3600)).to.be.equal(24)
+
           done()
         })
     })
