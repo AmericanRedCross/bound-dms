@@ -7,6 +7,7 @@ import projects from './modules/project'
 import structure from './modules/structure'
 import roles from './modules/roles'
 import apiKey from './modules/apiKey'
+import translations from './modules/translations'
 
 Vue.use(Vuex)
 export const modules = {
@@ -16,7 +17,8 @@ export const modules = {
   projects,
   roles,
   structure,
-  apiKey
+  apiKey,
+  translations
 }
 
 /*

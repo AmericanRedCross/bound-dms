@@ -14,6 +14,7 @@ export default{
     created: 'Created',
     updated: 'Updated',
     oops: 'Oops',
+    edit: 'Edit',
     noPermission: 'Looks like you don\'t have permission to do that',
     error: 'Something went wrong',
     upload: 'Upload',
@@ -215,12 +216,15 @@ export default{
     },
     translations: {
       directoryTitle: ' Directory title',
+      directoryContent: ' Directory content',
       noTitle: 'No title set',
+      noContent: 'No content set',
       titlePlaceholder: 'Translated directory title',
-      originalDocument: 'Original Document'
+      originalDocument: 'Original document'
     },
     baseLanguage: 'Base language',
     translationLanguage: 'Translation language',
-    percentTranslated: '% of content translated'
+    percentTranslated: '% of content translated',
+    previewMarkdown: 'Preview markdown'
   }
 }
