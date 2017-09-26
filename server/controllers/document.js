@@ -2,7 +2,6 @@ const Project = require('../models').Project
 const Document = require('../models').Document
 const DocumentTranslations = require('../models').DocumentTranslations
 const User = require('../models').User
-const util = require('util')
 
 module.exports = {
   getAll (req, res, next) {
