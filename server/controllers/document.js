@@ -1,9 +1,33 @@
 const Project = require('../models').Project
 const Document = require('../models').Document
 const DocumentTranslations = require('../models').DocumentTranslations
+const User = require('../models').User
 const util = require('util')
 
 module.exports = {
+  getAll (req, res, next) {
+    return Project.findById(req.params.id, {
+      include: [{
+        model: Document,
+        as: 'documents',
+        include: [{
+          model: DocumentTranslations,
+          as: 'translations',
+          attributes: { exclude: ['content'] }
+        }, {
+          model: User,
+          as: 'createdBy',
+          attributes: User.safeAttributes()
+        }]
+      }]
+    }).then((project) => {
+      if (project === null) {
+        return res.status(404).json({status: 404, message: 'Project not found'})
+      }
+
+      return res.status(200).json({status: 200, data: project.documents})
+    })
+  },
   create (req, res, next) {
     return Project.findById(req.params.id).then((project) => {
       if (project === null) {

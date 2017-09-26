@@ -100,6 +100,9 @@ router.post('/:id/directories', authService.authenticate(), (req, res, next) => 
   })
 }, dirController.create)
 
+// GET /api/projects/:id/documents
+router.get('/:id/documents', authService.authenticate(), documentController.getAll)
+
 // POST /api/projects/:id/documents
 router.post('/:id/documents', authService.authenticate(), (req, res, next) => {
   req.checkBody('language', 'Invalid language code').notEmpty()

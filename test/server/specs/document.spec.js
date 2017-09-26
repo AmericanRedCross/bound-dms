@@ -10,6 +10,27 @@ describe('API: Documents', () => {
     this.token = jwt.sign({sub: 1, expiresIn: '1 day'}, config.jwtSecretKey)
   })
 
+  describe('GET /api/projects/:id/documents', () => {
+    it('returns a colleciton of documents belonging to a project', (done) => {
+      request(app)
+        .get('/api/projects/1/documents')
+        .set('Authorization', 'Bearer ' + this.token)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+          if (err) throw err
+          expect(res.body).to.be.an('object')
+          expect(res.body.status).to.equal(200)
+          expect(res.body.data).to.be.an('array')
+          expect(res.body.data[0]).to.be.an('object')
+          expect(res.body.data[0].createdBy).to.be.an('object')
+          expect(res.body.data[0].translations).to.be.an('array')
+
+          done()
+        })
+    })
+  })
+
   describe('POST /api/projects/:id/documents', () => {
     it('creates a new document', (done) => {
       request(app)
