@@ -14,6 +14,10 @@ function createDocumentsTable (queryInterface, Sequelize) {
       allowNull: true,
       type: Sequelize.INTEGER
     },
+    directoryId: {
+      allowNull: true,
+      type: Sequelize.INTEGER
+    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE,
@@ -42,6 +46,15 @@ function createDocumentsTable (queryInterface, Sequelize) {
       type: 'FOREIGN KEY',
       references: {
         table: 'Users',
+        field: 'id'
+      },
+      onDelete: 'set null'
+    })
+  }).then(() => {
+    return queryInterface.addConstraint('Documents', ['directoryId'], {
+      type: 'FOREIGN KEY',
+      references: {
+        table: 'Directories',
         field: 'id'
       },
       onDelete: 'set null'

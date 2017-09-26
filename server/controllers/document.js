@@ -2,6 +2,7 @@ const Project = require('../models').Project
 const Document = require('../models').Document
 const DocumentTranslations = require('../models').DocumentTranslations
 const User = require('../models').User
+const Directory = require('../models').Directory
 
 module.exports = {
   getAll (req, res, next) {
@@ -17,6 +18,9 @@ module.exports = {
           model: User,
           as: 'createdBy',
           attributes: User.safeAttributes()
+        }, {
+          model: Directory,
+          as: 'directory'
         }]
       }]
     }).then((project) => {
@@ -56,6 +60,31 @@ module.exports = {
       return document.destroy()
     }).then(() => {
       res.status(200).json({status: 200, message: 'Document deleted'})
+    })
+  },
+  update (req, res, next) {
+    Document.findById(parseInt(req.params.id), {
+      include: [{
+        model: Directory,
+        as: 'directory'
+      }]
+    }).then((document) => {
+      if (document === null) {
+        return res.status(404).json({status: 404, message: 'Document not found'})
+      }
+      if (document.directoryId !== parseInt(req.body.directory.id)) {
+        return Directory.findById(parseInt(req.body.directory.id))
+        .then((directory) => {
+          return document.setDirectory(directory).then((document) => {
+            return document.reload()
+          })
+        })
+        .then((document) => {
+          return res.status(200).json({status: 200, data: document})
+        })
+      } else {
+        return res.status(200).json({status: 200, data: document})
+      }
     })
   },
   getAllTranslations (req, res, next) {
