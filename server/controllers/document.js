@@ -72,8 +72,9 @@ module.exports = {
       if (document === null) {
         return res.status(404).json({status: 404, message: 'Document not found'})
       }
-      if (document.directoryId !== parseInt(req.body.directory.id)) {
-        return Directory.findById(parseInt(req.body.directory.id))
+      const directoryId = parseInt(req.body.directory.id)
+      if (document.directoryId !== directoryId) {
+        return Directory.findById(directoryId)
         .then((directory) => {
           return document.setDirectory(directory).then((document) => {
             return document.reload()
