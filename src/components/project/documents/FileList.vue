@@ -137,7 +137,7 @@ export default {
       headers: {
         _id: {
           label: 'ID',
-          sortable: true
+          sortable: false
         },
         thumbnail: {
           label: 'Thumbnail',
@@ -145,7 +145,7 @@ export default {
         },
         _title: {
           label: 'Title',
-          sortable: true
+          sortable: false
         },
         _description: {
           label: 'Description',
@@ -153,15 +153,15 @@ export default {
         },
         _filename: {
           label: 'Filename',
-          sortable: true
+          sortable: false
         },
         createdAt: {
           label: 'Created at',
-          sortable: true
+          sortable: false
         },
         createdBy: {
           label: 'Created by',
-          sortable: true
+          sortable: false
         }
       },
       fileData: [
