@@ -22,6 +22,7 @@ export default{
     goBack: 'Continue',
     changesMade: 'You\'ve made changes without saving',
     save: 'Save',
+    loading: 'Loading',
     validations: {
       required: 'Field is required',
       email: 'Incorrect email format',

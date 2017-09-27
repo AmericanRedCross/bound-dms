@@ -35,6 +35,15 @@ const documents = {
         commit('SET_MESSAGE', { message: err })
         throw err
       })
+    },
+    LINK_DIRECTORY: function ({commit}, {directoryId, documentId}) {
+      return axios.patch('/documents/' + documentId, {directory: {id: directoryId}})
+        .then((response) => {
+          console.log({response})
+        }).catch(err => {
+          commit('SET_MESSAGE', { message: err })
+          throw err
+        })
     }
   },
   getters: {
