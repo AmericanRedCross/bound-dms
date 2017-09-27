@@ -5,7 +5,7 @@ import moment from 'moment'
  */
 const filters = {
   truncate: (string, value) => {
-    return string.substring(0, value) + '...'
+    return string.substring(0, value) + '…'
   },
   formatDate: (date) => {
     if (date instanceof Date) {
