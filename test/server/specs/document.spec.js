@@ -214,8 +214,8 @@ describe('API: Documents', () => {
         .end((err, res) => {
           if (err) throw err
           expect(res.body).to.be.an('object')
-          expect(res.body.directory).to.be.an('object')
-          expect(res.body.directory.id).to.equal(2)
+          expect(res.body.data.directory).to.be.an('object')
+          expect(res.body.data.directory.id).to.equal(2)
           done()
         })
     })
