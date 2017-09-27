@@ -10,9 +10,9 @@ const documents = {
   },
   mutations: {
     SET_ALL_DOCUMENTS: (state, { response }) => {
-      if (response.data instanceof Array) {
+      if (response.data.documents instanceof Array) {
         state.documents = []
-        response.data.forEach((item) => {
+        response.data.documents.forEach((item) => {
           state.documents.push(new Document(item))
         })
       }

@@ -78,7 +78,7 @@ describe('API: Files', () => {
           if (err) throw err
           expect(res.body.data.total).to.equal(10)
           expect(res.body.data.files).to.have.lengthOf(2)
-          expect(res.body.data.files[0].id).to.equal(7)
+          expect(res.body.data.files[0].id).to.equal(9)
           done()
         })
     })
@@ -92,7 +92,6 @@ describe('API: Files', () => {
         .set('Authorization', 'Bearer ' + this.token)
         .expect(201)
         .end((err, res) => {
-          console.log(err)
           if (err) throw err
           expect(res.body.status).to.equal(201)
           expect(res.body.data).to.be.an('array')
@@ -111,7 +110,6 @@ describe('API: Files', () => {
         .set('Authorization', 'Bearer ' + this.token)
         .expect(201)
         .end((err, res) => {
-          console.log(err)
           if (err) throw err
           expect(res.body.status).to.equal(201)
           expect(res.body.data).to.be.an('array')

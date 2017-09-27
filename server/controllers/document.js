@@ -6,29 +6,42 @@ const Directory = require('../models').Directory
 
 module.exports = {
   getAll (req, res, next) {
-    return Project.findById(req.params.id, {
+    let page = parseInt(req.query.page) || 1
+    let limit = parseInt(req.query.limit) || 10
+    let offset = page - 1
+    if (offset > 0) {
+      offset = (limit * offset)
+    }
+    return Document.findAndCount({
+      where: {
+        projectId: req.params.id
+      },
+      limit: limit,
+      offset: offset,
+      distinct: true,
+      order: [
+        ['createdAt', 'DESC']
+      ],
       include: [{
-        model: Document,
-        as: 'documents',
-        include: [{
-          model: DocumentTranslations,
-          as: 'translations',
-          attributes: { exclude: ['content'] }
-        }, {
-          model: User,
-          as: 'createdBy',
-          attributes: User.safeAttributes()
-        }, {
-          model: Directory,
-          as: 'directory'
-        }]
+        model: DocumentTranslations,
+        as: 'translations',
+        attributes: { exclude: ['content'] }
+      }, {
+        model: User,
+        as: 'createdBy',
+        attributes: User.safeAttributes()
+      }, {
+        model: Directory,
+        as: 'directory'
       }]
-    }).then((project) => {
-      if (project === null) {
-        return res.status(404).json({status: 404, message: 'Project not found'})
-      }
-
-      return res.status(200).json({status: 200, data: project.documents})
+    }).then(({rows, count}) => {
+      return res.status(200).json({
+        status: 200,
+        data: {
+          documents: rows,
+          total: count
+        }
+      })
     }).catch(err => {
       res.status(500).json({status: 500, error: err})
     })

@@ -1,6 +1,7 @@
 const Project = require('../models').Project
 const User = require('../models').User
 const Language = require('../models').ProjectLanguage
+const ApiKey = require('../models').ApiKey
 
 module.exports = {
   getAll (req, res, next) {
@@ -33,6 +34,15 @@ module.exports = {
       if (project === null) {
         return res.status(404).json({status: 404, message: 'Project not found'})
       }
+
+      // req.user in this case may be either a User object or an ApiKey object
+      if (req.user instanceof ApiKey) {
+        // check that the api key matches this project
+        if (req.user.projectId !== project.id) {
+          res.status(403).json({status: 403, message: 'API key does not belong to this project'})
+        }
+      }
+
       res.status(200).json({status: 200, data: project})
     })
   },
@@ -80,6 +90,14 @@ module.exports = {
     Project.findById(parseInt(req.params.id)).then((project) => {
       if (project === null) {
         res.status(404).json({status: 404, message: 'Project not found'})
+      }
+
+      // req.user in this case may be either a User object or an ApiKey object
+      if (req.user instanceof ApiKey) {
+        // check that the api key matches this project
+        if (req.user.projectId !== project.id) {
+          res.status(403).json({status: 403, message: 'API key does not belong to this project'})
+        }
       }
 
       const url = 'http://' + req.hostname + ':' + req.app.settings.port
