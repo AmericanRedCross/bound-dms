@@ -21,6 +21,12 @@ module.exports = (sequelize, DataTypes) => {
       targetKey: 'id'
     })
 
+    Document.belongsTo(models.Directory, {
+      as: 'directory',
+      foreignKey: 'directoryId',
+      sourceKey: 'id'
+    })
+
     Document.hasMany(models.DocumentTranslations, {
       as: 'translations',
       foreignKey: 'documentId',
