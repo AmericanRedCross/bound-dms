@@ -5,8 +5,8 @@ module.exports = {
   getAll (req, res, next) {
     let page = parseInt(req.query.page) || 1
     let limit = parseInt(req.query.limit) || 10
-
-    fileService.getAll(page, limit).then(({rows, count}) => {
+    let projectId = req.params.id
+    fileService.getAll(page, limit, projectId).then(({rows, count}) => {
       res.status(200).json({
         status: 200,
         data: {

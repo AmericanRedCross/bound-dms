@@ -39,7 +39,7 @@
           </b-table>
         </div>
       </div>
-      <b-pagination size="md" align="center" :total-rows="totalFiles" v-model="currentPage" :per-page="perPage" @change="fetchAllFiles"></b-pagination>
+      <b-pagination size="md" align="center" :total-rows="totalFiles" v-model="currentPage" :per-page="perPage"></b-pagination>
     </b-card>
   </div>
 </template>
