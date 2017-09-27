@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-card :title="$t('projects.documents.title')" class="mb-3">
+    <b-card :title="$t('files.upload')" class="mb-3">
         <div class="row">
           <div class="col"><div>
             <dropzone
@@ -17,7 +17,7 @@
         </div>
       </div>
     </b-card>
-    <b-card :title="$t('projects.documents.title')" class="mb-3">
+    <b-card :title="$t('files.title')" class="mb-3">
       <div class="row">
         <div class="col">
           <b-table striped hover
