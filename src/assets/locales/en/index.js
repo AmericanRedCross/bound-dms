@@ -205,6 +205,12 @@ export default{
     documents: {
       title: 'Documents',
       upload: 'Document upload',
+      create: 'Create document',
+      edit: {
+        titlePlaceholder: 'Document title',
+        titleNeeded: 'Don\'t forget to add a title',
+        pickImage: 'Select image'
+      },
       dropzone: {
         dictDefaultMessage: 'Drop files here',
         dictFallbackMessage: 'Your browser does not support drag\'n\'drop file uploads.',
