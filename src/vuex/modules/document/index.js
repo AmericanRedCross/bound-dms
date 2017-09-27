@@ -26,12 +26,14 @@ const documents = {
           commit('SET_ALL_DOCUMENTS', { response: response.data })
         }).catch(err => {
           commit('SET_MESSAGE', { message: err })
+          throw err
         })
     },
     CREATE_DOCUMENT: function ({commit}, {projectId, data}) {
       return axios.post('/projects/' + projectId + '/documents', data)
       .catch(err => {
         commit('SET_MESSAGE', { message: err })
+        throw err
       })
     }
   },
