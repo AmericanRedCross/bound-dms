@@ -2,6 +2,7 @@ module.exports = (sequelize, DataTypes) => {
   const Project = sequelize.define('Project', {
     name: {type: DataTypes.STRING, allowNull: false},
     description: DataTypes.STRING,
+    baseLanguage: {type: DataTypes.STRING, allowNull: false},
     createdById: {type: DataTypes.INTEGER, allowNull: true}
   })
 
@@ -18,6 +19,12 @@ module.exports = (sequelize, DataTypes) => {
 
     Project.hasMany(models.ProjectLanguage, {
       as: 'languages',
+      foreignKey: 'projectId',
+      sourceKey: 'id'
+    })
+
+    Project.hasMany(models.Document, {
+      as: 'documents',
       foreignKey: 'projectId',
       sourceKey: 'id'
     })

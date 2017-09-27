@@ -7,7 +7,7 @@ const generateJwtPayload = (user) => {
 }
 
 const jwtOptions = {
-  expiresIn: '1 day'
+  expiresIn: '24h'
 }
 
 module.exports = {

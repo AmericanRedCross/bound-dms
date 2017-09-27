@@ -21,9 +21,13 @@ import AccountProfile from '@/components/account/Profile'
 import ChangePassword from '@/components/account/PasswordForm'
 import PageNotFound from '@/components/pageNotFound/PageNotFound'
 import NotAuthorised from '@/components/pageNotFound/NotAuthorised'
-import TranslationWorkflow from '@/components/translations/TranslationWorkflow'
 import Publish from '@/components/project/publish/Publish'
 import DocumentList from '@/components/project/documents/DocumentList'
+
+// Translation components
+import TranslationContainer from '@/components/translations/Translations'
+import TranslationWorkflow from '@/components/translations/TranslationWorkflow'
+import ContentTranslation from '@/components/translations/ContentTranslation'
 
 // Settings
 import SettingsContainer from '@/components/project/settings/SettingsContainer'
@@ -193,17 +197,39 @@ export default new Router({
                 showSidebar: true,
                 auth: ['admin']
               }
+            },
+            {
+              path: 'translations',
+              component: TranslationContainer,
+              meta: {
+                auth: true,
+                breadcrumb: 'Translations',
+                showSidebar: true
+              },
+              children: [
+                {
+                  path: '',
+                  name: 'translation-workflow',
+                  component: TranslationWorkflow,
+                  props: true,
+                  meta: {
+                    breadcrumb: 'Translation workflow',
+                    showSidebar: true
+                  }
+                },
+                {
+                  path: 'content',
+                  name: 'content-translation',
+                  component: ContentTranslation,
+                  props: true,
+                  meta: {
+                    breadcrumb: 'Content translation',
+                    showSidebar: true
+                  }
+                }
+              ]
             }
           ]
-        },
-        {
-          path: ':id/translations',
-          name: 'translation-workflow',
-          component: TranslationWorkflow,
-          props: true,
-          meta: {
-            breadcrumb: 'Translation Workflow'
-          }
         }
       ]
     },
