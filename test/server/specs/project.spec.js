@@ -25,6 +25,7 @@ describe('API: Projects', () => {
           expect(res.body.data[0]).to.have.property('id')
           expect(res.body.data[0]).to.have.property('name')
           expect(res.body.data[0]).to.have.property('description')
+          expect(res.body.data[0]).to.have.property('baseLanguage')
           expect(res.body.data[0]).to.have.property('createdBy')
           expect(res.body.data[0]).to.have.property('createdAt')
           expect(res.body.data[0]).to.have.property('updatedAt')
@@ -47,6 +48,7 @@ describe('API: Projects', () => {
           expect(res.body.data).to.have.property('id')
           expect(res.body.data).to.have.property('name')
           expect(res.body.data).to.have.property('description')
+          expect(res.body.data).to.have.property('baseLanguage')
           expect(res.body.data).to.have.property('createdBy')
           expect(res.body.data).to.have.property('createdAt')
           expect(res.body.data).to.have.property('updatedAt')
@@ -72,7 +74,8 @@ describe('API: Projects', () => {
     it('creates a new project', (done) => {
       const project = {
         'name': 'Test Project',
-        'description': 'Some new project description'
+        'description': 'Some new project description',
+        'baseLanguage': 'en'
       }
       request(app)
         .put('/api/projects')
@@ -85,6 +88,7 @@ describe('API: Projects', () => {
           expect(res.body.data).to.have.property('id')
           expect(res.body.data).to.have.property('name')
           expect(res.body.data).to.have.property('description')
+          expect(res.body.data).to.have.property('baseLanguage')
           expect(res.body.data).to.have.property('createdBy')
           expect(res.body.data).to.have.property('createdAt')
           expect(res.body.data).to.have.property('updatedAt')
@@ -95,7 +99,8 @@ describe('API: Projects', () => {
     it('is created by the authenticated user', (done) => {
       const project = {
         'name': 'Test Prpject',
-        'description': 'Some new project description'
+        'description': 'Some new project description',
+        'baseLanguage': 'en'
       }
       request(app)
         .put('/api/projects')
@@ -115,7 +120,8 @@ describe('API: Projects', () => {
     it('updates an existing project', (done) => {
       const project = {
         'name': 'An updated project',
-        'description': 'Some new project description'
+        'description': 'Some new project description',
+        'baseLanguage': 'en'
       }
       request(app)
         .post('/api/projects/1')
@@ -128,6 +134,7 @@ describe('API: Projects', () => {
           expect(res.body.data).to.have.property('id')
           expect(res.body.data).to.have.property('name')
           expect(res.body.data).to.have.property('description')
+          expect(res.body.data).to.have.property('baseLanguage')
           expect(res.body.data).to.have.property('createdBy')
           expect(res.body.data).to.have.property('createdAt')
           expect(res.body.data).to.have.property('updatedAt')

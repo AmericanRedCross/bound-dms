@@ -9,6 +9,12 @@ const authService = require('../services/auth')()
 const projectRules = {
   'name': {
     notEmpty: true
+  },
+  'baseLanguage': {
+    notEmpty: true,
+    isLength: {
+      options: [{min: 2, max: 10}]
+    }
   }
 }
 
