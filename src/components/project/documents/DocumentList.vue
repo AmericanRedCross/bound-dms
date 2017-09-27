@@ -122,17 +122,7 @@ export default {
           sortable: false
         }
       },
-      fileData: [
-        {
-          id: '1',
-          title: 'Sample doc 1',
-          description: 'A sample doc',
-          filename: 'project/sampledocs/1',
-          createdAt: '06/09/17',
-          _thumbnail: {},
-          _createdBy: {}
-        }
-      ],
+      fileData: [],
       totalFiles: 0,
       perPage: 10,
       currentPage: 1,
