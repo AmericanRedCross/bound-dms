@@ -23,6 +23,7 @@ import NotAuthorised from '@/components/pageNotFound/NotAuthorised'
 import Publish from '@/components/project/publish/Publish'
 import FilesContainer from '@/components/project/documents/Files'
 import FileList from '@/components/project/documents/FileList'
+import DocumentsContainer from '@/components/project/documents/Documents'
 import DocumentList from '@/components/project/documents/DocumentList'
 import FileEditor from '@/components/project/documents/editor/Editor'
 
@@ -136,6 +137,34 @@ export default new Router({
               }
             },
             {
+              path: 'documents',
+              component: DocumentsContainer,
+              meta: {
+                breadcrumb: 'Documents',
+                showSidebar: true
+              },
+              children: [
+                {
+                  path: '',
+                  name: 'project-documents',
+                  component: DocumentList,
+                  props: true,
+                  meta: {
+                    showSidebar: true
+                  }
+                },
+                {
+                  path: 'edit',
+                  name: 'document-edit',
+                  components: {default: FileEditor},
+                  meta: {
+                    breadcrumb: 'Edit',
+                    showSidebar: true
+                  }
+                }
+              ]
+            },
+            {
               path: 'files',
               component: FilesContainer,
               meta: {
@@ -149,26 +178,6 @@ export default new Router({
                   component: FileList,
                   props: true,
                   meta: {
-                    breadcrumb: 'List',
-                    showSidebar: true
-                  }
-                },
-                {
-                  path: 'documents',
-                  name: 'project-documents',
-                  component: DocumentList,
-                  props: true,
-                  meta: {
-                    breadcrumb: 'Documents',
-                    showSidebar: true
-                  }
-                },
-                {
-                  path: 'edit',
-                  name: 'document-edit',
-                  components: {default: FileEditor},
-                  meta: {
-                    breadcrumb: 'Edit',
                     showSidebar: true
                   }
                 }
