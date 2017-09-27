@@ -7,7 +7,7 @@
             <fa-icon name="arrow-left"></fa-icon>
              {{ $t('common.back') }}
           </b-button>
-          <b-button variant="success" @click="save" :disabled="needsSaving">
+          <b-button variant="success" @click="save" :disabled="!needsSaving">
             <fa-icon name="save"></fa-icon>
              {{ $t('common.save') }}
           </b-button>
@@ -91,7 +91,22 @@ export default {
   },
   methods: {
     back () {
-      this.$router.push(window.history.back())
+      if (this.needsSaving) {
+        this.$swal({
+          title: this._i18n.t('common.areYouSure'),
+          text: this._i18n.t('common.changesMade'),
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: this._i18n.t('common.goBack'),
+          allowOutsideClick: false
+        }).then(() => {
+          this.$router.push({name: 'project-documents', params: {id: parseInt(this.$route.params.id)}})
+        }).catch(this.$swal.noop)
+      } else {
+        this.$router.push({name: 'project-documents', params: {id: parseInt(this.$route.params.id)}})
+      }
     },
     attachImage () {
       this.$refs.imagePicker.show()
@@ -137,6 +152,7 @@ export default {
             verticalAlign: 'bottom',
             type: 'info'
           })
+        this.$router.push({name: 'project-documents', params: {id: parseInt(this.$route.params.id)}})
       }).catch(() => {
         this.$notifications.notify(
           {
@@ -158,9 +174,9 @@ export default {
     },
     needsSaving () {
       if ((this.contentCopy !== this.content || this.titleCopy !== this.title) && this.title.length > 0) {
-        return false
+        return true
       }
-      return true
+      return false
     }
   }
 }

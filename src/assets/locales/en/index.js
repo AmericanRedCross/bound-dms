@@ -19,6 +19,8 @@ export default{
     error: 'Something went wrong',
     upload: 'Upload',
     back: 'Back',
+    goBack: 'Continue',
+    changesMade: 'You\'ve made changes without saving',
     save: 'Save',
     validations: {
       required: 'Field is required',
