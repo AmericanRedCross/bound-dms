@@ -76,6 +76,7 @@ Vue.use(VueAuth, {
 
 // filters
 Vue.filter('truncate', filters.truncate)
+Vue.filter('formatDate', filters.formatDate)
 
 const i18n = new VueI18n({
   locale: 'en',

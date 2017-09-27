@@ -37,7 +37,7 @@
             </template>
 
             <template slot="createdAt" scope="item">
-              {{ formatDate(item.item._createdAt) }}
+              {{ item.item._createdAt | formatDate }}
             </template>
 
             <template slot="type" scope="item">
@@ -55,7 +55,6 @@
 <script>
 import Dropzone from 'vue2-dropzone'
 import { mapGetters } from 'vuex'
-import moment from 'moment'
 
 export default {
   components: {
@@ -87,11 +86,6 @@ export default {
             type: 'danger'
           })
       })
-    },
-    formatDate (dateString) {
-      if (dateString) {
-        return moment(String(dateString)).format('MM/DD/YYYY hh:mm')
-      }
     }
   },
   beforeMount () {

@@ -78,7 +78,8 @@
            {{ selectedFile.description }}
           <br>
           <b>{{ $t('mediaPicker.date') }}</b>
-           {{ formatDate(selectedFile.updatedAt) }}
+            {{ selectedFile._updatedAt }}
+           {{ selectedFile._updatedAt | formatDate }}
           <br>
           <b>{{ $t('mediaPicker.createdBy') }}</b>
           {{ selectedFile.createdBy.firstname }} {{ selectedFile.createdBy.lastname }}
@@ -96,7 +97,6 @@
 </template>
 <script>
 import Dropzone from 'vue2-dropzone'
-import moment from 'moment'
 const uploadsDirectory = '/static/uploads/'
 import { mapGetters } from 'vuex'
 
@@ -152,6 +152,7 @@ export default {
           limit: this.perPage
         }).then(() => {
           let data = this.getAllFiles()
+
           this.fileData = [
             ...this.fileData,
             ...data.files
@@ -183,11 +184,6 @@ export default {
           this.currentPage += 1
           this.fetchAllFiles()
         }
-      }
-    },
-    formatDate (dateString) {
-      if (dateString) {
-        return moment(String(dateString)).format('MM/DD/YYYY hh:mm')
       }
     }
   },

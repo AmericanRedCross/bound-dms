@@ -27,7 +27,7 @@
             </template>
 
             <template slot="_createdAt" scope="item">
-              {{ formatDate(item.value) }}
+              {{ item.value | formatDate }}
             </template>
 
             <template slot="_translations" scope="item">
@@ -46,7 +46,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import moment from 'moment'
 
 export default {
   methods: {
@@ -79,11 +78,6 @@ export default {
     },
     editContent (translation) {
 
-    },
-    formatDate (dateString) {
-      if (dateString) {
-        return moment(String(dateString)).format('MM/DD/YYYY hh:mm')
-      }
     }
   },
   beforeMount () {
