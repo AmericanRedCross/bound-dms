@@ -89,11 +89,10 @@ module.exports = {
           createdById: req.user.id
         })
       })
-      return res.status(201).json({status: 201, data: persistedFile})
+      return res.status(201).json({status: 201, data: [persistedFile]})
     }).catch((err) => {
       // this path is not covered by a test, as mocking a database write failure is tricky
-      res.status(500).json({status: 500, error: 'Files was not uploaded'})
+      res.status(500).json({status: 500, error: 'File was not uploaded'})
     })
   }
 }
-
