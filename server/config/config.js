@@ -5,7 +5,17 @@ module.exports = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
-    dialect: 'mysql'
+    dialect: 'mysql',
+    uploads: {
+      directory: '/uploads',
+      thumbnails: {
+        sizes: [
+          64,
+          500,
+          1000
+        ]
+      }
+    }
   },
   development: {
     jwtSecretKey: 'secret_key',
@@ -13,7 +23,17 @@ module.exports = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
-    dialect: 'mysql'
+    dialect: 'mysql',
+    uploads: {
+      directory: '/uploads',
+      thumbnails: {
+        sizes: [
+          64,
+          500,
+          1000
+        ]
+      }
+    }
   },
   testing: {
     jwtSecretKey: 'secret_key',
@@ -22,6 +42,16 @@ module.exports = {
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
     dialect: 'mysql',
-    logging: false
+    logging: false,
+    uploads: {
+      directory: '/uploads',
+      thumbnails: {
+        sizes: [
+          100,
+          500,
+          1000
+        ]
+      }
+    }
   }
 }
