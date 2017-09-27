@@ -13,6 +13,9 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
+      baseLanguage: {
+        type: Sequelize.STRING(10)
+      },
       createdById: {
         allowNull: true,
         type: Sequelize.INTEGER
