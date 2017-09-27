@@ -23,6 +23,7 @@ describe('API: Documents', () => {
           expect(res.body.status).to.equal(200)
           expect(res.body.data).to.be.an('array')
           expect(res.body.data[0]).to.be.an('object')
+          expect(res.body.data[0]).to.have.property('directory')
           expect(res.body.data[0].createdBy).to.be.an('object')
           expect(res.body.data[0].translations).to.be.an('array')
 
@@ -197,6 +198,24 @@ describe('API: Documents', () => {
           expect(res.body).to.be.an('object')
           expect(res.body.status).to.equal(200)
 
+          done()
+        })
+    })
+  })
+
+  describe('PATCH /api/documents/:id', () => {
+    it('updates the directory containing the document', (done) => {
+      request(app)
+        .patch('/api/documents/2')
+        .send({directory: {id: 2}})
+        .set('Authorization', 'Bearer ' + this.token)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+          if (err) throw err
+          expect(res.body).to.be.an('object')
+          expect(res.body.data.directory).to.be.an('object')
+          expect(res.body.data.directory.id).to.equal(2)
           done()
         })
     })

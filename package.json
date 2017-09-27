@@ -36,6 +36,8 @@
     "passport-jwt": "^2.2.1",
     "sequelize": "^4.3.2",
     "sequelize-cli": "^2.7.0",
+    "to-markdown": "^3.1.0",
+    "vue": "^2.4.4",
     "sharp": "^0.18.4",
     "to-markdown": "^3.1.0",
     "vue": "^2.4.4",

@@ -3,6 +3,17 @@ const router = express.Router()
 const authService = require('../services/auth')()
 const controller = require('../controllers/document')
 
+// PATCH /api/documents/:id
+router.patch('/:id', authService.authenticate(), (req, res, next) => {
+  // req.checkBody('directory.id', 'Invalid directory id').exists().isInt()
+  req.getValidationResult().then((result) => {
+    if (!result.isEmpty()) {
+      res.status(400).json({status: 400, errors: result.array()})
+      return
+    }
+    next()
+  })
+}, controller.update)
 // GET /api/documents/:id/translations
 router.get('/:id/translations', authService.authenticate(), controller.getAllTranslations)
 // GET /api/documents/:id/translations/:language

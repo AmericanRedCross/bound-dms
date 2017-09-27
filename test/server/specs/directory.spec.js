@@ -29,6 +29,7 @@ describe('API: Directories', () => {
           expect(res.body.data[0]).to.have.property('createdBy')
           expect(res.body.data[0]).to.have.property('createdAt')
           expect(res.body.data[0]).to.have.property('updatedAt')
+
           done()
         })
     })
