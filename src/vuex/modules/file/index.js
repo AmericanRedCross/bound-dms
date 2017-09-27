@@ -26,6 +26,7 @@ const files = {
           commit('SET_ALL_FILES', { response: response.data })
         }).catch(err => {
           commit('SET_MESSAGE', { message: err })
+          throw err
         })
     }
   },
