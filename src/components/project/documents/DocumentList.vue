@@ -10,7 +10,7 @@
     <b-card :title="$t('projects.documents.title')" class="mb-3">
       <div class="row">
         <div class="col">
-          <b-table striped hover
+          <b-table hover
                   :items="fileData"
                   :fields="headers()"
                   :per-page="perPage"
@@ -70,6 +70,13 @@ export default {
     rowSelected (doc) {
       // Only use if we're picking
       if (this.picker) {
+        this.fileData.forEach((file) => {
+          if (file.id === doc._id) {
+            file.rowVariant = 'info'
+          } else {
+            file.rowVariant = ''
+          }
+        })
         this.$emit('input', doc)
       }
     },
