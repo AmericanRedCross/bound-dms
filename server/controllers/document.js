@@ -25,6 +25,8 @@ module.exports = {
       }
 
       return res.status(200).json({status: 200, data: project.documents})
+    }).catch(err => {
+      res.status(500).json({status: 500, error: err})
     })
   },
   create (req, res, next) {
@@ -46,6 +48,8 @@ module.exports = {
       })
     }).then((doc) => {
       return res.status(201).json({status: 201, data: doc})
+    }).catch(err => {
+      res.status(500).json({status: 500, error: err})
     })
   },
   delete (req, res, next) {
@@ -56,6 +60,8 @@ module.exports = {
       return document.destroy()
     }).then(() => {
       res.status(200).json({status: 200, message: 'Document deleted'})
+    }).catch(err => {
+      res.status(500).json({status: 500, error: err})
     })
   },
   getAllTranslations (req, res, next) {
@@ -69,6 +75,8 @@ module.exports = {
         return res.status(404).json({status: 404, message: 'Document not found'})
       }
       res.status(200).json({status: 200, data: translations})
+    }).catch(err => {
+      res.status(500).json({status: 500, error: err})
     })
   },
   getTranslation (req, res, next) {
@@ -82,6 +90,8 @@ module.exports = {
         return res.status(404).json({status: 404, message: 'Translation not found'})
       }
       res.status(200).json({status: 200, data: translation})
+    }).catch(err => {
+      res.status(500).json({status: 500, error: err})
     })
   },
   storeTranslation (req, res, next) {
@@ -111,6 +121,8 @@ module.exports = {
           })
         }
       })
+    }).catch(err => {
+      res.status(500).json({status: 500, error: err})
     })
   },
   deleteTranslation (req, res, next) {
@@ -126,6 +138,8 @@ module.exports = {
       return translation.destroy()
     }).then(() => {
       res.status(200).json({status: 200, message: 'Translation deleted'})
+    }).catch(err => {
+      res.status(500).json({status: 500, error: err})
     })
   }
 }
