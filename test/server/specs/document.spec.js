@@ -11,7 +11,7 @@ describe('API: Documents', () => {
   })
 
   describe('GET /api/projects/:id/documents', () => {
-    it('returns a colleciton of documents belonging to a project', (done) => {
+    it('returns a collection of documents belonging to a project', (done) => {
       request(app)
         .get('/api/projects/1/documents')
         .set('Authorization', 'Bearer ' + this.token)
@@ -21,11 +21,12 @@ describe('API: Documents', () => {
           if (err) throw err
           expect(res.body).to.be.an('object')
           expect(res.body.status).to.equal(200)
-          expect(res.body.data).to.be.an('array')
-          expect(res.body.data[0]).to.be.an('object')
-          expect(res.body.data[0]).to.have.property('directory')
-          expect(res.body.data[0].createdBy).to.be.an('object')
-          expect(res.body.data[0].translations).to.be.an('array')
+          expect(res.body.data).to.be.an('object')
+          expect(res.body.data.documents).to.be.an('array')
+          expect(res.body.data.documents[0]).to.be.an('object')
+          expect(res.body.data.documents[0]).to.have.property('directory')
+          expect(res.body.data.documents[0].createdBy).to.be.an('object')
+          expect(res.body.data.documents[0].translations).to.be.an('array')
 
           done()
         })

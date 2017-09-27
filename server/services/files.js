@@ -36,13 +36,12 @@ module.exports = () => {
     persist: (file) => {
       return File.create(file)
     },
-    getAll: (page, limit) => {
-
-      let offset = 0
-      if (page > 1) {
-        offset = limit * page
+    getAll: (page, limit, projectId) => {
+      let offset = page - 1
+      if (offset > 0) {
+        offset = (limit * offset)
       }
-
+      // todo: filter by projectId
       return File.findAndCount({
         where: {
           parentId: null

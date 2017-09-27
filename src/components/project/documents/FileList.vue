@@ -47,7 +47,7 @@
         </div>
       </div>
 
-      <b-pagination align="center" size="md" :total-rows="totalFiles" v-model="currentPage" :per-page="perPage" @change="fetchAllFiles"></b-pagination>
+      <b-pagination align="center" size="md" :total-rows="totalFiles" v-model="currentPage" :per-page="perPage"></b-pagination>
     </b-card>
   </div>
 </template>
@@ -71,7 +71,8 @@ export default {
     fetchAllFiles () {
       this.$store.dispatch('GET_ALL_FILES', {
         page: this.currentPage,
-        limit: this.perPage
+        limit: this.perPage,
+        projectId: parseInt(this.$route.params.id)
       }).then(() => {
         let data = this.getAllFiles()
         this.fileData = data.files
