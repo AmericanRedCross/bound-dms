@@ -38,20 +38,15 @@ router.post('/', authService.authenticate(['jwt']), (req, res, next) => {
 
   // parse the incoming request containing the form data
   form.parse(req, function (err, fields, uploadedFiles) {
-
     if (err) {
       return res.status(400).json({status: 400, errors: err})
     }
 
-    let files = []
-
     if (Array.isArray(uploadedFiles['files'])) {
-      files = uploadedFiles['files']
+      controller.createMultiple(req, res, uploadedFiles['files'])
     } else {
-      files.push(uploadedFiles['files'])
+      controller.createSingle(req, res, uploadedFiles['files'], fields)
     }
-
-    controller.create(req, res, files)
   })
 })
 
