@@ -45,6 +45,8 @@ router.use('/directories', directoryRoutes)
 router.use('/api-keys', apiKeyRoutes)
 router.use('/documents', documentRoutes)
 router.use('/files', fileRoutes)
+router.use('/documents', documentRoutes)
+router.use('/files', fileRoutes)
 app.use('/api', router)
 
 // register global error handler

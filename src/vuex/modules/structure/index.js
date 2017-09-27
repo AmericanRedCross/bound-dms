@@ -127,6 +127,7 @@ const directories = {
         commit('SET_STRUCTURE', { response: getStructure(state.flatDirectories) })
       }).catch(err => {
         commit('SET_MESSAGE', { message: err })
+        throw err
       })
     },
 

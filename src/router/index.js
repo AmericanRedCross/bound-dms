@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/auth/Login'
-import Editor from '@/components/documents/editor/Editor'
 
 // User components
 import ListUsers from '@/components/users/List'
@@ -22,7 +21,11 @@ import ChangePassword from '@/components/account/PasswordForm'
 import PageNotFound from '@/components/pageNotFound/PageNotFound'
 import NotAuthorised from '@/components/pageNotFound/NotAuthorised'
 import Publish from '@/components/project/publish/Publish'
+import FilesContainer from '@/components/project/documents/Files'
+import FileList from '@/components/project/documents/FileList'
+import DocumentsContainer from '@/components/project/documents/Documents'
 import DocumentList from '@/components/project/documents/DocumentList'
+import FileEditor from '@/components/project/documents/editor/Editor'
 
 // Translation components
 import TranslationContainer from '@/components/translations/Translations'
@@ -135,13 +138,50 @@ export default new Router({
             },
             {
               path: 'documents',
-              name: 'project-documents',
-              component: DocumentList,
-              props: true,
+              component: DocumentsContainer,
               meta: {
                 breadcrumb: 'Documents',
                 showSidebar: true
-              }
+              },
+              children: [
+                {
+                  path: '',
+                  name: 'project-documents',
+                  component: DocumentList,
+                  props: true,
+                  meta: {
+                    showSidebar: true
+                  }
+                },
+                {
+                  path: 'edit',
+                  name: 'document-edit',
+                  components: {default: FileEditor},
+                  meta: {
+                    breadcrumb: 'Edit',
+                    showSidebar: true
+                  }
+                }
+              ]
+            },
+            {
+              path: 'files',
+              component: FilesContainer,
+              meta: {
+                breadcrumb: 'Files',
+                showSidebar: true
+              },
+              children: [
+                {
+                  path: '',
+                  name: 'project-files',
+                  component: FileList,
+                  props: true,
+                  meta: {
+                    showSidebar: true
+                  }
+                }
+              ]
             },
             {
               path: 'settings/',
@@ -232,12 +272,6 @@ export default new Router({
           ]
         }
       ]
-    },
-    {
-      path: '/documents/edit/',
-      name: 'Document Editor',
-      components: {default: Editor},
-      meta: {auth: true}
     },
     {
       path: '/account/',

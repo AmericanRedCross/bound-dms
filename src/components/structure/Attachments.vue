@@ -15,7 +15,7 @@
         <p>{{ $t('projects.attachments.create') }}</p>
         <small>{{ $t('projects.attachments.createSub') }}</small>
         <br />
-        <b-button variant="primary" :to="{name: 'Document Editor'}">{{ $t('common.create') }}</b-button>
+        <b-button variant="primary" :to="{name: 'document-edit'}">{{ $t('common.create') }}</b-button>
         <hr />
         <fa-icon name="upload"></fa-icon>
         <p>{{ $t('projects.attachments.upload') }}</p>

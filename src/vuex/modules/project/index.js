@@ -117,6 +117,7 @@ const projects = {
         commit('SET_LANGUAGE', { response: response.data, id: id })
       }).catch(err => {
         commit('SET_MESSAGE', { message: err })
+        throw err
       })
     },
     // Removes a language from a project
@@ -126,6 +127,7 @@ const projects = {
         commit('REMOVE_LANGUAGE', { code: code, id: id })
       }, (err) => {
         commit('SET_MESSAGE', { message: err })
+        throw err
       })
     }
   },

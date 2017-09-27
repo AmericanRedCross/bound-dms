@@ -18,6 +18,10 @@ export default{
     noPermission: 'Looks like you don\'t have permission to do that',
     error: 'Something went wrong',
     upload: 'Upload',
+    back: 'Back',
+    goBack: 'Continue',
+    changesMade: 'You\'ve made changes without saving',
+    save: 'Save',
     validations: {
       required: 'Field is required',
       email: 'Incorrect email format',
@@ -40,7 +44,11 @@ export default{
   },
   sidebar: {
     dashboard: 'Dashboard',
-    wys: 'WYSIWYG'
+    directories: 'Directories',
+    documents: 'Documents',
+    files: 'Files',
+    publish: 'Publish',
+    settings: 'Settings'
   },
   hello: {
     test1: 'Welcome to your Vue.js app'
@@ -115,9 +123,9 @@ export default{
     },
     attachments: {
       add: 'Add attachment',
-      create: 'Create new document',
-      createSub: 'Create a document in markdown format',
-      upload: 'Upload a document',
+      create: 'Create new file',
+      createSub: 'Create a file in markdown format',
+      upload: 'Upload a file',
       uploadSub: 'Upload an existing doc or .pdf from your computer'
     },
     languages: {
@@ -199,25 +207,27 @@ export default{
     documents: {
       title: 'Documents',
       upload: 'Document upload',
-      dropzone: {
-        dictDefaultMessage: 'Drop files here',
-        dictFallbackMessage: 'Your browser does not support drag\'n\'drop file uploads.',
-        dictFallbackText: 'Please use the fallback form below to upload your files like in the olden days.',
-        dictFileTooBig: 'File is too big ({{filesize}}MiB). Max filesize: {{maxFilesize}}MiB.',
-        dictInvalidFileType: 'You can\'t upload files of this type.',
-        dictResponseError: 'Server responded with {{statusCode}} code.',
-        dictCancelUpload: 'Cancel upload',
-        dictCancelUploadConfirmation: 'Are you sure you want to cancel this upload?',
-        dictRemoveFile: 'Remove file',
-        dictMaxFilesExceeded: 'You can not upload any more files.',
-        dictFileSizeUnits: {tb: 'TB', gb: 'GB', mb: 'MB', kb: 'KB', b: 'b'}
+      create: 'Create document',
+      edit: {
+        titlePlaceholder: 'Document title',
+        titleNeeded: 'Don\'t forget to add a title',
+        pickImage: 'Select image'
       }
     }
   },
   files: {
     emptystate: 'No files have been uploaded yet',
     listview: {
-      type: 'Type to search'
+      type: 'Type to search',
+      title: 'Files',
+      upload: 'File upload',
+      create: 'Create a new file',
+      edit: {
+        titlePlaceholder: 'Document title',
+        titleNeeded: 'Don\'t forget to add a title',
+        attachImage: 'Attach image',
+        pickImage: 'Pick Image'
+      }
     }
   },
   pagenotfound: {
@@ -243,7 +253,57 @@ export default{
     },
     baseLanguage: 'Base language',
     translationLanguage: 'Translation language',
-    percentTranslated: '% of content translated',
-    previewMarkdown: 'Preview markdown'
+    previewMarkdown: 'Preview markdown',
+    percentTranslated: '% of content translated'
+  },
+  mediaPicker: {
+    urlDesc: 'Input a URL for the ',
+    image: 'image',
+    file: 'file',
+    fileAltPlaceholder: 'Alternative text',
+    fileUrlPlaceholder: 'Paste url here',
+    selectFile: 'Select a file',
+    selectImage: 'Select an image',
+    uploadImage: 'Upload an image',
+    uploadFile: 'Upload a file',
+    inputUrl: 'Paste url',
+    inputAlt: 'Input alternative text',
+    imagePreview: 'Image preview',
+    filePreview: 'File details',
+    select: 'Select',
+    upload: 'Upload',
+    url: 'Url',
+    loading: 'Loading',
+    title: 'Title:',
+    description: 'Description:',
+    date: 'Last updated:',
+    createdBy: 'Created by:'
+  },
+  dropzone: {
+    douments: {
+      dictDefaultMessage: 'Drop documents here',
+      dictFallbackMessage: 'Your browser does not support drag\'n\'drop document uploads.',
+      dictFallbackText: 'Please use the fallback form below to upload your documents like in the olden days.',
+      dictFileTooBig: 'Document is too big ({{filesize}}MiB). Max filesize: {{maxFilesize}}MiB.',
+      dictInvalidFileType: 'You can\'t upload files of this type.',
+      dictResponseError: 'Server responded with {{statusCode}} code.',
+      dictCancelUpload: 'Cancel upload',
+      dictCancelUploadConfirmation: 'Are you sure you want to cancel this upload?',
+      dictRemoveFile: 'Remove file',
+      dictMaxFilesExceeded: 'You can not upload any more documents.'
+    },
+    files: {
+      dictDefaultMessage: 'Drop files here',
+      dictFallbackMessage: 'Your browser does not support drag\'n\'drop file uploads.',
+      dictFallbackText: 'Please use the fallback form below to upload your files like in the olden days.',
+      dictFileTooBig: 'File is too big ({{filesize}}MiB). Max filesize: {{maxFilesize}}MiB.',
+      dictInvalidFileType: 'You can\'t upload files of this type.',
+      dictResponseError: 'Server responded with {{statusCode}} code.',
+      dictCancelUpload: 'Cancel upload',
+      dictCancelUploadConfirmation: 'Are you sure you want to cancel this upload?',
+      dictRemoveFile: 'Remove file',
+      dictMaxFilesExceeded: 'You can not upload any more files.'
+    },
+    dictFileSizeUnits: {tb: 'TB', gb: 'GB', mb: 'MB', kb: 'KB', b: 'b'}
   }
 }

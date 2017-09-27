@@ -1,19 +1,9 @@
 <template>
   <div>
-    <b-card :title="$t('projects.documents.title')">
-        <div class="row">
-          <div class="col"><div>
-            <dropzone
-              ref="dropzone"
-              id="fileUpload"
-              url="/api/files"
-              v-on:vdropzone-success="showSuccess"
-              :dropzone-options="dropzoneOptions"
-              :use-font-awesome="true"
-              :use-custom-dropzone-options="true"
-            >
-            </dropzone>
-          </div>
+    <b-card class="mb-3">
+      <div class="row">
+        <div class="col">
+          <b-button :to="{name: 'document-edit'}" variant="primary"><fa-icon name="plus"></fa-icon> {{ $t('projects.documents.create') }}</b-button>
         </div>
       </div>
     </b-card>
@@ -29,43 +19,37 @@
                   :filter="filter"
                   id="files-table"
           >
-            <template slot="thumbnail" scope="item">
-             <img v-if="item.item._thumbnail" :src="item.item._thumbnail._path">
-              <fa-icon v-else name="file-text"></fa-icon>
-            </template><template slot="createdBy" scope="item">
-              {{ item.item._createdBy.firstname }} {{ item.item._createdBy.lastname }}
+            <template slot="title" scope="item">
+              <span v-if="item.item._translations">{{ item.item._translations[0].title }}</span>
+            </template>
+            <template slot="_createdBy" scope="item">
+              {{ item.value.firstname }} {{ item.value.lastname }}
             </template>
 
-            <template slot="createdAt" scope="item">
-              {{ formatDate(item.item._createdAt) }}
+            <template slot="_createdAt" scope="item">
+              {{ item.value | formatDate }}
             </template>
 
-            <template slot="type" scope="item">
-              {{ item.valuetype }}
+            <template slot="_translations" scope="item">
+              <b-button-group>
+                <b-button v-for="translation in item.value" variant="primary" :key="translation.id" @click="editContent(translation)">{{ translation.language }}</b-button>
+              </b-button-group>
             </template>
+
           </b-table>
         </div>
       </div>
+      <b-pagination size="md" align="center" :total-rows="totalFiles" v-model="currentPage" :per-page="perPage" @change="fetchAllFiles"></b-pagination>
     </b-card>
-    <div>
-      <h6>Default</h6>
-      <b-pagination size="md" :total-rows="totalFiles" v-model="currentPage" :per-page="perPage" @change="fetchAllFiles">
-      </b-pagination>
-    </div>
   </div>
 </template>
 
 <script>
-import Dropzone from 'vue2-dropzone'
 import { mapGetters } from 'vuex'
-import moment from 'moment'
 
 export default {
-  components: {
-    Dropzone
-  },
   methods: {
-    showSuccess: function (file) {
+    showSuccess (file) {
       setTimeout(() => {
         this.$refs.dropzone.removeFile(file)
       }, 1200)
@@ -73,19 +57,27 @@ export default {
       this.fetchAllFiles()
     },
     fetchAllFiles () {
-      this.$store.dispatch('GET_ALL_FILES', {
+      this.$store.dispatch('GET_ALL_DOCUMENTS', {
         page: this.currentPage,
-        limit: this.perPage
+        limit: this.perPage,
+        projectId: parseInt(this.$route.params.id)
       }).then(() => {
-        let data = this.getAllFiles()
-        this.fileData = data.files
+        let data = this.getAllDocuments()
+        this.fileData = data.documents
         this.totalFiles = data.total
+      }).catch(() => {
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+            icon: 'exclamation-triangle',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'danger'
+          })
       })
     },
-    formatDate (dateString) {
-      if (dateString) {
-        return moment(String(dateString)).format('MM/DD/YYYY hh:mm')
-      }
+    editContent (translation) {
+
     }
   },
   beforeMount () {
@@ -93,7 +85,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getAllFiles'
+      'getAllDocuments'
     ])
   },
   watch: {
@@ -108,81 +100,30 @@ export default {
   },
   data () {
     return {
-      dropzoneOptions: {
-        paramName: 'files',
-        headers: {
-          'Authorization': 'Bearer ' + this.$auth.token()
-        },
-        maxNumberOfFiles: 10,
-        language: {
-          dictDefaultMessage: this._i18n.t('projects.documents.dropzone.dictDefaultMessage'),
-          dictFallbackMessage: this._i18n.t('projects.documents.dropzone.dictFallbackMessage'),
-          dictFallbackText: this._i18n.t('projects.documents.dropzone.dictFallbackText'),
-          dictFileTooBig: this._i18n.t('projects.documents.dropzone.dictFileTooBig'),
-          dictInvalidFileType: this._i18n.t('projects.documents.dropzone.dictInvalidFileType'),
-          dictResponseError: this._i18n.t('projects.documents.dropzone.dictResponseError'),
-          dictCancelUpload: this._i18n.t('projects.documents.dropzone.dictCancelUpload'),
-          dictCancelUploadConfirmation: this._i18n.t('projects.documents.dropzone.dictCancelUploadConfirmation'),
-          dictRemoveFile: this._i18n.t('projects.documents.dropzone.dictRemoveFile'),
-          dictMaxFilesExceeded: this._i18n.t('projects.documents.dropzone.dictMaxFilesExceeded'),
-          dictFileSizeUnits: {
-            tb: this._i18n.t('projects.documents.dropzone.dictFileSizeUnits.tb'),
-            gb: this._i18n.t('projects.documents.dropzone.dictFileSizeUnits.gb'),
-            mb: this._i18n.t('projects.documents.dropzone.dictFileSizeUnits.mb'),
-            kb: this._i18n.t('projects.documents.dropzone.dictFileSizeUnits.kb'),
-            b: this._i18n.t('projects.documents.dropzone.dictFileSizeUnits.b')}
-        },
-        showRemoveLink: false
-      },
       headers: {
         _id: {
           label: 'ID',
           sortable: true
         },
-        thumbnail: {
-          label: 'Thumbnail',
-          sortable: false
-        },
-        _title: {
+        title: {
           label: 'Title',
           sortable: true
         },
-        _description: {
-          label: 'Description',
-          sortable: false
-        },
-        _filename: {
-          label: 'Filename',
-          sortable: true
-        },
-        createdAt: {
+        _createdAt: {
           label: 'Created at',
           sortable: true
         },
-        createdBy: {
+        _createdBy: {
           label: 'Created by',
           sortable: true
+        },
+        _translations: {
+          label: 'Translations',
+          sortable: false
         }
       },
-      fileData: [
-        {
-          id: '1',
-          title: 'Sample doc 1',
-          description: 'A sample doc',
-          filename: 'project/sampledocs/1',
-          createdAt: '06/09/17',
-          _thumbnail: {},
-          _createdBy: {}
-        }
-      ],
+      fileData: [],
       totalFiles: 0,
-      selectedKey: '',
-      selected: null,
-      typeOptions: [
-        'String',
-        'Boolean',
-        'Number'
-      ],
       perPage: 10,
       currentPage: 1,
       filter: null
