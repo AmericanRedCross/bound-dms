@@ -78,7 +78,6 @@
            {{ selectedFile.description }}
           <br>
           <b>{{ $t('mediaPicker.date') }}</b>
-            {{ selectedFile._updatedAt }}
            {{ selectedFile._updatedAt | formatDate }}
           <br>
           <b>{{ $t('mediaPicker.createdBy') }}</b>
@@ -169,12 +168,6 @@ export default {
           this.loadingMore = false
         })
       }
-    },
-    isImage (file) {
-      if (file.mimeType) {
-        return file.mimeType.match(`image/`)
-      }
-      return false
     },
     onPickerScroll (e) {
       let target = e.target

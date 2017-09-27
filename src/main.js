@@ -11,6 +11,7 @@ import router from './router'
 import store from './vuex'
 import Locales from './assets/locales'
 import filters from './filters'
+import methods from './methods'
 
 import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
@@ -83,6 +84,14 @@ const i18n = new VueI18n({
   fallbackLocale: 'en',
   messages: Locales
 })
+
+// Global mixin
+// Use with caution! Once you apply a mixin globally, it will affect every Vue instance created afterwards.
+// https://vuejs.org/v2/guide/mixins.html#Global-Mixin
+Vue.mixin({
+  methods
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
