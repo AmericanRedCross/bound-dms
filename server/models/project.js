@@ -28,6 +28,12 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'projectId',
       sourceKey: 'id'
     })
+
+    Project.hasMany(models.Metatype, {
+      as: 'metatypes',
+      foreignKey: 'projectId',
+      sourceKey: 'id'
+    })
   }
 
   return Project
