@@ -43,6 +43,7 @@ router.post('/convert', authService.authenticate(), (req, res, next) => {
 
   form.on('error', (err) => {
     console.log('An error has occurred: \n' + err)
+    next(err)
   })
 
   form.parse(req, (err, fields, files) => {
@@ -51,12 +52,12 @@ router.post('/convert', authService.authenticate(), (req, res, next) => {
       return res.status(400).json({status: 400, errors: err})
     }
 
-    if (files['file'] && files['file'].type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-      req.uploadedFile = files['file']
-      next()
-    } else {
+    if (!files['file'] && files['file'].type !== 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
       return res.status(400).json({status: 400, errors: 'Invalid file type'})
     }
+
+    req.uploadedFile = files['file']
+    next()
   })
 }, controller.uploadAndConvert)
 
