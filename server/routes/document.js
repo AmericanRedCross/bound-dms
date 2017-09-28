@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const authService = require('../services/auth')()
 const controller = require('../controllers/document')
+const formidable = require('formidable')
+const config = require('../config')
 
 // PATCH /api/documents/:id
 router.patch('/:id', authService.authenticate(), (req, res, next) => {
@@ -30,6 +32,33 @@ router.put('/:id/translations/:language', authService.authenticate(), (req, res,
     next()
   })
 }, controller.storeTranslation)
+
+// POST /api/documents/convert
+router.post('/convert', authService.authenticate(), (req, res, next) => {
+  const form = new formidable.IncomingForm()
+
+  form.multiples = false
+  form.keepExtensions = true
+  form.uploadDir = config.uploads.directory
+
+  form.on('error', (err) => {
+    console.log('An error has occurred: \n' + err)
+  })
+
+  form.parse(req, (err, fields, files) => {
+    if (err) {
+      console.log(err)
+      return res.status(400).json({status: 400, errors: err})
+    }
+
+    if (files['file'] && files['file'].type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+      req.uploadedFile = files['file']
+      next()
+    } else {
+      return res.status(400).json({status: 400, errors: 'Invalid file type'})
+    }
+  })
+}, controller.uploadAndConvert)
 
 // DELETE /api/documents/:id/translations/:language
 router.delete('/:id/translations/:language', authService.authenticate(), controller.deleteTranslation)
