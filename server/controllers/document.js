@@ -3,6 +3,8 @@ const Document = require('../models').Document
 const DocumentTranslations = require('../models').DocumentTranslations
 const User = require('../models').User
 const Directory = require('../models').Directory
+const docService = require('../services/document')
+const fs = require('fs')
 
 module.exports = {
   getAll (req, res, next) {
@@ -183,6 +185,24 @@ module.exports = {
       res.status(200).json({status: 200, message: 'Translation deleted'})
     }).catch(err => {
       res.status(500).json({status: 500, error: err})
+    })
+  },
+  uploadAndConvert (req, res, next) {
+    fs.readFile(req.uploadedFile.path, (err, buf) => {
+      if (err) {
+        console.error('Error locating uploaded document', err)
+        return res.status(500).json({status: 500, message: 'Error converting uploaded document'})
+      }
+      docService.convertDocxToMarkdown(buf).then(md => {
+        return res.status(200)
+        .set('Content-Type', 'text/plain')
+        .set('Cache-Control', 'no-cache')
+        .send(md)
+      })
+      .catch((err) => {
+        console.error('Error converting uploaded document to md', err)
+        res.status(500).json({status: 500, message: 'Error converting uploaded document'})
+      })
     })
   }
 }
