@@ -29,6 +29,27 @@
                   :filter="filter"
                   id="files-table"
           >
+            <template slot="_title" scope="item">
+              <span v-if="item.value"
+                v-b-tooltip.hover.auto
+                :title="item.value.length >= 30 ? item.value : ''">
+                {{ item.value | truncate(30) }}
+              </span>
+            </template>
+            <template slot="_description" scope="item">
+              <span v-if="item.value"
+                v-b-tooltip.hover.auto
+                :title="item.value.length >= 30 ? item.value : ''">
+                {{ item.value | truncate(30) }}
+              </span>
+            </template>
+            <template slot="_filename" scope="item">
+              <span v-if="item.value"
+                v-b-tooltip.hover.auto
+                :title="item.value.length >= 30 ? item.value : ''">
+                {{ item.value | truncate(30) }}
+              </span>
+            </template>
             <template slot="thumbnail" scope="item">
              <img v-if="item.item._thumbnail" :src="item.item._thumbnail._path">
               <fa-icon v-else name="file-text"></fa-icon>
