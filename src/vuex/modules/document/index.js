@@ -49,6 +49,12 @@ const documents = {
           throw err
         })
     },
+    UPDATE_DOCUMENT_TRANSLATION: function ({commit}, {language, documentId, data}) {
+      return axios.put('documents/' + documentId + '/translations/' + language, data).catch(err => {
+        commit('SET_MESSAGE', { message: err })
+        throw err
+      })
+    },
     CREATE_DOCUMENT: function ({commit}, {projectId, data}) {
       return axios.post('/projects/' + projectId + '/documents', data)
       .catch(err => {

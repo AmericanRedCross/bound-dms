@@ -214,7 +214,8 @@ export default{
         titleNeeded: 'Don\'t forget to add a title',
         pickImage: 'Select image',
         overwrite: 'This will overwrite the current document.',
-        importingDocument: 'Importing document'
+        importingDocument: 'Importing document',
+        loadingDocument: 'Loading Document'
       }
     }
   },
