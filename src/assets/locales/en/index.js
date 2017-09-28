@@ -217,6 +217,8 @@ export default{
     }
   },
   files: {
+    title: 'Files',
+    upload: 'File upload',
     emptystate: 'No files have been uploaded yet',
     listview: {
       type: 'Type to search',

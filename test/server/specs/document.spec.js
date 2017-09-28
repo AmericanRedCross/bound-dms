@@ -221,4 +221,23 @@ describe('API: Documents', () => {
         })
     })
   })
+
+  describe('POST /api/documents/convert', () => {
+    it('converts an uploaded docx file and returns markdown text', (done) => {
+      request(app)
+        .post('/api/documents/convert')
+        .attach('file', './test/files/sample_docx.docx')
+        .set('Authorization', 'Bearer ' + this.token)
+        .expect(200)
+        .expect('Content-Type', /text\/plain/)
+        .end((err, res) => {
+          if (err) throw err
+          const docArray = res.text.split('\n')
+          expect(docArray).to.include('This is a sample paragraph')
+          expect(docArray).to.include('- This is a list item')
+
+          done()
+        })
+    })
+  })
 })

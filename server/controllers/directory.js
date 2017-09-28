@@ -3,6 +3,8 @@ const Project = require('../models').Project
 const User = require('../models').User
 const ProjectLanguage = require('../models').ProjectLanguage
 const DirectoryTrans = require('../models').DirectoryTranslation
+const Document = require('../models').Document
+const DocumentTranslations = require('../models').DocumentTranslations
 
 module.exports = {
   getAll (req, res, next) {
@@ -18,6 +20,16 @@ module.exports = {
         model: DirectoryTrans,
         as: 'translations',
         attributes: ['title', 'language']
+      },
+      {
+        model: Document,
+        as: 'documents',
+        attributes: ['id'],
+        include: [{
+          model: DocumentTranslations,
+          as: 'translations',
+          attributes: { exclude: ['content'] }
+        }]
       }]
     }).then((directories) => {
       res.status(200).json({status: 200, data: directories})

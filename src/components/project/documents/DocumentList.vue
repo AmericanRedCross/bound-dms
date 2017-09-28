@@ -21,7 +21,11 @@
                   @row-clicked="rowSelected"
           >
             <template slot="title" scope="item">
-              <span v-if="item.item._translations">{{ item.item._translations[0].title }}</span>
+              <span v-if="item.item._translations"
+                v-b-tooltip.hover.auto
+                :title="item.item._translations[0].title.length >= 30 ? item.item._translations[0].title : ''">
+                {{ item.item._translations[0].title | truncate(30) }}
+              </span>
             </template>
             <template slot="_createdBy" scope="item">
               {{ item.value.firstname }} {{ item.value.lastname }}

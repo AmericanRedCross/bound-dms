@@ -5,6 +5,7 @@ const langController = require('../controllers/language')
 const dirController = require('../controllers/directory')
 const keyController = require('../controllers/apiKey')
 const documentController = require('../controllers/document')
+const metaController = require('../controllers/metadata')
 const authService = require('../services/auth')()
 const projectRules = {
   'name': {
@@ -122,5 +123,20 @@ router.post('/:id/documents', authService.authenticate(), (req, res, next) => {
     next()
   })
 }, documentController.create)
+
+// GET /api/projects/:id/metatypes
+router.get('/:id/metatypes', authService.authenticate(), metaController.getAllTypes)
+// POST /api/projects/:id/metatypes
+router.post('/:id/metatypes', authService.authenticate(), (req, res, next) => {
+  req.checkBody('key', 'Invalid key').notEmpty().isLength({min: 2, max: 32})
+  req.checkBody('type', 'Invalid type (boolean, string, json)').isIn(['boolean', 'string', 'json'])
+  req.getValidationResult().then((result) => {
+    if (!result.isEmpty()) {
+      res.status(400).json({status: 400, errors: result.array()})
+      return
+    }
+    next()
+  })
+}, metaController.createType)
 
 module.exports = router

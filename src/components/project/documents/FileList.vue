@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-card :title="$t('projects.documents.title')" class="mb-3">
+    <b-card :title="$t('files.upload')" class="mb-3">
         <div class="row">
           <div class="col"><div>
             <dropzone
@@ -17,7 +17,7 @@
         </div>
       </div>
     </b-card>
-    <b-card :title="$t('projects.documents.title')" class="mb-3">
+    <b-card :title="$t('files.title')" class="mb-3">
       <div class="row">
         <div class="col">
           <b-table striped hover
@@ -29,6 +29,27 @@
                   :filter="filter"
                   id="files-table"
           >
+            <template slot="_title" scope="item">
+              <span v-if="item.value"
+                v-b-tooltip.hover.auto
+                :title="item.value.length >= 30 ? item.value : ''">
+                {{ item.value | truncate(30) }}
+              </span>
+            </template>
+            <template slot="_description" scope="item">
+              <span v-if="item.value"
+                v-b-tooltip.hover.auto
+                :title="item.value.length >= 30 ? item.value : ''">
+                {{ item.value | truncate(30) }}
+              </span>
+            </template>
+            <template slot="_filename" scope="item">
+              <span v-if="item.value"
+                v-b-tooltip.hover.auto
+                :title="item.value.length >= 30 ? item.value : ''">
+                {{ item.value | truncate(30) }}
+              </span>
+            </template>
             <template slot="thumbnail" scope="item">
              <img v-if="item.item._thumbnail" :src="item.item._thumbnail._path">
               <fa-icon v-else name="file-text"></fa-icon>
@@ -138,7 +159,7 @@ export default {
       headers: {
         _id: {
           label: 'ID',
-          sortable: true
+          sortable: false
         },
         thumbnail: {
           label: 'Thumbnail',
@@ -146,7 +167,7 @@ export default {
         },
         _title: {
           label: 'Title',
-          sortable: true
+          sortable: false
         },
         _description: {
           label: 'Description',
@@ -154,15 +175,15 @@ export default {
         },
         _filename: {
           label: 'Filename',
-          sortable: true
+          sortable: false
         },
         createdAt: {
           label: 'Created at',
-          sortable: true
+          sortable: false
         },
         createdBy: {
           label: 'Created by',
-          sortable: true
+          sortable: false
         }
       },
       fileData: [
