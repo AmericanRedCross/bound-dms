@@ -2,6 +2,12 @@ import SimpleMDE from 'simplemde'
 // See https://github.com/sparksuite/simplemde-markdown-editor#toolbar-icons for adding new toolbar icons
 export default [
   {
+    name: 'import',
+    className: 'fa fa-file-text',
+    title: 'Import word document (.docx)'
+  },
+  '|',
+  {
     name: 'bold',
     action: SimpleMDE.toggleBold,
     className: 'fa fa-bold',

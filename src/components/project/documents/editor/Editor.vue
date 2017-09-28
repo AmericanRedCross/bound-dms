@@ -7,10 +7,12 @@
             <fa-icon name="arrow-left"></fa-icon>
              {{ $t('common.back') }}
           </b-button>
-          <b-button variant="success" @click="save" :disabled="!needsSaving">
-            <fa-icon name="save"></fa-icon>
+          <b-button variant="success" @click="save" :disabled="!needsSaving || saving">
+            <fa-icon v-if="saving" name="refresh" spin></fa-icon>
+            <fa-icon v-else name="save"></fa-icon>
              {{ $t('common.save') }}
           </b-button>
+          <span v-if="importingDocument"><fa-icon name="refresh" spin></fa-icon> {{ $t('projects.documents.edit.importingDocument') }}</span>
         </div>
       </div>
       <div class="row">
@@ -26,7 +28,7 @@
       </div>
     </b-card>
 
-    <markdown-editor v-model="content" ref="markdownEditor" :configs="simplemdeConfig"></markdown-editor>
+    <markdown-editor :disabled="true" v-model="content" ref="markdownEditor" :configs="simplemdeConfig"></markdown-editor>
 
     <b-modal ref="imagePicker"
       :title="$t('projects.documents.edit.pickImage')"
@@ -34,6 +36,7 @@
       size="lg">
       <MediaPicker type="IMAGE" :fileRef.sync="image"></MediaPicker>
     </b-modal>
+    <input ref="file-import-input" type="file" v-show="false" accept=".docx" @change="onFileChange">
   </div>
 </template>
 
@@ -41,6 +44,8 @@
 import toolbar from './toolbarOptions'
 import MediaPicker from '@/components/ui/MediaPicker'
 import markdownEditor from 'vue-simplemde/markdown-editor'
+import { mapGetters } from 'vuex'
+import axios from 'axios'
 
 export default {
   components: {
@@ -49,31 +54,27 @@ export default {
   },
   data () {
     // Setup simplemde toolbar
-    // Replace image button with our own..
-    let imageButton = {
-      action: this.attachImage,
-      className: 'fa fa-picture-o',
-      default: true,
-      name: 'image',
-      title: 'Insert Local Image'
-    }
-    let buttonIndex = toolbar.findIndex((btn) => {
+    // Replace image and import button with our own actions.
+    toolbar.forEach((btn) => {
       if (btn !== '|') {
-        return btn.name === 'image'
+        switch (btn.name) {
+          case 'image':
+            btn.action = this.attachImage
+            break
+          case 'import':
+            btn.action = this.importDocument
+            break
+        }
       }
     })
-
-    if (buttonIndex > -1) {
-      toolbar[buttonIndex].action = this.attachImage
-    } else {
-      toolbar.push(imageButton)
-    }
 
     return {
       content: '',
       title: '',
       contentCopy: '',
       titleCopy: '',
+      importingDocument: false,
+      saving: false,
       image: {
         url: 'http://',
         alt: ''
@@ -91,7 +92,7 @@ export default {
   },
   methods: {
     back () {
-      if (this.needsSaving) {
+      if (this.needsSaving || this.contentCopy !== this.content) {
         this.$swal({
           title: this._i18n.t('common.areYouSure'),
           text: this._i18n.t('common.changesMade'),
@@ -133,17 +134,67 @@ export default {
         ch: startPoint.ch
       })
     },
+    importDocument () {
+      this.$refs['file-import-input'].click()
+    },
+    onFileChange (e) {
+      let files = e.target.files || e.dataTransfer.files
+      if (!files.length) {
+        return
+      }
+      this.sendFile(files[0])
+    },
+    sendFile (file) {
+      let formData = new FormData()
+      formData.append('file', file)
+      if (this.content.length > 0) {
+        this.$swal({
+          title: this._i18n.t('common.areYouSure'),
+          text: this._i18n.t('projects.documents.edit.overwrite'),
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: this._i18n.t('common.goBack'),
+          allowOutsideClick: false
+        }).then(() => {
+          this.postFile(formData)
+        }).catch(this.$swal.noop)
+      } else {
+        this.postFile(formData)
+      }
+    },
+    postFile (formData) {
+      this.importingDocument = true
+      axios.post('/documents/convert', formData).then((response) => {
+        this.content = response.data
+        this.importingDocument = false
+      }).catch(() => {
+        this.importingDocument = false
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+            icon: 'exclamation-triangle',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'danger'
+          })
+      })
+    },
     save () {
+      this.saving = true
+      let projectId = parseInt(this.$route.params.id)
       let saveData = {
-        language: 'en',
+        language: this.getProjectById(projectId).baseLanguage,
         title: this.title,
         content: this.content
       }
 
       this.$store.dispatch('CREATE_DOCUMENT', {
-        projectId: parseInt(this.$route.params.id),
+        projectId,
         data: saveData
       }).then(() => {
+        this.saving = false
         this.$notifications.notify(
           {
             message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.created')} ${this.title}`,
@@ -154,6 +205,7 @@ export default {
           })
         this.$router.push({name: 'project-documents', params: {id: parseInt(this.$route.params.id)}})
       }).catch(() => {
+        this.saving = false
         this.$notifications.notify(
           {
             message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
@@ -166,6 +218,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+      'getProjectById'
+    ]),
     titleState () {
       return this.title.length > 0 ? null : false
     },

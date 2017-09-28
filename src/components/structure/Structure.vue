@@ -39,8 +39,22 @@ export default {
       selected: 'English (en)'
     }
   },
-  mounted () {
+  beforeMount () {
     this.$store.dispatch('GET_STRUCTURE', this.$route.params.id).catch(() => {
+      this.$notifications.notify(
+        {
+          message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+          icon: 'exclamation-triangle',
+          horizontalAlign: 'right',
+          verticalAlign: 'bottom',
+          type: 'danger'
+        })
+    })
+    this.$store.dispatch('GET_ALL_DOCUMENTS', {
+      page: 1,
+      limit: 10,
+      projectId: parseInt(this.$route.params.id)
+    }).catch(() => {
       this.$notifications.notify(
         {
           message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,

@@ -22,6 +22,7 @@ export default{
     goBack: 'Continue',
     changesMade: 'You\'ve made changes without saving',
     save: 'Save',
+    loading: 'Loading',
     validations: {
       required: 'Field is required',
       email: 'Incorrect email format',
@@ -211,7 +212,9 @@ export default{
       edit: {
         titlePlaceholder: 'Document title',
         titleNeeded: 'Don\'t forget to add a title',
-        pickImage: 'Select image'
+        pickImage: 'Select image',
+        overwrite: 'This will overwrite the current document.',
+        importingDocument: 'Importing document'
       }
     }
   },
