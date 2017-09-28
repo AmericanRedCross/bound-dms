@@ -11,7 +11,9 @@ export class File {
      createdAt = null,
      updatedAt = null,
      createdBy = null,
-     Children = []
+     Children = [],
+     projectId = null,
+     directoryId = null
    }) {
     this._id = id
     this._parentId = parentId
@@ -34,12 +36,20 @@ export class File {
         this._thumbnail = file
       }
     })
+    this._projectId = projectId
+    this._directoryId = directoryId
   }
 
   get id () { return this._id }
 
   set parentId (parentId) { this._parentId = parentId }
   get parentId () { return this._parentId }
+
+  set projectId (projectId) { this._projectId = projectId }
+  get projectId () { return this._projectId }
+
+  set directoryId (directoryId) { this._directoryId = directoryId }
+  get directoryId () { return this._directoryId }
 
   get children () { return this._children }
 

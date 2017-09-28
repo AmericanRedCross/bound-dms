@@ -13,6 +13,14 @@ module.exports = {
         allowNull: true,
         type: Sequelize.INTEGER()
       },
+      projectId: {
+        allowNull: true,
+        type: Sequelize.INTEGER()
+      },
+      directoryId: {
+        allowNull: true,
+        type: Sequelize.INTEGER()
+      },
       title: {
         allowNull: false,
         type: Sequelize.STRING()
@@ -64,6 +72,22 @@ module.exports = {
         type: 'FOREIGN KEY',
         references: {
           table: 'Users',
+          field: 'id'
+        }
+      })
+    }).then(() => {
+      return queryInterface.addConstraint('Files', ['projectId'], {
+        type: 'FOREIGN KEY',
+        references: {
+          table: 'Projects',
+          field: 'id'
+        }
+      })
+    }).then(() => {
+      return queryInterface.addConstraint('Files', ['directoryId'], {
+        type: 'FOREIGN KEY',
+        references: {
+          table: 'Directories',
           field: 'id'
         }
       })

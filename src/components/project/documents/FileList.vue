@@ -12,6 +12,7 @@
               :use-font-awesome="true"
               :use-custom-dropzone-options="true"
             >
+              <input type="hidden" name="projectId" :value="projectId">
             </dropzone>
           </div>
         </div>
@@ -72,7 +73,7 @@ export default {
       this.$store.dispatch('GET_ALL_FILES', {
         page: this.currentPage,
         limit: this.perPage,
-        projectId: parseInt(this.$route.params.id)
+        projectId: this.projectId
       }).then(() => {
         let data = this.getAllFiles()
         this.fileData = data.files
@@ -109,6 +110,7 @@ export default {
   },
   data () {
     return {
+      projectId: parseInt(this.$route.params.id),
       dropzoneOptions: {
         paramName: 'files',
         headers: {

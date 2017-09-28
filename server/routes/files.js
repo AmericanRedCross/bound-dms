@@ -5,18 +5,6 @@ const authService = require('../services/auth')()
 const controller = require('../controllers/file')
 const config = require('../config')
 
-router.get('/', authService.authenticate(['jwt']), (req, res, next) => {
-  req.checkQuery('page').optional().isInt()
-  req.checkQuery('limit').optional().isInt()
-  req.getValidationResult().then((result) => {
-    if (!result.isEmpty()) {
-      res.status(400).json({status: 422, errors: result.array()})
-      return
-    }
-    next()
-  })
-}, controller.getAll)
-
 router.post('/', authService.authenticate(['jwt']), (req, res, next) => {
   // create an incoming form object
   let form = new formidable.IncomingForm()
@@ -34,6 +22,7 @@ router.post('/', authService.authenticate(['jwt']), (req, res, next) => {
   // log any errors that occur
   form.on('error', function (err) {
     console.log('An error has occurred: \n' + err)
+    next(err)
   })
 
   // parse the incoming request containing the form data
@@ -42,8 +31,12 @@ router.post('/', authService.authenticate(['jwt']), (req, res, next) => {
       return res.status(400).json({status: 400, errors: err})
     }
 
+    if (!fields.projectId) {
+      return res.status(400).json({status: 400, errors: 'projectId must be provided'})
+    }
+
     if (Array.isArray(uploadedFiles['files'])) {
-      controller.createMultiple(req, res, uploadedFiles['files'])
+      controller.createMultiple(req, res, uploadedFiles['files'], fields)
     } else {
       controller.createSingle(req, res, uploadedFiles['files'], fields)
     }

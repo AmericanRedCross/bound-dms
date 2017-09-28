@@ -3,6 +3,7 @@ const File = require('../models').File
 const config = require('../config')
 const path = require('path')
 const User = require('../models').User
+const Directory = require('../models').Directory
 
 module.exports = () => {
   return {
@@ -36,7 +37,7 @@ module.exports = () => {
     persist: (file) => {
       return File.create(file)
     },
-    getAll: (page, limit, projectId) => {
+    getForProjectId: (page, limit, projectId) => {
       let offset = page - 1
       if (offset > 0) {
         offset = (limit * offset)
@@ -44,6 +45,7 @@ module.exports = () => {
       // todo: filter by projectId
       return File.findAndCount({
         where: {
+          projectId: projectId,
           parentId: null
         },
         include: [
@@ -56,6 +58,11 @@ module.exports = () => {
             as: 'Children',
             model: File,
             required: false
+          },
+          {
+            model: Directory,
+            as: 'Directory',
+            required: false,
           }
         ],
         limit: limit,

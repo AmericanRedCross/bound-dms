@@ -1,7 +1,7 @@
 'use strict';
 
-function addMinutes(date, minutes) {
-  return new Date(date.getTime() + minutes * 60000)
+function minusMinutes(date, minutes) {
+  return new Date(date.getTime() - minutes * 60000)
 }
 
 module.exports = {
@@ -18,7 +18,9 @@ module.exports = {
         filename: 'parent.txt',
         metadata: null,
         createdById: 1,
-        createdAt: now
+        createdAt: minusMinutes(now, 10),
+        projectId: 1,
+        directoryId: 1
       },
       {
         parentId: 1,
@@ -28,7 +30,7 @@ module.exports = {
         filename: 'child.txt',
         metadata: null,
         createdById: 1,
-        createdAt: now
+        createdAt: minusMinutes(now, 10),
       },
       {
         parentId: null,
@@ -38,7 +40,9 @@ module.exports = {
         filename: 'test2.txt',
         metadata: null,
         createdById: 1,
-        createdAt: addMinutes(now, 1)
+        createdAt: minusMinutes(now, 9),
+        projectId: 1,
+        directoryId: 1
       },
       {
         parentId: null,
@@ -48,7 +52,9 @@ module.exports = {
         filename: 'test3.txt',
         metadata: null,
         createdById: 1,
-        createdAt: addMinutes(now, 2)
+        createdAt: minusMinutes(now, 8),
+        projectId: 1,
+        directoryId: 2
       },
       {
         parentId: null,
@@ -58,7 +64,8 @@ module.exports = {
         filename: 'test4.txt',
         metadata: null,
         createdById: 1,
-        createdAt: addMinutes(now, 3)
+        createdAt: minusMinutes(now, 7),
+        projectId: 1
       },
       {
         parentId: null,
@@ -68,7 +75,8 @@ module.exports = {
         filename: 'test5.txt',
         metadata: null,
         createdById: 1,
-        createdAt: addMinutes(now, 4)
+        createdAt: minusMinutes(now, 6),
+        projectId: 1
       },
       {
         parentId: null,
@@ -78,7 +86,8 @@ module.exports = {
         filename: 'test6.txt',
         metadata: null,
         createdById: 1,
-        createdAt: addMinutes(now, 5)
+        createdAt: minusMinutes(now, 5),
+        projectId: 1
       },
       {
         parentId: null,
@@ -88,7 +97,8 @@ module.exports = {
         filename: 'test7.txt',
         metadata: null,
         createdById: 1,
-        createdAt: addMinutes(now, 6)
+        createdAt: minusMinutes(now, 4),
+        projectId: 1
       },
       {
         parentId: null,
@@ -98,7 +108,8 @@ module.exports = {
         filename: 'test8.txt',
         metadata: null,
         createdById: 1,
-        createdAt: addMinutes(now, 7)
+        createdAt: minusMinutes(now, 3),
+        projectId: 1
       },
       {
         parentId: null,
@@ -108,7 +119,8 @@ module.exports = {
         filename: 'test9.txt',
         metadata: null,
         createdById: 1,
-        createdAt: addMinutes(now, 8)
+        createdAt: minusMinutes(now, 2),
+        projectId: 1
       },
       {
         parentId: null,
@@ -118,7 +130,8 @@ module.exports = {
         filename: 'test10.txt',
         metadata: null,
         createdById: 1,
-        createdAt: addMinutes(now, 9)
+        createdAt: minusMinutes(now, 1),
+        projectId: 1
       }
     ], {})
   },

@@ -40,6 +40,12 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'directoryId',
       targetKey: 'id'
     })
+
+    Directory.hasMany(models.File, {
+      as: 'files',
+      foreignKey: 'directoryId',
+      targetKey: 'id'
+    })
   }
 
   return Directory

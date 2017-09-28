@@ -12,10 +12,10 @@ describe('API: Files', () => {
     this.token = jwt.sign({sub: 1, expiresIn: '1 day'}, config.jwtSecretKey)
   })
 
-  describe('GET /api/files', () => {
+  describe('GET /api/projects/1/files', () => {
     it('returns files', (done) => {
       request(app)
-        .get('/api/files')
+        .get('/api/projects/1/files')
         .set('Authorization', 'Bearer ' + this.token)
         .expect(200)
         .end((err, res) => {
@@ -39,10 +39,10 @@ describe('API: Files', () => {
     })
   })
 
-  describe('GET /api/files', () => {
+  describe('GET /api/projects/1/files', () => {
     it('returns in descending order', (done) => {
       request(app)
-        .get('/api/files')
+        .get('/api/projects/1/files')
         .set('Authorization', 'Bearer ' + this.token)
         .expect(200)
         .end((err, res) => {
@@ -53,10 +53,10 @@ describe('API: Files', () => {
     })
   })
 
-  describe('GET /api/files', () => {
+  describe('GET /api/projects/1/files', () => {
     it('returns default paginated files', (done) => {
       request(app)
-        .get('/api/files')
+        .get('/api/projects/1/files')
         .set('Authorization', 'Bearer ' + this.token)
         .expect(200)
         .end((err, res) => {
@@ -68,10 +68,10 @@ describe('API: Files', () => {
     })
   })
 
-  describe('GET /api/files/?page=2&limit=2', () => {
+  describe('GET /api/projects/1/files/?page=2&limit=2', () => {
     it('returns paginated files', (done) => {
       request(app)
-        .get('/api/files/?page=2&limit=2')
+        .get('/api/projects/1/files/?page=2&limit=2')
         .set('Authorization', 'Bearer ' + this.token)
         .expect(200)
         .end((err, res) => {
@@ -84,11 +84,14 @@ describe('API: Files', () => {
     })
   })
 
-  describe('POST /api/files', () => {
+  describe('POST /api/files/', () => {
     it('uploads a file', (done) => {
       request(app)
         .post('/api/files')
         .attach('files', './test/files/arc.jpg')
+        .field({
+          projectId: 1
+        })
         .set('Authorization', 'Bearer ' + this.token)
         .expect(201)
         .end((err, res) => {
@@ -101,12 +104,15 @@ describe('API: Files', () => {
     })
   })
 
-  describe('POST /api/files', () => {
+  describe('POST /api/files/', () => {
     it('uploads multiple files', (done) => {
       request(app)
         .post('/api/files')
         .attach('files', './test/files/arc.jpg')
         .attach('files', './test/files/arc.jpg')
+        .field({
+          projectId: 1
+        })
         .set('Authorization', 'Bearer ' + this.token)
         .expect(201)
         .end((err, res) => {
