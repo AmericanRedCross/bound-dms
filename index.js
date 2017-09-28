@@ -24,7 +24,7 @@ app.use(history({
     }
   }]
 }))
-app.use(bodyParser.json())
+app.use(bodyParser.json({limit: '10mb'}))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(authService.initialize())
 app.use(roleService.middleware())
