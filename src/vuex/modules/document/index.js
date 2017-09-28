@@ -1,12 +1,15 @@
 // This module handles the global store and requests for the Documents endpoint
 import axios from 'axios'
 import { Document } from './Document'
+import { Translation } from './Translation'
 import querystring from 'querystring'
 
 const documents = {
   state: {
     documents: [],
-    total: 0
+    total: 0,
+    currentBaseDocument: null,
+    currentTranslatingDocument: null
   },
   mutations: {
     SET_ALL_DOCUMENTS: (state, { response }) => {
@@ -17,6 +20,14 @@ const documents = {
         })
       }
       state.total = response.data.total
+    },
+    SET_BASE_TRANSLATE_DOCUMENT: (state, { response, isBase }) => {
+      if (isBase) {
+        state.currentBaseDocument = new Translation(response.data)
+      } else {
+        state.currentTranslatingDocument = new Translation(response.data)
+      }
+      console.log(state)
     }
   },
   actions: {
@@ -24,6 +35,15 @@ const documents = {
       return axios.get('/projects/' + projectId + '/documents/?' + querystring.stringify({page, limit}))
         .then((response) => {
           commit('SET_ALL_DOCUMENTS', { response: response.data })
+        }).catch(err => {
+          commit('SET_MESSAGE', { message: err })
+          throw err
+        })
+    },
+    GET_DOCUMENT_BY_ID_LANG: function ({commit}, {language, documentId, isBase}) {
+      return axios.get('documents/' + documentId + '/translations/' + language)
+        .then((response) => {
+          commit('SET_BASE_TRANSLATE_DOCUMENT', { response: response.data, isBase })
         }).catch(err => {
           commit('SET_MESSAGE', { message: err })
           throw err

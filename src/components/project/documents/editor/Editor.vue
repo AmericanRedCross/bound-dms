@@ -83,12 +83,36 @@ export default {
       imageAlt: '',
       simplemdeConfig: {
         toolbar: toolbar
-      }
+      },
+      documentId: null,
+      projectId: parseInt(this.$route.params.id)
     }
   },
   mounted () {
     this.contentCopy = this.content
     this.titleCopy = this.title
+    this.documentId = parseInt(this.$route.params.docId)
+    if (!Number.isNaN(this.documentId) && this.$route.params.lang) {
+      // Get the document...
+      this.$store.dispatch('GET_DOCUMENT_BY_ID_LANG', {
+        documentId: this.documentId,
+        language: this.$route.params.lang,
+        isBase: true
+      }).then(() => {
+        let currentDoc = this.$store.state.documents.currentBaseDocument
+        this.content = currentDoc.content
+        this.title = currentDoc.title
+      }).catch((err) => {
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+            icon: 'exclamation-triangle',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'danger'
+          })
+      })
+    }
   },
   methods: {
     back () {
@@ -103,10 +127,10 @@ export default {
           confirmButtonText: this._i18n.t('common.goBack'),
           allowOutsideClick: false
         }).then(() => {
-          this.$router.push({name: 'project-documents', params: {id: parseInt(this.$route.params.id)}})
+          this.$router.push({name: 'project-documents', params: {id: this.projectId}})
         }).catch(this.$swal.noop)
       } else {
-        this.$router.push({name: 'project-documents', params: {id: parseInt(this.$route.params.id)}})
+        this.$router.push({name: 'project-documents', params: {id: this.projectId}})
       }
     },
     attachImage () {
@@ -183,15 +207,14 @@ export default {
     },
     save () {
       this.saving = true
-      let projectId = parseInt(this.$route.params.id)
       let saveData = {
-        language: this.getProjectById(projectId).baseLanguage,
+        language: this.getProjectById(this.projectId).baseLanguage,
         title: this.title,
         content: this.content
       }
 
       this.$store.dispatch('CREATE_DOCUMENT', {
-        projectId,
+        projectId: this.projectId,
         data: saveData
       }).then(() => {
         this.saving = false
@@ -203,7 +226,7 @@ export default {
             verticalAlign: 'bottom',
             type: 'info'
           })
-        this.$router.push({name: 'project-documents', params: {id: parseInt(this.$route.params.id)}})
+        this.$router.push({name: 'project-documents', params: {id: this.projectId}})
       }).catch(() => {
         this.saving = false
         this.$notifications.notify(

@@ -82,13 +82,21 @@ export default {
           }
         })
         this.$emit('input', doc)
+      } else {
+        this.$router.push({
+          name: 'document-edit-id',
+          params: {
+            docId: doc._id,
+            lang: this.getProjectById(this.projectId).baseLanguage
+          }
+        })
       }
     },
     fetchAllFiles () {
       this.$store.dispatch('GET_ALL_DOCUMENTS', {
         page: this.currentPage,
         limit: this.perPage,
-        projectId: parseInt(this.$route.params.id)
+        projectId: this.projectId
       }).then(this.parseFiles).catch(() => {
         this.$notifications.notify(
           {
@@ -119,7 +127,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getAllDocuments'
+      'getAllDocuments',
+      'getProjectById'
     ])
   },
   watch: {
@@ -170,6 +179,7 @@ export default {
       totalFiles: 0,
       perPage: 10,
       currentPage: 1,
+      projectId: parseInt(this.$route.params.id),
       filter: null
     }
   }

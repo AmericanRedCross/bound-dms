@@ -161,6 +161,16 @@ export default new Router({
                     breadcrumb: 'Edit',
                     showSidebar: true
                   }
+                },
+                {
+                  path: 'edit/:docId/:lang',
+                  name: 'document-edit-id',
+                  props: true,
+                  components: {default: FileEditor},
+                  meta: {
+                    breadcrumb: 'Edit',
+                    showSidebar: true
+                  }
                 }
               ]
             },
