@@ -92,7 +92,7 @@ export default {
   },
   methods: {
     back () {
-      if (this.needsSaving) {
+      if (this.needsSaving || this.contentCopy !== this.content) {
         this.$swal({
           title: this._i18n.t('common.areYouSure'),
           text: this._i18n.t('common.changesMade'),
