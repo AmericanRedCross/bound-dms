@@ -27,7 +27,6 @@ const documents = {
       } else {
         state.currentTranslatingDocument = new Translation(response.data)
       }
-      console.log(state)
     }
   },
   actions: {
@@ -64,9 +63,7 @@ const documents = {
     },
     LINK_DIRECTORY: function ({commit}, {directoryId, documentId}) {
       return axios.patch('/documents/' + documentId, {directory: {id: directoryId}})
-        .then((response) => {
-          console.log({response})
-        }).catch(err => {
+        .catch(err => {
           commit('SET_MESSAGE', { message: err })
           throw err
         })
