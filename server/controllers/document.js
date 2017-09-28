@@ -194,12 +194,15 @@ module.exports = {
         return res.status(500).json({status: 500, message: 'Error converting uploaded document'})
       }
       docService.convertDocxToMarkdown(buf).then(md => {
+        fs.unlink(req.uploadedFile.path)
+
         return res.status(200)
         .set('Content-Type', 'text/plain')
         .set('Cache-Control', 'no-cache')
         .send(md)
       })
       .catch((err) => {
+        fs.unlink(req.uploadedFile.path)
         console.error('Error converting uploaded document to md', err)
         res.status(500).json({status: 500, message: 'Error converting uploaded document'})
       })
