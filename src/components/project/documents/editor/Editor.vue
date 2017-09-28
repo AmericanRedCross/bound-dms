@@ -13,6 +13,7 @@
              {{ $t('common.save') }}
           </b-button>
           <span v-if="importingDocument"><fa-icon name="refresh" spin></fa-icon> {{ $t('projects.documents.edit.importingDocument') }}</span>
+          <span v-if="loadingDocument"><fa-icon name="refresh" spin></fa-icon> {{ $t('projects.documents.edit.loadingDocument') }}</span>
         </div>
       </div>
       <div class="row">
@@ -74,6 +75,7 @@ export default {
       contentCopy: '',
       titleCopy: '',
       importingDocument: false,
+      loadingDocument: false,
       saving: false,
       image: {
         url: 'http://',
@@ -83,12 +85,40 @@ export default {
       imageAlt: '',
       simplemdeConfig: {
         toolbar: toolbar
-      }
+      },
+      documentId: null,
+      projectId: parseInt(this.$route.params.id),
+      editingDocument: (!Number.isNaN(this.documentId) && this.$route.params.lang)
     }
   },
   mounted () {
     this.contentCopy = this.content
     this.titleCopy = this.title
+    this.documentId = parseInt(this.$route.params.docId)
+    if (this.editingDocument) {
+      this.loadingDocument = true
+      // Get the document...
+      this.$store.dispatch('GET_DOCUMENT_BY_ID_LANG', {
+        documentId: this.documentId,
+        language: this.$route.params.lang,
+        isBase: true
+      }).then(() => {
+        this.loadingDocument = false
+        let currentDoc = this.$store.state.documents.currentBaseDocument
+        this.content = this.contentCopy = currentDoc.content
+        this.title = this.titleCopy = currentDoc.title
+      }).catch(() => {
+        this.loadingDocument = false
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+            icon: 'exclamation-triangle',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'danger'
+          })
+      })
+    }
   },
   methods: {
     back () {
@@ -103,10 +133,10 @@ export default {
           confirmButtonText: this._i18n.t('common.goBack'),
           allowOutsideClick: false
         }).then(() => {
-          this.$router.push({name: 'project-documents', params: {id: parseInt(this.$route.params.id)}})
+          this.$router.push({name: 'project-documents', params: {id: this.projectId}})
         }).catch(this.$swal.noop)
       } else {
-        this.$router.push({name: 'project-documents', params: {id: parseInt(this.$route.params.id)}})
+        this.$router.push({name: 'project-documents', params: {id: this.projectId}})
       }
     },
     attachImage () {
@@ -183,27 +213,40 @@ export default {
     },
     save () {
       this.saving = true
-      let projectId = parseInt(this.$route.params.id)
       let saveData = {
-        language: this.getProjectById(projectId).baseLanguage,
+        language: this.getProjectById(this.projectId).baseLanguage,
         title: this.title,
         content: this.content
       }
+      let promise = null
 
-      this.$store.dispatch('CREATE_DOCUMENT', {
-        projectId,
-        data: saveData
-      }).then(() => {
+      if (this.editingDocument) {
+        promise = this.$store.dispatch('UPDATE_DOCUMENT_TRANSLATION', {
+          documentId: this.documentId,
+          language: this.$route.params.lang,
+          data: saveData
+        })
+      } else {
+        promise = this.$store.dispatch('CREATE_DOCUMENT', {
+          projectId: this.projectId,
+          data: saveData
+        })
+      }
+
+      promise.then(() => {
         this.saving = false
         this.$notifications.notify(
           {
-            message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.created')} ${this.title}`,
+            message: `<b>
+              ${this._i18n.t('common.saved')}</b><br />
+              ${this._i18n.t(this.editingDocument ? 'common.updated' : 'common.created')}
+              ${this.title}`,
             icon: 'info',
             horizontalAlign: 'right',
             verticalAlign: 'bottom',
             type: 'info'
           })
-        this.$router.push({name: 'project-documents', params: {id: parseInt(this.$route.params.id)}})
+        this.$router.push({name: 'project-documents', params: {id: this.projectId}})
       }).catch(() => {
         this.saving = false
         this.$notifications.notify(
