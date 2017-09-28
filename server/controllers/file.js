@@ -16,6 +16,30 @@ module.exports = {
       })
     })
   },
+  getOne (req, res, next) {
+    fileService.getById(parseInt(req.params.id))
+      .then((file) => {
+        if (!file) {
+          res.status(404).json({status: 404, message: 'File not found'})
+        }
+        res.status(201).json({status: 201, data: file})
+      }).catch((err) => {
+        res.status(500).json({status: 500, error: err})
+      })
+  },
+  update (req, res, next) {
+    fileService.getById(parseInt(req.params.id))
+      .then(file => {
+        if (!file) {
+          res.status(404).json({status: 404, message: 'File not found'})
+        }
+        return fileService.update(file, req.body)
+      }).then(file => {
+        res.status(200).json({status: 200, data: file})
+      }).catch((err) => {
+        res.status(500).json({status: 500, error: err})
+      })
+  },
   createMultiple (req, res, files, fields) {
     let projectId = parseInt(fields.projectId)
     let directoryId = (fields.directoryId) ? parseInt(fields.projectId) : null
