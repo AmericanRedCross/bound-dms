@@ -40,6 +40,20 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'directoryId',
       targetKey: 'id'
     })
+
+    Directory.belongsToMany(models.Metatype, {
+      as: 'metatypes',
+      through: {
+        as: 'metaValue',
+        model: models.MetaValue,
+        unique: false,
+        scope: {
+          entity: 'directory'
+        }
+      },
+      foreignKey: 'entityId',
+      constraints: false
+    })
   }
 
   return Directory

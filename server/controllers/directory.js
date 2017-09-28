@@ -5,6 +5,8 @@ const ProjectLanguage = require('../models').ProjectLanguage
 const DirectoryTrans = require('../models').DirectoryTranslation
 const Document = require('../models').Document
 const DocumentTranslations = require('../models').DocumentTranslations
+const Metatype = require('../models').Metatype
+const Transformer = require('../transformers/directory.js')
 
 module.exports = {
   getAll (req, res, next) {
@@ -48,12 +50,15 @@ module.exports = {
         model: DirectoryTrans,
         as: 'translations',
         attributes: ['title', 'language']
+      }, {
+        model: Metatype,
+        as: 'metatypes'
       }]
     }).then((directory) => {
       if (directory === null) {
         return res.status(404).json({status: 404, message: 'Directory not found'})
       }
-      res.status(200).json({status: 200, data: directory})
+      res.status(200).json({status: 200, data: Transformer.transform(directory)})
     })
   },
   create (req, res, next) {
