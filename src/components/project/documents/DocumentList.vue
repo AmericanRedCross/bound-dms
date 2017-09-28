@@ -103,19 +103,19 @@ export default {
       headers: {
         _id: {
           label: 'ID',
-          sortable: true
+          sortable: false
         },
         title: {
           label: 'Title',
-          sortable: true
+          sortable: false
         },
         _createdAt: {
           label: 'Created at',
-          sortable: true
+          sortable: false
         },
         _createdBy: {
           label: 'Created by',
-          sortable: true
+          sortable: false
         },
         _translations: {
           label: 'Translations',
