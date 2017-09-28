@@ -41,6 +41,7 @@
 import toolbar from './toolbarOptions'
 import MediaPicker from '@/components/ui/MediaPicker'
 import markdownEditor from 'vue-simplemde/markdown-editor'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -134,14 +135,15 @@ export default {
       })
     },
     save () {
+      let projectId = parseInt(this.$route.params.id)
       let saveData = {
-        language: 'en',
+        language: this.getProjectById(projectId).baseLanguage,
         title: this.title,
         content: this.content
       }
 
       this.$store.dispatch('CREATE_DOCUMENT', {
-        projectId: parseInt(this.$route.params.id),
+        projectId,
         data: saveData
       }).then(() => {
         this.$notifications.notify(
@@ -166,6 +168,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+      'getProjectById'
+    ]),
     titleState () {
       return this.title.length > 0 ? null : false
     },
