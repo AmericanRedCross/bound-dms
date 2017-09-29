@@ -6,7 +6,10 @@ const DirectoryTrans = require('../models').DirectoryTranslation
 const Document = require('../models').Document
 const DocumentTranslations = require('../models').DocumentTranslations
 const Metatype = require('../models').Metatype
+const MetaValue = require('../models').MetaValue
 const Transformer = require('../transformers/directory.js')
+
+const directoryMetaEntity = 'directory'
 
 module.exports = {
   getAll (req, res, next) {
@@ -132,6 +135,61 @@ module.exports = {
       return res.status(200).json({status: 200, data: translation})
     }).catch((err) => {
       return res.status(400).json({status: 400, message: err.message})
+    })
+  },
+  createMetadata (req, res, next) {
+    let key = req.body.key
+    let value = req.body.value
+
+    Directory.findById(req.params.id).then((directory) => {
+      if (directory === null) {
+        return res.status(404).json({status: 404, error: 'Directory not found'})
+      }
+      return directory
+    }).then((directory) => {
+      Metatype.find({
+        where: {
+          projectId: directory.projectId,
+          key: key
+        }
+      }).then((metatype) => {
+        if (metatype === null) {
+          return res.status(404).json({status: 404, error: 'Meta type does not exist for this project'})
+        }
+        if (typeof (value) !== metatype.type) {
+          let valueType = typeof (value)
+          let error = 'Value should be ' + metatype.type + ' for this key, ' + valueType + ' given'
+          return res.status(400).json({status: 400, error: error})
+        }
+        MetaValue.find({
+          where: {
+            metaTypeId: metatype.id,
+            entity: directoryMetaEntity,
+            entityId: directory.id
+          }
+        }).then((existingMetaValue) => {
+          if (existingMetaValue) {
+            existingMetaValue.update({
+              value: value
+            }).then((metaValue) => {
+              return res.status(200).json({status: 200, data: metaValue})
+            })
+          } else {
+            MetaValue.create({
+              metaTypeId: metatype.id,
+              entity: directoryMetaEntity,
+              entityId: directory.id,
+              value: value
+            }).then((metaValue) => {
+              return res.status(201).json({status: 201, data: metaValue})
+            })
+          }
+        })
+      }).catch((err) => {
+        throw err
+      })
+    }).catch((err) => {
+      return res.status(500).json({status: 500, error: err})
     })
   }
 }

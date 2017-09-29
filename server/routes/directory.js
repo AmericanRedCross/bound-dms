@@ -33,4 +33,17 @@ router.put('/:id/translations/:lang', authService.authenticate(), (req, res, nex
   })
 }, controller.updateTranslation)
 
+// PUT  /api/directories/:id/metadata
+router.put('/:id/metadata', authService.authenticate(), (req, res, next) => {
+  req.checkBody('key').isString()
+  req.checkBody('value').notEmpty()
+  req.getValidationResult().then((result) => {
+    if (!result.isEmpty()) {
+      res.status(400).json(result.array())
+      return
+    }
+    next()
+  })
+}, controller.createMetadata)
+
 module.exports = router
