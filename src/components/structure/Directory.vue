@@ -8,9 +8,6 @@
       <div class="d-flex align-items-baseline flex-wrap content">
         <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-for="number in directoryNumbers">{{ number }}.</span><span>{{ directory.order }}</span></h4>
 
-        <pre>
-          Id: {{ directory.id }}, parentId: {{ directory.parentId }}
-        </pre>
         <i v-if="!editTitle" class="ml-2">{{ directory.title }}</i>
         <span class="title-input ml-2" v-else>
           <b-input-group>
@@ -47,6 +44,11 @@
             <b-dropdown-item href="#" class="directory-action" @click="infoShow = !infoShow">
               <fa-icon name="info-circle"></fa-icon>
               {{ $t('common.info') }}
+            </b-dropdown-item>
+
+            <b-dropdown-item href="#" class="directory-action" @click="selectDocShow = !selectDocShow" :disabled="directory.id === null">
+              <fa-icon name="plus-circle"></fa-icon>
+              Select doc
             </b-dropdown-item>
 
             <b-dropdown-item-button v-if="isShown" @click="addDirectory" class="directory-action" :disabled="directory.id === null">
@@ -105,7 +107,7 @@
       </draggable>
     </b-collapse>
 
-    <b-modal id="infomodal" class="ignore-drag" v-model="infoShow" title="Module Translations">
+    <b-modal :lazy="true" id="infomodal" class="ignore-drag" v-model="infoShow" title="Module Translations">
       <div class="info" align="center">
         <b-table striped hover
                    :items="items"
@@ -118,11 +120,28 @@
       </div>
     </b-modal>
 
+    <b-modal
+      :lazy="true"
+      id="infomodal"
+      class="ignore-drag"
+      v-model="selectDocShow"
+      title="Select Document"
+      size="lg"
+      @cancel="selectedDocument = null"
+      @ok="linkDocument">
+      <document-list v-if='getAllDocuments().documents.length' v-model="selectedDocument" :picker="true"></document-list>
+      <p v-else>
+        {{ $t('common.loading') }}
+      </p>
+    </b-modal>
+
   </div>
 </template>
 <script>
 import { Directory } from '../../vuex/modules/structure/Directory'
+import { mapGetters } from 'vuex'
 import ChevronToggle from '../ui/ChevronToggle'
+import DocumentList from '../project/documents/DocumentList'
 import draggable from 'vuedraggable'
 import Attachments from './Attachments'
 
@@ -131,6 +150,7 @@ export default {
   components: {
     Attachments,
     ChevronToggle,
+    DocumentList,
     draggable
   },
   props: {
@@ -156,9 +176,10 @@ export default {
       isOpen: false, // Is the Directory itself open?
       isExpanded: false, // Are the child directories viewable?
       editTitle: false,
-      modalShow: false,
       infoShow: false,
+      selectDocShow: false,
       untranslated: true,
+      selectedDocument: null,
       draggableOptions: {
         filter: '.ignore-drag',
         animation: 150
@@ -202,6 +223,30 @@ export default {
 
       this.$store.dispatch('UPDATE_ORDER', {newIndex, oldIndex, directoryNumbers: this.getDirectories()})
     },
+    linkDocument () {
+      if (this.selectedDocument) {
+        console.log(this.selectedDocument)
+        this.$store.dispatch('LINK_DIRECTORY', { directoryId: this.directory.id, documentId: this.selectedDocument._id }).then(() => {
+          this.$notifications.notify(
+            {
+              message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.updated')}`,
+              icon: 'info',
+              horizontalAlign: 'right',
+              verticalAlign: 'bottom',
+              type: 'info'
+            })
+        }).catch(() => {
+          this.$notifications.notify(
+            {
+              message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+              icon: 'exclamation-triangle',
+              horizontalAlign: 'right',
+              verticalAlign: 'bottom',
+              type: 'danger'
+            })
+        })
+      }
+    },
     removeDirectory () {
       // this.directory.removeDirectoryById(this.directory.id)
       if (this.$auth.check(['admin', 'editor'])) {
@@ -238,7 +283,10 @@ export default {
         return true
       }
       return false
-    }
+    },
+    ...mapGetters([
+      'getAllDocuments'
+    ])
   }
 }
 </script>

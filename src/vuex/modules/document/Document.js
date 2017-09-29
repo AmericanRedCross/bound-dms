@@ -11,6 +11,7 @@ export class Document {
     this._createdBy = createdBy
     this._createdAt = createdAt && new Date(createdAt)
     this._translations = translations
+    this._rowVariant = '' // Helps with table row selection
   }
 
   get id () { return this._id }
@@ -26,4 +27,7 @@ export class Document {
 
   set translations (translations) { this._translations = translations }
   get translations () { return this._translations }
+
+  set rowVariant (rowVariant) { this._rowVariant = rowVariant }
+  get rowVariant () { return this._rowVariant }
 }
