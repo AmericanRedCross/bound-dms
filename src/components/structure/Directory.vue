@@ -2,11 +2,11 @@
   <div class="directory">
     <!-- Chevron toggle for expanding sub items (See #collapse-directories for the actual collapsable area) -->
     <chevron-toggle :value="isExpanded" v-on:change="toggleDirectory" v-if="directory.directories.length" class="chevron mt-3"></chevron-toggle>
-    <b-card :class="{noToggle: !directory.directories.length}">
+    <b-card :class="{ noToggle: !directory.directories.length }">
 
       <!-- Module Header (The bit that's not hidden) -->
       <div class="d-flex align-items-baseline flex-wrap content">
-        <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-for="number in directoryNumbers">{{ number }}.</span><span>{{ directory.order }}</span></h4>
+        <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-for="number in directoryNumbers">{{ number + 1}}.</span><span>{{ directory.order + 1}}</span></h4>
 
         <i v-if="!editTitle" class="ml-2">{{ directory.title }}</i>
         <span class="title-input ml-2" v-else>

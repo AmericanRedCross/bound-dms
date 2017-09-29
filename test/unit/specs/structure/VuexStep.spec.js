@@ -156,4 +156,14 @@ describe('Vuex Structure Mutations', () => {
     expect(state.structure.length).to.equal(mockState.structure.length - 1)
     expect(state.directoriesToDelete.length).to.equal(1)
   })
+
+  it('PUSH_DIRECTORY', () => {
+    // mock state
+    let state = {}
+
+    state = JSON.parse(JSON.stringify(mockState)) // Object.assign(...) does not do deep cloning
+    mutations.PUSH_DIRECTORY(state, { options: {} })
+    // Length should now be one more...
+    expect(state.structure.length).to.equal(mockState.structure.length + 1)
+  })
 })

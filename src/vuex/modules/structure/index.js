@@ -70,6 +70,10 @@ const directories = {
     FLAT_STRUCTURE_PARSE: (state) => {
       // Set flat structure
       state.flatDirectories = directoryUtils.getFlatStructure(state.structure)
+    },
+
+    PUSH_DIRECTORY: (state, directory) => {
+      state.structure.push(directory)
     }
   },
   actions: {
@@ -138,6 +142,16 @@ const directories = {
     },
 
     UPDATE_ORDER: function ({ commit }, options) {
+      commit('SET_ORDER', {
+        options
+      })
+    },
+
+    ADD_TOP_LEVEL_DIRECTORY: function ({ commit }, options) {
+      let directory = options.directory || new Directory({})
+      commit('PUSH_DIRECTORY',
+        directory
+      )
       commit('SET_ORDER', {
         options
       })

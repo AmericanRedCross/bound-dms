@@ -135,7 +135,7 @@ export class Directory {
    * @return {Number} Order
    */
   getHighestChildorder () {
-    let order = 1
+    let order = 0
     this._directories.forEach((directory) => {
       if (directory.order >= order) {
         order = directory.order + 1
