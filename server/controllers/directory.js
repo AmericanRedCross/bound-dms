@@ -7,6 +7,7 @@ const Document = require('../models').Document
 const DocumentTranslations = require('../models').DocumentTranslations
 const Metatype = require('../models').Metatype
 const MetaValue = require('../models').MetaValue
+const File = require('../models').File
 const Transformer = require('../transformers/directory.js')
 
 const directoryMetaEntity = 'directory'
@@ -35,6 +36,9 @@ module.exports = {
           as: 'translations',
           attributes: { exclude: ['content'] }
         }]
+      }, {
+        model: File,
+        as: 'attachments'
       }]
     }).then((directories) => {
       res.status(200).json({status: 200, data: directories})

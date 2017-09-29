@@ -210,9 +210,9 @@ const DirectoryUtils = {
     return new Attachment({
       id: data.id,
       title: data.title,
-      url: data.url,
+      url: data.filename,
       size: data.size,
-      mime: data.mime,
+      mime: data.mimeType,
       featured: data.featured
     })
   },
