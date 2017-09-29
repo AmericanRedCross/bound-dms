@@ -74,6 +74,14 @@ const directories = {
 
     PUSH_DIRECTORY: (state, directory) => {
       state.structure.push(directory)
+    },
+
+    UPDATE_NEEDS_SAVING: (state, { options }) => {
+      options.directory.needsSaving = true
+      // Set flat structure
+      state.flatDirectories = directoryUtils.getFlatStructure(state.structure)
+      console.log(state.structure)
+      console.log(state.flatDirectories)
     }
   },
   actions: {
@@ -153,6 +161,12 @@ const directories = {
         directory
       )
       commit('SET_ORDER', {
+        options
+      })
+    },
+
+    DIRECTORY_UPDATE_SAVING: function ({ commit }, options) {
+      commit('UPDATE_NEEDS_SAVING', {
         options
       })
     }

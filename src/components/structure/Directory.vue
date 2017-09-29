@@ -18,7 +18,7 @@
 
             <!-- Attach Right button -->
             <b-input-group-button slot="right">
-              <b-button @click="editTitle = false"><fa-icon name="check"></fa-icon></b-button>
+              <b-button @click="updateText"><fa-icon name="check"></fa-icon></b-button>
             </b-input-group-button>
 
           </b-input-group>
@@ -223,6 +223,14 @@ export default {
 
       this.$store.dispatch('UPDATE_ORDER', {newIndex, oldIndex, directoryNumbers: this.getDirectories()})
     },
+    updateText () {
+      // TODO : this is a translatable thing.. we need to call the translate endpoint
+      this.editTitle = false
+      this.setNeedsSaving()
+    },
+    setNeedsSaving () {
+      this.$store.dispatch('DIRECTORY_UPDATE_SAVING', { directory: this.directory })
+    },
     linkDocument () {
       if (this.selectedDocument) {
         console.log(this.selectedDocument)
@@ -259,7 +267,7 @@ export default {
           confirmButtonText: this._i18n.t('common.deleteIt'),
           allowOutsideClick: false
         }).then(() => {
-          this.$store.dispatch('REMOVE_DIRECTORY', {directoryNumbers: this.directoryNumbers, directory: this.directory})
+          this.$store.dispatch('REMOVE_DIRECTORY', {directoryNumbers: this.directoryNumbers.shift(), directory: this.directory})
           this.isExpanded = false
         })
       } else {

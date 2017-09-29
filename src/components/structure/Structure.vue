@@ -2,7 +2,7 @@
   <div class="structure">
     <div class="row">
       <div class="col-4">
-        <v-select v-if="currentProject" :value.sync="selected" :options="getLangOptions"></v-select>
+        <v-select v-show="false" v-if="currentProject" :value.sync="selected" :options="getLangOptions"></v-select>
       </div>
       <div class="col-md-8" align="right">
         <b-button @click="save" variant="success">{{ $t('common.save')}}</b-button>
