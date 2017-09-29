@@ -1,4 +1,5 @@
 import { Directory } from './Directory'
+import { Document } from '../document/Document'
 import { Attachment } from './Attachment'
 
 let mockStructure = [{
@@ -176,6 +177,7 @@ const DirectoryUtils = {
       order: data.order,
       content: data.content,
       attachments: this.getAttachments(data.attachments),
+      documents: this.getDocuments(data.documents),
       directories: this.getDirectories(data.directories),
       parentId: data.parentId
     })
@@ -192,6 +194,17 @@ const DirectoryUtils = {
     return attachments
   },
 
+  // Useful function to get an array of document objects
+  getDocuments (dataArray) {
+    let documents = []
+    if (Array.isArray(dataArray)) {
+      dataArray.forEach((data) => {
+        documents.push(this.getDocumentObject(data))
+      })
+    }
+    return documents
+  },
+
   // Useful function to build a directory object
   getAttachmentObject (data) {
     return new Attachment({
@@ -201,6 +214,14 @@ const DirectoryUtils = {
       size: data.size,
       mime: data.mime,
       featured: data.featured
+    })
+  },
+
+  // Useful function to build a directory object
+  getDocumentObject (data) {
+    return new Document({
+      id: data.id,
+      translations: data.translations
     })
   },
 
