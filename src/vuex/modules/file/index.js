@@ -28,6 +28,13 @@ const files = {
           commit('SET_MESSAGE', { message: err })
           throw err
         })
+    },
+    LINK_FILE_DIRECTORY: function ({commit}, {directoryId, fileId}) {
+      return axios.patch('/files/' + fileId, {directoryId})
+        .catch(err => {
+          commit('SET_MESSAGE', { message: err })
+          throw err
+        })
     }
   },
   getters: {

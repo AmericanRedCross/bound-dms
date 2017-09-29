@@ -264,7 +264,7 @@ export default {
     },
     linkDocument () {
       if (this.selectedDocument) {
-        this.$store.dispatch('LINK_DIRECTORY', { directoryId: this.directory.id, documentId: this.selectedDocument._id }).then(() => {
+        this.$store.dispatch('LINK_DOCUMENT_DIRECTORY', { directoryId: this.directory.id, documentId: this.selectedDocument._id }).then(() => {
           this.$notifications.notify(
             {
               message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.updated')}`,
@@ -288,7 +288,7 @@ export default {
     linkAttachment () {
       if (this.selectedFile) {
         console.log(this.selectedFile)
-        this.$store.dispatch('LINK_ATTACHMENT', { directoryId: this.directory.id, fileId: this.selectedFile._id }).then(() => {
+        this.$store.dispatch('LINK_FILE_DIRECTORY', { directoryId: this.directory.id, fileId: this.selectedFile._id }).then(() => {
           this.$notifications.notify(
             {
               message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.updated')}`,
