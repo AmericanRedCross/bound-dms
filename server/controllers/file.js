@@ -2,11 +2,11 @@ const fileService = require('../services/files')()
 const path = require('path')
 
 module.exports = {
-  getAll (req, res, next) {
+  getForProjectId (req, res, next) {
     let page = parseInt(req.query.page) || 1
     let limit = parseInt(req.query.limit) || 10
     let projectId = req.params.id
-    fileService.getAll(page, limit, projectId).then(({rows, count}) => {
+    fileService.getForProjectId(page, limit, projectId).then(({rows, count}) => {
       res.status(200).json({
         status: 200,
         data: {
@@ -16,7 +16,9 @@ module.exports = {
       })
     })
   },
-  createMultiple (req, res, files) {
+  createMultiple (req, res, files, fields) {
+    let projectId = parseInt(fields.projectId)
+    let directoryId = (fields.directoryId) ? parseInt(fields.projectId) : null
     let inputCount = files.length
 
     Promise.all(
@@ -24,6 +26,8 @@ module.exports = {
         return Promise.all(
           [
             fileService.persist({
+              projectId: projectId,
+              directoryId: directoryId,
               title: file.name.replace(/\.[^/.]+$/, ''),
               filename: path.basename(file.path),
               mimeType: file.type,
@@ -64,11 +68,15 @@ module.exports = {
     })
   },
   createSingle (req, res, file, fields) {
+    let projectId = parseInt(fields.projectId)
+    let directoryId = (fields.directoryId) ? parseInt(fields.projectId) : null
     let title = (fields.title) ? fields.title : file.name.replace(/\.[^/.]+$/, '')
     let description = (fields.description) ? (fields.description) : null
     Promise.all(
       [
         fileService.persist({
+          projectId: projectId,
+          directoryId: directoryId,
           title: title,
           description: description,
           filename: path.basename(file.path),

@@ -6,6 +6,7 @@ const dirController = require('../controllers/directory')
 const keyController = require('../controllers/apiKey')
 const documentController = require('../controllers/document')
 const metaController = require('../controllers/metadata')
+const fileController = require('../controllers/file')
 const authService = require('../services/auth')()
 const projectRules = {
   'name': {
@@ -140,3 +141,16 @@ router.post('/:id/metatypes', authService.authenticate(), (req, res, next) => {
 }, metaController.createType)
 
 module.exports = router
+
+// GET /api/projects/:id/files
+router.get('/:id/files', authService.authenticate(['jwt']), (req, res, next) => {
+  req.checkQuery('page').optional().isInt()
+  req.checkQuery('limit').optional().isInt()
+  req.getValidationResult().then((result) => {
+    if (!result.isEmpty()) {
+      res.status(400).json({status: 422, errors: result.array()})
+      return
+    }
+    next()
+  })
+}, fileController.getForProjectId)

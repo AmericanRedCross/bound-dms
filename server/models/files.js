@@ -1,6 +1,8 @@
 module.exports = (sequelize, DataTypes) => {
   const File = sequelize.define('File', {
     parentId: {type: DataTypes.INTEGER, allowNull: true},
+    projectId: {type: DataTypes.INTEGER, allowNull: true},
+    directoryId: {type: DataTypes.INTEGER, allowNull: true},
     title: {type: DataTypes.STRING, allowNull: false},
     description: {type: DataTypes.TEXT, allowNull: true},
     mimeType: {type: DataTypes.STRING, allowNull: false},
@@ -10,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
   })
 
   File.massAssignable = function () {
-    return ['title', 'description', 'parentId', 'metadata']
+    return ['title', 'description', 'parentId', 'projectId', 'directoryId', 'metadata']
   }
 
   File.associate = (models) => {
@@ -24,6 +26,18 @@ module.exports = (sequelize, DataTypes) => {
       as: 'Children',
       foreignKey: 'parentId',
       useJunctionTable: false
+    })
+
+    File.belongsTo(models.Project, {
+      as: 'Project',
+      foreignKey: 'parentId',
+      targetKey: 'id'
+    })
+
+    File.belongsTo(models.Directory, {
+      as: 'Directory',
+      foreignKey: 'directoryId',
+      targetKey: 'id'
     })
   }
 
