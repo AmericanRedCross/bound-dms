@@ -72,6 +72,12 @@ module.exports = () => {
           ['createdAt', 'DESC']
         ]
       })
+    },
+    getById: (id) => {
+      return File.findById(id)
+    },
+    update: (file, params) => {
+      return file.update(params, {fields: File.massAssignable()})
     }
   }
 }

@@ -124,4 +124,42 @@ describe('API: Files', () => {
         })
     })
   })
+
+  describe('PATCH /api/files/{id}', () => {
+    it('edits file titles', (done) => {
+      request(app)
+        .patch('/api/files/1')
+        .send({
+          title: 'new title',
+          description: 'new description'
+        })
+        .set('Authorization', 'Bearer ' + this.token)
+        .expect(200)
+        .end((err, res) => {
+          if (err) throw err
+          expect(res.body.status).to.equal(200)
+          expect(res.body.data.title).to.equal('new title')
+          expect(res.body.data.description).to.equal('new description')
+          done()
+        })
+    })
+  })
+
+  describe('PATCH /api/files/{id}', () => {
+    it('changes the directory a file is associated with', (done) => {
+      request(app)
+        .patch('/api/files/1')
+        .send({
+          directoryId: 2
+        })
+        .set('Authorization', 'Bearer ' + this.token)
+        .expect(200)
+        .end((err, res) => {
+          if (err) throw err
+          expect(res.body.status).to.equal(200)
+          expect(res.body.data.directoryId).to.equal(2)
+          done()
+        })
+    })
+  })
 })
