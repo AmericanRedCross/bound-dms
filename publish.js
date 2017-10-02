@@ -5,7 +5,8 @@ const Metatype = require('./server/models').Metatype
 const File = require('./server/models').File
 const Document = require('./server/models').Document
 const DocumentTrans = require('./server/models').DocumentTranslations
-const path = require('path');
+const Publish = require('./server/models').Publish
+const path = require('path')
 const args = process.argv.slice(2)
 
 const projectId = parseInt(args[0]) || 1
@@ -43,9 +44,17 @@ Directory.findAll({
   const flatData = data.map(dir => dir.toJSON())
   archive.setData(flatData)
   archive.buildStructure(archive.buildDirectoryJson(language))
-  archive.createBundleFile(language)
+  const archivePath = archive.createBundleFile(language)
 
-  process.exit()
+  if (archivePath) {
+    Publish.create({ projectId: projectId, type: 'bundleArchive', filePath: path.basename(archivePath) }).then((pub) => {
+      console.log(pub.toJSON())
+      process.exit()
+    })
+  } else {
+    console.error('Bundle archive failed')
+    process.exit()
+  }
 }).catch(err => {
   console.error(err)
   process.exit()
