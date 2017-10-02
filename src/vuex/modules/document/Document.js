@@ -12,6 +12,7 @@ export class Document {
     this._createdAt = createdAt && new Date(createdAt)
     this._translations = translations
     this._rowVariant = '' // Helps with table row selection
+    this._hidden = false
   }
 
   get id () { return this._id }
@@ -30,4 +31,7 @@ export class Document {
 
   set rowVariant (rowVariant) { this._rowVariant = rowVariant }
   get rowVariant () { return this._rowVariant }
+
+  set hidden (hidden) { this._hidden = hidden }
+  get hidden () { return this._hidden }
 }

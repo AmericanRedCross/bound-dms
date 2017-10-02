@@ -23,7 +23,7 @@
         <div class="col">
           <b-table striped hover
                   :items="fileData"
-                  :fields="headers"
+                  :fields="headers()"
                   :per-page="perPage"
                   :show-empty="true"
                   :empty-text="$t('files.emptystate')"
@@ -187,35 +187,37 @@ export default {
         },
         showRemoveLink: false
       },
-      headers: {
-        _id: {
-          label: 'ID',
-          sortable: false
-        },
-        thumbnail: {
-          label: 'Thumbnail',
-          sortable: false
-        },
-        _title: {
-          label: 'Title',
-          sortable: false
-        },
-        _description: {
-          label: 'Description',
-          sortable: false
-        },
-        _filename: {
-          label: 'Filename',
-          sortable: false
-        },
-        createdAt: {
-          label: 'Created at',
-          sortable: false
-        },
-        createdBy: {
-          label: 'Created by',
-          sortable: false
+      headers () {
+        let headers = {
+          thumbnail: {
+            label: 'Thumbnail',
+            sortable: false
+          },
+          _title: {
+            label: 'Title',
+            sortable: false
+          },
+          _filename: {
+            label: 'Filename',
+            sortable: false
+          },
+          createdAt: {
+            label: 'Created at',
+            sortable: false
+          }
         }
+        if (!this.picker) {
+          headers._description = {
+            label: 'Description',
+            sortable: false
+          }
+          headers.createdBy = {
+            label: 'Created by',
+            sortable: false
+          }
+        }
+
+        return headers
       },
       fileData: [
         {

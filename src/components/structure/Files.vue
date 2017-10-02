@@ -2,7 +2,8 @@
   <div class="directory-files mt-3">
     <b-list-group>
       <b-list-group-item v-for="file in files" :key="file.id" class="clearfix" v-if="!file.hidden">
-        <span><b>{{ file.title }}</b> | {{ file.filename }} | {{ file.mimeType }}</span>
+        <span v-if="documents"><b>{{ getDocumentTitle(file) }}</b></span>
+        <span v-else><b>{{ file.title }}</b> | {{ file.filename }} | {{ file.mimeType }}</span>
         <b-button
           size="sm"
           variant="outline-danger"
@@ -16,12 +17,18 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Directory-Files',
   props: {
     files: {
       type: Array,
       default: []
+    },
+    documents: {
+      type: Boolean,
+      default: false
     },
     directoryId: {
       type: Number,
@@ -35,7 +42,8 @@ export default {
   },
   methods: {
     remove (file) {
-      this.$store.dispatch('UNLINK_FILE_DIRECTORY', { fileId: file.id }).then(() => {
+      let action = this.documents ? 'UNLINK_DOCUMENT_DIRECTORY' : 'UNLINK_FILE_DIRECTORY'
+      this.$store.dispatch(action, { fileId: file.id }).then(() => {
         this.$notifications.notify(
           {
             message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.updated')}`,
@@ -56,7 +64,28 @@ export default {
             type: 'danger'
           })
       })
+    },
+    getDocumentTitle (file) {
+      let project = this.getProjectById(parseInt(this.$route.params.id))
+      if (project) {
+        let baseLanguage = project.baseLanguage
+        if (baseLanguage) {
+          let translation = file._translations.find(translation => translation.language === baseLanguage)
+          if (translation) {
+            return translation.title
+          }
+        }
+      }
+      if (file._translations.length >= 1) {
+        return file._translations[0]._title
+      }
+      return ''
     }
+  },
+  computed: {
+    ...mapGetters([
+      'getProjectById'
+    ])
   }
 }
 </script>
