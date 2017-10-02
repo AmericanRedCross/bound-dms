@@ -20,7 +20,7 @@ const mockState = {
       order: 0,
       content: '# Markdown Content',
       attachments: [
-        new Attachment({id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: true})
+        new Attachment({id: 1, title: 'Attachment', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: true})
       ],
       directories: [
         new Directory({
@@ -29,7 +29,7 @@ const mockState = {
           order: 0,
           content: '# Markdown Content',
           attachments: [
-            new Attachment({id: 2, title: 'Another Attachment', url: 'http://somedocuments.docx', size: 12000, mime: '', featured: false})
+            new Attachment({id: 2, title: 'Another Attachment', filename: 'http://somedocuments.docx', size: 12000, mimeType: '', featured: false})
           ],
           directories: []
         })
@@ -41,7 +41,7 @@ const mockState = {
       order: 1,
       content: '# Markdown Content',
       attachments: [
-        new Attachment({id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: false})
+        new Attachment({id: 1, title: 'Attachment', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: false})
       ],
       directories: []
     }),
@@ -51,7 +51,7 @@ const mockState = {
       order: 2,
       content: '# Markdown Content',
       attachments: [
-        new Attachment({id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: false})
+        new Attachment({id: 1, title: 'Attachment', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: false})
       ],
       directories: []
     }),
@@ -61,7 +61,7 @@ const mockState = {
       order: 3,
       content: '# Markdown Content',
       attachments: [
-        new Attachment({id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: false})
+        new Attachment({id: 1, title: 'Attachment', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: false})
       ],
       directories: []
     })
@@ -90,9 +90,9 @@ const expectDirectory = (mock, directoryObject) => {
 const expectAttachment = (mock, attachmentObject) => {
   expect(attachmentObject.id).to.equal(mock.id)
   expect(attachmentObject.title).to.equal(mock.title)
-  expect(attachmentObject.url).to.equal(mock.url)
+  expect(attachmentObject.filename).to.equal(mock.filename)
   expect(attachmentObject.size).to.equal(mock.size)
-  expect(attachmentObject.mime).to.equal(mock.mime)
+  expect(attachmentObject.mimeType).to.equal(mock.mimeType)
   expect(attachmentObject.featured).to.equal(mock.featured)
 }
 

@@ -3,7 +3,7 @@
     <hr />
     <b-list-group>
       <b-list-group-item v-for="attachment in attachments" :key="attachment.id">
-        {{ attachment.title }} | {{ attachment.url }} | {{ attachment.mime }}
+        {{ attachment.title }} | {{ attachment.filename }} | {{ attachment.mimeType }}
       </b-list-group-item>
     </b-list-group>
     <hr />

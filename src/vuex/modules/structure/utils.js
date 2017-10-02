@@ -7,9 +7,9 @@ let mockStructure = [{
   title: 'Prepare and analyze',
   order: 1,
   content: '# Markdown Content',
-  attachments: [{id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: true},
-    {id: 2, title: 'Another one', url: 'http://somedocument.docx', size: 12000, mime: '', featured: true},
-    {id: 3, title: 'Something else', url: 'http://somedocument.md', size: 12000, mime: '', featured: true}],
+  attachments: [{id: 1, title: 'Attachment', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: true},
+    {id: 2, title: 'Another one', filename: 'http://somedocument.docx', size: 12000, mimeType: '', featured: true},
+    {id: 3, title: 'Something else', filename: 'http://somedocument.md', size: 12000, mimeType: '', featured: true}],
   directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
@@ -210,9 +210,9 @@ const DirectoryUtils = {
     return new Attachment({
       id: data.id,
       title: data.title,
-      url: data.filename,
+      filename: data.filename,
       size: data.size,
-      mime: data.mimeType,
+      mimeType: data.mimeType,
       featured: data.featured
     })
   },
