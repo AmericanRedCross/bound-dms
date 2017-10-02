@@ -2,6 +2,7 @@ const Project = require('../models').Project
 const User = require('../models').User
 const Language = require('../models').ProjectLanguage
 const ApiKey = require('../models').ApiKey
+const config = require('../config')
 
 module.exports = {
   getAll (req, res, next) {
@@ -100,7 +101,11 @@ module.exports = {
         }
       }
 
-      const url = 'http://' + req.hostname + ':' + req.app.settings.port
+      const host = config.systemHostname ? config.systemHostname : req.hostname
+      const scheme = config.enableHttps ? 'https://' : 'http://'
+      const port = process.env.NODE_ENV !== 'production' ? ':' + req.app.settings.port : ''
+      const url = [scheme, host, port].join('')
+
       if (req.query.redirect && req.query.redirect === 'true') {
         const lang = req.query.language === 'fr' ? 'fr' : 'en'
         const redirect = url + '/static/example_project_' + lang + '.tar.gz'
