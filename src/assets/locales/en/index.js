@@ -113,7 +113,9 @@ export default{
       addSubDirectory: 'Add subdirectory',
       criticalPathOn: 'Critical path',
       criticalPathOff: 'Enable critical path?',
-      saveStructure: 'Save the structure to use this'
+      saveStructure: 'Save the structure to use this',
+      selectDoc: 'Select document',
+      selectFile: 'Select file'
     },
     settings: {
       header: 'Project settings',

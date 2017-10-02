@@ -141,7 +141,7 @@
       id="doc-modal"
       class="ignore-drag"
       v-model="selectDocShow"
-      title="Select document"
+      :title="$t('projects.modules.selectDoc')"
       size="lg"
       @cancel="selectedDocument = null"
       @ok="linkDocument">
@@ -163,7 +163,7 @@
       id="file-modal"
       class="ignore-drag"
       v-model="selectFileShow"
-      title="Select file"
+      :title="$t('projects.modules.selectFile')"
       size="lg"
       @cancel="selectedFile = null"
       @ok="linkFile">
