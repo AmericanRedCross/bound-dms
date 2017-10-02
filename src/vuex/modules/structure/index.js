@@ -130,7 +130,7 @@ const directories = {
     UPDATE_DIRECTORY: function ({ commit, state }, directory) {
       // /api/directories/:id
       return axios.put(DIRECTORY_ROOT + directory.id, {
-        attachments: directory.attachments,
+        files: directory.files,
         content: directory.content,
         order: directory.order,
         title: directory.title

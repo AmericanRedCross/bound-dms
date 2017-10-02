@@ -108,10 +108,12 @@ export default{
     modules: {
       module: 'Directory',
       addDirectory: 'Add directory',
+      addDocument: 'Add document',
       addTopDirectory: 'Add top level directory',
       addSubDirectory: 'Add subdirectory',
       criticalPathOn: 'Critical path',
-      criticalPathOff: 'Enable critical path?'
+      criticalPathOff: 'Enable critical path?',
+      saveStructure: 'Save the structure to use this'
     },
     settings: {
       header: 'Project settings',
@@ -123,7 +125,7 @@ export default{
       baseLanguage: 'Base language:',
       save: 'Save'
     },
-    attachments: {
+    files: {
       add: 'Add',
       files: 'Files',
       create: 'Create new file',

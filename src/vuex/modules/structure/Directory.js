@@ -9,7 +9,7 @@ export class Directory {
       title = null,
       order = null,
       content = '',
-      attachments = [],
+      files = [],
       documents = [],
       directories = [],
       parentId = null
@@ -19,7 +19,7 @@ export class Directory {
     this._title = title
     this._order = order
     this._content = content // Maybe its own object?
-    this._attachments = attachments // Loop through and declare each object
+    this._files = files // Loop through and declare each object
     this._documents = documents // Loop through and declare each object
     this._directories = directories // loop through and declare each object
     this._parentId = parentId
@@ -42,11 +42,11 @@ export class Directory {
   set content (content) { this._content = content }
   get content () { return this._content }
 
-  // attachments
-  set attachments (attachments) { this._attachments = attachments }
-  get attachments () { return this._attachments }
+  // files
+  set files (files) { this._files = files }
+  get files () { return this._files }
 
-  // attachments
+  // files
   set documents (documents) { this._documents = documents }
   get documents () { return this._documents }
 
@@ -63,18 +63,18 @@ export class Directory {
   get needsSaving () { return this._needsSaving }
 
   /**
-   * [addAttachment Add an file to the attachments array]
-   * @param {Attachment} [attachment=new File()] A new file object
+   * [addFile Add an file to the files array]
+   * @param {File} [file=new File()] A new file object
    */
-  addAttachment (file = new File()) {
-    if (file && this._attachments.findIndex(aFile => (aFile.id === file.id && file.id !== null)) !== -1) {
-      this._attachements.push(file)
+  addFile (file = new File()) {
+    if (file && this._files.findIndex(aFile => (aFile.id === file.id && file.id !== null)) !== -1) {
+      this._files.push(file)
     }
   }
 
   /**
-   * [addAttachment Add a docuemnt to the documents array]
-   * @param {Document} [attachment=new Document()] A new Document object
+   * [addFile Add a docuemnt to the documents array]
+   * @param {Document} [file=new Document()] A new Document object
    */
   addDocument (doc = new Document()) {
     if (doc && this._documents.findIndex(aDoc => (aDoc.id === doc.id && doc.id !== null)) !== -1) {
@@ -83,18 +83,18 @@ export class Directory {
   }
 
   /**
-   * [removeAttachmentById Remove an Attachment from the attachments array by ID]
+   * [removeFileById Remove an File from the files array by ID]
    * @param  {Number} id ID to remove
-   * @return {Attachment} Returns the removed attachment
+   * @return {File} Returns the removed file
    */
-  removeAttachmentById (id) {
+  removeFileById (id) {
     if (id) {
-      let index = this._attachements.findIndex((attachment) => {
-        return attachment.id === id
+      let index = this._files.findIndex((file) => {
+        return file.id === id
       })
 
       if (index > -1) {
-        return this._attachements.splice(index, 1)
+        return this._files.splice(index, 1)
       }
     }
   }
@@ -185,8 +185,8 @@ export class Directory {
   flatten () {
     let directoryObject = {
       id: this.id,
-      attachments: this.attachments.map(attachment => {
-        attachment.flatten()
+      files: this.files.map(file => {
+        file.flatten()
       }),
       content: this.content,
       order: this.order,

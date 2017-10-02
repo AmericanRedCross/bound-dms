@@ -19,7 +19,7 @@ const mockState = {
       title: 'Module 1',
       order: 0,
       content: '# Markdown Content',
-      attachments: [
+      files: [
         new File({id: 1, title: 'Attachment', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: true})
       ],
       directories: [
@@ -28,7 +28,7 @@ const mockState = {
           title: 'Some subdirectory name',
           order: 0,
           content: '# Markdown Content',
-          attachments: [
+          files: [
             new File({id: 2, title: 'Another Attachment', filename: 'http://somedocuments.docx', size: 12000, mimeType: '', featured: false})
           ],
           directories: []
@@ -40,7 +40,7 @@ const mockState = {
       title: 'Module 2',
       order: 1,
       content: '# Markdown Content',
-      attachments: [
+      files: [
         new File({id: 1, title: 'Attachment', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: false})
       ],
       directories: []
@@ -50,7 +50,7 @@ const mockState = {
       title: 'Module 3',
       order: 2,
       content: '# Markdown Content',
-      attachments: [
+      files: [
         new File({id: 1, title: 'Attachment', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: false})
       ],
       directories: []
@@ -60,7 +60,7 @@ const mockState = {
       title: 'Module 4',
       order: 3,
       content: '# Markdown Content',
-      attachments: [
+      files: [
         new File({id: 1, title: 'Attachment', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: false})
       ],
       directories: []
@@ -76,8 +76,8 @@ const expectDirectory = (mock, directoryObject) => {
   expect(directoryObject.order).to.equal(mock.order)
   expect(directoryObject.content).to.equal(mock.content)
   // Check Attachment objects
-  mock.attachments.forEach((attachment, index) => {
-    expectAttachment(attachment, directoryObject.attachments[index])
+  mock.files.forEach((file, index) => {
+    expectFile(file, directoryObject.files[index])
   })
   if (mock.directories !== undefined) {
     // Recursively check directories
@@ -87,11 +87,11 @@ const expectDirectory = (mock, directoryObject) => {
   }
 }
 
-const expectAttachment = (mock, attachmentObject) => {
-  expect(attachmentObject.id).to.equal(mock.id)
-  expect(attachmentObject.title).to.equal(mock.title)
-  expect(attachmentObject.filename).to.equal(mock.filename)
-  expect(attachmentObject.mimeType).to.equal(mock.mimeType)
+const expectFile = (mock, fileObject) => {
+  expect(fileObject.id).to.equal(mock.id)
+  expect(fileObject.title).to.equal(mock.title)
+  expect(fileObject.filename).to.equal(mock.filename)
+  expect(fileObject.mimeType).to.equal(mock.mimeType)
 }
 
 const moveDirectoryAndExpect = (state, newIndex, oldIndex) => {

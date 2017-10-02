@@ -7,7 +7,7 @@ let mockStructure = [{
   title: 'Prepare and analyze',
   order: 1,
   content: '# Markdown Content',
-  attachments: [{id: 1, title: 'Attachment', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: true},
+  files: [{id: 1, title: 'File', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: true},
     {id: 2, title: 'Another one', filename: 'http://somedocument.docx', size: 12000, mimeType: '', featured: true},
     {id: 3, title: 'Something else', filename: 'http://somedocument.md', size: 12000, mimeType: '', featured: true}],
   directories: [{
@@ -15,20 +15,20 @@ let mockStructure = [{
     title: 'Et Harum quidem reprum',
     order: 1,
     content: '# Some other content',
-    attachments: [],
+    files: [],
     directories: [{
       id: 3,
       title: 'Et Harum quidem reprum',
       order: 1,
       content: '# Some other content',
-      attachments: []
+      files: []
     },
     {
       id: 4,
       title: 'Et Harum quidem reprum',
       order: 2,
       content: '# Some other content',
-      attachments: []
+      files: []
     }]
   }]
 },
@@ -37,27 +37,27 @@ let mockStructure = [{
   title: 'Prepare and analyze',
   order: 2,
   content: '# Markdown Content',
-  attachments: [],
+  files: [],
   directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
     order: 1,
     content: '# Some other content',
-    attachments: [],
+    files: [],
     directories: [
       {
         id: 3,
         title: 'Et Harum quidem reprum',
         order: 1,
         content: '# Some other content',
-        attachments: []
+        files: []
       },
       {
         id: 4,
         title: 'Et Harum quidem reprum',
         order: 2,
         content: '# Some other content',
-        attachments: []
+        files: []
       }
     ]
   }]
@@ -67,28 +67,28 @@ let mockStructure = [{
   title: 'Prepare and analyze',
   order: 3,
   content: '# Markdown Content',
-  attachments: [],
+  files: [],
   critical: false,
   directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
     order: 1,
     content: '# Some other content',
-    attachments: [],
+    files: [],
     directories: [
       {
         id: 3,
         title: 'Et Harum quidem reprum',
         order: 1,
         content: '# Some other content',
-        attachments: []
+        files: []
       },
       {
         id: 4,
         title: 'Et Harum quidem reprum',
         order: 2,
         content: '# Some other content',
-        attachments: []
+        files: []
       }
     ]
   }]
@@ -98,27 +98,27 @@ let mockStructure = [{
   title: 'Prepare and analyze',
   order: 4,
   content: '# Markdown Content',
-  attachments: [],
+  files: [],
   directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
     order: 1,
     content: '# Some other content',
-    attachments: [],
+    files: [],
     directories: [
       {
         id: 3,
         title: 'Et Harum quidem reprum',
         order: 1,
         content: '# Some other content',
-        attachments: []
+        files: []
       },
       {
         id: 4,
         title: 'Et Harum quidem reprum',
         order: 2,
         content: '# Some other content',
-        attachments: [],
+        files: [],
         directories: []
       }
     ]
@@ -129,27 +129,27 @@ let mockStructure = [{
   title: 'Prepare and analyze',
   order: 5,
   content: '# Markdown Content',
-  attachments: [],
+  files: [],
   directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
     order: 1,
     content: '# Some other content',
-    attachments: [],
+    files: [],
     directories: [
       {
         id: 3,
         title: 'Et Harum quidem reprum',
         order: 1,
         content: '# Some other content',
-        attachments: []
+        files: []
       },
       {
         id: 4,
         title: 'Et Harum quidem reprum',
         order: 2,
         content: '# Some other content',
-        attachments: []
+        files: []
       }
     ]
   }]
@@ -176,22 +176,22 @@ const DirectoryUtils = {
       title: data.title,
       order: data.order,
       content: data.content,
-      attachments: this.getAttachments(data.attachments),
+      files: this.getFiles(data.files),
       documents: this.getDocuments(data.documents),
       directories: this.getDirectories(data.directories),
       parentId: data.parentId
     })
   },
 
-  // Useful function to get an array of attachment objects
-  getAttachments (dataArray) {
-    let attachments = []
+  // Useful function to get an array of file objects
+  getFiles (dataArray) {
+    let files = []
     if (Array.isArray(dataArray)) {
       dataArray.forEach((data) => {
-        attachments.push(this.getAttachmentObject(data))
+        files.push(this.getFileObject(data))
       })
     }
-    return attachments
+    return files
   },
 
   // Useful function to get an array of document objects
@@ -206,7 +206,7 @@ const DirectoryUtils = {
   },
 
   // Useful function to build a directory object
-  getAttachmentObject (data) {
+  getFileObject (data) {
     return new File({
       id: data.id,
       title: data.title,
