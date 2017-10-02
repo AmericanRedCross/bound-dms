@@ -1,4 +1,5 @@
-import { Attachment } from './Attachment'
+import { File } from '../file/File'
+import { Document } from '../document/Document'
 
 // Spec: https://gist.github.com/rjbaker/8d9a4b6a7ca2bc0fe4fa9325cdf64702
 export class Directory {
@@ -62,12 +63,22 @@ export class Directory {
   get needsSaving () { return this._needsSaving }
 
   /**
-   * [addAttachment Add an Attachment to the attachments array]
-   * @param {Attachment} [attachment=new Attachment()] A new attachment object
+   * [addAttachment Add an file to the attachments array]
+   * @param {Attachment} [attachment=new File()] A new file object
    */
-  addAttachment (attachment = new Attachment()) {
-    if (attachment) {
-      this._attachements.push(attachment)
+  addAttachment (file = new File()) {
+    if (file && this._attachments.findIndex(aFile => (aFile.id === file.id && file.id !== null)) !== -1) {
+      this._attachements.push(file)
+    }
+  }
+
+  /**
+   * [addAttachment Add a docuemnt to the documents array]
+   * @param {Document} [attachment=new Document()] A new Document object
+   */
+  addDocument (doc = new Document()) {
+    if (doc && this._documents.findIndex(aDoc => (aDoc.id === doc.id && doc.id !== null)) !== -1) {
+      this._documents.push(doc)
     }
   }
 

@@ -39,6 +39,7 @@ export class File {
     })
     this._projectId = projectId
     this._directoryId = directoryId
+    this._hidden = false // Helper boolean for hiding away unlinked files
   }
 
   get id () { return this._id }
@@ -74,6 +75,32 @@ export class File {
 
   get createdBy () { return this._createdBy }
 
+  set hidden (hidden) { this._hidden = hidden }
+  get hidden () { return this._hidden }
+
   set rowVariant (rowVariant) { this._rowVariant = rowVariant }
   get rowVariant () { return this._rowVariant }
+
+  /**
+   * [flatten Get backend friendly File object]
+   * @return {Object} The File object (without the nesting)
+   */
+  flatten () {
+    return {
+      id: this.id,
+      title: this.title,
+      parentId: this.parentId,
+      projectId: this.projectId,
+      directoryId: this.directoryId,
+      children: this.children,
+      thumbnail: this.thumbnail,
+      description: this.description,
+      filename: this.filename,
+      mimeType: this.mimeType,
+      path: this.path,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+      createdBy: this.createdBy
+    }
+  }
 }

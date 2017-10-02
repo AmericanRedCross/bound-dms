@@ -1,6 +1,6 @@
 import { Directory } from './Directory'
 import { Document } from '../document/Document'
-import { Attachment } from './Attachment'
+import { File } from '../file/File'
 
 let mockStructure = [{
   id: 1,
@@ -207,7 +207,7 @@ const DirectoryUtils = {
 
   // Useful function to build a directory object
   getAttachmentObject (data) {
-    return new Attachment({
+    return new File({
       id: data.id,
       title: data.title,
       filename: data.filename,

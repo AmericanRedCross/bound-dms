@@ -1,5 +1,5 @@
 import { Directory } from '../../../../src/vuex/modules/structure/Directory'
-import { Attachment } from '../../../../src/vuex/modules/structure/Attachment'
+import { File } from '../../../../src/vuex/modules/file/File'
 
 describe('Directory Object Creation', () => {
   it('Create a new directory', () => {
@@ -22,7 +22,7 @@ describe('Directory Object Creation', () => {
     let title = 'Section 1'
     let order = 1
     let content = '# Content'
-    let attachments = [new Attachment({})]
+    let attachments = [new File({})]
     let directories = [new Directory({})]
     let newDirectory = new Directory({
       id,

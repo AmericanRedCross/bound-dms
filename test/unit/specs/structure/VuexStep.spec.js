@@ -1,6 +1,6 @@
 import { modules } from '../../../../src/vuex'
 import { Directory } from '../../../../src/vuex/modules/structure/Directory'
-import { Attachment } from '../../../../src/vuex/modules/structure/Attachment'
+import { File } from '../../../../src/vuex/modules/file/File'
 import directoryUtils from '../../../../src/vuex/modules/structure/utils'
 
 // destructure assign users
@@ -20,7 +20,7 @@ const mockState = {
       order: 0,
       content: '# Markdown Content',
       attachments: [
-        new Attachment({id: 1, title: 'Attachment', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: true})
+        new File({id: 1, title: 'Attachment', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: true})
       ],
       directories: [
         new Directory({
@@ -29,7 +29,7 @@ const mockState = {
           order: 0,
           content: '# Markdown Content',
           attachments: [
-            new Attachment({id: 2, title: 'Another Attachment', filename: 'http://somedocuments.docx', size: 12000, mimeType: '', featured: false})
+            new File({id: 2, title: 'Another Attachment', filename: 'http://somedocuments.docx', size: 12000, mimeType: '', featured: false})
           ],
           directories: []
         })
@@ -41,7 +41,7 @@ const mockState = {
       order: 1,
       content: '# Markdown Content',
       attachments: [
-        new Attachment({id: 1, title: 'Attachment', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: false})
+        new File({id: 1, title: 'Attachment', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: false})
       ],
       directories: []
     }),
@@ -51,7 +51,7 @@ const mockState = {
       order: 2,
       content: '# Markdown Content',
       attachments: [
-        new Attachment({id: 1, title: 'Attachment', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: false})
+        new File({id: 1, title: 'Attachment', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: false})
       ],
       directories: []
     }),
@@ -61,7 +61,7 @@ const mockState = {
       order: 3,
       content: '# Markdown Content',
       attachments: [
-        new Attachment({id: 1, title: 'Attachment', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: false})
+        new File({id: 1, title: 'Attachment', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: false})
       ],
       directories: []
     })
@@ -91,9 +91,7 @@ const expectAttachment = (mock, attachmentObject) => {
   expect(attachmentObject.id).to.equal(mock.id)
   expect(attachmentObject.title).to.equal(mock.title)
   expect(attachmentObject.filename).to.equal(mock.filename)
-  expect(attachmentObject.size).to.equal(mock.size)
   expect(attachmentObject.mimeType).to.equal(mock.mimeType)
-  expect(attachmentObject.featured).to.equal(mock.featured)
 }
 
 const moveDirectoryAndExpect = (state, newIndex, oldIndex) => {
