@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 // This module handles the global store and requests for the Translations endpoint + some frontend bits
 const translations = {
   state: {
@@ -38,6 +40,15 @@ const translations = {
     },
     CHANGE_EDIT_CONTENT_ID: ({ commit }, id) => {
       commit('SET_CONTENT_ID', id)
+    },
+    UPDATE_DIRECTORY_TITLE: ({ commit }, options) => {
+      // /api/directories/:id/translations/:lang
+      return axios.put('directories/' + options.directoryId + '/translations/' + options.lang, {
+        title: options.title
+      }).catch(err => {
+        commit('SET_MESSAGE', { message: err })
+        throw err
+      })
     }
   }
 }

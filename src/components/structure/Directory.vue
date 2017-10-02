@@ -8,12 +8,12 @@
       <div class="d-flex align-items-baseline flex-wrap content">
         <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-for="number in directoryNumbers">{{ number + 1}}.</span><span>{{ directory.order + 1}}</span></h4>
 
-        <i v-if="!editTitle" class="ml-2">{{ directory.title }}</i>
+        <i v-if="!editTitle" class="ml-2">{{ title }}</i>
         <span class="title-input ml-2" v-else>
           <b-input-group>
-            <b-form-input v-model="directory.title"
+            <b-form-input v-model="title"
                     type="text"
-                    placeholder="Enter a title">
+                    :placeholder="$t('projects.modules.titlePlaceholder')">
             </b-form-input>
 
             <!-- Attach Right button -->
@@ -31,7 +31,7 @@
           <b-dropdown right no-flip class="m-md-2 directory-actions ignore-drag" variant="outline-primary">
             <fa-icon name="cog" slot="text"></fa-icon>
 
-            <b-dropdown-item-button @click="editTitle = true" class="directory-action">
+            <b-dropdown-item-button @click="editTitle = true" class="directory-action" :disabled="directory.id === null">
               <fa-icon name="font"></fa-icon>
               {{ $t('common.rename') }}
             </b-dropdown-item-button>
@@ -220,6 +220,7 @@ export default {
       untranslated: false,
       selectedDocument: null,
       selectedFile: null,
+      title: '',
       draggableOptions: {
         filter: '.ignore-drag',
         animation: 150
@@ -246,6 +247,17 @@ export default {
       }
     }
   },
+  mounted () {
+    // Set title from translation.. using the base language
+    // Get the base language
+    let baseLanguage = this.getProjectById(parseInt(this.$route.params.id)).baseLanguage
+    if (baseLanguage && this.directory.translations.length > 0) {
+      let translation = this.directory.translations.find(trans => trans.language === baseLanguage)
+      if (translation) {
+        this.title = translation.title
+      }
+    }
+  },
   methods: {
     addDirectory () {
       if (this.directory.id !== null) {
@@ -264,9 +276,30 @@ export default {
       this.$store.dispatch('UPDATE_ORDER', {newIndex, oldIndex, directoryNumbers: this.getDirectories()})
     },
     updateText () {
-      // TODO : this is a translatable thing.. we need to call the translate endpoint
       this.editTitle = false
-      this.setNeedsSaving()
+      this.$store.dispatch('UPDATE_DIRECTORY_TITLE', {
+        directoryId: this.directory.id,
+        lang: this.getProjectById(parseInt(this.$route.params.id)).baseLanguage,
+        title: this.title
+      }).then(() => {
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.updated')}`,
+            icon: 'info',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'info'
+          })
+      }).catch(() => {
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+            icon: 'exclamation-triangle',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'danger'
+          })
+      })
     },
     setNeedsSaving () {
       this.$store.dispatch('DIRECTORY_UPDATE_SAVING', { directory: this.directory })
@@ -368,7 +401,8 @@ export default {
     },
     ...mapGetters([
       'getAllDocuments',
-      'getAllFiles'
+      'getAllFiles',
+      'getProjectById'
     ])
   }
 }

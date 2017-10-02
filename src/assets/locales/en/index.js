@@ -116,7 +116,8 @@ export default{
       saveStructure: 'Save the structure to use this',
       selectDoc: 'Select document',
       noDocs: 'No documents here',
-      selectFile: 'Select file'
+      selectFile: 'Select file',
+      titlePlaceholder: 'Enter a title'
     },
     settings: {
       header: 'Project settings',
