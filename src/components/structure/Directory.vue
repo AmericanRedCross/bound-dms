@@ -26,13 +26,8 @@
 
         <!-- Push this stuff right-->
         <div class="ml-auto">
-          <b-badge variant="danger" :visible="untranslated">Untranslated</b-badge>
+          <b-badge variant="danger" v-show="untranslated">Untranslated</b-badge>
 
-          <fa-icon v-if="directory.critical" scale="2" name="star" class="critical-icon"></fa-icon>
-
-          <b-button @click="isOpen = !isOpen"><fa-icon name="file-text"></fa-icon></b-button>
-
-          <!-- https://bootstrap-vue.js.org/docs/components/dropdown - alignment is not working at the moment -->
           <b-dropdown right no-flip class="m-md-2 directory-actions ignore-drag">
             <fa-icon name="cog" slot="text"></fa-icon>
 
@@ -48,7 +43,7 @@
 
             <b-dropdown-item href="#" class="directory-action" @click="selectDocShow = !selectDocShow" :disabled="directory.id === null">
               <fa-icon name="plus-circle"></fa-icon>
-              Select doc
+              {{ $t('projects.modules.addDocument') }}
             </b-dropdown-item>
 
             <b-dropdown-item-button v-if="isShown" @click="addDirectory" class="directory-action" :disabled="directory.id === null">
@@ -86,13 +81,28 @@
 
       <div class="row">
         <div class="col">
-          <b-button @click="selectFileShow = !selectFileShow"><fa-icon name="plus"></fa-icon> {{ $t('projects.attachments.add') }} </b-button>
+          <b-button-group>
+            <b-button
+              variant="primary"
+              size="sm"
+              @click="isOpen = !isOpen"
+              :disabled="directory.files.length === 0">
+                <fa-icon name="file-text"></fa-icon> {{ directory.files.length }} {{ $t('projects.files.files') }}
+            </b-button>
+            <b-button
+              variant="success"
+              size="sm"
+              @click="selectFileShow = !selectFileShow"
+              :disabled="directory.id === null">
+              <fa-icon name="plus"></fa-icon> {{ $t('projects.files.add') }}
+            </b-button>
+          </b-button-group>
         </div>
       </div>
 
-      <!-- Here's where we want our attachment area -->
+      <!-- Here's where we want our file area -->
       <b-collapse :visible="isOpen" id="collapse-exta-content">
-        <Attachments :attachments="directory.attachments"></Attachments>
+        <Files :files="directory.files"></Files>
       </b-collapse>
     </b-card>
 
@@ -131,7 +141,7 @@
       id="doc-modal"
       class="ignore-drag"
       v-model="selectDocShow"
-      title="Select Document"
+      :title="$t('projects.modules.selectDoc')"
       size="lg"
       @cancel="selectedDocument = null"
       @ok="linkDocument">
@@ -153,10 +163,10 @@
       id="file-modal"
       class="ignore-drag"
       v-model="selectFileShow"
-      title="Select Document"
+      :title="$t('projects.modules.selectFile')"
       size="lg"
       @cancel="selectedFile = null"
-      @ok="linkAttachment">
+      @ok="linkFile">
       <file-list v-if='getAllFiles().files.length' v-model="selectedFile" :picker="true"></file-list>
       <p v-else>
         {{ $t('common.loading') }}
@@ -171,12 +181,12 @@ import ChevronToggle from '../ui/ChevronToggle'
 import DocumentList from '../project/documents/DocumentList'
 import FileList from '../project/documents/FileList'
 import draggable from 'vuedraggable'
-import Attachments from './Attachments'
+import Files from './Files'
 
 export default {
   name: 'Directory',
   components: {
-    Attachments,
+    Files,
     ChevronToggle,
     DocumentList,
     FileList,
@@ -208,7 +218,7 @@ export default {
       infoShow: false,
       selectDocShow: false,
       selectFileShow: false,
-      untranslated: true,
+      untranslated: false,
       selectedDocument: null,
       selectedFile: null,
       draggableOptions: {
@@ -285,7 +295,7 @@ export default {
         })
       }
     },
-    linkAttachment () {
+    linkFile () {
       if (this.selectedFile) {
         console.log(this.selectedFile)
         this.$store.dispatch('LINK_FILE_DIRECTORY', { directoryId: this.directory.id, fileId: this.selectedFile._id }).then(() => {

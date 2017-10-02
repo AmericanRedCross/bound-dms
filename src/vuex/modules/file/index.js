@@ -35,6 +35,13 @@ const files = {
           commit('SET_MESSAGE', { message: err })
           throw err
         })
+    },
+    UNLINK_FILE_DIRECTORY: function ({commit}, {fileId}) {
+      return axios.patch('/files/' + fileId, {directoryId: null})
+        .catch(err => {
+          commit('SET_MESSAGE', { message: err })
+          throw err
+        })
     }
   },
   getters: {

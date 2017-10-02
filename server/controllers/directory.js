@@ -38,7 +38,7 @@ module.exports = {
         }]
       }, {
         model: File,
-        as: 'attachments'
+        as: 'files'
       }]
     }).then((directories) => {
       res.status(200).json({status: 200, data: directories})
