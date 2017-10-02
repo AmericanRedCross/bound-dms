@@ -179,6 +179,7 @@ const DirectoryUtils = {
       files: this.getFiles(data.files),
       documents: this.getDocuments(data.documents),
       directories: this.getDirectories(data.directories),
+      translations: data.translations,
       parentId: data.parentId
     })
   },

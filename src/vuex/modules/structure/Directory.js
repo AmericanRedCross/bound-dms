@@ -8,31 +8,27 @@ export class Directory {
       id = null,
       title = null,
       order = null,
-      content = '',
       files = [],
       documents = [],
       directories = [],
+      translations = [],
       parentId = null
     }
   ) {
     this._id = id
     this._title = title
     this._order = order
-    this._content = content // Maybe its own object?
-    this._files = files // Loop through and declare each object
-    this._documents = documents // Loop through and declare each object
-    this._directories = directories // loop through and declare each object
+    this._files = files
+    this._documents = documents
+    this._directories = directories
     this._parentId = parentId
+    this._translations = translations
     this._needsSaving = false
   }
 
   // Getters and Setters
   // ID
   get id () { return this._id }
-
-  // Title
-  set title (title) { this._title = title }
-  get title () { return this._title }
 
   // Order
   set order (order) { this._order = order }
@@ -53,6 +49,9 @@ export class Directory {
   // directories
   set directories (directories) { this._directories = directories }
   get directories () { return this._directories }
+
+  // Translations
+  get translations () { return this._translations }
 
   // parentId
   set parentId (parentId) { this._parentId = parentId }

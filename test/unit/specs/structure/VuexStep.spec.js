@@ -16,30 +16,25 @@ const mockState = {
   structure: [
     new Directory({
       id: 1,
-      title: 'Module 1',
       order: 0,
-      content: '# Markdown Content',
       files: [
         new File({id: 1, title: 'Attachment', filename: 'somedocument.pdf', size: 12000, mimeType: '', featured: true})
       ],
       directories: [
         new Directory({
           id: 3,
-          title: 'Some subdirectory name',
           order: 0,
-          content: '# Markdown Content',
           files: [
             new File({id: 2, title: 'Another Attachment', filename: 'somedocuments.docx', size: 12000, mimeType: '', featured: false})
           ],
           directories: []
         })
-      ]
+      ],
+      translations: [{title: 'Here is a title in english', language: 'en'}]
     }),
     new Directory({
       id: 2,
-      title: 'Module 2',
       order: 1,
-      content: '# Markdown Content',
       files: [
         new File({id: 1, title: 'Attachment', filename: 'somedocument.pdf', size: 12000, mimeType: '', featured: false})
       ],
@@ -47,9 +42,7 @@ const mockState = {
     }),
     new Directory({
       id: 3,
-      title: 'Module 3',
       order: 2,
-      content: '# Markdown Content',
       files: [
         new File({id: 1, title: 'Attachment', filename: 'somedocument.pdf', size: 12000, mimeType: '', featured: false})
       ],
@@ -57,9 +50,7 @@ const mockState = {
     }),
     new Directory({
       id: 4,
-      title: 'Module 4',
       order: 3,
-      content: '# Markdown Content',
       files: [
         new File({id: 1, title: 'Attachment', filename: 'somedocument.pdf', size: 12000, mimeType: '', featured: false})
       ],
@@ -72,9 +63,13 @@ const mockState = {
 
 const expectDirectory = (mock, directoryObject) => {
   expect(directoryObject.id).to.equal(mock.id)
-  expect(directoryObject.title).to.equal(mock.title)
   expect(directoryObject.order).to.equal(mock.order)
-  expect(directoryObject.content).to.equal(mock.content)
+  if (mock.translations) {
+    // Check Translation objects
+    mock.translations.forEach((translation, index) => {
+      expectTranslations(translation, directoryObject.translations[index])
+    })
+  }
   // Check Attachment objects
   mock.files.forEach((file, index) => {
     expectFile(file, directoryObject.files[index])
@@ -85,6 +80,11 @@ const expectDirectory = (mock, directoryObject) => {
       expectDirectory(directory, directoryObject.directories[index])
     })
   }
+}
+
+const expectTranslations = (mock, translationObject) => {
+  expect(translationObject.title).to.equal(mock.title)
+  expect(translationObject.language).to.equal(mock.language)
 }
 
 const expectFile = (mock, fileObject) => {
