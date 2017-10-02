@@ -1,5 +1,7 @@
 module.exports = {
   production: {
+    systemHostname: process.env.HOST,
+    enableHttps: process.env.HTTPS || true,
     jwtSecretKey: process.env.JWT_SECRET || 'secret_key',
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
@@ -18,6 +20,8 @@ module.exports = {
     }
   },
   development: {
+    systemHostname: process.env.HOST,
+    enableHttps: process.env.HTTPS || false,
     jwtSecretKey: 'secret_key',
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
@@ -36,6 +40,8 @@ module.exports = {
     }
   },
   testing: {
+    systemHostname: process.env.HOST,
+    enableHttps: process.env.HTTPS || false,
     jwtSecretKey: 'secret_key',
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,

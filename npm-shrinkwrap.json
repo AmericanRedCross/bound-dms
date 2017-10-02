@@ -2027,6 +2027,11 @@
           "version": "2.5.4",
           "from": "rimraf@>=2.5.4 <2.6.0",
           "resolved": "https://registry.npmjs.org/rimraf/-/rimraf-2.5.4.tgz"
+        },
+        "tar": {
+          "version": "2.2.1",
+          "from": "tar@>=2.2.1 <2.3.0",
+          "resolved": "https://registry.npmjs.org/tar/-/tar-2.2.1.tgz"
         }
       }
     },
@@ -2740,9 +2745,16 @@
       "resolved": "https://registry.npmjs.org/symbol-tree/-/symbol-tree-3.2.2.tgz"
     },
     "tar": {
-      "version": "2.2.1",
-      "from": "tar@>=2.2.1 <2.3.0",
-      "resolved": "https://registry.npmjs.org/tar/-/tar-2.2.1.tgz"
+      "version": "4.0.1",
+      "from": "tar@4.0.1",
+      "resolved": "https://registry.npmjs.org/tar/-/tar-4.0.1.tgz",
+      "dependencies": {
+        "yallist": {
+          "version": "3.0.2",
+          "from": "yallist@>=3.0.2 <4.0.0",
+          "resolved": "https://registry.npmjs.org/yallist/-/yallist-3.0.2.tgz"
+        }
+      }
     },
     "tar-pack": {
       "version": "3.3.0",
@@ -2778,6 +2790,11 @@
           "version": "0.10.31",
           "from": "string_decoder@>=0.10.0 <0.11.0",
           "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-0.10.31.tgz"
+        },
+        "tar": {
+          "version": "2.2.1",
+          "from": "tar@>=2.2.1 <2.3.0",
+          "resolved": "https://registry.npmjs.org/tar/-/tar-2.2.1.tgz"
         }
       }
     },

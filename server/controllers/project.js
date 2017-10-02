@@ -2,6 +2,8 @@ const Project = require('../models').Project
 const User = require('../models').User
 const Language = require('../models').ProjectLanguage
 const ApiKey = require('../models').ApiKey
+const Publish = require('../models').Publish
+const config = require('../config')
 
 module.exports = {
   getAll (req, res, next) {
@@ -87,34 +89,53 @@ module.exports = {
     })
   },
   getLatestPublish (req, res, next) {
-    Project.findById(parseInt(req.params.id)).then((project) => {
+    Project.findById(parseInt(req.params.id), {
+      include: [{
+        model: Language,
+        as: 'languages'
+      }]
+    }).then((project) => {
       if (project === null) {
         res.status(404).json({status: 404, message: 'Project not found'})
       }
 
-      // req.user in this case may be either a User object or an ApiKey object
-      if (req.user instanceof ApiKey) {
-        // check that the api key matches this project
-        if (req.user.projectId !== project.id) {
-          res.status(403).json({status: 403, message: 'API key does not belong to this project'})
-        }
-      }
+      const host = config.systemHostname ? config.systemHostname : req.hostname
+      const scheme = config.enableHttps ? 'https://' : 'http://'
+      const port = process.env.NODE_ENV !== 'production' ? ':' + req.app.settings.port : ''
+      const url = [scheme, host, port].join('')
+      const language = req.query.language ? req.query.language : 'en'
 
-      const url = 'http://' + req.hostname + ':' + req.app.settings.port
-      if (req.query.redirect && req.query.redirect === 'true') {
-        const lang = req.query.language === 'fr' ? 'fr' : 'en'
-        const redirect = url + '/static/example_project_' + lang + '.tar.gz'
-        return res.redirect(redirect)
-      }
-
-      return res.status(200).json({
-        status: 200,
-        data: {
-          'id': 'x7wndlweRs',
-          'publish_date': '2017-07-13T10:40:34+00:00',
-          'download_url': url + '/api/projects/' + project.id + '/publishes/latest?redirect=true',
-          'languages': ['en', 'fr']
+      Publish.findOne({
+        where: {
+          projectId: project.id,
+          language: language
+        },
+        order: [['createdAt', 'DESC']]
+      }).then((publish) => {
+        if (publish === null) {
+          return res.status(404).json({
+            status: 404,
+            message: 'This project has not been published in the requested language yet'
+          })
         }
+
+        if (req.query.redirect && req.query.redirect === 'true') {
+          const redirect = url + '/static/publishes/' + publish.filePath
+          return res.redirect(redirect)
+        }
+
+        return res.status(200).json({
+          status: 200,
+          data: {
+            'id': publish.id,
+            'publish_date': new Date(publish.createdAt).toISOString(),
+            'download_url': url + '/api/projects/' + project.id + '/publishes/latest?redirect=true',
+            'languages': project.languages.map(lang => lang.code)
+          }
+        })
+      }).catch(err => {
+        console.error(err)
+        res.status(500).json({status: 500, message: 'There was a problem loading the publish data'})
       })
     })
   }
