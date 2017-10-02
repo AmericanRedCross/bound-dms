@@ -130,7 +130,7 @@ router.get('/:id/metatypes', authService.authenticate(), metaController.getAllTy
 // POST /api/projects/:id/metatypes
 router.post('/:id/metatypes', authService.authenticate(), (req, res, next) => {
   req.checkBody('key', 'Invalid key').notEmpty().isLength({min: 2, max: 32})
-  req.checkBody('type', 'Invalid type (boolean, string, json)').isIn(['boolean', 'string', 'json'])
+  req.checkBody('type', 'Invalid type (boolean, string, json, integer)').isIn(['boolean', 'string', 'json', 'integer'])
   req.getValidationResult().then((result) => {
     if (!result.isEmpty()) {
       res.status(400).json({status: 400, errors: result.array()})

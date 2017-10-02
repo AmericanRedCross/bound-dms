@@ -199,11 +199,18 @@ export default{
       emptystate: 'There are no Api Keys assigned to this project'
     },
     meta: {
-      emptystate: 'There is no metadata assigned to this project',
-      add: 'Add metadata',
-      name: 'Metadata item name',
-      meta: 'Metadata',
-      example: 'e.g. colour'
+      metatype: {
+        emptystate: 'There is no metadata assigned to this project',
+        add: 'Add metadata type',
+        name: 'Name',
+        label: 'Metatype',
+        example: 'e.g. colour',
+        types: {
+          string: 'Text (String)',
+          boolean: 'True / False (Boolean)',
+          integer: 'Number (Integer)'
+        }
+      }
     },
     documents: {
       title: 'Documents',
