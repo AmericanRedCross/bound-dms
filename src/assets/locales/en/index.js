@@ -124,7 +124,8 @@ export default{
       save: 'Save'
     },
     attachments: {
-      add: 'Add attachment',
+      add: 'Add',
+      files: 'Files',
       create: 'Create new file',
       createSub: 'Create a file in markdown format',
       upload: 'Upload a file',

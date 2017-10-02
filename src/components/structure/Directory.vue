@@ -28,11 +28,6 @@
         <div class="ml-auto">
           <b-badge variant="danger" :visible="untranslated">Untranslated</b-badge>
 
-          <fa-icon v-if="directory.critical" scale="2" name="star" class="critical-icon"></fa-icon>
-
-          <b-button @click="isOpen = !isOpen"><fa-icon name="file-text"></fa-icon></b-button>
-
-          <!-- https://bootstrap-vue.js.org/docs/components/dropdown - alignment is not working at the moment -->
           <b-dropdown right no-flip class="m-md-2 directory-actions ignore-drag">
             <fa-icon name="cog" slot="text"></fa-icon>
 
@@ -86,7 +81,21 @@
 
       <div class="row">
         <div class="col">
-          <b-button @click="selectFileShow = !selectFileShow"><fa-icon name="plus"></fa-icon> {{ $t('projects.attachments.add') }} </b-button>
+          <b-button-group>
+            <b-button
+              variant="primary"
+              size="sm"
+              @click="isOpen = !isOpen"
+              :disabled="directory.attachments.length === 0">
+                <fa-icon name="file-text"></fa-icon> {{ directory.attachments.length }} {{ $t('projects.attachments.files') }}
+            </b-button>
+            <b-button
+              variant="success"
+              size="sm"
+              @click="selectFileShow = !selectFileShow">
+              <fa-icon name="plus"></fa-icon> {{ $t('projects.attachments.add') }}
+            </b-button>
+          </b-button-group>
         </div>
       </div>
 
@@ -131,7 +140,7 @@
       id="doc-modal"
       class="ignore-drag"
       v-model="selectDocShow"
-      title="Select Document"
+      title="Select document"
       size="lg"
       @cancel="selectedDocument = null"
       @ok="linkDocument">
@@ -153,7 +162,7 @@
       id="file-modal"
       class="ignore-drag"
       v-model="selectFileShow"
-      title="Select Document"
+      title="Select file"
       size="lg"
       @cancel="selectedFile = null"
       @ok="linkAttachment">
@@ -208,7 +217,7 @@ export default {
       infoShow: false,
       selectDocShow: false,
       selectFileShow: false,
-      untranslated: true,
+      untranslated: false,
       selectedDocument: null,
       selectedFile: null,
       draggableOptions: {
