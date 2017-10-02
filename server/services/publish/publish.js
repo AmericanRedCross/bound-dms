@@ -4,14 +4,18 @@ class Publish {
     const defaults = {
       type: 'file',
       storage: 'disk',
-      directory: '/static/publishes'
+      publishDir: '/static/publishes',
+      uploadDir: 'uploads',
+      host: 'https://cie.arc.cubeapis.com'
     }
 
     this._options = Object.assign({}, defaults, options)
     this._directoryData = null
+    this._structure = null
+    this._publishDate = new Date()
   }
 
-  setFlatData (directoryData) {
+  setData (directoryData) {
     this._directoryData = directoryData
   }
 
@@ -28,7 +32,7 @@ class Publish {
     }
 
     structure.forEach(parent => buildStructure(parent))
-    return structure
+    this._structure = structure
   }
 }
 

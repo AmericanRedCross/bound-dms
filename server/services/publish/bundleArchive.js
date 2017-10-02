@@ -1,22 +1,25 @@
 const Publish = require('./publish')
+const fs = require('fs')
+const path = require('path')
+const tar = require('tar')
 
 class BundleArchive extends Publish {
 
-  buildDirectoryJson (flatData, language) {
-    return flatData.map(dir => {
+  buildDirectoryJson (language) {
+    return this._directoryData.map(dir => {
       const titleData = dir.translations.filter(trans => { return trans.language === language })
       const title = titleData.length > 0 ? titleData[0].title : 'Title not set'
-      const url = dir.documents.length > 0 ? this.getContentFilename(dir.documents[0], language) : null
+      const filename = dir.documents.length > 0 ? this.getContentFilename(dir.documents[0], language) : null
 
       return {
         id: dir.id,
         parentId: dir.parentId,
         title: title,
         order: dir.order,
-        content: url ? ['/content/', url].join('') : null,
-        metadata: {},
+        content: filename ? ['/content/', filename].join('') : null,
+        metadata: this.transformMetadata(dir.metatypes),
         directories: [],
-        attachments: []
+        attachments: this.transformFiles(dir.files)
       }
     })
   }
@@ -32,21 +35,72 @@ class BundleArchive extends Publish {
     }
   }
 
-  exportDocumentFiles () {
-
-  }
-
-  createBundleFile () {
-
-  }
-
-  publish () {
-    Promise.all([
-      this.buildDirectoryJson(),
-      this.exportDocumentFiles()
-    ]).then(results => {
-      this.createBundleFile()
+  transformFiles (files) {
+    return files.map(file => {
+      return {
+        title: file.title,
+        description: file.description,
+        url: [this._options.host, this._options.uploadDir, file.filename].join('/'),
+        mime: file.mimeType,
+        size: 10000
+      }
     })
+  }
+
+  transformMetadata (metatypes) {
+    let metadata = {}
+    metatypes.forEach((metatype, index) => {
+      let value = metatype.MetaValue.value
+      if (metatype.type === 'boolean') {
+        value = (value === '1')
+      } else if (metatype.type === 'integer') {
+        value = parseInt(value)
+      }
+      metadata[metatype.key] = value
+    })
+
+    return metadata
+  }
+
+  exportDocumentFile (dir, contentPath, language) {
+    if (dir.documents.length > 0 && dir.documents[0].translations.length > 0) {
+      const filename = this.getContentFilename(dir.documents[0], language)
+      const filepath = path.join(contentPath, filename)
+      const trans = dir.documents[0].translations.filter(trans => trans.language === language)
+      fs.writeFileSync(filepath, trans[0].content)
+    }
+  }
+
+  createBundleFile (language) {
+    const fileName = Math.floor(this._publishDate.getTime() / 1000).toString()
+    const workpath = path.join(this._options.publishDir, fileName)
+    const contentPath = path.join(workpath, 'content')
+    const structureFile = path.join(workpath, 'structure.json')
+    const bundlePath = path.join(this._options.publishDir, fileName) + '_bundle.tar.gz'
+
+    if (!fs.existsSync(workpath)) {
+      fs.mkdirSync(workpath)
+      fs.mkdirSync(contentPath)
+    } else {
+      throw new Error('Bundle path already exists')
+    }
+
+    this._directoryData.forEach((dir) => {
+      this.exportDocumentFile(dir, contentPath, language)
+    })
+
+    fs.writeFileSync(structureFile, JSON.stringify(this._structure))
+
+    tar.create({
+      file: bundlePath,
+      cwd: this._options.publishDir,
+      gzip: true,
+      sync: true
+    }, [fileName + '/structure.json', path.join(fileName, 'content')])
+
+    console.log('bundle written to: ' + bundlePath)
+
+    return bundlePath
   }
 }
 
