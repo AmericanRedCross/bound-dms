@@ -36,7 +36,7 @@ import ContentTranslation from '@/components/translations/ContentTranslation'
 import SettingsContainer from '@/components/project/settings/SettingsContainer'
 import ProjectSettings from '@/components/project/settings/Project'
 import ApiKeys from '@/components/project/settings/ApiKeys'
-import Metadata from '@/components/project/settings/Metadata'
+import Metatypes from '@/components/project/settings/Metatypes'
 
 // Structure Components
 import Structure from '@/components/structure/Structure'
@@ -203,7 +203,7 @@ export default new Router({
               },
               children: [
                 {
-                  path: '',
+                  path: 'settings',
                   name: 'settings',
                   component: ProjectSettings,
                   meta: {
@@ -220,9 +220,9 @@ export default new Router({
                   }
                 },
                 {
-                  path: 'metadata',
-                  name: 'project-meta',
-                  component: Metadata,
+                  path: 'metatypes',
+                  name: 'project-metatypes',
+                  component: Metatypes,
                   meta: {
                     showSidebar: true
                   }

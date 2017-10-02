@@ -10,6 +10,7 @@ import apiKey from './modules/apiKey'
 import translations from './modules/translations'
 import file from './modules/file'
 import documents from './modules/document'
+import metatype from './modules/metatype'
 
 Vue.use(Vuex)
 export const modules = {
@@ -22,7 +23,8 @@ export const modules = {
   apiKey,
   file,
   translations,
-  documents
+  documents,
+  metatype
 }
 
 /*
