@@ -1,6 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const Publish = sequelize.define('Publish', {
     projectId: {type: DataTypes.INTEGER, allowNull: false},
+    language: {type: DataTypes.STRING, allowNull: false},
     type: {type: DataTypes.STRING, allowNull: false},
     filePath: {type: DataTypes.STRING, allowNull: false},
     createdById: {type: DataTypes.INTEGER, allowNull: true}

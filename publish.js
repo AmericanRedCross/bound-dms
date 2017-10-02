@@ -47,7 +47,12 @@ Directory.findAll({
   const archivePath = archive.createBundleFile(language)
 
   if (archivePath) {
-    Publish.create({ projectId: projectId, type: 'bundleArchive', filePath: path.basename(archivePath) }).then((pub) => {
+    Publish.create({
+      projectId: projectId,
+      language: language,
+      type: 'bundleArchive',
+      filePath: path.basename(archivePath)
+    }).then((pub) => {
       console.log(pub.toJSON())
       process.exit()
     })
