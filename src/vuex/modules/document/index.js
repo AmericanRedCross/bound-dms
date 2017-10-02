@@ -67,6 +67,13 @@ const documents = {
           commit('SET_MESSAGE', { message: err })
           throw err
         })
+    },
+    UNLINK_DOCUMENT_DIRECTORY: function ({commit}, {fileId}) {
+      return axios.patch('/documents/' + fileId, {directory: {id: null}})
+        .catch(err => {
+          commit('SET_MESSAGE', { message: err })
+          throw err
+        })
     }
   },
   getters: {

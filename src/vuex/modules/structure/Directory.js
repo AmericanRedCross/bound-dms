@@ -67,7 +67,7 @@ export class Directory {
    * @param {File} [file=new File()] A new file object
    */
   addFile (file = new File()) {
-    if (file && this._files.findIndex(aFile => (aFile.id === file.id && file.id !== null)) !== -1) {
+    if (file && this._files.findIndex(aFile => (aFile.id === file.id && file.id !== null)) === -1) {
       this._files.push(file)
     }
   }
@@ -77,7 +77,7 @@ export class Directory {
    * @param {Document} [file=new Document()] A new Document object
    */
   addDocument (doc = new Document()) {
-    if (doc && this._documents.findIndex(aDoc => (aDoc.id === doc.id && doc.id !== null)) !== -1) {
+    if (doc && this._documents.findIndex(aDoc => (aDoc.id === doc.id && doc.id !== null)) === -1) {
       this._documents.push(doc)
     }
   }

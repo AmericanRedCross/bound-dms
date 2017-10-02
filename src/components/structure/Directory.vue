@@ -28,7 +28,7 @@
         <div class="ml-auto">
           <b-badge variant="danger" v-show="untranslated">Untranslated</b-badge>
 
-          <b-dropdown right no-flip class="m-md-2 directory-actions ignore-drag">
+          <b-dropdown right no-flip class="m-md-2 directory-actions ignore-drag" variant="outline-primary">
             <fa-icon name="cog" slot="text"></fa-icon>
 
             <b-dropdown-item-button @click="editTitle = true" class="directory-action">
@@ -130,7 +130,7 @@
                    :fields="fields"
         >
           <template slot="actions" scope="item">
-            <b-btn size="sm" @click="details(item.item)">Edit</b-btn>
+            <b-btn size="sm" @click="details(item.item)">{{ $t('common.edit')}}</b-btn>
           </template>
         </b-table>
       </div>
@@ -146,11 +146,8 @@
       @cancel="selectedDocument = null"
       @ok="linkDocument">
       <b-card title="Linked documents" class="mb-2">
-        <ul>
-          <li v-for="document in directory.documents" v-if="document.translations[0]">
-            Document: {{ document.translations[0].title }}
-          </li>
-        </ul>
+        <span v-if="directory.documents.length === 0">{{ $t('projects.modules.noDocs') }}</span>
+        <Files :files="directory.documents" :documents="true"></Files>
       </b-card>
       <document-list v-if='getAllDocuments().documents.length' v-model="selectedDocument" :picker="true"></document-list>
       <p v-else>
@@ -176,6 +173,8 @@
 </template>
 <script>
 import { Directory } from '../../vuex/modules/structure/Directory'
+import { File } from '../../vuex/modules/file/File'
+import { Document } from '../../vuex/modules/document/Document'
 import { mapGetters } from 'vuex'
 import ChevronToggle from '../ui/ChevronToggle'
 import DocumentList from '../project/documents/DocumentList'
@@ -283,6 +282,11 @@ export default {
               verticalAlign: 'bottom',
               type: 'info'
             })
+          // Add it to the model so we can see it without reloading
+          this.directory.addDocument(new Document({
+            id: this.selectedDocument._id,
+            translations: this.selectedDocument._translations
+          }))
         }).catch(() => {
           this.$notifications.notify(
             {
@@ -297,7 +301,6 @@ export default {
     },
     linkFile () {
       if (this.selectedFile) {
-        console.log(this.selectedFile)
         this.$store.dispatch('LINK_FILE_DIRECTORY', { directoryId: this.directory.id, fileId: this.selectedFile._id }).then(() => {
           this.$notifications.notify(
             {
@@ -307,6 +310,13 @@ export default {
               verticalAlign: 'bottom',
               type: 'info'
             })
+          // Add it to the model so we can see it without reloading
+          this.directory.addFile(new File({
+            id: this.selectedFile._id,
+            title: this.selectedFile._title,
+            filename: this.selectedFile._filename,
+            mimeType: this.selectedFile._mimeType
+          }))
         }).catch(() => {
           this.$notifications.notify(
             {

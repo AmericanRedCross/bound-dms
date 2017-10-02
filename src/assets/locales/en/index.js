@@ -108,13 +108,14 @@ export default{
     modules: {
       module: 'Directory',
       addDirectory: 'Add directory',
-      addDocument: 'Add document',
+      addDocument: 'Documents',
       addTopDirectory: 'Add top level directory',
       addSubDirectory: 'Add subdirectory',
       criticalPathOn: 'Critical path',
       criticalPathOff: 'Enable critical path?',
       saveStructure: 'Save the structure to use this',
       selectDoc: 'Select document',
+      noDocs: 'No documents here',
       selectFile: 'Select file'
     },
     settings: {

@@ -24,7 +24,7 @@
               <span v-if="item.item._translations"
                 v-b-tooltip.hover.auto
                 :title="item.item._translations[0].title.length >= 30 ? item.item._translations[0].title : ''">
-                {{ item.item._translations[0].title | truncate(30) }}
+                {{ getDocumentTitle(item.item) | truncate(30) }}
               </span>
             </template>
             <template slot="_createdBy" scope="item">
@@ -113,6 +113,22 @@ export default {
       this.fileData = data.documents
       this.totalFiles = data.total
     },
+    getDocumentTitle (file) {
+      let project = this.getProjectById(parseInt(this.$route.params.id))
+      if (project) {
+        let baseLanguage = project.baseLanguage
+        if (baseLanguage) {
+          let translation = file._translations.find(translation => translation.language === baseLanguage)
+          if (translation) {
+            return translation.title
+          }
+        }
+      }
+      if (file._translations.length >= 1) {
+        return file._translations[0]._title
+      }
+      return ''
+    },
     editContent (translation) {
 
     }
@@ -159,10 +175,6 @@ export default {
           }
         }
         if (!this.picker) {
-          headers._id = {
-            label: 'ID',
-            sortable: true
-          }
           headers._createdBy = {
             label: 'Created by',
             sortable: true
