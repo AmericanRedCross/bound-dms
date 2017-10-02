@@ -4,16 +4,16 @@ export class Attachment {
     {
       id = null,
       title = null,
-      url = null,
-      mime = null,
+      filename = null,
+      mimeType = null,
       size = 120000,
       featured = true
     }
   ) {
     this._id = id
     this._title = title
-    this._url = url
-    this._mime = mime
+    this._filename = filename
+    this._mimeType = mimeType
     this._size = size
     this._featured = featured
   }
@@ -27,12 +27,12 @@ export class Attachment {
   get title () { return this._title }
 
   // URL
-  set url (url) { this._url = url }
-  get url () { return this._url }
+  set filename (filename) { this._filename = filename }
+  get filename () { return this._filename }
 
-  // Mime
-  set mime (mime) { this._mime = mime }
-  get mime () { return this._mime }
+  // mimeType
+  set mimeType (mimeType) { this._mimeType = mimeType }
+  get mimeType () { return this._mimeType }
 
   // Size
   set size (size) { this._size = size }
@@ -50,8 +50,8 @@ export class Attachment {
     let attachmentObject = {
       id: this.id,
       title: this.title,
-      url: this.url,
-      mime: this.mime,
+      filename: this.filename,
+      mimeType: this.mimeType,
       size: this.size,
       featured: this.featured
     }

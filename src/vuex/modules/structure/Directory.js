@@ -7,8 +7,9 @@ export class Directory {
       id = null,
       title = null,
       order = null,
-      content = '# here is some content \n\n ## here is some other content',
+      content = '',
       attachments = [],
+      documents = [],
       directories = [],
       parentId = null
     }
@@ -18,6 +19,7 @@ export class Directory {
     this._order = order
     this._content = content // Maybe its own object?
     this._attachments = attachments // Loop through and declare each object
+    this._documents = documents // Loop through and declare each object
     this._directories = directories // loop through and declare each object
     this._parentId = parentId
     this._needsSaving = false
@@ -42,6 +44,10 @@ export class Directory {
   // attachments
   set attachments (attachments) { this._attachments = attachments }
   get attachments () { return this._attachments }
+
+  // attachments
+  set documents (documents) { this._documents = documents }
+  get documents () { return this._documents }
 
   // directories
   set directories (directories) { this._directories = directories }
@@ -135,7 +141,7 @@ export class Directory {
    * @return {Number} Order
    */
   getHighestChildorder () {
-    let order = 1
+    let order = 0
     this._directories.forEach((directory) => {
       if (directory.order >= order) {
         order = directory.order + 1

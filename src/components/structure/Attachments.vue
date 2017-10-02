@@ -3,13 +3,12 @@
     <hr />
     <b-list-group>
       <b-list-group-item v-for="attachment in attachments" :key="attachment.id">
-        {{ attachment.title }}
+        {{ attachment.title }} | {{ attachment.filename }} | {{ attachment.mimeType }}
       </b-list-group-item>
     </b-list-group>
     <hr />
-    <b-button @click="modalVisibility = !modalVisibility"><fa-icon name="plus"></fa-icon> {{ $t('projects.attachments.add') }} </b-button>
 
-    <b-modal id="docmodal" class="ignore-drag" v-model="modalVisibility" :title="$t('projects.attachments.add')" :hide-footer="true">
+    <!-- <b-modal id="docmodal" class="ignore-drag" v-model="modalVisibility" :title="$t('projects.attachments.add')" :hide-footer="true">
       <div class="createDoc" align="center">
         <fa-icon name="edit"></fa-icon>
         <p>{{ $t('projects.attachments.create') }}</p>
@@ -23,7 +22,7 @@
         <br />
         <b-button variant="primary">{{ $t('common.upload') }}</b-button>
       </div>
-    </b-modal>
+    </b-modal> -->
   </div>
 </template>
 

@@ -70,6 +70,18 @@ const directories = {
     FLAT_STRUCTURE_PARSE: (state) => {
       // Set flat structure
       state.flatDirectories = directoryUtils.getFlatStructure(state.structure)
+    },
+
+    PUSH_DIRECTORY: (state, directory) => {
+      state.structure.push(directory)
+    },
+
+    UPDATE_NEEDS_SAVING: (state, { options }) => {
+      options.directory.needsSaving = true
+      // Set flat structure
+      state.flatDirectories = directoryUtils.getFlatStructure(state.structure)
+      console.log(state.structure)
+      console.log(state.flatDirectories)
     }
   },
   actions: {
@@ -139,6 +151,22 @@ const directories = {
 
     UPDATE_ORDER: function ({ commit }, options) {
       commit('SET_ORDER', {
+        options
+      })
+    },
+
+    ADD_TOP_LEVEL_DIRECTORY: function ({ commit }, options) {
+      let directory = options.directory || new Directory({})
+      commit('PUSH_DIRECTORY',
+        directory
+      )
+      commit('SET_ORDER', {
+        options
+      })
+    },
+
+    DIRECTORY_UPDATE_SAVING: function ({ commit }, options) {
+      commit('UPDATE_NEEDS_SAVING', {
         options
       })
     }

@@ -1,4 +1,5 @@
 import { Directory } from './Directory'
+import { Document } from '../document/Document'
 import { Attachment } from './Attachment'
 
 let mockStructure = [{
@@ -6,9 +7,9 @@ let mockStructure = [{
   title: 'Prepare and analyze',
   order: 1,
   content: '# Markdown Content',
-  attachments: [{id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: true},
-    {id: 2, title: 'Another one', url: 'http://somedocument.docx', size: 12000, mime: '', featured: true},
-    {id: 3, title: 'Something else', url: 'http://somedocument.md', size: 12000, mime: '', featured: true}],
+  attachments: [{id: 1, title: 'Attachment', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: true},
+    {id: 2, title: 'Another one', filename: 'http://somedocument.docx', size: 12000, mimeType: '', featured: true},
+    {id: 3, title: 'Something else', filename: 'http://somedocument.md', size: 12000, mimeType: '', featured: true}],
   directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
@@ -176,6 +177,7 @@ const DirectoryUtils = {
       order: data.order,
       content: data.content,
       attachments: this.getAttachments(data.attachments),
+      documents: this.getDocuments(data.documents),
       directories: this.getDirectories(data.directories),
       parentId: data.parentId
     })
@@ -192,15 +194,34 @@ const DirectoryUtils = {
     return attachments
   },
 
+  // Useful function to get an array of document objects
+  getDocuments (dataArray) {
+    let documents = []
+    if (Array.isArray(dataArray)) {
+      dataArray.forEach((data) => {
+        documents.push(this.getDocumentObject(data))
+      })
+    }
+    return documents
+  },
+
   // Useful function to build a directory object
   getAttachmentObject (data) {
     return new Attachment({
       id: data.id,
       title: data.title,
-      url: data.url,
+      filename: data.filename,
       size: data.size,
-      mime: data.mime,
+      mimeType: data.mimeType,
       featured: data.featured
+    })
+  },
+
+  // Useful function to build a directory object
+  getDocumentObject (data) {
+    return new Document({
+      id: data.id,
+      translations: data.translations
     })
   },
 

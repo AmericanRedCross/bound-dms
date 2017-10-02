@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-card :title="$t('files.upload')" class="mb-3">
+    <b-card :title="$t('files.upload')" class="mb-3" v-if="!picker">
         <div class="row">
           <div class="col"><div>
             <dropzone
@@ -29,6 +29,7 @@
                   :empty-text="$t('files.emptystate')"
                   :filter="filter"
                   id="files-table"
+                  @row-clicked="rowSelected"
           >
             <template slot="_title" scope="item">
               <span v-if="item.value"
@@ -79,6 +80,16 @@ import Dropzone from 'vue2-dropzone'
 import { mapGetters } from 'vuex'
 
 export default {
+  name: 'file-list',
+  props: {
+    picker: {
+      type: Boolean,
+      default: false
+    },
+    value: {
+      type: Object
+    }
+  },
   components: {
     Dropzone
   },
@@ -90,16 +101,25 @@ export default {
 
       this.fetchAllFiles()
     },
+    rowSelected (doc) {
+      // Only use if we're picking
+      if (this.picker) {
+        this.fileData.forEach((file) => {
+          if (file.id === doc._id) {
+            file.rowVariant = 'info'
+          } else {
+            file.rowVariant = ''
+          }
+        })
+        this.$emit('input', doc)
+      }
+    },
     fetchAllFiles () {
       this.$store.dispatch('GET_ALL_FILES', {
         page: this.currentPage,
         limit: this.perPage,
         projectId: this.projectId
-      }).then(() => {
-        let data = this.getAllFiles()
-        this.fileData = data.files
-        this.totalFiles = data.total
-      }).catch(() => {
+      }).then(this.parseFiles).catch(() => {
         this.$notifications.notify(
           {
             message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
@@ -109,10 +129,19 @@ export default {
             type: 'danger'
           })
       })
+    },
+    parseFiles () {
+      let data = this.getAllFiles()
+      this.fileData = data.files
+      this.totalFiles = data.total
     }
   },
   beforeMount () {
-    this.fetchAllFiles()
+    if (!this.picker) {
+      this.fetchAllFiles()
+    } else {
+      this.parseFiles()
+    }
   },
   computed: {
     ...mapGetters([

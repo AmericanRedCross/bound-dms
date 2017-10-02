@@ -24,6 +24,7 @@ export class File {
     this._createdAt = createdAt && new Date(createdAt)
     this._updatedAt = updatedAt && new Date(updatedAt)
     this._createdBy = createdBy
+    this._rowVariant = '' // Helps with table row selection
 
     this._thumbnail = null
     this._children = []
@@ -72,4 +73,7 @@ export class File {
   get updatedAt () { return this._updatedAt }
 
   get createdBy () { return this._createdBy }
+
+  set rowVariant (rowVariant) { this._rowVariant = rowVariant }
+  get rowVariant () { return this._rowVariant }
 }

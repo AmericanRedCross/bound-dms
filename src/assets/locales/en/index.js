@@ -106,8 +106,9 @@ export default{
       newHeader: 'New project'
     },
     modules: {
-      module: 'Module',
+      module: 'Directory',
       addDirectory: 'Add directory',
+      addTopDirectory: 'Add top level directory',
       addSubDirectory: 'Add subdirectory',
       criticalPathOn: 'Critical path',
       criticalPathOff: 'Enable critical path?'

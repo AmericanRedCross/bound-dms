@@ -2,11 +2,11 @@
   <div class="directory">
     <!-- Chevron toggle for expanding sub items (See #collapse-directories for the actual collapsable area) -->
     <chevron-toggle :value="isExpanded" v-on:change="toggleDirectory" v-if="directory.directories.length" class="chevron mt-3"></chevron-toggle>
-    <b-card :class="{noToggle: !directory.directories.length}">
+    <b-card :class="{ noToggle: !directory.directories.length }">
 
       <!-- Module Header (The bit that's not hidden) -->
       <div class="d-flex align-items-baseline flex-wrap content">
-        <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-for="number in directoryNumbers">{{ number }}.</span><span>{{ directory.order }}</span></h4>
+        <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-for="number in directoryNumbers">{{ number + 1}}.</span><span>{{ directory.order + 1}}</span></h4>
 
         <i v-if="!editTitle" class="ml-2">{{ directory.title }}</i>
         <span class="title-input ml-2" v-else>
@@ -18,7 +18,7 @@
 
             <!-- Attach Right button -->
             <b-input-group-button slot="right">
-              <b-button @click="editTitle = false"><fa-icon name="check"></fa-icon></b-button>
+              <b-button @click="updateText"><fa-icon name="check"></fa-icon></b-button>
             </b-input-group-button>
 
           </b-input-group>
@@ -84,6 +84,12 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="col">
+          <b-button @click="selectFileShow = !selectFileShow"><fa-icon name="plus"></fa-icon> {{ $t('projects.attachments.add') }} </b-button>
+        </div>
+      </div>
+
       <!-- Here's where we want our attachment area -->
       <b-collapse :visible="isOpen" id="collapse-exta-content">
         <Attachments :attachments="directory.attachments"></Attachments>
@@ -107,7 +113,7 @@
       </draggable>
     </b-collapse>
 
-    <b-modal :lazy="true" id="infomodal" class="ignore-drag" v-model="infoShow" title="Module Translations">
+    <b-modal :lazy="true" id="info-modal" class="ignore-drag" v-model="infoShow" title="Module Translations">
       <div class="info" align="center">
         <b-table striped hover
                    :items="items"
@@ -122,19 +128,40 @@
 
     <b-modal
       :lazy="true"
-      id="infomodal"
+      id="doc-modal"
       class="ignore-drag"
       v-model="selectDocShow"
       title="Select Document"
       size="lg"
       @cancel="selectedDocument = null"
       @ok="linkDocument">
+      <b-card title="Linked documents" class="mb-2">
+        <ul>
+          <li v-for="document in directory.documents" v-if="document.translations[0]">
+            Document: {{ document.translations[0].title }}
+          </li>
+        </ul>
+      </b-card>
       <document-list v-if='getAllDocuments().documents.length' v-model="selectedDocument" :picker="true"></document-list>
       <p v-else>
         {{ $t('common.loading') }}
       </p>
     </b-modal>
 
+    <b-modal
+      :lazy="true"
+      id="file-modal"
+      class="ignore-drag"
+      v-model="selectFileShow"
+      title="Select Document"
+      size="lg"
+      @cancel="selectedFile = null"
+      @ok="linkAttachment">
+      <file-list v-if='getAllFiles().files.length' v-model="selectedFile" :picker="true"></file-list>
+      <p v-else>
+        {{ $t('common.loading') }}
+      </p>
+    </b-modal>
   </div>
 </template>
 <script>
@@ -142,6 +169,7 @@ import { Directory } from '../../vuex/modules/structure/Directory'
 import { mapGetters } from 'vuex'
 import ChevronToggle from '../ui/ChevronToggle'
 import DocumentList from '../project/documents/DocumentList'
+import FileList from '../project/documents/FileList'
 import draggable from 'vuedraggable'
 import Attachments from './Attachments'
 
@@ -151,6 +179,7 @@ export default {
     Attachments,
     ChevronToggle,
     DocumentList,
+    FileList,
     draggable
   },
   props: {
@@ -178,8 +207,10 @@ export default {
       editTitle: false,
       infoShow: false,
       selectDocShow: false,
+      selectFileShow: false,
       untranslated: true,
       selectedDocument: null,
+      selectedFile: null,
       draggableOptions: {
         filter: '.ignore-drag',
         animation: 150
@@ -223,10 +254,41 @@ export default {
 
       this.$store.dispatch('UPDATE_ORDER', {newIndex, oldIndex, directoryNumbers: this.getDirectories()})
     },
+    updateText () {
+      // TODO : this is a translatable thing.. we need to call the translate endpoint
+      this.editTitle = false
+      this.setNeedsSaving()
+    },
+    setNeedsSaving () {
+      this.$store.dispatch('DIRECTORY_UPDATE_SAVING', { directory: this.directory })
+    },
     linkDocument () {
       if (this.selectedDocument) {
-        console.log(this.selectedDocument)
-        this.$store.dispatch('LINK_DIRECTORY', { directoryId: this.directory.id, documentId: this.selectedDocument._id }).then(() => {
+        this.$store.dispatch('LINK_DOCUMENT_DIRECTORY', { directoryId: this.directory.id, documentId: this.selectedDocument._id }).then(() => {
+          this.$notifications.notify(
+            {
+              message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.updated')}`,
+              icon: 'info',
+              horizontalAlign: 'right',
+              verticalAlign: 'bottom',
+              type: 'info'
+            })
+        }).catch(() => {
+          this.$notifications.notify(
+            {
+              message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+              icon: 'exclamation-triangle',
+              horizontalAlign: 'right',
+              verticalAlign: 'bottom',
+              type: 'danger'
+            })
+        })
+      }
+    },
+    linkAttachment () {
+      if (this.selectedFile) {
+        console.log(this.selectedFile)
+        this.$store.dispatch('LINK_FILE_DIRECTORY', { directoryId: this.directory.id, fileId: this.selectedFile._id }).then(() => {
           this.$notifications.notify(
             {
               message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.updated')}`,
@@ -259,7 +321,7 @@ export default {
           confirmButtonText: this._i18n.t('common.deleteIt'),
           allowOutsideClick: false
         }).then(() => {
-          this.$store.dispatch('REMOVE_DIRECTORY', {directoryNumbers: this.directoryNumbers, directory: this.directory})
+          this.$store.dispatch('REMOVE_DIRECTORY', {directoryNumbers: this.directoryNumbers.shift(), directory: this.directory})
           this.isExpanded = false
         })
       } else {
@@ -285,7 +347,8 @@ export default {
       return false
     },
     ...mapGetters([
-      'getAllDocuments'
+      'getAllDocuments',
+      'getAllFiles'
     ])
   }
 }
