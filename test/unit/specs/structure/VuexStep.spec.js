@@ -20,7 +20,7 @@ const mockState = {
       order: 0,
       content: '# Markdown Content',
       files: [
-        new File({id: 1, title: 'Attachment', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: true})
+        new File({id: 1, title: 'Attachment', filename: 'somedocument.pdf', size: 12000, mimeType: '', featured: true})
       ],
       directories: [
         new Directory({
@@ -29,7 +29,7 @@ const mockState = {
           order: 0,
           content: '# Markdown Content',
           files: [
-            new File({id: 2, title: 'Another Attachment', filename: 'http://somedocuments.docx', size: 12000, mimeType: '', featured: false})
+            new File({id: 2, title: 'Another Attachment', filename: 'somedocuments.docx', size: 12000, mimeType: '', featured: false})
           ],
           directories: []
         })
@@ -41,7 +41,7 @@ const mockState = {
       order: 1,
       content: '# Markdown Content',
       files: [
-        new File({id: 1, title: 'Attachment', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: false})
+        new File({id: 1, title: 'Attachment', filename: 'somedocument.pdf', size: 12000, mimeType: '', featured: false})
       ],
       directories: []
     }),
@@ -51,7 +51,7 @@ const mockState = {
       order: 2,
       content: '# Markdown Content',
       files: [
-        new File({id: 1, title: 'Attachment', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: false})
+        new File({id: 1, title: 'Attachment', filename: 'somedocument.pdf', size: 12000, mimeType: '', featured: false})
       ],
       directories: []
     }),
@@ -61,7 +61,7 @@ const mockState = {
       order: 3,
       content: '# Markdown Content',
       files: [
-        new File({id: 1, title: 'Attachment', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: false})
+        new File({id: 1, title: 'Attachment', filename: 'somedocument.pdf', size: 12000, mimeType: '', featured: false})
       ],
       directories: []
     })

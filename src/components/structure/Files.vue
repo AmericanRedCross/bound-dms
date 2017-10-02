@@ -44,7 +44,7 @@ export default {
             verticalAlign: 'bottom',
             type: 'info'
           })
-          // We can't relaod the structure as there might be unsaved changes, for now hide it...
+          // We can't reload the structure as there might be unsaved changes, for now hide it...
         file.hidden = true
       }).catch(() => {
         this.$notifications.notify(

@@ -17,7 +17,7 @@ describe('File Object Creation', () => {
   it('Has the correct propery values', () => {
     let id = 1
     let title = 'Section 1'
-    let filename = 'http://www.somewebsite.com/document.pdf'
+    let filename = 'document.pdf'
     let mimeType = 'application/pdf'
     let newFile = new File({
       id,
