@@ -93,10 +93,10 @@ class BundleArchive extends Publish {
 
     tar.create({
       file: bundlePath,
-      cwd: this._options.publishDir,
+      cwd: path.join(this._options.publishDir, fileName),
       gzip: true,
       sync: true
-    }, [fileName + '/structure.json', path.join(fileName, 'content')])
+    }, ['structure.json', 'content'])
 
     console.log('bundle written to: ' + bundlePath)
 
