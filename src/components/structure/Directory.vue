@@ -58,15 +58,10 @@
 
             <b-dropdown-divider v-if="$auth.check(['admin'])"></b-dropdown-divider>
 
-            <b-dropdown-header>
-              <toggle-button
-                v-if="$auth.check(['admin'])"
-                :value="directory.critical"
-                :width="150"
-                :labels="{checked: $t('projects.modules.criticalPathOn'), unchecked: $t('projects.modules.criticalPathOff')}"
-                @change="updateCritical"
-                />
-            </b-dropdown-header>
+            <b-dropdown-item-button @click="openMetadataModel(directory.id, directory.metadata)" class="directory-action" :disabled="directory.id === null">
+              <fa-icon name="pencil"></fa-icon>
+              {{ $t('projects.modules.openMetadataModal') }}
+            </b-dropdown-item-button>
 
             <b-dropdown-divider></b-dropdown-divider>
 
@@ -150,21 +145,6 @@
         <Files :files="directory.documents" :documents="true"></Files>
       </b-card>
       <document-list v-if='getAllDocuments().documents.length' v-model="selectedDocument" :picker="true"></document-list>
-      <p v-else>
-        {{ $t('common.loading') }}
-      </p>
-    </b-modal>
-
-    <b-modal
-      :lazy="true"
-      id="file-modal"
-      class="ignore-drag"
-      v-model="selectFileShow"
-      :title="$t('projects.modules.selectFile')"
-      size="lg"
-      @cancel="selectedFile = null"
-      @ok="linkFile">
-      <file-list v-if='getAllFiles().files.length' v-model="selectedFile" :picker="true"></file-list>
       <p v-else>
         {{ $t('common.loading') }}
       </p>
@@ -259,6 +239,9 @@ export default {
     }
   },
   methods: {
+    openMetadataModel (directoryId, metadata) {
+      this.$root.$emit('openMetadataModel', {directoryId, metadata})
+    },
     addDirectory () {
       if (this.directory.id !== null) {
         this.isExpanded = true

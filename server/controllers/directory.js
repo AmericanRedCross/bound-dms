@@ -39,9 +39,16 @@ module.exports = {
       }, {
         model: File,
         as: 'files'
+      }, {
+        model: Metatype,
+        as: 'metatypes'
       }]
     }).then((directories) => {
-      res.status(200).json({status: 200, data: directories})
+      let transformed = []
+      directories.forEach((directory) => {
+        transformed.push(Transformer.transform(directory))
+      })
+      res.status(200).json({status: 200, data: transformed})
     })
   },
   get (req, res, next) {
@@ -141,53 +148,62 @@ module.exports = {
       return res.status(400).json({status: 400, message: err.message})
     })
   },
-  createMetadata (req, res, next) {
-    let key = req.body.key
-    let value = req.body.value
-
+  updateMetadata (req, res, next) {
+    let metadata = req.body
     Directory.findById(req.params.id).then((directory) => {
       if (directory === null) {
         return res.status(404).json({status: 404, error: 'Directory not found'})
       }
       return directory
     }).then((directory) => {
-      Metatype.find({
+      return Metatype.findAll({
         where: {
-          projectId: directory.projectId,
-          key: key
+          projectId: directory.projectId
         }
-      }).then((metatype) => {
-        if (metatype === null) {
-          return res.status(404).json({status: 404, error: 'Meta type does not exist for this project'})
-        }
-        if (typeof (value) !== metatype.type) {
-          let valueType = typeof (value)
-          let error = 'Value should be ' + metatype.type + ' for this key, ' + valueType + ' given'
-          return res.status(400).json({status: 400, error: error})
-        }
-        MetaValue.find({
-          where: {
-            metaTypeId: metatype.id,
-            entity: directoryMetaEntity,
-            entityId: directory.id
-          }
-        }).then((existingMetaValue) => {
-          if (existingMetaValue) {
-            existingMetaValue.update({
-              value: value
-            }).then((metaValue) => {
-              return res.status(200).json({status: 200, data: metaValue})
-            })
-          } else {
-            MetaValue.create({
-              metaTypeId: metatype.id,
-              entity: directoryMetaEntity,
-              entityId: directory.id,
-              value: value
-            }).then((metaValue) => {
-              return res.status(201).json({status: 201, data: metaValue})
-            })
-          }
+      }).then((metatypes) => {
+        return Promise.all(
+          metatypes.map((metatype) => {
+            if (metatype.key in metadata) {
+              let value = metadata[metatype.key]
+              let valueType = typeof (value)
+              if (value === null) {
+                return
+              } else if (metatype.type === 'integer') {
+                if (valueType !== 'number' || (value % 1)) {
+                  return Promise.reject('Value should be an integer for ' + metatype.key + ', ' + valueType + ' given')
+                }
+              } else if (typeof (value) !== metatype.type) {
+                return Promise.reject('Value should be ' + metatype.type + ' for ' + metatype.key + ', ' + valueType + ' given')
+              }
+              // we can't use upsert here because we don't know the metavalue primary key
+              MetaValue.find({
+                where: {
+                  metaTypeId: metatype.id,
+                  entity: directoryMetaEntity,
+                  entityId: directory.id
+                }
+              }).then((existingMetaValue) => {
+                if (existingMetaValue) {
+                  return existingMetaValue.update({
+                    value: value
+                  })
+                } else {
+                  return MetaValue.create({
+                    metaTypeId: metatype.id,
+                    entity: directoryMetaEntity,
+                    entityId: directory.id,
+                    value: value
+                  })
+                }
+              })
+            } else {
+              return Promise.reject('Not all metadata values were provided for this directory')
+            }
+          })
+        ).then(() => {
+          return res.status(200).json({status: 200})
+        }).catch((err) => {
+          return res.status(400).json({status: 400, error: err})
         })
       }).catch((err) => {
         throw err

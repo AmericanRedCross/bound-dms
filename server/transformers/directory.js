@@ -15,6 +15,7 @@ module.exports = {
 
     return {
       id: directory.id,
+      parentId: directory.parentId,
       projectId: directory.projectId,
       parentId: directory.parentId,
       order: directory.order,

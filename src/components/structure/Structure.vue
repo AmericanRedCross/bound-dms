@@ -5,13 +5,38 @@
         <v-select v-show="false" v-if="currentProject" :value.sync="selected" :options="getLangOptions"></v-select>
       </div>
       <div class="col-md-8" align="right">
-        <b-button @click="save" variant="success">{{ $t('common.save')}}</b-button>
+        <b-button @click="saveStructure" variant="success">{{ $t('common.save')}}</b-button>
         <b-button v-if="$auth.check(['admin', 'editor'])" @click="addModule" variant="primary">{{ $t('projects.modules.addTopDirectory')}}</b-button>
       </div>
     </div>
     <draggable v-model="structure" @update="updateDraggable" :options="draggableOptions">
       <DirectoryComp v-for="module in structure" :key="module.id" :directory="module" :isModule="true"></DirectoryComp>
     </draggable>
+
+    <b-modal
+      @ok="saveMetadata"
+      :lazy="true"
+      id="metadata-modal"
+      class="ignore-drag"
+      v-model="selectMetadataShow"
+      title="Metadata"
+      size="lg"
+    >
+      <div v-for="meta in selectedMetadata" v-if="selectedMetadata[0]">
+        <h5>{{ meta.key }}</h5>
+        <b-form-select v-if="meta.type === 'boolean'" v-model="meta.value" :options="booleanValues">
+        </b-form-select>
+        <b-form-input  v-else-if="meta.type === 'integer'"
+                       type="number"
+                       v-model="meta.value"
+        ></b-form-input>
+        <b-form-input v-else
+                      type="text"
+                      v-model="meta.value"
+        ></b-form-input>
+      </div>
+    </b-modal>
+
   </div>
 
 </template>
@@ -32,12 +57,35 @@ export default {
   },
   data () {
     return {
+      booleanValues: [
+        {value: null, text: `${this._i18n.t('common.void')}`},
+        {value: true, text: `${this._i18n.t('common.true')}`},
+        {value: false, text: `${this._i18n.t('common.false')}`}
+      ],
+      selectedDirectoryId: null,
+      selectedMetadata: null,
+      metatypes: [],
+      selectMetadataShow: false,
       draggableOptions: {
         filter: '.ignore-drag',
         animation: 150
       },
       selected: 'English (en)'
     }
+  },
+  created () {
+    this.$root.$on('openMetadataModel', ({directoryId, metadata}) => {
+      this.selectedDirectoryId = directoryId
+      this.selectedMetadata = []
+      this.metatypes.forEach((metatype) => {
+        this.selectedMetadata.push({
+          key: metatype.key,
+          value: (typeof metadata[metatype.key] !== 'undefined') ? metadata[metatype.key] : null,
+          type: metatype.type
+        })
+      })
+      this.selectMetadataShow = true
+    })
   },
   beforeMount () {
     this.$store.dispatch('GET_STRUCTURE', this.$route.params.id).catch(() => {
@@ -78,9 +126,43 @@ export default {
           type: 'danger'
         })
     })
+    this.$store.dispatch('GET_PROJECT_METATYPES', this.$route.params.id).then(() => {
+      this.metatypes = this.getMetatypes()
+    })
   },
   methods: {
-    save () {
+    saveMetadata () {
+      let metadataToSave = {}
+      this.selectedMetadata.forEach((metadata) => {
+        if (metadata.type === 'integer') {
+          metadata.value = Number(metadata.value)
+        }
+        metadataToSave[metadata.key] = metadata.value
+      })
+      this.$store.dispatch('UPDATE_DIRECTORY_METADATA', {
+        directoryId: this.selectedDirectoryId,
+        metadata: metadataToSave
+      }).then(() => {
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.updated')}`,
+            icon: 'info',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'info'
+          })
+      }).catch(() => {
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+            icon: 'exclamation-triangle',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'danger'
+          })
+      })
+    },
+    saveStructure () {
       this.$store.dispatch('SAVE_STRUCTURE', this.currentProject.id).then(() => {
         this.$notifications.notify(
           {
@@ -126,7 +208,8 @@ export default {
     },
     ...mapGetters([
       'getProjectById',
-      'getProjectLangOptions'
+      'getProjectLangOptions',
+      'getMetatypes'
     ]),
     getLangOptions () {
       return this.getProjectLangOptions(this.currentProject.id) || []

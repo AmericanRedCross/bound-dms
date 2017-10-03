@@ -29,7 +29,10 @@ export default{
       sameAsNewPassword: 'Field must match new password'
     },
     saved: 'Saved',
-    add: 'Add'
+    add: 'Add',
+    true: 'True',
+    false: 'False',
+    void: 'Not set'
   },
   http: {
     generic: 'Something unexpected happened'
@@ -111,8 +114,7 @@ export default{
       addDocument: 'Documents',
       addTopDirectory: 'Add top level directory',
       addSubDirectory: 'Add subdirectory',
-      criticalPathOn: 'Critical path',
-      criticalPathOff: 'Enable critical path?',
+      openMetadataModal: 'Edit metadata',
       saveStructure: 'Save the structure to use this',
       selectDoc: 'Select document',
       noDocs: 'No documents here',
