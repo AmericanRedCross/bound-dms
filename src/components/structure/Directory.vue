@@ -149,6 +149,21 @@
         {{ $t('common.loading') }}
       </p>
     </b-modal>
+
+    <b-modal
+      :lazy="true"
+      id="file-modal"
+      class="ignore-drag"
+      v-model="selectFileShow"
+      :title="$t('projects.modules.selectFile')"
+      size="lg"
+      @cancel="selectedFile = null"
+      @ok="linkFile">
+        <file-list v-if='getAllFiles().files.length' v-model="selectedFile" :picker="true"></file-list>
+        <p v-else>
+        {{ $t('common.loading') }}
+        </p>
+      </b-modal>
   </div>
 </template>
 <script>
