@@ -188,12 +188,8 @@ export default {
       this.totalFiles = data.total
     }
   },
-  beforeMount () {
-    if (!this.picker) {
-      this.fetchAllFiles()
-    } else {
-      this.parseFiles()
-    }
+  mounted () {
+    this.fetchAllFiles()
   },
   computed: {
     ...mapGetters([

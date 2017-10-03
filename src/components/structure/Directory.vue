@@ -97,7 +97,7 @@
       </div>
 
       <!-- Here's where we want our file area -->
-      <b-collapse :visible="isOpen" id="collapse-exta-content">
+      <b-collapse :visible="isOpen" id="collapse-extra-content">
         <Files :files="directory.files"></Files>
       </b-collapse>
     </b-card>
