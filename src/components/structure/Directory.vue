@@ -9,6 +9,7 @@
 
         <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-for="number in directoryNumbers">{{ number + 1}}.</span><span>{{ directory.order + 1}}</span></h4>
         <i v-if="!editTitle" class="ml-2">{{ title }}</i>
+
         <span class="title-input ml-2" v-else>
           <b-input-group>
             <b-form-input v-model="title"
@@ -104,17 +105,15 @@
     <!-- Here's the collapsable area with the directories, uses vue draggable https://github.com/SortableJS/Vue.Draggable -->
     <b-collapse :visible="isExpanded" id="collapse-directories">
       <draggable v-model="directory.directories" @update="updateDraggable" :options="draggableOptions">
-        <transition-group name="directory-list">
           <!-- We need to use a key here so vue can keep track of the directories' identities https://vuejs.org/v2/guide/list.html#key -->
           <Directory
             v-for="(subdirectory, directoryIndex) in directory.directories"
-            :key="directoryIndex"
+            :key="subdirectory.id"
             :directory="subdirectory"
             :directoryNumbers="getDirectories()"
             :index="index"
             class="sub-directory ml-5 directory-list-item">
           </Directory>
-        </transition-group>
       </draggable>
     </b-collapse>
 
