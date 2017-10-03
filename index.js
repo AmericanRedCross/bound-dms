@@ -14,6 +14,7 @@ const directoryRoutes = require('./server/routes/directory')
 const documentRoutes = require('./server/routes/document')
 const roleService = require('./server/services/roles')
 const authService = require('./server/services/auth')()
+const helmet = require('helmet')
 
 // express config
 app.use(history({
@@ -24,6 +25,9 @@ app.use(history({
     }
   }]
 }))
+if (process.env.NODE_ENV === 'production') {
+  app.use(helmet())
+}
 app.use(bodyParser.json({limit: '10mb'}))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(authService.initialize())
