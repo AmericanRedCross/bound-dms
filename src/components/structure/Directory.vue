@@ -42,7 +42,7 @@
               {{ $t('common.info') }}
             </b-dropdown-item>
 
-            <b-dropdown-item href="#" class="directory-action" @click="selectDocShow = !selectDocShow" :disabled="directory.id === null">
+            <b-dropdown-item href="#" class="directory-action" @click="openDocumentModal" :disabled="directory.id === null">
               <fa-icon name="plus-circle"></fa-icon>
               {{ $t('projects.modules.addDocument') }}
             </b-dropdown-item>
@@ -129,34 +129,12 @@
         </b-table>
       </div>
     </b-modal>
-
-    <b-modal
-      :lazy="true"
-      id="doc-modal"
-      class="ignore-drag"
-      v-model="selectDocShow"
-      :title="$t('projects.modules.selectDoc')"
-      size="lg"
-      @cancel="selectedDocument = null"
-      @ok="linkDocument">
-      <b-card title="Linked documents" class="mb-2">
-        <span v-if="directory.documents.length === 0">{{ $t('projects.modules.noDocs') }}</span>
-        <Files :files="directory.documents" :documents="true"></Files>
-      </b-card>
-      <document-list v-if='getAllDocuments().documents.length' v-model="selectedDocument" :picker="true"></document-list>
-      <p v-else>
-        {{ $t('common.loading') }}
-      </p>
-    </b-modal>
   </div>
 </template>
 <script>
 import { Directory } from '../../vuex/modules/structure/Directory'
-import { Document } from '../../vuex/modules/document/Document'
 import { mapGetters } from 'vuex'
 import ChevronToggle from '../ui/ChevronToggle'
-import DocumentList from '../project/documents/DocumentList'
-import FileList from '../project/documents/FileList'
 import draggable from 'vuedraggable'
 import Files from './Files'
 
@@ -165,7 +143,6 @@ export default {
   components: {
     Files,
     ChevronToggle,
-    DocumentList,
     FileList,
     draggable
   },
@@ -193,9 +170,7 @@ export default {
       isExpanded: false, // Are the child directories viewable?
       editTitle: false,
       infoShow: false,
-      selectDocShow: false,
       untranslated: false,
-      selectedDocument: null,
       title: '',
       draggableOptions: {
         filter: '.ignore-drag',
@@ -240,6 +215,9 @@ export default {
     },
     openFileSelectModal () {
       this.$root.$emit('openFileSelectModal', this.directory)
+    },
+    openDocumentModal () {
+      this.$root.$emit('openDocumentSelectModal', this.directory)
     },
     addDirectory () {
       if (this.directory.id !== null) {
@@ -286,34 +264,6 @@ export default {
     setNeedsSaving () {
       this.$store.dispatch('DIRECTORY_UPDATE_SAVING', { directory: this.directory })
     },
-    linkDocument () {
-      if (this.selectedDocument) {
-        this.$store.dispatch('LINK_DOCUMENT_DIRECTORY', { directoryId: this.directory.id, documentId: this.selectedDocument._id }).then(() => {
-          this.$notifications.notify(
-            {
-              message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.updated')}`,
-              icon: 'info',
-              horizontalAlign: 'right',
-              verticalAlign: 'bottom',
-              type: 'info'
-            })
-          // Add it to the model so we can see it without reloading
-          this.directory.addDocument(new Document({
-            id: this.selectedDocument._id,
-            translations: this.selectedDocument._translations
-          }))
-        }).catch(() => {
-          this.$notifications.notify(
-            {
-              message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
-              icon: 'exclamation-triangle',
-              horizontalAlign: 'right',
-              verticalAlign: 'bottom',
-              type: 'danger'
-            })
-        })
-      }
-    },
     removeDirectory () {
       if (this.$auth.check(['admin', 'editor'])) {
         this.$swal({
@@ -351,7 +301,6 @@ export default {
       return false
     },
     ...mapGetters([
-      'getAllDocuments',
       'getProjectById'
     ])
   }
