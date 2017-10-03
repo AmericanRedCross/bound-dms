@@ -2,11 +2,11 @@
   <div class="structure">
     <div class="row">
       <div class="col-4">
-        <v-select v-if="currentProject" :value.sync="selected" :options="getLangOptions"></v-select>
+        <v-select v-show="false" v-if="currentProject" :value.sync="selected" :options="getLangOptions"></v-select>
       </div>
       <div class="col-md-8" align="right">
-        <b-button @click="save" variant="success">Save</b-button>
-        <b-button v-if="$auth.check(['admin', 'editor'])" @click.native="addModule" variant="primary">Add Module</b-button>
+        <b-button @click="save" variant="success">{{ $t('common.save')}}</b-button>
+        <b-button v-if="$auth.check(['admin', 'editor'])" @click="addModule" variant="primary">{{ $t('projects.modules.addTopDirectory')}}</b-button>
       </div>
     </div>
     <draggable v-model="structure" @update="updateDraggable" :options="draggableOptions">
@@ -39,8 +39,36 @@ export default {
       selected: 'English (en)'
     }
   },
-  mounted () {
+  beforeMount () {
     this.$store.dispatch('GET_STRUCTURE', this.$route.params.id).catch(() => {
+      this.$notifications.notify(
+        {
+          message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+          icon: 'exclamation-triangle',
+          horizontalAlign: 'right',
+          verticalAlign: 'bottom',
+          type: 'danger'
+        })
+    })
+    this.$store.dispatch('GET_ALL_DOCUMENTS', {
+      page: 1,
+      limit: 10,
+      projectId: parseInt(this.$route.params.id)
+    }).catch(() => {
+      this.$notifications.notify(
+        {
+          message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+          icon: 'exclamation-triangle',
+          horizontalAlign: 'right',
+          verticalAlign: 'bottom',
+          type: 'danger'
+        })
+    })
+    this.$store.dispatch('GET_ALL_FILES', {
+      page: 1,
+      limit: 10,
+      projectId: parseInt(this.$route.params.id)
+    }).catch(() => {
       this.$notifications.notify(
         {
           message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
@@ -75,6 +103,7 @@ export default {
       })
     },
     addModule () {
+      this.$store.dispatch('ADD_TOP_LEVEL_DIRECTORY', { options: {} })
     },
     updateDraggable (e) {
       // get new and old index

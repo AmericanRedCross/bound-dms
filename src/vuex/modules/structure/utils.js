@@ -1,33 +1,34 @@
 import { Directory } from './Directory'
-import { Attachment } from './Attachment'
+import { Document } from '../document/Document'
+import { File } from '../file/File'
 
 let mockStructure = [{
   id: 1,
   title: 'Prepare and analyze',
   order: 1,
   content: '# Markdown Content',
-  attachments: [{id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: true},
-    {id: 2, title: 'Another one', url: 'http://somedocument.docx', size: 12000, mime: '', featured: true},
-    {id: 3, title: 'Something else', url: 'http://somedocument.md', size: 12000, mime: '', featured: true}],
+  files: [{id: 1, title: 'File', filename: 'http://somedocument.pdf', size: 12000, mimeType: '', featured: true},
+    {id: 2, title: 'Another one', filename: 'http://somedocument.docx', size: 12000, mimeType: '', featured: true},
+    {id: 3, title: 'Something else', filename: 'http://somedocument.md', size: 12000, mimeType: '', featured: true}],
   directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
     order: 1,
     content: '# Some other content',
-    attachments: [],
+    files: [],
     directories: [{
       id: 3,
       title: 'Et Harum quidem reprum',
       order: 1,
       content: '# Some other content',
-      attachments: []
+      files: []
     },
     {
       id: 4,
       title: 'Et Harum quidem reprum',
       order: 2,
       content: '# Some other content',
-      attachments: []
+      files: []
     }]
   }]
 },
@@ -36,27 +37,27 @@ let mockStructure = [{
   title: 'Prepare and analyze',
   order: 2,
   content: '# Markdown Content',
-  attachments: [],
+  files: [],
   directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
     order: 1,
     content: '# Some other content',
-    attachments: [],
+    files: [],
     directories: [
       {
         id: 3,
         title: 'Et Harum quidem reprum',
         order: 1,
         content: '# Some other content',
-        attachments: []
+        files: []
       },
       {
         id: 4,
         title: 'Et Harum quidem reprum',
         order: 2,
         content: '# Some other content',
-        attachments: []
+        files: []
       }
     ]
   }]
@@ -66,28 +67,28 @@ let mockStructure = [{
   title: 'Prepare and analyze',
   order: 3,
   content: '# Markdown Content',
-  attachments: [],
+  files: [],
   critical: false,
   directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
     order: 1,
     content: '# Some other content',
-    attachments: [],
+    files: [],
     directories: [
       {
         id: 3,
         title: 'Et Harum quidem reprum',
         order: 1,
         content: '# Some other content',
-        attachments: []
+        files: []
       },
       {
         id: 4,
         title: 'Et Harum quidem reprum',
         order: 2,
         content: '# Some other content',
-        attachments: []
+        files: []
       }
     ]
   }]
@@ -97,27 +98,27 @@ let mockStructure = [{
   title: 'Prepare and analyze',
   order: 4,
   content: '# Markdown Content',
-  attachments: [],
+  files: [],
   directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
     order: 1,
     content: '# Some other content',
-    attachments: [],
+    files: [],
     directories: [
       {
         id: 3,
         title: 'Et Harum quidem reprum',
         order: 1,
         content: '# Some other content',
-        attachments: []
+        files: []
       },
       {
         id: 4,
         title: 'Et Harum quidem reprum',
         order: 2,
         content: '# Some other content',
-        attachments: [],
+        files: [],
         directories: []
       }
     ]
@@ -128,27 +129,27 @@ let mockStructure = [{
   title: 'Prepare and analyze',
   order: 5,
   content: '# Markdown Content',
-  attachments: [],
+  files: [],
   directories: [{
     id: 2,
     title: 'Et Harum quidem reprum',
     order: 1,
     content: '# Some other content',
-    attachments: [],
+    files: [],
     directories: [
       {
         id: 3,
         title: 'Et Harum quidem reprum',
         order: 1,
         content: '# Some other content',
-        attachments: []
+        files: []
       },
       {
         id: 4,
         title: 'Et Harum quidem reprum',
         order: 2,
         content: '# Some other content',
-        attachments: []
+        files: []
       }
     ]
   }]
@@ -175,32 +176,53 @@ const DirectoryUtils = {
       title: data.title,
       order: data.order,
       content: data.content,
-      attachments: this.getAttachments(data.attachments),
+      files: this.getFiles(data.files),
+      documents: this.getDocuments(data.documents),
       directories: this.getDirectories(data.directories),
+      translations: data.translations,
       parentId: data.parentId
     })
   },
 
-  // Useful function to get an array of attachment objects
-  getAttachments (dataArray) {
-    let attachments = []
+  // Useful function to get an array of file objects
+  getFiles (dataArray) {
+    let files = []
     if (Array.isArray(dataArray)) {
       dataArray.forEach((data) => {
-        attachments.push(this.getAttachmentObject(data))
+        files.push(this.getFileObject(data))
       })
     }
-    return attachments
+    return files
+  },
+
+  // Useful function to get an array of document objects
+  getDocuments (dataArray) {
+    let documents = []
+    if (Array.isArray(dataArray)) {
+      dataArray.forEach((data) => {
+        documents.push(this.getDocumentObject(data))
+      })
+    }
+    return documents
   },
 
   // Useful function to build a directory object
-  getAttachmentObject (data) {
-    return new Attachment({
+  getFileObject (data) {
+    return new File({
       id: data.id,
       title: data.title,
-      url: data.url,
+      filename: data.filename,
       size: data.size,
-      mime: data.mime,
+      mimeType: data.mimeType,
       featured: data.featured
+    })
+  },
+
+  // Useful function to build a directory object
+  getDocumentObject (data) {
+    return new Document({
+      id: data.id,
+      translations: data.translations
     })
   },
 

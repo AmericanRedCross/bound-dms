@@ -70,6 +70,18 @@ const directories = {
     FLAT_STRUCTURE_PARSE: (state) => {
       // Set flat structure
       state.flatDirectories = directoryUtils.getFlatStructure(state.structure)
+    },
+
+    PUSH_DIRECTORY: (state, directory) => {
+      state.structure.push(directory)
+    },
+
+    UPDATE_NEEDS_SAVING: (state, { options }) => {
+      options.directory.needsSaving = true
+      // Set flat structure
+      state.flatDirectories = directoryUtils.getFlatStructure(state.structure)
+      console.log(state.structure)
+      console.log(state.flatDirectories)
     }
   },
   actions: {
@@ -118,7 +130,7 @@ const directories = {
     UPDATE_DIRECTORY: function ({ commit, state }, directory) {
       // /api/directories/:id
       return axios.put(DIRECTORY_ROOT + directory.id, {
-        attachments: directory.attachments,
+        files: directory.files,
         content: directory.content,
         order: directory.order,
         title: directory.title
@@ -127,6 +139,7 @@ const directories = {
         commit('SET_STRUCTURE', { response: getStructure(state.flatDirectories) })
       }).catch(err => {
         commit('SET_MESSAGE', { message: err })
+        throw err
       })
     },
 
@@ -140,11 +153,28 @@ const directories = {
       commit('SET_ORDER', {
         options
       })
+    },
+
+    ADD_TOP_LEVEL_DIRECTORY: function ({ commit }, options) {
+      let directory = options.directory || new Directory({})
+      commit('PUSH_DIRECTORY',
+        directory
+      )
+      commit('SET_ORDER', {
+        options
+      })
+    },
+
+    DIRECTORY_UPDATE_SAVING: function ({ commit }, options) {
+      commit('UPDATE_NEEDS_SAVING', {
+        options
+      })
     }
   },
   getters: {
     getDirectoryById: (state, getters) => (id) => {
-      return state.directories.find(directory => directory.id === id)
+      let flatDirectory = state.flatDirectories.find(directory => directory.id === id)
+      return directoryUtils.getDirectoryObject(flatDirectory)
     }
   }
 }

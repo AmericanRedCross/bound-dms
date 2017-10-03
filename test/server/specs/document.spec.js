@@ -10,6 +10,29 @@ describe('API: Documents', () => {
     this.token = jwt.sign({sub: 1, expiresIn: '1 day'}, config.jwtSecretKey)
   })
 
+  describe('GET /api/projects/:id/documents', () => {
+    it('returns a collection of documents belonging to a project', (done) => {
+      request(app)
+        .get('/api/projects/1/documents')
+        .set('Authorization', 'Bearer ' + this.token)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+          if (err) throw err
+          expect(res.body).to.be.an('object')
+          expect(res.body.status).to.equal(200)
+          expect(res.body.data).to.be.an('object')
+          expect(res.body.data.documents).to.be.an('array')
+          expect(res.body.data.documents[0]).to.be.an('object')
+          expect(res.body.data.documents[0]).to.have.property('directory')
+          expect(res.body.data.documents[0].createdBy).to.be.an('object')
+          expect(res.body.data.documents[0].translations).to.be.an('array')
+
+          done()
+        })
+    })
+  })
+
   describe('POST /api/projects/:id/documents', () => {
     it('creates a new document', (done) => {
       request(app)
@@ -175,6 +198,43 @@ describe('API: Documents', () => {
           if (err) throw err
           expect(res.body).to.be.an('object')
           expect(res.body.status).to.equal(200)
+
+          done()
+        })
+    })
+  })
+
+  describe('PATCH /api/documents/:id', () => {
+    it('updates the directory containing the document', (done) => {
+      request(app)
+        .patch('/api/documents/2')
+        .send({directory: {id: 2}})
+        .set('Authorization', 'Bearer ' + this.token)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+          if (err) throw err
+          expect(res.body).to.be.an('object')
+          expect(res.body.data.directory).to.be.an('object')
+          expect(res.body.data.directory.id).to.equal(2)
+          done()
+        })
+    })
+  })
+
+  describe('POST /api/documents/convert', () => {
+    it('converts an uploaded docx file and returns markdown text', (done) => {
+      request(app)
+        .post('/api/documents/convert')
+        .attach('file', './test/files/sample_docx.docx')
+        .set('Authorization', 'Bearer ' + this.token)
+        .expect(200)
+        .expect('Content-Type', /text\/plain/)
+        .end((err, res) => {
+          if (err) throw err
+          const docArray = res.text.split('\n')
+          expect(docArray).to.include('This is a sample paragraph')
+          expect(docArray).to.include('- This is a list item')
 
           done()
         })

@@ -14,9 +14,15 @@ export default{
     created: 'Created',
     updated: 'Updated',
     oops: 'Oops',
+    edit: 'Edit',
     noPermission: 'Looks like you don\'t have permission to do that',
     error: 'Something went wrong',
     upload: 'Upload',
+    back: 'Back',
+    goBack: 'Continue',
+    changesMade: 'You\'ve made changes without saving',
+    save: 'Save',
+    loading: 'Loading',
     validations: {
       required: 'Field is required',
       email: 'Incorrect email format',
@@ -39,7 +45,11 @@ export default{
   },
   sidebar: {
     dashboard: 'Dashboard',
-    wys: 'WYSIWYG'
+    directories: 'Directories',
+    documents: 'Documents',
+    files: 'Files',
+    publish: 'Publish',
+    settings: 'Settings'
   },
   hello: {
     test1: 'Welcome to your Vue.js app'
@@ -96,11 +106,18 @@ export default{
       newHeader: 'New project'
     },
     modules: {
-      module: 'Module',
+      module: 'Directory',
       addDirectory: 'Add directory',
+      addDocument: 'Documents',
+      addTopDirectory: 'Add top level directory',
       addSubDirectory: 'Add subdirectory',
       criticalPathOn: 'Critical path',
-      criticalPathOff: 'Enable critical path?'
+      criticalPathOff: 'Enable critical path?',
+      saveStructure: 'Save the structure to use this',
+      selectDoc: 'Select document',
+      noDocs: 'No documents here',
+      selectFile: 'Select file',
+      titlePlaceholder: 'Enter a title'
     },
     settings: {
       header: 'Project settings',
@@ -112,11 +129,12 @@ export default{
       baseLanguage: 'Base language:',
       save: 'Save'
     },
-    attachments: {
-      add: 'Add attachment',
-      create: 'Create new document',
-      createSub: 'Create a document in markdown format',
-      upload: 'Upload a document',
+    files: {
+      add: 'Add',
+      files: 'Files',
+      create: 'Create new file',
+      createSub: 'Create a file in markdown format',
+      upload: 'Upload a file',
       uploadSub: 'Upload an existing doc or .pdf from your computer'
     },
     languages: {
@@ -189,15 +207,48 @@ export default{
       emptystate: 'There are no Api Keys assigned to this project'
     },
     meta: {
-      emptystate: 'There is no metadata assigned to this project',
-      add: 'Add metadata',
-      name: 'Metadata item name',
-      meta: 'Metadata',
-      example: 'e.g. colour'
+      metatype: {
+        emptystate: 'There is no metadata assigned to this project',
+        add: 'Add metadata type',
+        name: 'Name',
+        label: 'Metatype',
+        example: 'e.g. colour',
+        types: {
+          string: 'Text (String)',
+          boolean: 'True / False (Boolean)',
+          integer: 'Number (Integer)'
+        }
+      }
     },
     documents: {
       title: 'Documents',
-      upload: 'Document upload'
+      upload: 'Document upload',
+      create: 'Create document',
+      edit: {
+        titlePlaceholder: 'Document title',
+        titleNeeded: 'Don\'t forget to add a title',
+        pickImage: 'Select image',
+        overwrite: 'This will overwrite the current document.',
+        importingDocument: 'Importing document',
+        loadingDocument: 'Loading Document'
+      }
+    }
+  },
+  files: {
+    title: 'Files',
+    upload: 'File upload',
+    emptystate: 'No files have been uploaded yet',
+    listview: {
+      type: 'Type to search',
+      title: 'Files',
+      upload: 'File upload',
+      create: 'Create a new file',
+      edit: {
+        titlePlaceholder: 'Document title',
+        titleNeeded: 'Don\'t forget to add a title',
+        attachImage: 'Attach image',
+        pickImage: 'Pick Image'
+      }
     }
   },
   pagenotfound: {
@@ -215,12 +266,65 @@ export default{
     },
     translations: {
       directoryTitle: ' Directory title',
+      directoryContent: ' Directory content',
       noTitle: 'No title set',
+      noContent: 'No content set',
       titlePlaceholder: 'Translated directory title',
-      originalDocument: 'Original Document'
+      originalDocument: 'Original document'
     },
     baseLanguage: 'Base language',
     translationLanguage: 'Translation language',
+    previewMarkdown: 'Preview markdown',
     percentTranslated: '% of content translated'
+  },
+  mediaPicker: {
+    urlDesc: 'Input a URL for the ',
+    image: 'image',
+    file: 'file',
+    fileAltPlaceholder: 'Alternative text',
+    fileUrlPlaceholder: 'Paste url here',
+    selectFile: 'Select a file',
+    selectImage: 'Select an image',
+    uploadImage: 'Upload an image',
+    uploadFile: 'Upload a file',
+    inputUrl: 'Paste url',
+    inputAlt: 'Input alternative text',
+    imagePreview: 'Image preview',
+    filePreview: 'File details',
+    select: 'Select',
+    upload: 'Upload',
+    url: 'Url',
+    loading: 'Loading',
+    title: 'Title:',
+    description: 'Description:',
+    date: 'Last updated:',
+    createdBy: 'Created by:'
+  },
+  dropzone: {
+    douments: {
+      dictDefaultMessage: 'Drop documents here',
+      dictFallbackMessage: 'Your browser does not support drag\'n\'drop document uploads.',
+      dictFallbackText: 'Please use the fallback form below to upload your documents like in the olden days.',
+      dictFileTooBig: 'Document is too big ({{filesize}}MiB). Max filesize: {{maxFilesize}}MiB.',
+      dictInvalidFileType: 'You can\'t upload files of this type.',
+      dictResponseError: 'Server responded with {{statusCode}} code.',
+      dictCancelUpload: 'Cancel upload',
+      dictCancelUploadConfirmation: 'Are you sure you want to cancel this upload?',
+      dictRemoveFile: 'Remove file',
+      dictMaxFilesExceeded: 'You can not upload any more documents.'
+    },
+    files: {
+      dictDefaultMessage: 'Drop files here',
+      dictFallbackMessage: 'Your browser does not support drag\'n\'drop file uploads.',
+      dictFallbackText: 'Please use the fallback form below to upload your files like in the olden days.',
+      dictFileTooBig: 'File is too big ({{filesize}}MiB). Max filesize: {{maxFilesize}}MiB.',
+      dictInvalidFileType: 'You can\'t upload files of this type.',
+      dictResponseError: 'Server responded with {{statusCode}} code.',
+      dictCancelUpload: 'Cancel upload',
+      dictCancelUploadConfirmation: 'Are you sure you want to cancel this upload?',
+      dictRemoveFile: 'Remove file',
+      dictMaxFilesExceeded: 'You can not upload any more files.'
+    },
+    dictFileSizeUnits: {tb: 'TB', gb: 'GB', mb: 'MB', kb: 'KB', b: 'b'}
   }
 }

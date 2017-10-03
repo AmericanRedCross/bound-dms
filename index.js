@@ -9,6 +9,7 @@ const auth = require('./server/routes/auth')
 const userRoutes = require('./server/routes/user')
 const projectRoutes = require('./server/routes/project')
 const apiKeyRoutes = require('./server/routes/apiKeys')
+const fileRoutes = require('./server/routes/files')
 const directoryRoutes = require('./server/routes/directory')
 const documentRoutes = require('./server/routes/document')
 const roleService = require('./server/services/roles')
@@ -23,7 +24,7 @@ app.use(history({
     }
   }]
 }))
-app.use(bodyParser.json())
+app.use(bodyParser.json({limit: '10mb'}))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(authService.initialize())
 app.use(roleService.middleware())
@@ -43,6 +44,9 @@ router.use('/projects', projectRoutes)
 router.use('/directories', directoryRoutes)
 router.use('/api-keys', apiKeyRoutes)
 router.use('/documents', documentRoutes)
+router.use('/files', fileRoutes)
+router.use('/documents', documentRoutes)
+router.use('/files', fileRoutes)
 app.use('/api', router)
 
 // register global error handler

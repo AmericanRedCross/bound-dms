@@ -5,10 +5,18 @@ const langController = require('../controllers/language')
 const dirController = require('../controllers/directory')
 const keyController = require('../controllers/apiKey')
 const documentController = require('../controllers/document')
+const metaController = require('../controllers/metadata')
+const fileController = require('../controllers/file')
 const authService = require('../services/auth')()
 const projectRules = {
   'name': {
     notEmpty: true
+  },
+  'baseLanguage': {
+    notEmpty: true,
+    isLength: {
+      options: [{min: 2, max: 10}]
+    }
   }
 }
 
@@ -100,6 +108,9 @@ router.post('/:id/directories', authService.authenticate(), (req, res, next) => 
   })
 }, dirController.create)
 
+// GET /api/projects/:id/documents
+router.get('/:id/documents', authService.authenticate(), documentController.getAll)
+
 // POST /api/projects/:id/documents
 router.post('/:id/documents', authService.authenticate(), (req, res, next) => {
   req.checkBody('language', 'Invalid language code').notEmpty()
@@ -114,4 +125,32 @@ router.post('/:id/documents', authService.authenticate(), (req, res, next) => {
   })
 }, documentController.create)
 
+// GET /api/projects/:id/metatypes
+router.get('/:id/metatypes', authService.authenticate(), metaController.getAllTypes)
+// POST /api/projects/:id/metatypes
+router.post('/:id/metatypes', authService.authenticate(), (req, res, next) => {
+  req.checkBody('key', 'Invalid key').notEmpty().isLength({min: 2, max: 32})
+  req.checkBody('type', 'Invalid type (boolean, string, json, integer)').isIn(['boolean', 'string', 'json', 'integer'])
+  req.getValidationResult().then((result) => {
+    if (!result.isEmpty()) {
+      res.status(400).json({status: 400, errors: result.array()})
+      return
+    }
+    next()
+  })
+}, metaController.createType)
+
 module.exports = router
+
+// GET /api/projects/:id/files
+router.get('/:id/files', authService.authenticate(['jwt']), (req, res, next) => {
+  req.checkQuery('page').optional().isInt()
+  req.checkQuery('limit').optional().isInt()
+  req.getValidationResult().then((result) => {
+    if (!result.isEmpty()) {
+      res.status(400).json({status: 422, errors: result.array()})
+      return
+    }
+    next()
+  })
+}, fileController.getForProjectId)

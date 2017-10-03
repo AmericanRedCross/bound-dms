@@ -34,6 +34,32 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'id',
       targetKey: 'directoryId'
     })
+
+    Directory.hasMany(models.Document, {
+      as: 'documents',
+      foreignKey: 'directoryId',
+      targetKey: 'id'
+    })
+
+    Directory.hasMany(models.File, {
+      as: 'files',
+      foreignKey: 'directoryId',
+      targetKey: 'id'
+    })
+
+    Directory.belongsToMany(models.Metatype, {
+      as: 'metatypes',
+      through: {
+        as: 'metaValue',
+        model: models.MetaValue,
+        unique: false,
+        scope: {
+          entity: 'directory'
+        }
+      },
+      foreignKey: 'entityId',
+      constraints: false
+    })
   }
 
   return Directory

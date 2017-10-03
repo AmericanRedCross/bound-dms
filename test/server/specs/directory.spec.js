@@ -29,6 +29,9 @@ describe('API: Directories', () => {
           expect(res.body.data[0]).to.have.property('createdBy')
           expect(res.body.data[0]).to.have.property('createdAt')
           expect(res.body.data[0]).to.have.property('updatedAt')
+          expect(res.body.data[0]).to.have.property('documents')
+          expect(res.body.data[0].documents).to.be.an('array')
+
           done()
         })
     })

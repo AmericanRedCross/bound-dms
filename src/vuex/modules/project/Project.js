@@ -5,7 +5,8 @@ export class Project {
     description = null,
     languages = [],
     createdAt = null,
-    updatedAt = null
+    updatedAt = null,
+    baseLanguage = null
   }) {
     this._id = id
     this._name = name
@@ -13,6 +14,7 @@ export class Project {
     this._languages = languages
     this._createdAt = createdAt && new Date(createdAt)
     this._updatedAt = updatedAt && new Date(updatedAt)
+    this._baseLanguage = baseLanguage
   }
 
   // Getters and Setters
@@ -31,6 +33,9 @@ export class Project {
   // Languages
   set languages (languages = []) { this._languages = languages }
   get languages () { return this._languages }
+
+  set baseLanguage (baseLanguage) { this._baseLanguage = baseLanguage }
+  get baseLanguage () { return this._baseLanguage }
 
   // createdAt
   get createdAt () { return this._createdAt }

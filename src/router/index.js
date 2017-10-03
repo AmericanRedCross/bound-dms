@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/auth/Login'
-import Editor from '@/components/documents/editor/Editor'
 
 // User components
 import ListUsers from '@/components/users/List'
@@ -21,15 +20,23 @@ import AccountProfile from '@/components/account/Profile'
 import ChangePassword from '@/components/account/PasswordForm'
 import PageNotFound from '@/components/pageNotFound/PageNotFound'
 import NotAuthorised from '@/components/pageNotFound/NotAuthorised'
-import TranslationWorkflow from '@/components/translations/TranslationWorkflow'
 import Publish from '@/components/project/publish/Publish'
+import FilesContainer from '@/components/project/documents/Files'
+import FileList from '@/components/project/documents/FileList'
+import DocumentsContainer from '@/components/project/documents/Documents'
 import DocumentList from '@/components/project/documents/DocumentList'
+import FileEditor from '@/components/project/documents/editor/Editor'
+
+// Translation components
+import TranslationContainer from '@/components/translations/Translations'
+import TranslationWorkflow from '@/components/translations/TranslationWorkflow'
+import ContentTranslation from '@/components/translations/ContentTranslation'
 
 // Settings
 import SettingsContainer from '@/components/project/settings/SettingsContainer'
 import ProjectSettings from '@/components/project/settings/Project'
 import ApiKeys from '@/components/project/settings/ApiKeys'
-import Metadata from '@/components/project/settings/Metadata'
+import Metatypes from '@/components/project/settings/Metatypes'
 
 // Structure Components
 import Structure from '@/components/structure/Structure'
@@ -131,13 +138,60 @@ export default new Router({
             },
             {
               path: 'documents',
-              name: 'project-documents',
-              component: DocumentList,
-              props: true,
+              component: DocumentsContainer,
               meta: {
                 breadcrumb: 'Documents',
                 showSidebar: true
-              }
+              },
+              children: [
+                {
+                  path: '',
+                  name: 'project-documents',
+                  component: DocumentList,
+                  props: true,
+                  meta: {
+                    showSidebar: true
+                  }
+                },
+                {
+                  path: 'edit',
+                  name: 'document-edit',
+                  components: {default: FileEditor},
+                  meta: {
+                    breadcrumb: 'Edit',
+                    showSidebar: true
+                  }
+                },
+                {
+                  path: 'edit/:docId/:lang',
+                  name: 'document-edit-id',
+                  props: true,
+                  components: {default: FileEditor},
+                  meta: {
+                    breadcrumb: 'Edit',
+                    showSidebar: true
+                  }
+                }
+              ]
+            },
+            {
+              path: 'files',
+              component: FilesContainer,
+              meta: {
+                breadcrumb: 'Files',
+                showSidebar: true
+              },
+              children: [
+                {
+                  path: '',
+                  name: 'project-files',
+                  component: FileList,
+                  props: true,
+                  meta: {
+                    showSidebar: true
+                  }
+                }
+              ]
             },
             {
               path: 'settings/',
@@ -149,7 +203,7 @@ export default new Router({
               },
               children: [
                 {
-                  path: '',
+                  path: 'settings',
                   name: 'settings',
                   component: ProjectSettings,
                   meta: {
@@ -166,9 +220,9 @@ export default new Router({
                   }
                 },
                 {
-                  path: 'metadata',
-                  name: 'project-meta',
-                  component: Metadata,
+                  path: 'metatypes',
+                  name: 'project-metatypes',
+                  component: Metatypes,
                   meta: {
                     showSidebar: true
                   }
@@ -193,25 +247,41 @@ export default new Router({
                 showSidebar: true,
                 auth: ['admin']
               }
+            },
+            {
+              path: 'translations',
+              component: TranslationContainer,
+              meta: {
+                auth: true,
+                breadcrumb: 'Translations',
+                showSidebar: true
+              },
+              children: [
+                {
+                  path: '',
+                  name: 'translation-workflow',
+                  component: TranslationWorkflow,
+                  props: true,
+                  meta: {
+                    breadcrumb: 'Translation workflow',
+                    showSidebar: true
+                  }
+                },
+                {
+                  path: 'content',
+                  name: 'content-translation',
+                  component: ContentTranslation,
+                  props: true,
+                  meta: {
+                    breadcrumb: 'Content translation',
+                    showSidebar: true
+                  }
+                }
+              ]
             }
           ]
-        },
-        {
-          path: ':id/translations',
-          name: 'translation-workflow',
-          component: TranslationWorkflow,
-          props: true,
-          meta: {
-            breadcrumb: 'Translation Workflow'
-          }
         }
       ]
-    },
-    {
-      path: '/documents/edit/',
-      name: 'Document Editor',
-      components: {default: Editor},
-      meta: {auth: true}
     },
     {
       path: '/account/',

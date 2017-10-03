@@ -24,6 +24,7 @@ services:
       - 8000:8000
     volumes:
       - .:/user/src/app
+      - ./static/uploads:/uploads
     working_dir: /user/src/app
     command: ["npm", "run", "dev:server"]
     environment:

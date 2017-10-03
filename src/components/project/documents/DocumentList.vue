@@ -1,101 +1,197 @@
 <template>
   <div>
-    <b-card :title="$t('projects.documents.upload')" class="mb-3">
+    <b-card class="mb-3" v-if="!picker">
       <div class="row">
         <div class="col">
-          <dropzone id="fileUpload" url="https://httpbin.org/post" v-on:vdropzone-success="showSuccess">
-              <!-- Optional parameters if any! -->
-              <input type="hidden" name="token" value="xxx">
-          </dropzone>
+          <b-button :to="{name: 'document-edit'}" variant="primary"><fa-icon name="plus"></fa-icon> {{ $t('projects.documents.create') }}</b-button>
         </div>
       </div>
     </b-card>
     <b-card :title="$t('projects.documents.title')" class="mb-3">
       <div class="row">
         <div class="col">
-          <b-form-input v-model="filter" :placeholder="$t('users.listview.type')" id="userSearch"></b-form-input>
-          <b-table striped hover
-                  :items="metadata"
-                  :fields="headers"
-                  :current-page="currentPage"
+          <b-table hover
+                  :items="fileData"
+                  :fields="headers()"
                   :per-page="perPage"
                   :show-empty="true"
-                  :empty-text="$t('projects.meta.emptystate')"
+                  :empty-text="$t('files.emptystate')"
                   :filter="filter"
-                  id="meta-table"
+                  id="files-table"
+                  @row-clicked="rowSelected"
           >
-            <template slot="icon" scope="item">
-             <fa-icon name="file-text"></fa-icon>
+            <template slot="title" scope="item">
+              <span v-if="item.item._translations"
+                v-b-tooltip.hover.auto
+                :title="item.item._translations[0].title.length >= 30 ? item.item._translations[0].title : ''">
+                {{ getDocumentTitle(item.item) | truncate(30) }}
+              </span>
+            </template>
+            <template slot="_createdBy" scope="item">
+              {{ item.value.firstname }} {{ item.value.lastname }}
             </template>
 
-            <template slot="type" scope="item">
-              {{ item.valuetype }}
+            <template slot="_createdAt" scope="item">
+              {{ item.value | formatDate }}
             </template>
+
+            <template slot="_translations" scope="item">
+              <b-button-group>
+                <b-button v-for="translation in item.value" variant="primary" :key="translation.id" @click.stop="editContent(translation)">{{ translation.language }}</b-button>
+              </b-button-group>
+            </template>
+
           </b-table>
         </div>
       </div>
+      <b-pagination size="md" align="center" :total-rows="totalFiles" v-model="currentPage" :per-page="perPage"></b-pagination>
     </b-card>
   </div>
 </template>
 
 <script>
-import Dropzone from 'vue2-dropzone'
+import { mapGetters } from 'vuex'
 
 export default {
-  components: {
-    Dropzone
+  name: 'document-list',
+  props: {
+    picker: {
+      type: Boolean,
+      default: false
+    },
+    value: {
+      type: Object
+    }
   },
   methods: {
-    'showSuccess': function (file) {
-      console.log('A file was successfully uploaded')
+    showSuccess (file) {
+      setTimeout(() => {
+        this.$refs.dropzone.removeFile(file)
+      }, 1200)
+
+      this.fetchAllFiles()
+    },
+    rowSelected (doc) {
+      // Only use if we're picking
+      if (this.picker) {
+        this.fileData.forEach((file) => {
+          if (file.id === doc._id) {
+            file.rowVariant = 'info'
+          } else {
+            file.rowVariant = ''
+          }
+        })
+        this.$emit('input', doc)
+      } else {
+        this.$router.push({
+          name: 'document-edit-id',
+          params: {
+            docId: doc._id,
+            lang: this.getProjectById(this.projectId).baseLanguage
+          }
+        })
+      }
+    },
+    fetchAllFiles () {
+      this.$store.dispatch('GET_ALL_DOCUMENTS', {
+        page: this.currentPage,
+        limit: this.perPage,
+        projectId: this.projectId
+      }).then(this.parseFiles).catch(() => {
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+            icon: 'exclamation-triangle',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'danger'
+          })
+      })
+    },
+    parseFiles () {
+      let data = this.getAllDocuments()
+      this.fileData = data.documents
+      this.totalFiles = data.total
+    },
+    getDocumentTitle (file) {
+      let project = this.getProjectById(parseInt(this.$route.params.id))
+      if (project) {
+        let baseLanguage = project.baseLanguage
+        if (baseLanguage) {
+          let translation = file._translations.find(translation => translation.language === baseLanguage)
+          if (translation) {
+            return translation.title
+          }
+        }
+      }
+      if (file._translations.length >= 1) {
+        return file._translations[0]._title
+      }
+      return ''
+    },
+    editContent (translation) {
+
+    }
+  },
+  mounted () {
+    // As this could be loaded multiple times as a picker we don't fetch files but only parse
+    if (!this.picker) {
+      this.fetchAllFiles()
+    } else {
+      this.parseFiles()
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'getAllDocuments',
+      'getProjectById'
+    ])
+  },
+  watch: {
+    currentPage: {
+      handler: function (val, oldVal) {
+        if (val !== oldVal) {
+          this.fetchAllFiles()
+        }
+      },
+      deep: true
     }
   },
   data () {
     return {
-      headers: {
-        id: {
-          label: 'ID',
-          sortable: true
-        },
-        thumbnail: {
-          label: 'Thumbnail'
-        },
-        icon: {
-          label: '',
-          sortable: true
-        },
-        title: {
-          label: 'Title',
-          sortable: true
-        },
-        description: {
-          label: 'Description'
-        },
-        path: {
-          label: 'Path',
-          sortable: true
-        },
-        createdAt: {
-          label: 'Created at',
-          sortable: true
-        },
-        createdBy: {
-          label: 'Created by',
-          sortable: true
+      headers () {
+        let headers = {
+          _id: {
+            label: 'ID',
+            sortable: true
+          },
+          title: {
+            label: 'Title',
+            sortable: true
+          },
+          _createdAt: {
+            label: 'Created at',
+            sortable: true
+          }
         }
+        if (!this.picker) {
+          headers._createdBy = {
+            label: 'Created by',
+            sortable: true
+          }
+          headers._translations = {
+            label: 'Translations',
+            sortable: false
+          }
+        }
+
+        return headers
       },
-      metadata: [
-        {id: '1', title: 'Sample doc 1', description: 'A sample doc', path: 'project/sampledocs/1', createdAt: '06/09/17', createdBy: 'user@domain.com'}
-      ],
-      selectedKey: '',
-      selected: null,
-      typeOptions: [
-        'String',
-        'Boolean',
-        'Number'
-      ],
+      fileData: [],
+      totalFiles: 0,
       perPage: 10,
       currentPage: 1,
+      projectId: parseInt(this.$route.params.id),
       filter: null
     }
   }

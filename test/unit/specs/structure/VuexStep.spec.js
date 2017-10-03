@@ -1,6 +1,6 @@
 import { modules } from '../../../../src/vuex'
 import { Directory } from '../../../../src/vuex/modules/structure/Directory'
-import { Attachment } from '../../../../src/vuex/modules/structure/Attachment'
+import { File } from '../../../../src/vuex/modules/file/File'
 import directoryUtils from '../../../../src/vuex/modules/structure/utils'
 
 // destructure assign users
@@ -16,52 +16,43 @@ const mockState = {
   structure: [
     new Directory({
       id: 1,
-      title: 'Module 1',
       order: 0,
-      content: '# Markdown Content',
-      attachments: [
-        new Attachment({id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: true})
+      files: [
+        new File({id: 1, title: 'Attachment', filename: 'somedocument.pdf', size: 12000, mimeType: '', featured: true})
       ],
       directories: [
         new Directory({
           id: 3,
-          title: 'Some subdirectory name',
           order: 0,
-          content: '# Markdown Content',
-          attachments: [
-            new Attachment({id: 2, title: 'Another Attachment', url: 'http://somedocuments.docx', size: 12000, mime: '', featured: false})
+          files: [
+            new File({id: 2, title: 'Another Attachment', filename: 'somedocuments.docx', size: 12000, mimeType: '', featured: false})
           ],
           directories: []
         })
-      ]
+      ],
+      translations: [{title: 'Here is a title in english', language: 'en'}]
     }),
     new Directory({
       id: 2,
-      title: 'Module 2',
       order: 1,
-      content: '# Markdown Content',
-      attachments: [
-        new Attachment({id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: false})
+      files: [
+        new File({id: 1, title: 'Attachment', filename: 'somedocument.pdf', size: 12000, mimeType: '', featured: false})
       ],
       directories: []
     }),
     new Directory({
       id: 3,
-      title: 'Module 3',
       order: 2,
-      content: '# Markdown Content',
-      attachments: [
-        new Attachment({id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: false})
+      files: [
+        new File({id: 1, title: 'Attachment', filename: 'somedocument.pdf', size: 12000, mimeType: '', featured: false})
       ],
       directories: []
     }),
     new Directory({
       id: 4,
-      title: 'Module 4',
       order: 3,
-      content: '# Markdown Content',
-      attachments: [
-        new Attachment({id: 1, title: 'Attachment', url: 'http://somedocument.pdf', size: 12000, mime: '', featured: false})
+      files: [
+        new File({id: 1, title: 'Attachment', filename: 'somedocument.pdf', size: 12000, mimeType: '', featured: false})
       ],
       directories: []
     })
@@ -72,12 +63,16 @@ const mockState = {
 
 const expectDirectory = (mock, directoryObject) => {
   expect(directoryObject.id).to.equal(mock.id)
-  expect(directoryObject.title).to.equal(mock.title)
   expect(directoryObject.order).to.equal(mock.order)
-  expect(directoryObject.content).to.equal(mock.content)
+  if (mock.translations) {
+    // Check Translation objects
+    mock.translations.forEach((translation, index) => {
+      expectTranslations(translation, directoryObject.translations[index])
+    })
+  }
   // Check Attachment objects
-  mock.attachments.forEach((attachment, index) => {
-    expectAttachment(attachment, directoryObject.attachments[index])
+  mock.files.forEach((file, index) => {
+    expectFile(file, directoryObject.files[index])
   })
   if (mock.directories !== undefined) {
     // Recursively check directories
@@ -87,13 +82,16 @@ const expectDirectory = (mock, directoryObject) => {
   }
 }
 
-const expectAttachment = (mock, attachmentObject) => {
-  expect(attachmentObject.id).to.equal(mock.id)
-  expect(attachmentObject.title).to.equal(mock.title)
-  expect(attachmentObject.url).to.equal(mock.url)
-  expect(attachmentObject.size).to.equal(mock.size)
-  expect(attachmentObject.mime).to.equal(mock.mime)
-  expect(attachmentObject.featured).to.equal(mock.featured)
+const expectTranslations = (mock, translationObject) => {
+  expect(translationObject.title).to.equal(mock.title)
+  expect(translationObject.language).to.equal(mock.language)
+}
+
+const expectFile = (mock, fileObject) => {
+  expect(fileObject.id).to.equal(mock.id)
+  expect(fileObject.title).to.equal(mock.title)
+  expect(fileObject.filename).to.equal(mock.filename)
+  expect(fileObject.mimeType).to.equal(mock.mimeType)
 }
 
 const moveDirectoryAndExpect = (state, newIndex, oldIndex) => {
@@ -155,5 +153,15 @@ describe('Vuex Structure Mutations', () => {
     // Length should now be one less...
     expect(state.structure.length).to.equal(mockState.structure.length - 1)
     expect(state.directoriesToDelete.length).to.equal(1)
+  })
+
+  it('PUSH_DIRECTORY', () => {
+    // mock state
+    let state = {}
+
+    state = JSON.parse(JSON.stringify(mockState)) // Object.assign(...) does not do deep cloning
+    mutations.PUSH_DIRECTORY(state, { options: {} })
+    // Length should now be one more...
+    expect(state.structure.length).to.equal(mockState.structure.length + 1)
   })
 })

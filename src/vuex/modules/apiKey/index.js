@@ -40,6 +40,7 @@ const apiKeys = {
           commit('SET_KEYS', { response: response.data })
         }).catch(err => {
           commit('SET_MESSAGE', { message: err })
+          throw err
         })
     },
     // Adds an API key to a project
@@ -51,6 +52,7 @@ const apiKeys = {
         commit('SET_KEY', { response: response.data })
       }).catch(err => {
         commit('SET_MESSAGE', { message: err })
+        throw err
       })
     },
     // // Removes an API key from a project
@@ -60,6 +62,7 @@ const apiKeys = {
         commit('REMOVE_KEY', { id: keyId })
       }).catch(err => {
         commit('SET_MESSAGE', { message: err })
+        throw err
       })
     }
   },
