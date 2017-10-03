@@ -66,12 +66,38 @@
             <template slot="type" scope="item">
               {{ item.valuetype }}
             </template>
+
+            <template slot="actions" scope="item">
+              <b-button @click="showEditFileModal(item.item)"><fa-icon name="pencil"></fa-icon></b-button>
+            </template>
           </b-table>
         </div>
       </div>
 
       <b-pagination align="center" size="md" :total-rows="totalFiles" v-model="currentPage" :per-page="perPage"></b-pagination>
     </b-card>
+
+    <b-modal
+      @ok="saveFileData"
+      @cancel="selectedFile = null"
+      :lazy="true"
+      id="filedata-modal"
+      class="ignore-drag"
+      v-model="openEditFileModal"
+      title="Edit file data"
+      size="lg"
+    >
+      <div v-if="selectedFile">
+        <b-form-fieldset>
+          {{ $t('projects.files.fields.title') }}
+          <b-form-input type="text" v-model="selectedFile._title"></b-form-input>
+        </b-form-fieldset>
+        <b-form-fieldset>
+          {{ $t('projects.files.fields.description') }}
+          <b-form-input type="text" v-model="selectedFile._description"></b-form-input>
+        </b-form-fieldset>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -94,6 +120,31 @@ export default {
     Dropzone
   },
   methods: {
+    saveFileData () {
+      this.$store.dispatch('UPDATE_FILE_DETAILS', {
+        fileId: this.selectedFile._id,
+        title: this.selectedFile._title,
+        description: this.selectedFile._description
+      }).then(() => {
+        this.$swal({
+          type: 'success',
+          title: this._i18n.t('common.updated')
+        })
+      }).catch(() => {
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+            icon: 'exclamation-triangle',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'danger'
+          })
+      })
+    },
+    showEditFileModal (file) {
+      this.selectedFile = file
+      this.openEditFileModal = true
+    },
     showSuccess (file) {
       setTimeout(() => {
         this.$refs.dropzone.removeFile(file)
@@ -160,6 +211,8 @@ export default {
   },
   data () {
     return {
+      openEditFileModal: false,
+      selectedFile: null,
       projectId: parseInt(this.$route.params.id),
       dropzoneOptions: {
         paramName: 'files',
@@ -191,29 +244,33 @@ export default {
       headers () {
         let headers = {
           thumbnail: {
-            label: 'Thumbnail',
+            label: this._i18n.t('projects.files.fields.thumbnail'),
             sortable: false
           },
           _title: {
-            label: 'Title',
+            label: this._i18n.t('projects.files.fields.title'),
             sortable: false
           },
           _filename: {
-            label: 'Filename',
+            label: this._i18n.t('projects.files.fields.filename'),
             sortable: false
           },
           createdAt: {
-            label: 'Created at',
+            label: this._i18n.t('common.tableFields.createdAt'),
             sortable: false
           }
         }
         if (!this.picker) {
           headers._description = {
-            label: 'Description',
+            label: this._i18n.t('projects.files.fields.description'),
             sortable: false
           }
           headers.createdBy = {
-            label: 'Created by',
+            label: this._i18n.t('common.tableFields.createdBy'),
+            sortable: false
+          }
+          headers.actions = {
+            label: this._i18n.t('common.tableFields.actions'),
             sortable: false
           }
         }
