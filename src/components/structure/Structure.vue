@@ -15,6 +15,7 @@
 
     <b-modal
       @ok="saveMetadata"
+      @cancel="selectMetadataShow = null"
       :lazy="true"
       id="metadata-modal"
       class="ignore-drag"

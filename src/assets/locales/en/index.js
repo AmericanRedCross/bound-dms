@@ -33,7 +33,13 @@ export default{
     add: 'Add',
     true: 'True',
     false: 'False',
-    void: 'Not set'
+    void: 'Not set',
+    tableFields: {
+      id: 'ID',
+      createdAt: 'Created At',
+      createdBy: 'Created By',
+      actions: 'Actions'
+    }
   },
   http: {
     generic: 'Something unexpected happened'
@@ -138,7 +144,13 @@ export default{
       create: 'Create new file',
       createSub: 'Create a file in markdown format',
       upload: 'Upload a file',
-      uploadSub: 'Upload an existing doc or .pdf from your computer'
+      uploadSub: 'Upload an existing doc or .pdf from your computer',
+      fields: {
+        title: 'Title',
+        description: 'Description',
+        thumbnail: 'Thumbnail',
+        filename: 'Filename'
+      }
     },
     languages: {
       add: 'Add new language',
@@ -234,6 +246,10 @@ export default{
         overwrite: 'This will overwrite the current document.',
         importingDocument: 'Importing document',
         loadingDocument: 'Loading Document'
+      },
+      fields: {
+        title: 'Title',
+        translations: 'Translations'
       }
     }
   },
