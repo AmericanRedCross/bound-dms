@@ -19,6 +19,7 @@
       </div>
     </b-card>
     <b-card :title="$t('files.title')" class="mb-3">
+      {{ $t('common.filter') }} <input v-model="filter"/>
       <div class="row">
         <div class="col">
           <b-table striped hover
@@ -27,7 +28,6 @@
                   :per-page="perPage"
                   :show-empty="true"
                   :empty-text="$t('files.emptystate')"
-                  :filter="filter"
                   id="files-table"
                   @row-clicked="rowSelected"
           >
@@ -118,6 +118,7 @@ export default {
       this.$store.dispatch('GET_ALL_FILES', {
         page: this.currentPage,
         limit: this.perPage,
+        filter: this.filter,
         projectId: this.projectId
       }).then(this.parseFiles).catch(() => {
         this.$notifications.notify(
@@ -156,6 +157,12 @@ export default {
         }
       },
       deep: true
+    },
+    filter: function () {
+      clearTimeout(this.typing)
+      this.typing = setTimeout(() => {
+        this.fetchAllFiles()
+      }, 800)
     }
   },
   data () {
@@ -241,7 +248,8 @@ export default {
       ],
       perPage: 10,
       currentPage: 1,
-      filter: null
+      filter: null,
+      typing: null
     }
   }
 }
