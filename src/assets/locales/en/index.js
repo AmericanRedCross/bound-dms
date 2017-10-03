@@ -23,6 +23,7 @@ export default{
     changesMade: 'You\'ve made changes without saving',
     save: 'Save',
     loading: 'Loading',
+    filter: 'Filter',
     validations: {
       required: 'Field is required',
       email: 'Incorrect email format',

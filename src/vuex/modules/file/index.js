@@ -20,8 +20,8 @@ const files = {
     }
   },
   actions: {
-    GET_ALL_FILES: function ({commit}, {page, limit, projectId}) {
-      return axios.get('/projects/' + projectId + '/files/?' + querystring.stringify({page, limit}))
+    GET_ALL_FILES: function ({commit}, {page, limit, projectId, filter}) {
+      return axios.get('/projects/' + projectId + '/files/?' + querystring.stringify({page, limit, filter}))
         .then((response) => {
           commit('SET_ALL_FILES', { response: response.data })
         }).catch(err => {
