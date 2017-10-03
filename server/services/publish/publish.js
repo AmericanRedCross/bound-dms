@@ -5,7 +5,7 @@ class Publish {
       type: 'file',
       storage: 'disk',
       publishDir: '/static/publishes',
-      uploadDir: 'uploads',
+      uploadDir: 'static/uploads',
       host: 'https://cie.arc.cubeapis.com'
     }
 
