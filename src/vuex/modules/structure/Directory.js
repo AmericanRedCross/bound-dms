@@ -11,6 +11,7 @@ export class Directory {
       files = [],
       documents = [],
       directories = [],
+      metadata = [],
       translations = [],
       parentId = null
     }
@@ -22,6 +23,7 @@ export class Directory {
     this._documents = documents
     this._directories = directories
     this._parentId = parentId
+    this._metadata = metadata
     this._translations = translations
     this._needsSaving = false
   }
@@ -56,6 +58,10 @@ export class Directory {
   // parentId
   set parentId (parentId) { this._parentId = parentId }
   get parentId () { return this._parentId }
+
+  // metadata
+  set metadata (metadata) { this._metadata = metadata }
+  get metadata () { return this._metadata }
 
   // Needs Saving
   set needsSaving (needsSaving) { this._needsSaving = needsSaving }
