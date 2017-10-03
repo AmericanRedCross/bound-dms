@@ -8,7 +8,6 @@ const Directory = require('../models').Directory
 module.exports = () => {
   return {
     generateThumbnails: (source) => {
-
       const image = sharp(source)
 
       let filename = path.basename(source).replace(/\.[^/.]+$/, '')
@@ -20,7 +19,7 @@ module.exports = () => {
 
           return image
             .resize(size)
-            .toFile('/uploads/' + thumbFilename)
+            .toFile(path.join(config.uploads.directory, thumbFilename))
             .then((thumb) => {
               return {
                 filename: thumbFilename,
@@ -62,7 +61,7 @@ module.exports = () => {
           {
             model: Directory,
             as: 'Directory',
-            required: false,
+            required: false
           }
         ],
         limit: limit,

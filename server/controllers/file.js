@@ -72,6 +72,7 @@ module.exports = {
           })
           return persistedFile
         }).catch((err) => {
+          console.error(err)
           return null
         })
       })

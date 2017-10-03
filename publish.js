@@ -47,7 +47,7 @@ Directory.findAll({
   const archivePath = archive.createBundleFile(language)
 
   if (archivePath) {
-    Publish.create({
+    return Publish.create({
       projectId: projectId,
       language: language,
       type: 'bundleArchive',
