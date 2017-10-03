@@ -9,7 +9,7 @@
               id="apikey-table"
       >
         <template slot="name" scope="item">
-         {{ item.value }}
+         {{ item.item._name }}
         </template>
 
         <template slot="details" scope="item">
@@ -81,6 +81,24 @@ export default {
     addKey () {
       return new Promise((resolve, reject) => {
         this.$store.dispatch('ADD_KEY', {name: this.newKeyForm.name, projectId: this.$route.params.id}).then(resolve)
+      }).then(() => {
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.saved')}</b>`,
+            icon: 'info',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'info'
+          })
+      }).catch(() => {
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+            icon: 'exclamation-triangle',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'danger'
+          })
       })
     },
     deleteClick (keyId) {
@@ -107,6 +125,16 @@ export default {
           type: 'success',
           title: this._i18n.t('common.deleted')
         })
+      }).catch((err) => {
+        if (err !== 'cancel') {
+          this.$notifications.notify({
+            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+            icon: 'exclamation-triangle',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'danger'
+          })
+        }
       })
     }
   },
