@@ -17,11 +17,16 @@ const files = {
         })
       }
       state.total = response.data.total
+    },
+    UPDATE_FILE: (state, { response }) => {
+      const fileIdx = state.files.findIndex(file => file.id === response.data.id)
+      state.files[fileIdx].title = response.data.title
+      state.files[fileIdx].description = response.data.description
     }
   },
   actions: {
-    GET_ALL_FILES: function ({commit}, {page, limit, projectId}) {
-      return axios.get('/projects/' + projectId + '/files/?' + querystring.stringify({page, limit}))
+    GET_ALL_FILES: function ({commit}, {page, limit, projectId, filter}) {
+      return axios.get('/projects/' + projectId + '/files/?' + querystring.stringify({page, limit, filter}))
         .then((response) => {
           commit('SET_ALL_FILES', { response: response.data })
         }).catch(err => {
@@ -31,6 +36,16 @@ const files = {
     },
     LINK_FILE_DIRECTORY: function ({commit}, {directoryId, fileId}) {
       return axios.patch('/files/' + fileId, {directoryId})
+        .catch(err => {
+          commit('SET_MESSAGE', { message: err })
+          throw err
+        })
+    },
+    UPDATE_FILE_DETAILS: function ({commit}, {fileId, title, description}) {
+      return axios.patch('/files/' + fileId, {title, description})
+        .then((response) => {
+          commit('UPDATE_FILE', { response: response.data })
+        })
         .catch(err => {
           commit('SET_MESSAGE', { message: err })
           throw err

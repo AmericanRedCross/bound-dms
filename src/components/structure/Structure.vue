@@ -15,6 +15,7 @@
 
     <b-modal
       @ok="saveMetadata"
+      @cancel="selectMetadataShow = null"
       :lazy="true"
       id="metadata-modal"
       class="ignore-drag"
@@ -37,6 +38,21 @@
       </div>
     </b-modal>
 
+    <b-modal
+      :lazy="true"
+      id="file-modal"
+      class="ignore-drag"
+      v-model="selectFileShow"
+      :title="$t('projects.modules.selectFile')"
+      size="lg"
+      @cancel="selectedFile = null"
+      @ok="linkFile">
+        <file-list v-if='getAllFiles().files.length' v-model="selectedFile" :picker="true"></file-list>
+        <p v-else>
+        {{ $t('common.loading') }}
+        </p>
+    </b-modal>
+
   </div>
 
 </template>
@@ -45,6 +61,8 @@
 import DirectoryComp from './Directory'
 import draggable from 'vuedraggable'
 import vSelect from 'vue-select'
+import FileList from '../project/documents/FileList'
+import { File } from '../../vuex/modules/file/File'
 import { Project } from '../../vuex/modules/project/Project'
 import { mapGetters } from 'vuex'
 
@@ -53,7 +71,8 @@ export default {
   components: {
     DirectoryComp,
     draggable,
-    vSelect
+    vSelect,
+    FileList
   },
   data () {
     return {
@@ -65,7 +84,10 @@ export default {
       selectedDirectoryId: null,
       selectedMetadata: null,
       metatypes: [],
+      selectedDirectory: null,
       selectMetadataShow: false,
+      selectFileShow: false,
+      selectedFile: null,
       draggableOptions: {
         filter: '.ignore-drag',
         animation: 150
@@ -74,7 +96,7 @@ export default {
     }
   },
   created () {
-    this.$root.$on('openMetadataModel', ({directoryId, metadata}) => {
+    this.$root.$on('openMetadataModal', ({directoryId, metadata}) => {
       this.selectedDirectoryId = directoryId
       this.selectedMetadata = []
       this.metatypes.forEach((metatype) => {
@@ -85,6 +107,11 @@ export default {
         })
       })
       this.selectMetadataShow = true
+    })
+
+    this.$root.$on('openFileSelectModal', (directory) => {
+      this.selectedDirectory = directory
+      this.selectFileShow = true
     })
   },
   beforeMount () {
@@ -194,6 +221,36 @@ export default {
 
       // Update Order
       this.$store.dispatch('UPDATE_ORDER', {newIndex, oldIndex})
+    },
+    linkFile () {
+      if (this.selectedFile) {
+        this.$store.dispatch('LINK_FILE_DIRECTORY', { directoryId: this.selectedDirectory.id, fileId: this.selectedFile._id }).then(() => {
+          this.$notifications.notify(
+            {
+              message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.updated')}`,
+              icon: 'info',
+              horizontalAlign: 'right',
+              verticalAlign: 'bottom',
+              type: 'info'
+            })
+          // Add it to the model so we can see it without reloading
+          this.selectedDirectory.addFile(new File({
+            id: this.selectedFile._id,
+            title: this.selectedFile._title,
+            filename: this.selectedFile._filename,
+            mimeType: this.selectedFile._mimeType
+          }))
+        }).catch((err) => {
+          this.$notifications.notify(
+            {
+              message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+              icon: 'exclamation-triangle',
+              horizontalAlign: 'right',
+              verticalAlign: 'bottom',
+              type: 'danger'
+            })
+        })
+      }
     }
   },
   computed: {
@@ -209,7 +266,8 @@ export default {
     ...mapGetters([
       'getProjectById',
       'getProjectLangOptions',
-      'getMetatypes'
+      'getMetatypes',
+      'getAllFiles'
     ]),
     getLangOptions () {
       return this.getProjectLangOptions(this.currentProject.id) || []

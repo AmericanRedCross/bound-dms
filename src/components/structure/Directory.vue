@@ -59,7 +59,7 @@
 
             <b-dropdown-divider v-if="$auth.check(['admin'])"></b-dropdown-divider>
 
-            <b-dropdown-item-button @click="openMetadataModel(directory.id, directory.metadata)" class="directory-action" :disabled="directory.id === null">
+            <b-dropdown-item-button @click="openMetadataModal(directory.id, directory.metadata)" class="directory-action" :disabled="directory.id === null">
               <fa-icon name="pencil"></fa-icon>
               {{ $t('projects.modules.openMetadataModal') }}
             </b-dropdown-item-button>
@@ -88,7 +88,7 @@
             <b-button
               variant="success"
               size="sm"
-              @click="selectFileShow = !selectFileShow"
+              @click="openFileSelectModal"
               :disabled="directory.id === null">
               <fa-icon name="plus"></fa-icon> {{ $t('projects.files.add') }}
             </b-button>
@@ -148,26 +148,10 @@
         {{ $t('common.loading') }}
       </p>
     </b-modal>
-
-    <b-modal
-      :lazy="true"
-      id="file-modal"
-      class="ignore-drag"
-      v-model="selectFileShow"
-      :title="$t('projects.modules.selectFile')"
-      size="lg"
-      @cancel="selectedFile = null"
-      @ok="linkFile">
-        <file-list v-if='getAllFiles().files.length' v-model="selectedFile" :picker="true"></file-list>
-        <p v-else>
-        {{ $t('common.loading') }}
-        </p>
-      </b-modal>
   </div>
 </template>
 <script>
 import { Directory } from '../../vuex/modules/structure/Directory'
-import { File } from '../../vuex/modules/file/File'
 import { Document } from '../../vuex/modules/document/Document'
 import { mapGetters } from 'vuex'
 import ChevronToggle from '../ui/ChevronToggle'
@@ -210,10 +194,8 @@ export default {
       editTitle: false,
       infoShow: false,
       selectDocShow: false,
-      selectFileShow: false,
       untranslated: false,
       selectedDocument: null,
-      selectedFile: null,
       title: '',
       draggableOptions: {
         filter: '.ignore-drag',
@@ -253,8 +235,11 @@ export default {
     }
   },
   methods: {
-    openMetadataModel (directoryId, metadata) {
-      this.$root.$emit('openMetadataModel', {directoryId, metadata})
+    openMetadataModal (directoryId, metadata) {
+      this.$root.$emit('openMetadataModal', {directoryId, metadata})
+    },
+    openFileSelectModal () {
+      this.$root.$emit('openFileSelectModal', this.directory)
     },
     addDirectory () {
       if (this.directory.id !== null) {
@@ -329,36 +314,6 @@ export default {
         })
       }
     },
-    linkFile () {
-      if (this.selectedFile) {
-        this.$store.dispatch('LINK_FILE_DIRECTORY', { directoryId: this.directory.id, fileId: this.selectedFile._id }).then(() => {
-          this.$notifications.notify(
-            {
-              message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.updated')}`,
-              icon: 'info',
-              horizontalAlign: 'right',
-              verticalAlign: 'bottom',
-              type: 'info'
-            })
-          // Add it to the model so we can see it without reloading
-          this.directory.addFile(new File({
-            id: this.selectedFile._id,
-            title: this.selectedFile._title,
-            filename: this.selectedFile._filename,
-            mimeType: this.selectedFile._mimeType
-          }))
-        }).catch(() => {
-          this.$notifications.notify(
-            {
-              message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
-              icon: 'exclamation-triangle',
-              horizontalAlign: 'right',
-              verticalAlign: 'bottom',
-              type: 'danger'
-            })
-        })
-      }
-    },
     removeDirectory () {
       if (this.$auth.check(['admin', 'editor'])) {
         this.$swal({
@@ -397,7 +352,6 @@ export default {
     },
     ...mapGetters([
       'getAllDocuments',
-      'getAllFiles',
       'getProjectById'
     ])
   }

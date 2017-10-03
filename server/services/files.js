@@ -36,17 +36,22 @@ module.exports = () => {
     persist: (file) => {
       return File.create(file)
     },
-    getForProjectId: (page, limit, projectId) => {
+    getForProjectId: (page, limit, projectId, filter) => {
       let offset = page - 1
       if (offset > 0) {
         offset = (limit * offset)
       }
-      // todo: filter by projectId
+      let whereClause = {
+        projectId: projectId,
+        parentId: null
+      }
+      if (filter) {
+        whereClause.title = {
+          $like: '%' + filter + '%'
+        }
+      }
       return File.findAndCount({
-        where: {
-          projectId: projectId,
-          parentId: null
-        },
+        where: whereClause,
         include: [
           {
             model: User,

@@ -44,7 +44,7 @@
           </b-table>
         </div>
       </div>
-      <b-pagination size="md" align="center" :total-rows="totalFiles" v-model="currentPage" :per-page="perPage"></b-pagination>
+      <b-pagination size="md" align="center" :total-rows="totalFiles" v-model="currentPage" :per-page="perPage" :limit="10"></b-pagination>
     </b-card>
   </div>
 </template>
@@ -162,25 +162,25 @@ export default {
       headers () {
         let headers = {
           _id: {
-            label: 'ID',
+            label: this._i18n.t('common.tableFields.id'),
             sortable: true
           },
           title: {
-            label: 'Title',
+            label: this._i18n.t('projects.documents.fields.title'),
             sortable: true
           },
           _createdAt: {
-            label: 'Created at',
+            label: this._i18n.t('common.tableFields.createdAt'),
             sortable: true
           }
         }
         if (!this.picker) {
           headers._createdBy = {
-            label: 'Created by',
+            label: this._i18n.t('common.tableFields.createdBy'),
             sortable: true
           }
           headers._translations = {
-            label: 'Translations',
+            label: this._i18n.t('projects.documents.fields.translations'),
             sortable: false
           }
         }
