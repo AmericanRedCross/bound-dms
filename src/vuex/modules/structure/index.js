@@ -55,6 +55,8 @@ const directories = {
         if (indexToRemove !== -1) {
           state.directoriesToDelete.push(directories.splice(indexToRemove, 1)[0])
           Directory.updateOrder(directories)
+          // Set flat structure
+          state.flatDirectories = directoryUtils.getFlatStructure(state.structure)
         }
       }
     },
@@ -80,8 +82,6 @@ const directories = {
       options.directory.needsSaving = true
       // Set flat structure
       state.flatDirectories = directoryUtils.getFlatStructure(state.structure)
-      console.log(state.structure)
-      console.log(state.flatDirectories)
     },
 
     UPDATE_DIRECTORY_METADATA: (state, {directoryId, metadata}) => {
