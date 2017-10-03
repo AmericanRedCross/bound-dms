@@ -82,6 +82,11 @@ const directories = {
       state.flatDirectories = directoryUtils.getFlatStructure(state.structure)
       console.log(state.structure)
       console.log(state.flatDirectories)
+    },
+
+    UPDATE_DIRECTORY_METADATA: (state, {directoryId, metadata}) => {
+      const directoryIdx = state.flatDirectories.findIndex(directory => directory.id === directoryId)
+      state.flatDirectories[directoryIdx].metadata = metadata
     }
   },
   actions: {
@@ -136,6 +141,17 @@ const directories = {
         title: directory.title
       }).then((response) => {
         // Re create the structure
+        commit('SET_STRUCTURE', { response: getStructure(state.flatDirectories) })
+      }).catch(err => {
+        commit('SET_MESSAGE', { message: err })
+        throw err
+      })
+    },
+
+    UPDATE_DIRECTORY_METADATA: function ({ commit, state }, {directoryId, metadata}) {
+      return axios.put(DIRECTORY_ROOT + directoryId + '/metadata', metadata).then((response) => {
+        // Re create the structure
+        commit('UPDATE_DIRECTORY_METADATA', {directoryId, metadata})
         commit('SET_STRUCTURE', { response: getStructure(state.flatDirectories) })
       }).catch(err => {
         commit('SET_MESSAGE', { message: err })

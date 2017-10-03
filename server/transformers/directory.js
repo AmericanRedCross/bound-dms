@@ -15,13 +15,14 @@ module.exports = {
 
     return {
       id: directory.id,
-      projectId: directory.projectId,
       parentId: directory.parentId,
+      projectId: directory.projectId,
       order: directory.order,
       createdAt: directory.createdAt,
       updatedAt: directory.updatedAt,
       createdBy: directory.createdBy,
       directories: directory.directories,
+      documents: directory.documents,
       translations: directory.translations,
       metadata: metadata
     }

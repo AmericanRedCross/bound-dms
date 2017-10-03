@@ -22,7 +22,7 @@ export class ApiKey {
   set name (name) { this._name = name }
   get name () { return this._name }
 
-  // Description
+  // Key
   set key (key) { this._key = key }
   get key () { return this._key }
 
