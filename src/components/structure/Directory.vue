@@ -104,7 +104,7 @@
 
     <!-- Here's the collapsable area with the directories, uses vue draggable https://github.com/SortableJS/Vue.Draggable -->
     <b-collapse :visible="isExpanded" id="collapse-directories">
-      <draggable v-model="directory.directories" @update="updateDraggable" :options="draggableOptions">
+      <draggable v-if="isExpanded" v-model="directory.directories" @update="updateDraggable" :options="draggableOptions">
           <!-- We need to use a key here so vue can keep track of the directories' identities https://vuejs.org/v2/guide/list.html#key -->
           <Directory
             v-for="(subdirectory, directoryIndex) in directory.directories"
