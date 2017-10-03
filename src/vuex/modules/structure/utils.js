@@ -180,6 +180,7 @@ const DirectoryUtils = {
       documents: this.getDocuments(data.documents),
       directories: this.getDirectories(data.directories),
       translations: data.translations,
+      metadata: data.metadata,
       parentId: data.parentId
     })
   },
