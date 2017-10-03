@@ -22,6 +22,7 @@ module.exports = {
       updatedAt: directory.updatedAt,
       createdBy: directory.createdBy,
       directories: directory.directories,
+      files: directory.files,
       documents: directory.documents,
       translations: directory.translations,
       metadata: metadata
