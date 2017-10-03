@@ -8,57 +8,64 @@ const { structure } = modules
 // destructure assign mutations
 const { mutations } = structure
 
-const mockEmptyState = {
-  structure: []
-}
-
 const mockState = {
-  structure: [
-    new Directory({
-      id: 1,
-      order: 0,
-      files: [
-        new File({id: 1, title: 'Attachment', filename: 'somedocument.pdf', size: 12000, mimeType: '', featured: true})
-      ],
-      directories: [
+  getEmptyState () {
+    return {
+      structure: [],
+      directoriesToDelete: [],
+      flatDirectories: []
+    }
+  },
+  getState () {
+    return {
+      structure: [
         new Directory({
-          id: 3,
+          id: 1,
           order: 0,
           files: [
-            new File({id: 2, title: 'Another Attachment', filename: 'somedocuments.docx', size: 12000, mimeType: '', featured: false})
+            new File({id: 1, title: 'Attachment', filename: 'somedocument.pdf', size: 12000, mimeType: '', featured: true})
+          ],
+          directories: [
+            new Directory({
+              id: 3,
+              order: 0,
+              files: [
+                new File({id: 2, title: 'Another Attachment', filename: 'somedocuments.docx', size: 12000, mimeType: '', featured: false})
+              ],
+              directories: []
+            })
+          ],
+          translations: [{title: 'Here is a title in english', language: 'en'}]
+        }),
+        new Directory({
+          id: 2,
+          order: 1,
+          files: [
+            new File({id: 1, title: 'Attachment', filename: 'somedocument.pdf', size: 12000, mimeType: '', featured: false})
+          ],
+          directories: []
+        }),
+        new Directory({
+          id: 3,
+          order: 2,
+          files: [
+            new File({id: 1, title: 'Attachment', filename: 'somedocument.pdf', size: 12000, mimeType: '', featured: false})
+          ],
+          directories: []
+        }),
+        new Directory({
+          id: 4,
+          order: 3,
+          files: [
+            new File({id: 1, title: 'Attachment', filename: 'somedocument.pdf', size: 12000, mimeType: '', featured: false})
           ],
           directories: []
         })
       ],
-      translations: [{title: 'Here is a title in english', language: 'en'}]
-    }),
-    new Directory({
-      id: 2,
-      order: 1,
-      files: [
-        new File({id: 1, title: 'Attachment', filename: 'somedocument.pdf', size: 12000, mimeType: '', featured: false})
-      ],
-      directories: []
-    }),
-    new Directory({
-      id: 3,
-      order: 2,
-      files: [
-        new File({id: 1, title: 'Attachment', filename: 'somedocument.pdf', size: 12000, mimeType: '', featured: false})
-      ],
-      directories: []
-    }),
-    new Directory({
-      id: 4,
-      order: 3,
-      files: [
-        new File({id: 1, title: 'Attachment', filename: 'somedocument.pdf', size: 12000, mimeType: '', featured: false})
-      ],
-      directories: []
-    })
-  ],
-  directoriesToDelete: [],
-  flatDirectories: []
+      directoriesToDelete: [],
+      flatDirectories: []
+    }
+  }
 }
 
 const expectDirectory = (mock, directoryObject) => {
@@ -113,13 +120,11 @@ describe('Vuex Structure Mutations', () => {
   // SET_STRUCTURE
   it('SET_STRUCTURE', () => {
     // mock state
-    let state = {}
-    // Copy constant mockState to our state variable
-    Object.assign(state, mockEmptyState)
+    let state = mockState.getEmptyState()
+
     // apply mutation with mock users
     mutations.SET_STRUCTURE(state, {response: mockDirectories})
     // assert result
-    // expect().to.equal(mockUsers)
     mockDirectories.forEach((directory, index) => {
       expectDirectory(directory, state.structure[index])
     })
@@ -128,9 +133,8 @@ describe('Vuex Structure Mutations', () => {
   // SET_ORDER
   it('SET_ORDER', () => {
     // mock state
-    let state = {}
+    let state = mockState.getState()
     // Move 0 -> 1 (index based)
-    Object.assign(state, mockState)
     moveDirectoryAndExpect(state, 1, 0)
     // Move 0 -> 2 (index based)
     moveDirectoryAndExpect(state, 2, 0)
@@ -146,22 +150,21 @@ describe('Vuex Structure Mutations', () => {
 
   it('FIND_REMOVE_DIRECTORY', () => {
     // mock state
-    let state = {}
+    let state = mockState.getState()
 
-    state = JSON.parse(JSON.stringify(mockState)) // Object.assign(...) does not do deep cloning
+    state.directoriesToDelete = []
     mutations.FIND_REMOVE_DIRECTORY(state, { options: {directoryNumbers: [], directory: state.structure[0]} })
     // Length should now be one less...
-    expect(state.structure.length).to.equal(mockState.structure.length - 1)
+    expect(state.structure.length).to.equal(mockState.getState().structure.length - 1)
     expect(state.directoriesToDelete.length).to.equal(1)
   })
 
   it('PUSH_DIRECTORY', () => {
     // mock state
-    let state = {}
+    let state = mockState.getState()
 
-    state = JSON.parse(JSON.stringify(mockState)) // Object.assign(...) does not do deep cloning
     mutations.PUSH_DIRECTORY(state, { options: {} })
     // Length should now be one more...
-    expect(state.structure.length).to.equal(mockState.structure.length + 1)
+    expect(state.structure.length).to.equal(mockState.getState().structure.length + 1)
   })
 })
