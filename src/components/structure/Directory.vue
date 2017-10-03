@@ -6,8 +6,8 @@
 
       <!-- Module Header (The bit that's not hidden) -->
       <div class="d-flex align-items-baseline flex-wrap content">
-        <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-for="number in directoryNumbers">{{ number + 1}}.</span><span>{{ directory.order + 1}}</span></h4>
 
+        <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-for="number in directoryNumbers">{{ number + 1}}.</span><span>{{ directory.order + 1}}</span></h4>
         <i v-if="!editTitle" class="ml-2">{{ title }}</i>
         <span class="title-input ml-2" v-else>
           <b-input-group>
@@ -361,7 +361,6 @@ export default {
       }
     },
     removeDirectory () {
-      // this.directory.removeDirectoryById(this.directory.id)
       if (this.$auth.check(['admin', 'editor'])) {
         this.$swal({
           title: this._i18n.t('common.areYouSure'),
@@ -372,9 +371,9 @@ export default {
           confirmButtonText: this._i18n.t('common.deleteIt'),
           allowOutsideClick: false
         }).then(() => {
-          this.$store.dispatch('REMOVE_DIRECTORY', {directoryNumbers: this.directoryNumbers.shift(), directory: this.directory})
+          this.$store.dispatch('REMOVE_DIRECTORY', {directoryNumbers: this.directoryNumbers, directory: this.directory})
           this.isExpanded = false
-        })
+        }).catch(this.$swal.noop)
       } else {
         this.$swal({
           title: this._i18n.t('common.oops'),
