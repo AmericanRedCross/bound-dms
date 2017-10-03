@@ -223,8 +223,6 @@ export default {
     },
     linkFile () {
       if (this.selectedFile) {
-        console.log(this.selectedFile)
-        console.log(this.selectedDirectory)
         this.$store.dispatch('LINK_FILE_DIRECTORY', { directoryId: this.selectedDirectory.id, fileId: this.selectedFile._id }).then(() => {
           this.$notifications.notify(
             {
@@ -242,7 +240,6 @@ export default {
             mimeType: this.selectedFile._mimeType
           }))
         }).catch((err) => {
-          console.log(err)
           this.$notifications.notify(
             {
               message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
