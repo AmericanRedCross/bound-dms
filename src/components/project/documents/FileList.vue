@@ -167,7 +167,7 @@ export default {
           'Authorization': 'Bearer ' + this.$auth.token()
         },
         maxNumberOfFiles: 10,
-        maxFileSizeInMB: 10,
+        maxFileSizeInMB: 100,
         language: {
           dictDefaultMessage: this._i18n.t('dropzone.files.dictDefaultMessage'),
           dictFallbackMessage: this._i18n.t('dropzone.files.dictFallbackMessage'),
