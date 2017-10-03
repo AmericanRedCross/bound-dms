@@ -74,7 +74,7 @@
         </div>
       </div>
 
-      <b-pagination align="center" size="md" :total-rows="totalFiles" v-model="currentPage" :per-page="perPage"></b-pagination>
+      <b-pagination align="center" size="md" :total-rows="totalFiles" v-model="currentPage" :per-page="perPage" :limit="10"></b-pagination>
     </b-card>
 
     <b-modal
@@ -84,7 +84,7 @@
       id="filedata-modal"
       class="ignore-drag"
       v-model="openEditFileModal"
-      title="Edit file data"
+      :title="$t('common.edit')"
       size="lg"
     >
       <div v-if="selectedFile">
