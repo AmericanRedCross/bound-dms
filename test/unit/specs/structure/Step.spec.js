@@ -55,4 +55,25 @@ describe('Translations', () => {
     let englishTranslation = newDirectory.getTitleByLangCode('en')
     expect(englishTranslation).to.equal(aTranslation)
   })
+
+  it('Can replace a translation title', () => {
+    let id = 1
+    let aTranslation = new DirectoryTranslation({language: 'en', title: 'Here is a title'})
+    let replaceTranslation = new DirectoryTranslation({language: 'en', title: 'Here is a title another title'})
+    let translations = [aTranslation]
+    let newDirectory = new Directory({
+      id,
+      translations
+    })
+
+    expect(newDirectory.id).to.equal(id)
+    expect(newDirectory.translations).to.equal(translations)
+
+    newDirectory.updateTranslation(replaceTranslation)
+
+    let englishTranslation = newDirectory.getTitleByLangCode('en')
+
+    expect(englishTranslation.title).to.equal(replaceTranslation.title)
+    expect(englishTranslation.language).to.equal(replaceTranslation.language)
+  })
 })
