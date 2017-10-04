@@ -4,7 +4,7 @@
       <h3 class="text-left directory-header mb-2">
         <span v-if="directoryNumbers.length === 0">{{ $t('projects.modules.module') }}</span>
         <span :class="'ml-' + directoryNumbers.length">
-          <span>{{ getHierarchy }}</span>
+          <span>{{ getHierarchy }}: <i>{{ currentBaseTitle.title }}</i></span>
         </span>
       </h3>
       <div class="row">
@@ -155,9 +155,9 @@ export default {
     getHierarchy () {
       let hierarchy = ''
       this.directoryNumbers.forEach((number) => {
-        hierarchy += number + '.'
+        hierarchy += number + 1 + '.'
       })
-      hierarchy += this.directory.order
+      hierarchy += this.directory.order + 1
       return hierarchy
     },
     selectedLanguage () {
