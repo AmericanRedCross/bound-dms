@@ -184,6 +184,21 @@ export class Directory {
   }
 
   /**
+   * [getTitleByLangCode Get a directory's title by language code]
+   * @param  {[type]} languageCode en, fr etc..
+   * @return {[type]}              Translation
+   */
+  getTitleByLangCode (languageCode) {
+    if (languageCode) {
+      let translation = this.translations.find(translation => translation.language === languageCode)
+      if (translation) {
+        return translation
+      }
+    }
+    return null
+  }
+
+  /**
    * [flatten Get backend friendly Directory object]
    * @return {Object} The directory object (without the nesting)
    */

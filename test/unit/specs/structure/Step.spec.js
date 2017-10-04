@@ -1,4 +1,5 @@
 import { Directory } from '../../../../src/vuex/modules/structure/Directory'
+import { DirectoryTranslation } from '../../../../src/vuex/modules/structure/DirectoryTranslation'
 import { File } from '../../../../src/vuex/modules/file/File'
 
 describe('Directory Object Creation', () => {
@@ -21,16 +22,37 @@ describe('Directory Object Creation', () => {
     let order = 1
     let files = [new File({})]
     let directories = [new Directory({})]
+    let translations = [new DirectoryTranslation({language: 'en', title: 'Here is a title'})]
     let newDirectory = new Directory({
       id,
       order,
       files,
-      directories
+      directories,
+      translations
     })
 
     expect(newDirectory.id).to.equal(id)
     expect(newDirectory.order).to.equal(order)
     expect(newDirectory.files).to.equal(files)
     expect(newDirectory.directories).to.equal(directories)
+    expect(newDirectory.translations).to.equal(translations)
+  })
+})
+
+describe('Translations', () => {
+  it('Can retrieve a translation title', () => {
+    let id = 1
+    let aTranslation = new DirectoryTranslation({language: 'en', title: 'Here is a title'})
+    let translations = [aTranslation]
+    let newDirectory = new Directory({
+      id,
+      translations
+    })
+
+    expect(newDirectory.id).to.equal(id)
+    expect(newDirectory.translations).to.equal(translations)
+
+    let englishTranslation = newDirectory.getTitleByLangCode('en')
+    expect(englishTranslation).to.equal(aTranslation)
   })
 })

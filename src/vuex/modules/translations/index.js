@@ -23,11 +23,9 @@ const translations = {
     },
     SET_LANGUAGES: (state, languageList) => {
       state.languages = []
-      console.log(state)
 
       languageList.forEach((lang) => {
         if (lang.code !== state.baseLanguage.value.code) {
-          console.log('pushing', lang)
           state.languages.push({
             label: `${languages[lang.code].name} (${lang.code.toUpperCase()})`,
             value: lang
