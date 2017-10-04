@@ -7,6 +7,7 @@ const keyController = require('../controllers/apiKey')
 const documentController = require('../controllers/document')
 const metaController = require('../controllers/metadata')
 const fileController = require('../controllers/file')
+const publishController = require('../controllers/publish')
 const authService = require('../services/auth')()
 const projectRules = {
   'name': {
@@ -23,7 +24,8 @@ const projectRules = {
 // GET /api/projects
 router.get('/', authService.authenticate(['jwt', 'headerapikey']), controller.getAll)
 router.get('/:id', authService.authenticate(['jwt', 'headerapikey']), controller.get)
-router.get('/:id/publishes/latest', controller.getLatestPublish)
+router.get('/:id/publishes/latest', publishController.getLatestPublish)
+router.get('/:id/publishes', authService.authenticate(), publishController.getAll)
 router.put('/', authService.authenticate(), (req, res, next) => {
   req.checkBody(projectRules)
   req.getValidationResult().then((result) => {
