@@ -47,10 +47,7 @@
       size="lg"
       @cancel="selectedFile = null"
       @ok="linkFile">
-        <file-list v-if='getAllFiles().files.length' v-model="selectedFile" :picker="true"></file-list>
-        <p v-else>
-        {{ $t('common.loading') }}
-        </p>
+        <file-list v-model="selectedFile" :picker="true"></file-list>
     </b-modal>
 
     <b-modal
