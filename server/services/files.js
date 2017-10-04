@@ -59,13 +59,13 @@ module.exports = () => {
             attributes: User.safeAttributes()
           },
           {
-            as: 'Children',
+            as: 'children',
             model: File,
             required: false
           },
           {
             model: Directory,
-            as: 'Directory',
+            as: 'directory',
             required: false
           }
         ],

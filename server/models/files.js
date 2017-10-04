@@ -23,19 +23,19 @@ module.exports = (sequelize, DataTypes) => {
     })
 
     File.hasMany(models.File, {
-      as: 'Children',
+      as: 'children',
       foreignKey: 'parentId',
       useJunctionTable: false
     })
 
     File.belongsTo(models.Project, {
-      as: 'Project',
+      as: 'project',
       foreignKey: 'parentId',
       targetKey: 'id'
     })
 
     File.belongsTo(models.Directory, {
-      as: 'Directory',
+      as: 'directory',
       foreignKey: 'directoryId',
       targetKey: 'id'
     })
