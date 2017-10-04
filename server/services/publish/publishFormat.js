@@ -1,4 +1,4 @@
-class Publish {
+class PublishFormat {
 
   constructor (options) {
     const defaults = {
@@ -36,4 +36,4 @@ class Publish {
   }
 }
 
-module.exports = Publish
+module.exports = PublishFormat
