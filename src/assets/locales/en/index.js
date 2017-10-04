@@ -296,7 +296,8 @@ export default{
     baseLanguage: 'Base language',
     translationLanguage: 'Translation language',
     previewMarkdown: 'Preview markdown',
-    percentTranslated: '% of content translated'
+    percentTranslated: '% of content translated',
+    selectedLanguage: 'Select language'
   },
   mediaPicker: {
     urlDesc: 'Input a URL for the ',

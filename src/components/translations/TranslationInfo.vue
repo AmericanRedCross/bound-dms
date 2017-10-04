@@ -15,7 +15,7 @@
       </span>
       <span class="ml-auto">
         <b-dropdown class="ml-2" right
-          :text="selectedLanguage ? selectedLanguage.label : 'Select Language'"
+          :text="selectedLanguage.value.code ? selectedLanguage.label : $t('translationWorkflow.selectedLanguage')"
           variant="primary">
           <b-dropdown-item-button v-if="languageList" v-for="language in languageList" :key="language.value.code" @click="setLang(language)">
             {{ language.label }}
