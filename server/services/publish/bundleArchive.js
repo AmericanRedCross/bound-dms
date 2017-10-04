@@ -1,9 +1,14 @@
-const Publish = require('./publish')
+const PublishFormat = require('./publishFormat')
 const fs = require('fs')
 const path = require('path')
 const tar = require('tar')
 
-class BundleArchive extends Publish {
+class BundleArchive extends PublishFormat {
+
+  constructor (options) {
+    super(options)
+    this._type = 'bundleArchive'
+  }
 
   buildDirectoryJson (language) {
     return this._directoryData.map(dir => {
@@ -71,7 +76,7 @@ class BundleArchive extends Publish {
     }
   }
 
-  createBundleFile (language) {
+  createBundleFile (language, cb) {
     const fileName = Math.floor(this._publishDate.getTime() / 1000).toString()
     const workpath = path.join(this._options.publishDir, fileName)
     const contentPath = path.join(workpath, 'content')
@@ -82,7 +87,7 @@ class BundleArchive extends Publish {
       fs.mkdirSync(workpath)
       fs.mkdirSync(contentPath)
     } else {
-      throw new Error('Bundle path already exists')
+      cb(new Error('Bundle path already exists'), null)
     }
 
     this._directoryData.forEach((dir) => {
@@ -98,9 +103,17 @@ class BundleArchive extends Publish {
       sync: true
     }, ['structure.json', 'content'])
 
-    console.log('bundle written to: ' + bundlePath)
+    cb(null, {path: bundlePath})
+  }
 
-    return bundlePath
+  start (language) {
+    return new Promise((resolve, reject) => {
+      this.buildStructure(this.buildDirectoryJson(language))
+      this.createBundleFile(language, (err, bundleData) => {
+        if (err) { reject(err) }
+        resolve(bundleData)
+      })
+    })
   }
 }
 
