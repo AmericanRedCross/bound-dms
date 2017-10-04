@@ -1,5 +1,6 @@
 import { File } from '../file/File'
 import { Document } from '../document/Document'
+import { DirectoryTranslation } from './DirectoryTranslation'
 
 // Spec: https://gist.github.com/rjbaker/8d9a4b6a7ca2bc0fe4fa9325cdf64702
 export class Directory {
@@ -195,7 +196,7 @@ export class Directory {
         return translation
       }
     }
-    return null
+    return new DirectoryTranslation({})
   }
 
   /**

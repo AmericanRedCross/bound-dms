@@ -1,8 +1,8 @@
 export class DirectoryTranslation {
   constructor (
     {
-      language = null,
-      title = null
+      language = '',
+      title = ''
     }
   ) {
     this._language = language

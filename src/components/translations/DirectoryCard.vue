@@ -2,7 +2,7 @@
   <div>
     <div>
       <h3 class="text-left directory-header mb-2">
-        <span v-if="directoryNumbers.length === 0">{{ $t('projects.modules.module') }} </span>
+        <span v-if="directoryNumbers.length === 0">{{ $t('projects.modules.module') }}</span>
         <span :class="'ml-' + directoryNumbers.length">
           <span>{{ getHierarchy }}</span>
         </span>
@@ -14,9 +14,9 @@
               <b-card class="col ml-3 m-2">
                 <div class="center-card text-left">
                   <small>{{ getHierarchy }} {{ $t('translationWorkflow.translations.directoryTitle') }}</small>
-                  <div v-if="directory.title && !editTitle" class="font-weight-bold title-wrapper" @click="editTitle = true">
+                  <div v-if="currentBaseTitle.title && !editTitle" class="font-weight-bold title-wrapper" @click="editTitle = true">
                     <fa-icon name="check" class="text-success"></fa-icon>
-                    {{ directory.title }}
+                    {{ currentBaseTitle.title }}
                   </div>
                   <div v-else>
                     <span v-if="!editTitle" @click="editTitle = true" class="font-weight-bold title-wrapper">
@@ -24,9 +24,9 @@
                     </span>
                     <b-input-group v-else>
                       <b-input-group-addon class="white-icon">
-                        <fa-icon :name="directory.title ? 'check' : 'flag'" :class="directory.title ? 'text-success' : 'text-danger'"></fa-icon>
+                        <fa-icon :name="currentBaseTitle.title ? 'check' : 'flag'" :class="currentBaseTitle.title ? 'text-success' : 'text-danger'"></fa-icon>
                       </b-input-group-addon>
-                      <b-form-input type="text" v-model="directory.title" :placeholder="$t('translationWorkflow.translations.titlePlaceholder')"></b-form-input>
+                      <b-form-input type="text" v-model="currentBaseTitle.title" :placeholder="$t('translationWorkflow.translations.titlePlaceholder')"></b-form-input>
 
                       <b-input-group-button slot="right">
                         <b-button @click="editTitle = false"><fa-icon name="check"></fa-icon></b-button>
@@ -38,7 +38,7 @@
               <b-card class="col mr-3 m-2">
                 <b-input-group>
                   <b-input-group-addon class="white-icon">
-                    <fa-icon :name="isTranslated ? 'check' : 'flag'" :class="isTranslated ? 'text-success' : 'text-danger'"></fa-icon>
+                    <fa-icon :name="isTranslated('title') ? 'check' : 'flag'" :class="isTranslated('title') ? 'text-success' : 'text-danger'"></fa-icon>
                   </b-input-group-addon>
                   <b-form-input type="text" :placeholder="$t('translationWorkflow.translations.titlePlaceholder')"></b-form-input>
                 </b-input-group>
@@ -61,7 +61,7 @@
                 <b-button
                   variant="outline-primary"
                   class="w-100"
-                  :disabled="directory.content ? false : true"
+                  :disabled="false"
                   @click="setContentEditId(directory.id)">
                   {{ $t('common.edit') }}
                 </b-button>
@@ -83,12 +83,23 @@
             </div>
         </div>
       </div>
+      <b-button
+        @click="isOpen = !isOpen"
+        v-if="directory.directories.length !== 0"
+        variant="outline-primary"
+        class="mb-2">
+        <span v-if="!isOpen">{{ $t('translationWorkflow.translations.loadDirectories') }}</span>
+        <span v-else>{{ $t('translationWorkflow.translations.closeDirectories') }}</span>
+      </b-button>
     </div>
-    <DirectoryCard
-      v-for="subdirectory in directory.directories"
-      :key="directory.id" :directory="subdirectory"
-      :directoryNumbers="getDirectories()">
-    </DirectoryCard>
+    <b-collapse :visible="isOpen" id="collapse-extra-card-content">
+      <DirectoryCard
+        v-if="isOpen"
+        v-for="subdirectory in directory.directories"
+        :key="directory.id" :directory="subdirectory"
+        :directoryNumbers="getDirectories()">
+      </DirectoryCard>
+    </b-collapse>
   </div>
 </template>
 
@@ -110,20 +121,35 @@ export default {
   data () {
     return {
       file: null,
-      editTitle: false
+      editTitle: false,
+      isOpen: false
     }
   },
   methods: {
     getDirectories () {
       return [...this.directoryNumbers, this.directory.order]
     },
-    isTranslated ({ isTitle }) {
-      return true
+    isTranslated (type) {
+      switch (type) {
+        case 'title':
+          if (this.currentTranslationTitle.title.length === 0) {
+            return false
+          }
+          return true
+        case 'file':
+
+          break
+      }
+      return false
     },
     setContentEditId (id) {
       this.$store.dispatch('CHANGE_EDIT_CONTENT_ID', id)
       this.$router.push({ name: 'content-translation' })
     }
+  },
+  mounted () {
+    // this.currentBaseTitle = this.directory.getTitleByLangCode(this.baseLanguage.value.code)
+    // this.currentTranslationTitle = this.directory.getTitleByLangCode(this.selectedLanguage.value.code)
   },
   computed: {
     getHierarchy () {
@@ -133,6 +159,27 @@ export default {
       })
       hierarchy += this.directory.order
       return hierarchy
+    },
+    selectedLanguage () {
+      return this.$store.state.translations.selectedLanguage
+    },
+    languageList () {
+      return this.$store.state.translations.languages
+    },
+    baseLanguage () {
+      return this.$store.state.translations.baseLanguage
+    },
+    currentBaseTitle () {
+      return this.directory.getTitleByLangCode(this.baseLanguage.value.code)
+    },
+    currentTranslationTitle () {
+      if (this.selectedLanguage) {
+        return this.directory.getTitleByLangCode(this.selectedLanguage.value.code)
+      }
+      return {
+        language: '',
+        title: ''
+      }
     }
   }
 }
