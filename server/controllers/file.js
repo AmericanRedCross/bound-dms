@@ -1,5 +1,6 @@
 const fileService = require('../services/files')()
 const path = require('path')
+const audit = require('../services/audit')
 
 module.exports = {
   getForProjectId (req, res, next) {
@@ -36,6 +37,7 @@ module.exports = {
         }
         return fileService.update(file, req.body)
       }).then(file => {
+        audit.emit('event:fileUpdated', file.id, req.user.id, req.body)
         res.status(200).json({status: 200, data: file})
       }).catch((err) => {
         res.status(500).json({status: 500, error: err})
@@ -63,6 +65,7 @@ module.exports = {
             fileService.generateThumbnails(file.path)
           ]
         ).then(([persistedFile, thumbSizes]) => {
+          audit.emit('event:fileCreated', persistedFile.id, req.user.id)
           thumbSizes.map(({filename, isSystemThumbnail}) => {
             fileService.persist({
               parentId: persistedFile.id,
@@ -117,6 +120,7 @@ module.exports = {
         fileService.generateThumbnails(file.path)
       ]
     ).then(([persistedFile, thumbSizes]) => {
+      audit.emit('event:fileCreated', persistedFile.id, req.user.id)
       thumbSizes.map(({filename, isSystemThumbnail}) => {
         fileService.persist({
           parentId: persistedFile.id,

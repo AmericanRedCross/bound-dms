@@ -23,6 +23,7 @@ export default{
     goBack: 'Continue',
     changesMade: 'You\'ve made changes without saving',
     save: 'Save',
+    view: 'View',
     loading: 'Loading',
     filter: 'Filter',
     pleaseSelect: 'Please select an option',
@@ -109,6 +110,32 @@ export default{
       type: 'Type to search',
       edit: 'Edit',
       delete: 'Delete'
+    }
+  },
+  history: {
+    changes: 'Changes',
+    fields: {
+      actions: 'Actions',
+      date: 'Date',
+      by: 'By'
+    },
+    actions: {
+      created: 'Created a {entity}',
+      updated: 'Updated a {entity}',
+      deleted: 'Deleted a {entity}'
+    },
+    entities: {
+      apikey: 'Api Key',
+      directory: 'Directory',
+      directoryTranslation: 'Directory Translation',
+      document: 'Document',
+      documentTranslation: 'Document Translation',
+      file: 'File',
+      language: 'Language',
+      metatype: 'Metatype',
+      project: 'Project',
+      publish: 'Publish',
+      user: 'User'
     }
   },
   projects: {

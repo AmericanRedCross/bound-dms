@@ -1,6 +1,7 @@
 const ApiKey = require('../models').ApiKey
 const Project = require('../models').Project
 const crypto = require('crypto')
+const audit = require('../services/audit')
 
 module.exports = {
   getAllForProject (req, res, next) {
@@ -21,6 +22,7 @@ module.exports = {
       data.key = crypto.randomBytes(32).toString('hex')
       return ApiKey.create(data)
     }).then((apiKey) => {
+      audit.emit('event:apiKeyCreated', apiKey.id, req.user.id)
       res.status(201).json({status: 201, data: apiKey})
     }).catch(err => {
       console.error(err)
@@ -31,6 +33,7 @@ module.exports = {
     ApiKey.destroy({
       where: {id: req.params.keyId}
     }).then(() => {
+      audit.emit('event:apiKeyDeleted', req.params.keyId, req.user.id)
       res.status(202).json({status: 202, message: 'api key deleted'})
     })
   }
