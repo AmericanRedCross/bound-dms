@@ -5,7 +5,12 @@ import { languages } from 'countries-list'
 const translations = {
   state: {
     baseLanguage: null,
-    selectedLanguage: null,
+    selectedLanguage: {
+      label: '',
+      value: {
+        code: ''
+      }
+    },
     languages: null,
     filter: {
       all: true,

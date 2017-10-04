@@ -14,7 +14,9 @@
         <fa-icon name="play"></fa-icon>
       </span>
       <span class="ml-auto">
-        <b-dropdown class="ml-2" right :text="selectedLanguage ? selectedLanguage.label : 'Select Language'" variant="primary">
+        <b-dropdown class="ml-2" right
+          :text="selectedLanguage ? selectedLanguage.label : 'Select Language'"
+          variant="primary">
           <b-dropdown-item-button v-if="languageList" v-for="language in languageList" :key="language.value.code" @click="setLang(language)">
             {{ language.label }}
           </b-dropdown-item-button>

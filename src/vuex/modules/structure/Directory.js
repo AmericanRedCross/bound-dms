@@ -196,7 +196,18 @@ export class Directory {
         return translation
       }
     }
-    return new DirectoryTranslation({})
+    return new DirectoryTranslation({language: languageCode})
+  }
+
+  updateTranslation (translation) {
+    if (translation) {
+      let foundTranslation = this.translations.find(aTranslation => aTranslation.language === translation.language)
+      if (foundTranslation) {
+        foundTranslation.title = translation.title
+      } else {
+        this._translations.push(translation)
+      }
+    }
   }
 
   /**
