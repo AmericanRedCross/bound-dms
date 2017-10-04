@@ -2,9 +2,9 @@
   <div>
     <div>
       <h3 class="text-left directory-header mb-2">
-        <span v-if="directoryNumbers.length === 0">{{ $t('projects.modules.module') }} </span>
+        <span v-if="directoryNumbers.length === 0">{{ $t('projects.modules.module') }}</span>
         <span :class="'ml-' + directoryNumbers.length">
-          <span>{{ getHierarchy }}</span>
+          <span>{{ getHierarchy }}: <i>{{ currentBaseTitle.title }}</i></span>
         </span>
       </h3>
       <div class="row">
@@ -14,9 +14,9 @@
               <b-card class="col ml-3 m-2">
                 <div class="center-card text-left">
                   <small>{{ getHierarchy }} {{ $t('translationWorkflow.translations.directoryTitle') }}</small>
-                  <div v-if="directory.title && !editTitle" class="font-weight-bold title-wrapper" @click="editTitle = true">
+                  <div v-if="currentBaseTitle.title && !editTitle" class="font-weight-bold title-wrapper" @click="editTitle = true">
                     <fa-icon name="check" class="text-success"></fa-icon>
-                    {{ directory.title }}
+                    {{ currentBaseTitle.title }}
                   </div>
                   <div v-else>
                     <span v-if="!editTitle" @click="editTitle = true" class="font-weight-bold title-wrapper">
@@ -24,23 +24,40 @@
                     </span>
                     <b-input-group v-else>
                       <b-input-group-addon class="white-icon">
-                        <fa-icon :name="directory.title ? 'check' : 'flag'" :class="directory.title ? 'text-success' : 'text-danger'"></fa-icon>
+                        <fa-icon
+                          :name="currentBaseTitle.title ? 'check' : 'flag'"
+                          :class="currentBaseTitle.title ? 'text-success' : 'text-danger'">
+                        </fa-icon>
                       </b-input-group-addon>
-                      <b-form-input type="text" v-model="directory.title" :placeholder="$t('translationWorkflow.translations.titlePlaceholder')"></b-form-input>
+                      <b-form-input
+                        type="text"
+                        v-model.trim="currentBaseTitle.title"
+                        :placeholder="$t('translationWorkflow.translations.titlePlaceholder')">
+                      </b-form-input>
 
                       <b-input-group-button slot="right">
-                        <b-button @click="editTitle = false"><fa-icon name="check"></fa-icon></b-button>
+                        <b-button @click="updateTitle(currentBaseTitle)" variant="outline-primary"><fa-icon name="check-circle"></fa-icon></b-button>
                       </b-input-group-button>
                     </b-input-group>
                   </div>
                 </div>
               </b-card>
-              <b-card class="col mr-3 m-2">
-                <b-input-group>
+              <b-card class="col mr-3 m-2" v-if="currentTranslationTitle.language">
+                <b-input-group class="check-circle">
                   <b-input-group-addon class="white-icon">
-                    <fa-icon :name="isTranslated ? 'check' : 'flag'" :class="isTranslated ? 'text-success' : 'text-danger'"></fa-icon>
+                    <fa-icon
+                      :name="isTranslated('title') ? 'check' : 'flag'"
+                      :class="isTranslated('title') ? 'text-success' : 'text-danger'">
+                    </fa-icon>
                   </b-input-group-addon>
-                  <b-form-input type="text" :placeholder="$t('translationWorkflow.translations.titlePlaceholder')"></b-form-input>
+                  <b-form-input
+                    type="text"
+                    v-model.trim="currentTranslationTitle.title"
+                    :placeholder="$t('translationWorkflow.translations.titlePlaceholder')">
+                  </b-form-input>
+                  <b-input-group-button slot="right">
+                    <b-button variant="outline-primary" @click="updateTitle(currentTranslationTitle)"><fa-icon name="check-circle"></fa-icon></b-button>
+                  </b-input-group-button>
                 </b-input-group>
               </b-card>
             </div>
@@ -57,22 +74,24 @@
                   <fa-icon name="flag" class="text-danger"></fa-icon> {{ $t('translationWorkflow.translations.noContent') }}
                 </div>
               </b-card>
-              <b-card class="col mr-3 m-2" v-b-tooltip.bottom="directory.content ? '' : $t('translationWorkflow.translations.noContent')">
+              <b-card class="col mr-3 m-2"
+                v-b-tooltip.bottom="directory.content ? '' : $t('translationWorkflow.translations.noContent')"
+                v-if="currentTranslationTitle.language">
                 <b-button
                   variant="outline-primary"
                   class="w-100"
-                  :disabled="directory.content ? false : true"
+                  :disabled="false"
                   @click="setContentEditId(directory.id)">
                   {{ $t('common.edit') }}
                 </b-button>
               </b-card>
             </div>
-            <div class="row">
+            <div class="row" v-if="false">
               <!-- Attachements -->
               <b-card class="col ml-3 m-2 text-left">
                 <fa-icon name="file"></fa-icon> Module Roadmap
               </b-card>
-              <b-card class="col mr-3 m-2">
+              <b-card class="col mr-3 m-2" v-if="currentTranslationTitle.language">
                 <b-input-group>
                   <b-input-group-addon class="white-icon">
                     <fa-icon :name="isTranslated ? 'check' : 'flag'" :class="isTranslated ? 'text-success' : 'text-danger'"></fa-icon>
@@ -83,12 +102,23 @@
             </div>
         </div>
       </div>
+      <b-button
+        @click="isOpen = !isOpen"
+        v-if="directory.directories.length !== 0"
+        variant="outline-primary"
+        class="mb-2">
+        <span v-if="!isOpen">{{ $t('translationWorkflow.translations.loadDirectories') }}</span>
+        <span v-else>{{ $t('translationWorkflow.translations.closeDirectories') }}</span>
+      </b-button>
     </div>
-    <DirectoryCard
-      v-for="subdirectory in directory.directories"
-      :key="directory.id" :directory="subdirectory"
-      :directoryNumbers="getDirectories()">
-    </DirectoryCard>
+    <b-collapse :visible="isOpen" id="collapse-extra-card-content">
+      <DirectoryCard
+        v-if="isOpen"
+        v-for="subdirectory in directory.directories"
+        :key="directory.id" :directory="subdirectory"
+        :directoryNumbers="getDirectories()">
+      </DirectoryCard>
+    </b-collapse>
   </div>
 </template>
 
@@ -110,29 +140,93 @@ export default {
   data () {
     return {
       file: null,
-      editTitle: false
+      editTitle: false,
+      isOpen: false,
+      currentTranslationTitle: {
+        title: '',
+        language: ''
+      }
     }
   },
   methods: {
     getDirectories () {
       return [...this.directoryNumbers, this.directory.order]
     },
-    isTranslated ({ isTitle }) {
-      return true
+    isTranslated (type) {
+      switch (type) {
+        case 'title':
+          if (this.currentTranslationTitle.title.length === 0) {
+            return false
+          }
+          return true
+        case 'file':
+
+          break
+      }
+      return false
     },
     setContentEditId (id) {
       this.$store.dispatch('CHANGE_EDIT_CONTENT_ID', id)
       this.$router.push({ name: 'content-translation' })
+    },
+    updateTitle (translation) {
+      this.editTitle = false
+      this.$store.dispatch('UPDATE_DIRECTORY_TITLE', {
+        directoryId: this.directory.id,
+        lang: translation.language,
+        title: translation.title
+      }).then(() => {
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.updated')}`,
+            icon: 'info',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'info'
+          })
+        this.directory.updateTranslation(translation)
+        console.log(this.directory)
+      }).catch(() => {
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+            icon: 'exclamation-triangle',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'danger'
+          })
+      })
+    }
+  },
+  mounted () {
+    this.currentTranslationTitle = this.directory.getTitleByLangCode(this.selectedLanguage.value.code)
+  },
+  watch: {
+    // whenever selected lang changes, this function will run
+    selectedLanguage: function () {
+      this.currentTranslationTitle = this.directory.getTitleByLangCode(this.selectedLanguage.value.code)
     }
   },
   computed: {
     getHierarchy () {
       let hierarchy = ''
       this.directoryNumbers.forEach((number) => {
-        hierarchy += number + '.'
+        hierarchy += number + 1 + '.'
       })
-      hierarchy += this.directory.order
+      hierarchy += this.directory.order + 1
       return hierarchy
+    },
+    selectedLanguage () {
+      return this.$store.state.translations.selectedLanguage
+    },
+    languageList () {
+      return this.$store.state.translations.languages
+    },
+    baseLanguage () {
+      return this.$store.state.translations.baseLanguage
+    },
+    currentBaseTitle () {
+      return this.directory.getTitleByLangCode(this.baseLanguage.value.code)
     }
   }
 }

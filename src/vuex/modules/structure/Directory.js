@@ -1,5 +1,6 @@
 import { File } from '../file/File'
 import { Document } from '../document/Document'
+import { DirectoryTranslation } from './DirectoryTranslation'
 
 // Spec: https://gist.github.com/rjbaker/8d9a4b6a7ca2bc0fe4fa9325cdf64702
 export class Directory {
@@ -179,6 +180,32 @@ export class Directory {
 
       if (index > -1) {
         return this._directories.splice(index, 1)
+      }
+    }
+  }
+
+  /**
+   * [getTitleByLangCode Get a directory's title by language code]
+   * @param  {[type]} languageCode en, fr etc..
+   * @return {[type]}              Translation
+   */
+  getTitleByLangCode (languageCode) {
+    if (languageCode) {
+      let translation = this.translations.find(translation => translation.language === languageCode)
+      if (translation) {
+        return translation
+      }
+    }
+    return new DirectoryTranslation({language: languageCode})
+  }
+
+  updateTranslation (translation) {
+    if (translation) {
+      let foundTranslation = this.translations.find(aTranslation => aTranslation.language === translation.language)
+      if (foundTranslation) {
+        foundTranslation.title = translation.title
+      } else {
+        this._translations.push(translation)
       }
     }
   }

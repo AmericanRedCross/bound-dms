@@ -1,10 +1,17 @@
 import axios from 'axios'
+import { languages } from 'countries-list'
 
 // This module handles the global store and requests for the Translations endpoint + some frontend bits
 const translations = {
   state: {
-    baseLanguage: 'EN',
-    selectedLanguage: 'FR',
+    baseLanguage: null,
+    selectedLanguage: {
+      label: '',
+      value: {
+        code: ''
+      }
+    },
+    languages: null,
     filter: {
       all: true,
       needsTranslation: false,
@@ -14,7 +21,22 @@ const translations = {
   },
   mutations: {
     SET_BASE_LANGUAGE: (state, baseLanguage) => {
-      state.baseLanguage = baseLanguage
+      state.baseLanguage = {
+        label: `${languages[baseLanguage.code].name} (${baseLanguage.code.toUpperCase()})`,
+        value: baseLanguage
+      }
+    },
+    SET_LANGUAGES: (state, languageList) => {
+      state.languages = []
+
+      languageList.forEach((lang) => {
+        if (lang.code !== state.baseLanguage.value.code) {
+          state.languages.push({
+            label: `${languages[lang.code].name} (${lang.code.toUpperCase()})`,
+            value: lang
+          })
+        }
+      })
     },
     SET_SELECTED_LANGUAGE: (state, selectedLanguage) => {
       state.selectedLanguage = selectedLanguage
@@ -31,6 +53,9 @@ const translations = {
   actions: {
     CHANGE_BASE_LANGUAGE: ({ commit }, baseLanguage) => {
       commit('SET_BASE_LANGUAGE', baseLanguage)
+    },
+    CHANGE_AVAILABLE_LANGUAGES: ({commit, state}, languages) => {
+      commit('SET_LANGUAGES', languages)
     },
     CHANGE_SELECTED_LANGUAGE: ({ commit }, selectedLanguage) => {
       commit('SET_SELECTED_LANGUAGE', selectedLanguage)

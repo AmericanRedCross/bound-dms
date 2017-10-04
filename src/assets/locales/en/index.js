@@ -289,12 +289,15 @@ export default{
       noTitle: 'No title set',
       noContent: 'No content set',
       titlePlaceholder: 'Translated directory title',
-      originalDocument: 'Original document'
+      originalDocument: 'Original document',
+      loadDirectories: 'Load sub directories',
+      closeDirectories: 'Close sub directories'
     },
     baseLanguage: 'Base language',
     translationLanguage: 'Translation language',
     previewMarkdown: 'Preview markdown',
-    percentTranslated: '% of content translated'
+    percentTranslated: '% of content translated',
+    selectedLanguage: 'Select language'
   },
   mediaPicker: {
     urlDesc: 'Input a URL for the ',
