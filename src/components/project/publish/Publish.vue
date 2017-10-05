@@ -19,7 +19,7 @@
     </div>
     <div class="row">
       <div class="col">
-        <PublishList/>
+        <PublishList :projectId="parseInt(this.$route.params.id)"/>
       </div>
     </div>
     <div>

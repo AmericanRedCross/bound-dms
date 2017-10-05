@@ -32,6 +32,12 @@
 import { mapState, mapGetters } from 'vuex'
 
 export default {
+  props: {
+    projectId: {
+      type: Number,
+      default: null
+    }
+  },
   name: 'publish-list',
   methods: {
     fetchAllPublishes () {
@@ -106,8 +112,7 @@ export default {
       publishData: [],
       total: 0,
       perPage: 10,
-      currentPage: 1,
-      projectId: parseInt(this.$route.params.id)
+      currentPage: 1
     }
   }
 }
