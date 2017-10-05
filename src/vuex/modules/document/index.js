@@ -27,6 +27,13 @@ const documents = {
       } else {
         state.currentTranslatingDocument = new Translation(response.data)
       }
+    },
+    RESET_DOCUMENT: (state, isBase) => {
+      if (isBase) {
+        state.currentBaseDocument = null
+      } else {
+        state.currentTranslatingDocument = null
+      }
     }
   },
   actions: {
@@ -47,6 +54,9 @@ const documents = {
           commit('SET_MESSAGE', { message: err })
           throw err
         })
+    },
+    RESET_TRANSLATING_DOCUMENT: function ({commit}) {
+      commit('RESET_DOCUMENT', false)
     },
     UPDATE_DOCUMENT_TRANSLATION: function ({commit}, {language, documentId, data}) {
       return axios.put('documents/' + documentId + '/translations/' + language, data).catch(err => {

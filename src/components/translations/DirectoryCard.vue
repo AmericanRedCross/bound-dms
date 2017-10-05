@@ -61,28 +61,27 @@
                 </b-input-group>
               </b-card>
             </div>
-            <div class="row">
+            <div class="row" v-for="doc in directory.documents" :key="doc.id">
               <!-- Content -->
               <b-card class="col ml-3 m-2 text-left">
                 <small>{{ getHierarchy }} {{ $t('translationWorkflow.translations.directoryContent') }}</small>
 
-                <pre v-if="directory.content" class="font-weight-bold">
+                <pre v-if="doc" class="font-weight-bold">
                   <fa-icon name="check" class="text-success"></fa-icon>
-                  {{ directory.content | truncate('30') }}
+                  {{ getDocumentTitle(doc, baseLanguage) | truncate('30') }}
                 </pre>
                 <div v-else class="font-weight-bold title-wrapper">
                   <fa-icon name="flag" class="text-danger"></fa-icon> {{ $t('translationWorkflow.translations.noContent') }}
                 </div>
               </b-card>
               <b-card class="col mr-3 m-2"
-                v-b-tooltip.bottom="directory.content ? '' : $t('translationWorkflow.translations.noContent')"
                 v-if="currentTranslationTitle.language">
                 <b-button
                   variant="outline-primary"
                   class="w-100"
                   :disabled="false"
-                  @click="setContentEditId(directory.id)">
-                  {{ $t('common.edit') }}
+                  @click="setContentEditId(doc)">
+                  {{ $t('common.edit') }} <b>{{ getDocumentTitle(doc, selectedLanguage) | truncate('30') }}</b>
                 </b-button>
               </b-card>
             </div>
@@ -165,8 +164,8 @@ export default {
       }
       return false
     },
-    setContentEditId (id) {
-      this.$store.dispatch('CHANGE_EDIT_CONTENT_ID', id)
+    setContentEditId (doc) {
+      this.$store.dispatch('CHANGE_EDIT_DOCUMENT', doc)
       this.$router.push({ name: 'content-translation' })
     },
     updateTitle (translation) {
@@ -196,6 +195,15 @@ export default {
             type: 'danger'
           })
       })
+    },
+    getDocumentTitle (doc, language) {
+      if (doc && language) {
+        let docLang = doc.getDocumentByLangCode(language.value.code)
+        if (docLang) {
+          return docLang.title
+        }
+      }
+      return ''
     }
   },
   mounted () {
