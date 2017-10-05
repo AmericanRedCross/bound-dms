@@ -216,7 +216,8 @@ export default{
       fields: {
         title: 'Title',
         type: 'Type',
-        language: 'Language'
+        language: 'Language',
+        download: 'Download'
       }
     },
     keys: {

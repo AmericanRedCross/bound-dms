@@ -103,7 +103,8 @@ module.exports = {
         projectId: req.params.id,
         language: req.body.language,
         type: 'bundleArchive',
-        filePath: path.basename(publishData.filePath)
+        filePath: path.basename(publishData.filePath),
+        createdById: req.user.id
       })
     }).then((publish) => {
       return res.status(201).json({status: 201, data: publish})

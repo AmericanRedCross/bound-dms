@@ -11,7 +11,6 @@ const publishes = {
   mutations: {
     SET_ALL_PUBLISHES: (state, { response }) => {
       if (response.data instanceof Array) {
-        console.log('here')
         state.publishes = []
         response.data.forEach((item) => {
           state.publishes.push(new Publish(item))

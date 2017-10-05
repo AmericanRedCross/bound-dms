@@ -5,6 +5,7 @@ export class Publish {
      language = null,
      type = null,
      filePath = null,
+     createdBy = null,
      createdAt = null,
      updatedAt = null
    }) {
@@ -13,6 +14,7 @@ export class Publish {
     this._language = language
     this._type = type
     this._filePath = filePath
+    this._createdBy = createdBy
     this._createdAt = createdAt && new Date(createdAt)
     this._updatedAt = updatedAt && new Date(updatedAt)
   }
@@ -31,6 +33,8 @@ export class Publish {
   set filePath (filePath) { this._filePath = filePath }
   get filePath () { return this._filePath }
 
+  get createdBy () { return this._createdBy }
+
   get createdAt () { return this._createdAt }
 
   get updatedAt () { return this._updatedAt }
@@ -42,6 +46,7 @@ export class Publish {
       language: this._language,
       type: this._type,
       filePath: this._filePath,
+      createdBy: this._createdBy,
       createdAt: this._createdAt,
       updatedAt: this._updatedAt
     }

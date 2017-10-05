@@ -11,8 +11,14 @@
                   :empty-text="$t('projects.publish.emptystate')"
                   id="publish-table"
           >
+            <template slot="createdBy" scope="item">
+               {{ item.item.createdBy ? [item.item.createdBy.firstname, item.item.createdBy.lastname].join(' ') : 'System' }}
+            </template>
             <template slot="createdAt" scope="item">
               {{ item.value | formatDate }}
+            </template>
+            <template slot="download" scope="item">
+              <b-button href=""><fa-icon name="download"></fa-icon></b-button>
             </template>
           </b-table>
         </div>
@@ -83,9 +89,17 @@ export default {
             label: this._i18n.t('projects.publish.fields.type'),
             sortable: true
           },
+          createdBy: {
+            label: this._i18n.t('common.tableFields.createdBy'),
+            sortable: true
+          },
           createdAt: {
             label: this._i18n.t('common.tableFields.createdAt'),
             sortable: true
+          },
+          download: {
+            label: this._i18n.t('projects.publish.fields.download'),
+            sortable: false
           }
         }
       },
