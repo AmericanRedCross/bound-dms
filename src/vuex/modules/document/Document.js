@@ -34,4 +34,14 @@ export class Document {
 
   set hidden (hidden) { this._hidden = hidden }
   get hidden () { return this._hidden }
+
+  getDocumentByLangCode (languageCode) {
+    if (languageCode) {
+      let translation = this.translations.find(translation => translation.language === languageCode)
+      if (translation) {
+        return translation
+      }
+    }
+    return null
+  }
 }
