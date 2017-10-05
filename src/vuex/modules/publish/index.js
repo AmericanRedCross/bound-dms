@@ -17,6 +17,11 @@ const publishes = {
         })
       }
       state.total = response.data.total
+    },
+    ADD_PUBLISH: (state, {response}) => {
+      if (response.data) {
+        state.publishes.push(new Publish(response.data))
+      }
     }
   },
   actions: {
@@ -31,7 +36,9 @@ const publishes = {
     },
     CREATE_PUBLISH: function ({commit}, {projectId, data}) {
       return axios.post('/projects/' + projectId + '/publishes', data)
-      .catch(err => {
+      .then((response) => {
+        commit('ADD_PUBLISH', { response: response.data })
+      }).catch(err => {
         commit('SET_MESSAGE', { message: err })
         throw err
       })
