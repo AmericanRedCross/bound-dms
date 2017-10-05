@@ -205,7 +205,7 @@ export default{
     publish: {
       publishes: 'Publishes',
       history: 'Publish history',
-      recent: 'Unpublished changes',
+      title: 'Publish content',
       structure: 'Structure changes',
       content: 'Content changes',
       base: 'Base language: ',

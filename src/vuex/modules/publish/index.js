@@ -28,6 +28,13 @@ const publishes = {
           commit('SET_MESSAGE', { message: err })
           throw err
         })
+    },
+    CREATE_PUBLISH: function ({commit}, {projectId, data}) {
+      return axios.post('/projects/' + projectId + '/publishes', data)
+      .catch(err => {
+        commit('SET_MESSAGE', { message: err })
+        throw err
+      })
     }
   },
   getters: {
