@@ -11,7 +11,7 @@ export class File {
      createdAt = null,
      updatedAt = null,
      createdBy = null,
-     Children = [],
+     children = [],
      projectId = null,
      directoryId = null
    }) {
@@ -30,7 +30,7 @@ export class File {
     this._children = []
     this._path = uploadsDirectory + this._filename
 
-    Children.forEach((child) => {
+    children.forEach((child) => {
       let file = new File(child)
       this._children.push(file)
       if (this._thumbnail === null && child.metadata === 'system-thumbnail') {

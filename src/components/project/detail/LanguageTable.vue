@@ -150,11 +150,19 @@ export default {
       })
     },
     editClick (item) {
-      this.$store.dispatch('CHANGE_SELECTED_LANGUAGE', item.code)
+      this.$store.dispatch('CHANGE_SELECTED_LANGUAGE', this.getLanguage(item.code))
       this.$router.push({name: 'translation-workflow'})
     },
     getLanguageName (code) {
       return `${languages[code].name} (${code})`
+    },
+    getLanguage (code) {
+      return {
+        label: `${languages[code].name} (${code.toUpperCase()})`,
+        value: {
+          code
+        }
+      }
     }
   },
   computed: {

@@ -47,10 +47,26 @@
       size="lg"
       @cancel="selectedFile = null"
       @ok="linkFile">
-        <file-list v-if='getAllFiles().files.length' v-model="selectedFile" :picker="true"></file-list>
-        <p v-else>
+        <file-list v-model="selectedFile" :picker="true"></file-list>
+    </b-modal>
+
+    <b-modal
+      :lazy="true"
+      id="doc-modal"
+      class="ignore-drag"
+      v-model="selectDocShow"
+      :title="$t('projects.modules.selectDoc')"
+      size="lg"
+      @cancel="selectedDocument = null"
+      @ok="linkDocument">
+      <b-card title="Linked documents" class="mb-2" v-if="selectedDirectory">
+        <span v-if="selectedDirectory.documents.length === 0">{{ $t('projects.modules.noDocs') }}</span>
+        <Files :files="selectedDirectory.documents" :documents="true"></Files>
+      </b-card>
+      <document-list v-if='getAllDocuments().documents.length' v-model="selectedDocument" :picker="true"></document-list>
+      <p v-else>
         {{ $t('common.loading') }}
-        </p>
+      </p>
     </b-modal>
 
   </div>
@@ -62,14 +78,19 @@ import DirectoryComp from './Directory'
 import draggable from 'vuedraggable'
 import vSelect from 'vue-select'
 import FileList from '../project/documents/FileList'
+import DocumentList from '../project/documents/DocumentList'
+import Files from './Files'
 import { File } from '../../vuex/modules/file/File'
 import { Project } from '../../vuex/modules/project/Project'
 import { mapGetters } from 'vuex'
+import { Document } from '../../vuex/modules/document/Document'
 
 export default {
   name: 'Structure',
   components: {
+    Files,
     DirectoryComp,
+    DocumentList,
     draggable,
     vSelect,
     FileList
@@ -88,6 +109,8 @@ export default {
       selectMetadataShow: false,
       selectFileShow: false,
       selectedFile: null,
+      selectDocShow: false,
+      selectedDocument: null,
       draggableOptions: {
         filter: '.ignore-drag',
         animation: 150
@@ -112,6 +135,11 @@ export default {
     this.$root.$on('openFileSelectModal', (directory) => {
       this.selectedDirectory = directory
       this.selectFileShow = true
+    })
+
+    this.$root.$on('openDocumentSelectModal', (directory) => {
+      this.selectedDirectory = directory
+      this.selectDocShow = true
     })
   },
   beforeMount () {
@@ -240,7 +268,35 @@ export default {
             filename: this.selectedFile._filename,
             mimeType: this.selectedFile._mimeType
           }))
-        }).catch((err) => {
+        }).catch(() => {
+          this.$notifications.notify(
+            {
+              message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+              icon: 'exclamation-triangle',
+              horizontalAlign: 'right',
+              verticalAlign: 'bottom',
+              type: 'danger'
+            })
+        })
+      }
+    },
+    linkDocument () {
+      if (this.selectedDocument) {
+        this.$store.dispatch('LINK_DOCUMENT_DIRECTORY', { directoryId: this.selectedDirectory.id, documentId: this.selectedDocument._id }).then(() => {
+          this.$notifications.notify(
+            {
+              message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.updated')}`,
+              icon: 'info',
+              horizontalAlign: 'right',
+              verticalAlign: 'bottom',
+              type: 'info'
+            })
+          // Add it to the model so we can see it without reloading
+          this.selectedDirectory.addDocument(new Document({
+            id: this.selectedDocument._id,
+            translations: this.selectedDocument._translations
+          }))
+        }).catch(() => {
           this.$notifications.notify(
             {
               message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
@@ -267,7 +323,8 @@ export default {
       'getProjectById',
       'getProjectLangOptions',
       'getMetatypes',
-      'getAllFiles'
+      'getAllFiles',
+      'getAllDocuments'
     ]),
     getLangOptions () {
       return this.getProjectLangOptions(this.currentProject.id) || []

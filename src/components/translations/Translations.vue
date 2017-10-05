@@ -2,11 +2,11 @@
   <div class="translations" v-if="currentProject">
     <TranslationInfo :languageList="currentProject.languages"></TranslationInfo>
     <div class="row mt-1 mb-1">
-      <div class="col font-weight-bold">
-        {{ baseLanguage }}
+      <div class="col font-weight-bold" v-if="baseLanguage">
+        {{ baseLanguage.label }}
       </div>
-      <div class="col font-weight-bold">
-        {{ selectedLanguage }}
+      <div class="col font-weight-bold" v-if="selectedLanguage">
+        {{ selectedLanguage.label }}
       </div>
     </div>
     <router-view></router-view>

@@ -1,5 +1,6 @@
 import { Directory } from './Directory'
 import { Document } from '../document/Document'
+import { DirectoryTranslation } from './DirectoryTranslation'
 import { File } from '../file/File'
 
 let mockStructure = [{
@@ -179,7 +180,7 @@ const DirectoryUtils = {
       files: this.getFiles(data.files),
       documents: this.getDocuments(data.documents),
       directories: this.getDirectories(data.directories),
-      translations: data.translations,
+      translations: this.getTranslations(data.translations),
       metadata: data.metadata,
       parentId: data.parentId
     })
@@ -205,6 +206,17 @@ const DirectoryUtils = {
       })
     }
     return documents
+  },
+
+  // Useful function to get an array of translation objects
+  getTranslations (dataArray) {
+    let translations = []
+    if (Array.isArray(dataArray)) {
+      dataArray.forEach((data) => {
+        translations.push(new DirectoryTranslation({language: data.language, title: data.title}))
+      })
+    }
+    return translations
   },
 
   // Useful function to build a directory object
