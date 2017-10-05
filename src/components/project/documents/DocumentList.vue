@@ -36,9 +36,10 @@
             </template>
 
             <template slot="_translations" scope="item">
-              <b-button-group>
-                <b-button v-for="translation in item.value" variant="primary" :key="translation.id" @click.stop="editContent(translation)">{{ translation.language }}</b-button>
-              </b-button-group>
+                <span
+                  v-for="translation in item.value"
+                  v-if="baseLanguage !== translation.language"> {{ translation.language }}
+                </span>
             </template>
 
           </b-table>
@@ -128,9 +129,6 @@ export default {
         return file._translations[0]._title
       }
       return ''
-    },
-    editContent (translation) {
-
     }
   },
   mounted () {
@@ -140,6 +138,7 @@ export default {
     } else {
       this.parseFiles()
     }
+    this.baseLanguage = this.getProjectById(this.projectId).baseLanguage
   },
   computed: {
     ...mapGetters([
@@ -191,6 +190,7 @@ export default {
       totalFiles: 0,
       perPage: 10,
       currentPage: 1,
+      baseLanguage: '',
       projectId: parseInt(this.$route.params.id),
       filter: null
     }
