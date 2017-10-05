@@ -1,3 +1,4 @@
+import { Translation } from './Translation'
 export class Document {
   constructor ({
     id = null,
@@ -43,5 +44,15 @@ export class Document {
       }
     }
     return null
+  }
+
+  addDocument (data) {
+    let doc = data.data
+    if (doc.id && doc.language) {
+      if (!this.getDocumentByLangCode(doc.language)) {
+        this.translations.push(new Translation(doc))
+        console.log(this.translations)
+      }
+    }
   }
 }

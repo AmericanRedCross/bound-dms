@@ -1,17 +1,19 @@
 <template>
   <div class="document-translation">
     <div clsaa="row" align="right">
-      <b-button variant="primary" @click="save"><fa-icon v-show="saving" name="refresh" spin></fa-icon> {{ $t('common.save') }}</b-button>
+      <b-button variant="primary" @click="save" :disabled="saving">
+        <fa-icon v-show="saving" name="refresh" spin></fa-icon> {{ $t('common.save') }} {{ selectedLanguage.label }}
+      </b-button>
     </div>
     <div class="row">
-      <div class="col-6" v-if="baseDoc">
+      <div class="col-6" v-if="baseDocReference">
         <b-form-group :label="$t('projects.documents.edit.titlePlaceholder')">
-          <b-form-input v-model="baseDoc.title"></b-form-input>
+          <b-form-input v-model="baseDocReference.title"></b-form-input>
         </b-form-group>
       </div>
-      <div class="col-6" v-if="selectedDocTitle !== null">
+      <div class="col-6" v-if="translationDocTitle !== null">
         <b-form-group :label="$t('projects.documents.edit.titlePlaceholder')">
-          <b-form-input v-model="selectedDocTitle"></b-form-input>
+          <b-form-input v-model="translationDocTitle"></b-form-input>
         </b-form-group>
       </div>
     </div>
@@ -62,51 +64,90 @@ export default {
   data () {
     return {
       directory: null,
-      blocks: [],
+      baseBlocks: [],
       translationBlocks: [],
       md: new MarkdownIt(),
       renderedBaseContent: '',
       renderedTranslationContent: '',
       viewMd: false,
-      baseDoc: null,
-      selectedDoc: null,
-      selectedDocTitle: '',
+      baseDocReference: null,
+      translationDocReference: null,
+      translationDocTitle: '',
       parentDoc: null,
       translationBaseDoc: null,
-      baseBlocks: [],
-      translationsBlocks: [],
       translationDoc: null,
       saving: false
     }
   },
   mounted () {
-    this.parentDoc = this.$store.state.translations.documentToEdit
-
-    if (this.parentDoc) {
-      this.baseDoc = this.parentDoc.getDocumentByLangCode(this.baseLanguage.value.code)
-      this.selectedDoc = this.parentDoc.getDocumentByLangCode(this.selectedLanguage.value.code)
-      if (this.selectedDoc) {
-        this.selectedDocTitle = this.selectedDoc.title
-      }
-      this.setContent().then(this.createBlocks)
-      // this.blocks = this.directory.content.split('\n\n').map(block => ({content: block}))
-    } else {
-      this.$router.push({name: 'projects'})
-    }
+    this.updateDocuments()
   },
   watch: {
     // whenever selected lang changes, this function will run
-    selectedLanguage: function () {
-      let doc = this.$store.state.translations.documentToEdit
-      this.selectedDoc = doc.getDocumentByLangCode(this.selectedLanguage.value.code)
-      if (this.selectedDoc) {
-        this.selectedDocTitle = this.selectedDoc.title
-      }
+    selectedLanguage () {
+      this.updateDocuments()
     }
   },
   methods: {
-    updateMdView (value) {
-      this.viewMd = value.value
+    updateDocuments () {
+      this.parentDoc = this.$store.state.translations.documentToEdit
+
+      if (this.parentDoc) {
+        // Reset any variables
+        this.baseBlocks = []
+        this.translationBlocks = []
+
+        this.translationBaseDoc = null
+        this.translationDoc = null
+
+        this.baseDocReference = this.parentDoc.getDocumentByLangCode(this.baseLanguage.value.code)
+        this.translationDocReference = this.parentDoc.getDocumentByLangCode(this.selectedLanguage.value.code)
+        if (this.translationDocReference) {
+          this.translationDocTitle = this.translationDocReference.title
+        }
+
+        this.setContent().then(this.createBlocks)
+      } else {
+        this.$router.push({name: 'projects'})
+      }
+    },
+    setContent (selectedLangChange = false) {
+      // Get Documents
+      this.loadingDocuments = true
+      let promises = []
+      if (!selectedLangChange) {
+        promises.push(this.$store.dispatch('GET_DOCUMENT_BY_ID_LANG', {
+          documentId: this.parentDoc.id,
+          language: this.baseLanguage.value.code,
+          isBase: true
+        }))
+      }
+
+      if (this.translationDocReference) {
+        promises.push(this.$store.dispatch('GET_DOCUMENT_BY_ID_LANG', {
+          documentId: this.parentDoc.id,
+          language: this.selectedLanguage.value.code,
+          isBase: false
+        }))
+      } else {
+        this.$store.dispatch('RESET_TRANSLATING_DOCUMENT')
+      }
+
+      return Promise.all(promises).then(() => {
+        this.loadingDocuments = false
+        this.translationBaseDoc = this.$store.state.documents.currentBaseDocument
+        this.translationDoc = this.$store.state.documents.currentTranslatingDocument
+      }).catch(() => {
+        this.loadingDocuments = false
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+            icon: 'exclamation-triangle',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'danger'
+          })
+      })
     },
     createBlocks () {
       if (this.translationBaseDoc) {
@@ -117,10 +158,14 @@ export default {
       } else {
         // Create the blocks we need
         this.baseBlocks.forEach(() => {
+          this.translationBlocks = []
           this.translationBlocks.push({content: ''})
         })
       }
       this.updateRender()
+    },
+    updateMdView (value) {
+      this.viewMd = value.value
     },
     updateRender () {
       this.renderedBaseContent = ''
@@ -139,51 +184,15 @@ export default {
         }
       })
     },
-    setContent () {
-      // Get Documents
-      this.loadingDocuments = true
-      let promises = []
-
-      promises.push(this.$store.dispatch('GET_DOCUMENT_BY_ID_LANG', {
-        documentId: this.parentDoc.id,
-        language: this.baseLanguage.value.code,
-        isBase: true
-      }))
-
-      if (this.selectedDoc) {
-        promises.push(this.$store.dispatch('GET_DOCUMENT_BY_ID_LANG', {
-          documentId: this.parentDoc.id,
-          language: this.selectedLanguage.value.code,
-          isBase: false
-        }))
-      }
-
-      return Promise.all(promises).then(() => {
-        this.loadingDocuments = false
-        let currentBaseDoc = this.$store.state.documents.currentBaseDocument
-        let currentTranslationDoc = this.$store.state.documents.currentTranslatingDocument
-        this.translationBaseDoc = currentBaseDoc
-        this.translationDoc = currentTranslationDoc
-      }).catch(() => {
-        this.loadingDocuments = false
-        this.$notifications.notify(
-          {
-            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
-            icon: 'exclamation-triangle',
-            horizontalAlign: 'right',
-            verticalAlign: 'bottom',
-            type: 'danger'
-          })
-      })
-    },
     save () {
       let promises = []
       this.saving = true
+      // Save both the base and translating documents
       promises.push(this.$store.dispatch('UPDATE_DOCUMENT_TRANSLATION', {
         documentId: this.parentDoc.id,
         language: this.baseLanguage.value.code,
         data: {
-          title: this.baseDoc.title,
+          title: this.baseDocReference.title,
           content: this.renderedBaseContent
         }
       }))
@@ -191,10 +200,16 @@ export default {
         documentId: this.parentDoc.id,
         language: this.selectedLanguage.value.code,
         data: {
-          title: this.selectedDocTitle,
+          title: this.translationDocTitle,
           content: this.renderedTranslationContent
         }
+      }).then((response) => {
+        // Add the document from the response so we know we've created one
+        if (!this.translationDocReference) {
+          this.parentDoc.addDocument(response.data)
+        }
       }))
+
       Promise.all(promises).then(() => {
         // Finished saving
         this.saving = false
@@ -206,6 +221,7 @@ export default {
             verticalAlign: 'bottom',
             type: 'info'
           })
+        console.log('here is a trans ref', this.translationDocReference)
       }).catch(() => {
         this.saving = false
         this.$notifications.notify(
