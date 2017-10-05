@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="row">
+    <div class="row mb-3">
       <div class="col">
         <b-card :title="$t('projects.publish.recent')">
           <div class="col-md-3 col-sm-6 m-b-10">
@@ -19,7 +19,7 @@
     </div>
     <div class="row">
       <div class="col">
-        <b-card :title="$t('projects.publish.previous')"></b-card>
+        <PublishList/>
       </div>
     </div>
     <div>
@@ -32,10 +32,12 @@
 
 <script>
 import LangPublishCard from './PublishStats'
+import PublishList from './PublishList'
 
 export default {
   components: {
-    LangPublishCard
+    LangPublishCard,
+    PublishList
   }
 }
 </script>

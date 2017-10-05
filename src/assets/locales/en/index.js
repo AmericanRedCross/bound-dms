@@ -204,14 +204,20 @@ export default{
     },
     publish: {
       publishes: 'Publishes',
-      previous: 'Previous publishes',
+      history: 'Publish history',
       recent: 'Unpublished changes',
       structure: 'Structure changes',
       content: 'Content changes',
       base: 'Base language: ',
       translate: 'Translated languages: ',
       publish: ' Publish these changes',
-      publishAll: 'Publish all changes'
+      publishAll: 'Publish all changes',
+      emptystate: 'This project has not been published yet',
+      fields: {
+        title: 'Title',
+        type: 'Type',
+        language: 'Language'
+      }
     },
     keys: {
       view: 'View Key',
