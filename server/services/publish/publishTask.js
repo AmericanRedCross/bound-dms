@@ -14,6 +14,7 @@ class PublishTask {
     this._publishFormat = publishFormat
     this._language = options.language || 'en'
     this._projectId = options.projectId
+    this._userId = options.userId || null
   }
 
   start () {
@@ -66,7 +67,8 @@ class PublishTask {
       projectId: this._projectId,
       language: this._language,
       type: 'bundleArchive',
-      filePath: path.basename(publishData.path)
+      filePath: path.basename(publishData.path),
+      createdById: this._userId
     })
   }
 }

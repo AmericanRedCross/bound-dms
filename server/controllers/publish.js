@@ -94,17 +94,11 @@ module.exports = {
       })
       const task = new PublishTask(archive, {
         projectId: project.id,
-        language: req.body.language
+        language: req.body.language,
+        userId: req.user.id
       })
       // Start the publish
       return task.start()
-    }).then((publishData) => {
-      return Publish.create({
-        projectId: req.params.id,
-        language: req.body.language,
-        type: 'bundleArchive',
-        filePath: path.basename(publishData.filePath)
-      })
     }).then((publish) => {
       return res.status(201).json({status: 201, data: publish})
     }).catch(err => {
