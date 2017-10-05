@@ -1,5 +1,6 @@
 const path = require('path')
 const uploadDir = path.resolve(__dirname, '../../', 'static/uploads')
+const publishDir = path.resolve(__dirname, '../../', 'static/publishes')
 
 module.exports = {
   production: {
@@ -12,6 +13,9 @@ module.exports = {
     host: process.env.DB_HOST,
     logging: false,
     dialect: 'mysql',
+    publish: {
+      directory: publishDir
+    },
     uploads: {
       directory: uploadDir,
       thumbnails: {
@@ -32,6 +36,9 @@ module.exports = {
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
     dialect: 'mysql',
+    publish: {
+      directory: publishDir
+    },
     uploads: {
       directory: uploadDir,
       thumbnails: {
@@ -53,6 +60,9 @@ module.exports = {
     host: process.env.DB_HOST,
     dialect: 'mysql',
     logging: false,
+    publish: {
+      directory: publishDir
+    },
     uploads: {
       directory: uploadDir,
       thumbnails: {

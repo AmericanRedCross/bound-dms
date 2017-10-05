@@ -26,6 +26,23 @@ router.get('/', authService.authenticate(['jwt', 'headerapikey']), controller.ge
 router.get('/:id', authService.authenticate(['jwt', 'headerapikey']), controller.get)
 router.get('/:id/publishes/latest', publishController.getLatestPublish)
 router.get('/:id/publishes', authService.authenticate(), publishController.getAll)
+router.post('/:id/publishes', authService.authenticate(), (req, res, next) => {
+  req.checkBody({
+    'language': {
+      notEmpty: true
+    },
+    'type': {
+      notEmpty: true
+    }
+  })
+  req.getValidationResult().then((result) => {
+    if (!result.isEmpty()) {
+      res.status(400).json(result.array())
+      return
+    }
+    next()
+  })
+}, publishController.create)
 router.put('/', authService.authenticate(), (req, res, next) => {
   req.checkBody(projectRules)
   req.getValidationResult().then((result) => {

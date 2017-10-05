@@ -14,7 +14,7 @@ const language = args[1] || 'en'
 // Configure bundle
 const archive = new BundleArchive({
   host: url,
-  publishDir: path.join(__dirname, '/static/publishes')
+  publishDir: config.publish.directory
 })
 
 const task = new PublishTask(archive, {
