@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data () {
     return {
@@ -46,18 +47,22 @@ export default {
       pass2: '',
       resetting: false,
       activation: false,
-      done: false
+      done: false,
+      resetToken: ''
     }
+  },
+  mounted () {
+    this.resetToken = this.$route.query.token
   },
   methods: {
     onSubmit (evt) {
       evt.preventDefault()
-      if (this.pass1 === this.pass2 && this.pass1.length > 0) {
+      if (this.pass1 === this.pass2 && this.pass1.length > 0 && this.resetToken.length > 0) {
         this.resetting = true
-        setTimeout(() => {
+        axios.post('/auth/password/update', {password: this.pass1, token: this.resetToken}).then(() => {
           this.resetting = false
           this.done = true
-        }, 1000)
+        })
       }
     }
   },
