@@ -18,6 +18,7 @@
             <v-gravatar class="user-icon" :email="user.item.email" default-img="mm" :size="80"> </v-gravatar>
           </template>
           <template slot="actions" scope="user">
+            <b-btn size="sm" variant="primary" :to="{ name: 'user-profile', params: { id: user.item.id }}" class="m-t-5"><fa-icon name="user" label="View"></fa-icon> {{ $t('common.view') }}</b-btn>
             <b-btn size="sm" variant="primary" :to="{ name: 'user-edit', params: { id: user.item.id }}" class="m-t-5"><fa-icon name="edit" label="Edit"></fa-icon> {{ $t('users.listview.edit') }}</b-btn>
             <b-btn size="sm" variant="danger" class="m-t-5" @click="deleteClick" :data-id="user.item.id"><fa-icon name="trash" label="Delete"></fa-icon> {{ $t('users.listview.delete') }}</b-btn>
           </template>

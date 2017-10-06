@@ -6,6 +6,7 @@ const config = require('../config')
 const PublishTask = require('../services/publish/publishTask')
 const BundleArchive = require('../services/publish/bundleArchive')
 const path = require('path')
+const audit = require('../services/audit')
 
 const scheme = config.enableHttps ? 'https://' : 'http://'
 const url = [scheme, config.systemHostname].join('')
@@ -100,6 +101,7 @@ module.exports = {
       // Start the publish
       return task.start()
     }).then((publish) => {
+      audit.emit('event:publishCreated', publish.id, req.user.id)
       return res.status(201).json({status: 201, data: publish})
     }).catch(err => {
       console.error(err)

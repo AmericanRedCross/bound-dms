@@ -4,6 +4,7 @@ const User = require('../models').User
 const ProjectLanguage = require('../models').ProjectLanguage
 const DirectoryTrans = require('../models').DirectoryTranslation
 const Metatype = require('../models').Metatype
+const audit = require('../services/audit')
 
 module.exports = {
   getAllTypes (req, res, next) {
@@ -30,6 +31,7 @@ module.exports = {
       })
       return Metatype.create(data)
     }).then((metatype) => {
+      audit.emit('event:metatypeCreated', metatype.id, req.user.id)
       res.status(201).json({status: 201, data: metatype})
     })
   }
