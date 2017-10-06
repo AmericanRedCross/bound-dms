@@ -20,7 +20,8 @@ module.exports = {
         createdById: 1,
         createdAt: minusMinutes(now, 10),
         projectId: 1,
-        directoryId: 1
+        directoryId: 1,
+        code: 'en'
       },
       {
         parentId: 1,
@@ -31,6 +32,7 @@ module.exports = {
         metadata: null,
         createdById: 1,
         createdAt: minusMinutes(now, 10),
+        code: 'en'
       },
       {
         parentId: null,
@@ -42,7 +44,8 @@ module.exports = {
         createdById: 1,
         createdAt: minusMinutes(now, 9),
         projectId: 1,
-        directoryId: 1
+        directoryId: 1,
+        code: 'en'
       },
       {
         parentId: null,
@@ -54,7 +57,8 @@ module.exports = {
         createdById: 1,
         createdAt: minusMinutes(now, 8),
         projectId: 1,
-        directoryId: 2
+        directoryId: 2,
+        code: 'en'
       },
       {
         parentId: null,
@@ -65,7 +69,8 @@ module.exports = {
         metadata: null,
         createdById: 1,
         createdAt: minusMinutes(now, 7),
-        projectId: 1
+        projectId: 1,
+        code: 'en'
       },
       {
         parentId: null,
@@ -76,7 +81,8 @@ module.exports = {
         metadata: null,
         createdById: 1,
         createdAt: minusMinutes(now, 6),
-        projectId: 1
+        projectId: 1,
+        code: 'en'
       },
       {
         parentId: null,
@@ -87,7 +93,8 @@ module.exports = {
         metadata: null,
         createdById: 1,
         createdAt: minusMinutes(now, 5),
-        projectId: 1
+        projectId: 1,
+        code: 'en'
       },
       {
         parentId: null,
@@ -98,7 +105,8 @@ module.exports = {
         metadata: null,
         createdById: 1,
         createdAt: minusMinutes(now, 4),
-        projectId: 1
+        projectId: 1,
+        code: 'fr'
       },
       {
         parentId: null,
@@ -109,7 +117,8 @@ module.exports = {
         metadata: null,
         createdById: 1,
         createdAt: minusMinutes(now, 3),
-        projectId: 1
+        projectId: 1,
+        code: 'fr'
       },
       {
         parentId: null,
@@ -120,7 +129,8 @@ module.exports = {
         metadata: null,
         createdById: 1,
         createdAt: minusMinutes(now, 2),
-        projectId: 1
+        projectId: 1,
+        code: 'en'
       },
       {
         parentId: null,
@@ -131,7 +141,8 @@ module.exports = {
         metadata: null,
         createdById: 1,
         createdAt: minusMinutes(now, 1),
-        projectId: 1
+        projectId: 1,
+        code: 'en'
       }
     ], {})
   },

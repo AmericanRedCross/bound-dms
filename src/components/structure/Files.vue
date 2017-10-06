@@ -2,15 +2,27 @@
   <div class="directory-files mt-3">
     <b-list-group>
       <b-list-group-item v-for="file in files" :key="file.id" class="clearfix" v-if="!file.hidden">
-        <span v-if="documents"><b>{{ getDocumentTitle(file) }}</b></span>
-        <span v-else><b>{{ file.title }}</b> | {{ file.filename }} | {{ file.mimeType }}</span>
         <b-button
           size="sm"
           variant="outline-danger"
           class="float-right"
           @click="remove(file)">
-            <fa-icon name="times"></fa-icon>
+          <fa-icon name="times"></fa-icon>
         </b-button>
+        <span v-if="documents"><b>{{ getDocumentTitle(file) }}</b></span>
+        <span v-else>
+          <div class="row">
+            <div class="col-md-4">
+              <b>{{ file.title }}</b>
+            </div>
+            <div class="col-md-4">
+              <p>{{ file.filename }}</p>
+            </div>
+            <div class="col-md-4">
+               <b-badge>{{ getLanguageName(file.code) }}</b-badge> <b-badge>{{ file.mimeType }}</b-badge>
+            </div>
+          </div>
+        </span>
       </b-list-group-item>
     </b-list-group>
   </div>
@@ -18,8 +30,10 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { languages } from 'countries-list'
 
 export default {
+  components: {},
   name: 'Directory-Files',
   props: {
     files: {
@@ -41,6 +55,9 @@ export default {
     }
   },
   methods: {
+    getLanguageName (code) {
+      return `${languages[code].name} (${code})`
+    },
     remove (file) {
       let action = this.documents ? 'UNLINK_DOCUMENT_DIRECTORY' : 'UNLINK_FILE_DIRECTORY'
       this.$store.dispatch(action, { fileId: file.id }).then(() => {

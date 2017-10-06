@@ -15,6 +15,7 @@ export default{
     updated: 'Updated',
     oops: 'Oops',
     edit: 'Edit',
+    all: 'All',
     noPermission: 'Looks like you don\'t have permission to do that',
     error: 'Something went wrong',
     upload: 'Upload',
@@ -150,7 +151,8 @@ export default{
         title: 'Title',
         description: 'Description',
         thumbnail: 'Thumbnail',
-        filename: 'Filename'
+        filename: 'Filename',
+        code: 'Country Code'
       }
     },
     languages: {
@@ -305,7 +307,8 @@ export default{
     translationLanguage: 'Translation language',
     previewMarkdown: 'Preview markdown',
     percentTranslated: '% of content translated',
-    selectedLanguage: 'Select language'
+    selectedLanguage: 'Select language',
+    allLanguages: 'All languages'
   },
   mediaPicker: {
     urlDesc: 'Input a URL for the ',

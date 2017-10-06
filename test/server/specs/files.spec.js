@@ -34,6 +34,7 @@ describe('API: Files', () => {
           expect(res.body.data.files[0]).to.have.property('createdById')
           expect(res.body.data.files[0]).to.have.property('createdAt')
           expect(res.body.data.files[0]).to.have.property('updatedAt')
+          expect(res.body.data.files[0]).to.have.property('code')
           done()
         })
     })

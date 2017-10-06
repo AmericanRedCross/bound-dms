@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     mimeType: {type: DataTypes.STRING, allowNull: false},
     filename: {type: DataTypes.STRING, allowNull: false},
     metadata: {type: DataTypes.STRING, allowNull: true},
+    code: {type: DataTypes.STRING, allowNull: true},
     createdById: {type: DataTypes.INTEGER, allowNull: false}
   })
 

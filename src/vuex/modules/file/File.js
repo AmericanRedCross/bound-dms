@@ -13,7 +13,8 @@ export class File {
      createdBy = null,
      children = [],
      projectId = null,
-     directoryId = null
+     directoryId = null,
+     code = null
    }) {
     this._id = id
     this._parentId = parentId
@@ -25,10 +26,10 @@ export class File {
     this._updatedAt = updatedAt && new Date(updatedAt)
     this._createdBy = createdBy
     this._rowVariant = '' // Helps with table row selection
-
     this._thumbnail = null
     this._children = []
     this._path = uploadsDirectory + this._filename
+    this._code = code
 
     children.forEach((child) => {
       let file = new File(child)
@@ -68,6 +69,8 @@ export class File {
   get filename () { return this._filename }
 
   get path () { return this._path }
+
+  get code () { return this._code }
 
   get createdAt () { return this._createdAt }
 
