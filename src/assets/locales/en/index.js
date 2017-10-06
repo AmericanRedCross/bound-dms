@@ -26,6 +26,8 @@ export default{
     view: 'View',
     loading: 'Loading',
     filter: 'Filter',
+    submit: 'Submit',
+    reset: 'Reset',
     pleaseSelect: 'Please select an option',
     validations: {
       required: 'Field is required',
@@ -68,13 +70,23 @@ export default{
     test1: 'Welcome to your Vue.js app'
   },
   login: {
-    email: 'Email',
-    password: 'Password',
+    email: 'Email address:',
+    password: 'Password:',
     login: 'Login',
     errors: {
       title: 'Error logging in',
       unauth: 'Password or email does not match'
     }
+  },
+  reset: {
+    accountActivation: 'Account activation',
+    passwordReset: 'Password reset',
+    enterEmail: 'Enter email address',
+    newPass: 'Enter a new password',
+    reenter: 'Re-enter the password',
+    noMatch: 'Passwords do not match',
+    resetSuccess: 'Your password has been reset',
+    activateSuccess: 'Your account has been activated'
   },
   dashboard: {
     header: 'Dashboard placeholder',
