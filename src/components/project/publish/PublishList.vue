@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col">
           <b-table hover
-                  :items="publish.publishes"
+                  :items="publishData"
                   :fields="headers()"
                   :per-page="perPage"
                   :show-empty="true"
@@ -17,19 +17,16 @@
             <template slot="createdAt" scope="item">
               {{ item.value | formatDate }}
             </template>
-            <template slot="download" scope="item">
-              <b-button href=""><fa-icon name="download"></fa-icon></b-button>
-            </template>
           </b-table>
         </div>
       </div>
-      <b-pagination size="md" align="center" :total-rows="total" v-model="currentPage" :per-page="perPage" :limit="10"></b-pagination>
+      <b-pagination size="md" align="center" :total-rows="totalPublishes" v-model="currentPage" :per-page="perPage" :limit="10"></b-pagination>
     </b-card>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'publish-list',
@@ -62,15 +59,11 @@ export default {
           createdAt: {
             label: this._i18n.t('common.tableFields.createdAt'),
             sortable: true
-          },
-          download: {
-            label: this._i18n.t('projects.publish.fields.download'),
-            sortable: false
           }
         }
       },
       publishData: [],
-      total: 0,
+      totalPublishes: 0,
       perPage: 10,
       currentPage: 1
     }
@@ -81,6 +74,19 @@ export default {
         page: this.currentPage,
         limit: this.perPage,
         projectId: this.projectId
+      }).then(() => {
+        let data = this.getAllPublishes()
+        this.publishData = data.publishes
+        this.totalPublishes = data.total
+      }).catch(() => {
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+            icon: 'exclamation-triangle',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'danger'
+          })
       }).catch(() => {
         this.$notifications.notify(
           {
@@ -99,6 +105,9 @@ export default {
   computed: {
     ...mapState([
       'publish'
+    ]),
+    ...mapGetters([
+      'getAllPublishes'
     ])
   },
   watch: {

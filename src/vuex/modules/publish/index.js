@@ -10,9 +10,9 @@ const publishes = {
   },
   mutations: {
     SET_ALL_PUBLISHES: (state, { response }) => {
-      if (response.data instanceof Array) {
+      if (response.data.publishes instanceof Array) {
         state.publishes = []
-        response.data.forEach((item) => {
+        response.data.publishes.forEach((item) => {
           state.publishes.push(new Publish(item))
         })
       }
