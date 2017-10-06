@@ -4,17 +4,6 @@
       <b-card :header="activation ? $t('reset.accountActivation') : $t('reset.passwordReset')" v-if="!done">
         <b-form @submit="onSubmit">
           <b-form-group
-              v-if="!activation"
-              :label="$t('login.email')"
-              label-for="email">
-            <b-form-input
-                id="email"
-                type="email"
-                v-model.trim="email" required
-                :placeholder="$t('reset.enterEmail')"
-            ></b-form-input>
-          </b-form-group>
-          <b-form-group
               :label="$t('reset.newPass')"
               label-for="pass1">
             <b-form-input
@@ -50,32 +39,20 @@
 </template>
 
 <script>
-import { required, email } from 'vuelidate/lib/validators'
-
 export default {
   data () {
     return {
       pass1: '',
       pass2: '',
-      email: '',
       resetting: false,
-      activation: true,
+      activation: false,
       done: false
-    }
-  },
-  validations: {
-    email: {
-      required,
-      email
-    },
-    password: {
-      required
     }
   },
   methods: {
     onSubmit (evt) {
       evt.preventDefault()
-      if (this.pass1 === this.pass2 && this.pass1.length > 0 && (this.email.length > 0 || this.activation)) {
+      if (this.pass1 === this.pass2 && this.pass1.length > 0) {
         this.resetting = true
         setTimeout(() => {
           this.resetting = false

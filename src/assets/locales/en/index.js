@@ -73,6 +73,9 @@ export default{
     email: 'Email address:',
     password: 'Password:',
     login: 'Login',
+    forgot: 'Forgotten password',
+    reset: 'Send reset link',
+    resetSent: 'Password reset link sent to ',
     errors: {
       title: 'Error logging in',
       unauth: 'Password or email does not match'
