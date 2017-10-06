@@ -29,54 +29,14 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
+  name: 'publish-list',
   props: {
     projectId: {
       type: Number,
       default: null
-    }
-  },
-  name: 'publish-list',
-  methods: {
-    fetchAllPublishes () {
-      this.$store.dispatch('GET_ALL_PUBLISHES', {
-        page: this.currentPage,
-        limit: this.perPage,
-        projectId: this.projectId
-      }).catch(() => {
-        this.$notifications.notify(
-          {
-            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
-            icon: 'exclamation-triangle',
-            horizontalAlign: 'right',
-            verticalAlign: 'bottom',
-            type: 'danger'
-          })
-      })
-    }
-  },
-  mounted () {
-    this.fetchAllPublishes()
-  },
-  computed: {
-    ...mapGetters([
-      'getAllPublishes',
-      'getProjectById'
-    ]),
-    ...mapState([
-      'publish'
-    ])
-  },
-  watch: {
-    currentPage: {
-      handler: function (val, oldVal) {
-        if (val !== oldVal) {
-          this.fetchAllPublishes()
-        }
-      },
-      deep: true
     }
   },
   data () {
@@ -113,6 +73,42 @@ export default {
       total: 0,
       perPage: 10,
       currentPage: 1
+    }
+  },
+  methods: {
+    fetchAllPublishes () {
+      this.$store.dispatch('GET_ALL_PUBLISHES', {
+        page: this.currentPage,
+        limit: this.perPage,
+        projectId: this.projectId
+      }).catch(() => {
+        this.$notifications.notify(
+          {
+            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+            icon: 'exclamation-triangle',
+            horizontalAlign: 'right',
+            verticalAlign: 'bottom',
+            type: 'danger'
+          })
+      })
+    }
+  },
+  mounted () {
+    this.fetchAllPublishes()
+  },
+  computed: {
+    ...mapState([
+      'publish'
+    ])
+  },
+  watch: {
+    currentPage: {
+      handler: function (val, oldVal) {
+        if (val !== oldVal) {
+          this.fetchAllPublishes()
+        }
+      },
+      deep: true
     }
   }
 }

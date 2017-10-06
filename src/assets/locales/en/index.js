@@ -24,6 +24,7 @@ export default{
     save: 'Save',
     loading: 'Loading',
     filter: 'Filter',
+    pleaseSelect: 'Please select an option',
     validations: {
       required: 'Field is required',
       email: 'Incorrect email format',
