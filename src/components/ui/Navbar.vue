@@ -4,7 +4,7 @@
     <b-nav-toggle target="nav_collapse"></b-nav-toggle>
 
     <b-link class="navbar-brand" :to="{ name: 'projects' }">
-      <span>{{ $t('common.system') }}</span>
+      <span><img src="../../assets/img/bound@3x.png" height="40px"/></span>
     </b-link>
 
     <b-collapse is-nav id="nav_collapse">
