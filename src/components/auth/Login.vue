@@ -1,8 +1,8 @@
 <template>
   <div class="login row justify-content-center m-t-100">
     <div class="col-lg-4">
-      <b-card header="Login" class="login-card">
-        <b-form v-on:submit.prevent="onSubmit">
+      <b-card :header="forgottenPass ? $t('login.forgot') : $t('login.login')" class="login-card">
+        <b-form v-if="!resetSent">
           <b-form-group
             :label="$t('login.email')"
             :label-size="1"
@@ -21,7 +21,7 @@
             </b-input-group>
           </b-form-group>
 
-          <b-form-group>
+          <b-form-group v-if="!forgottenPass">
             <b-form-fieldset
               :label="$t('login.password')"
               :label-size="1"
@@ -42,9 +42,16 @@
             </b-form-fieldset>
           </b-form-group>
           <div align="center">
-            <b-button @click="authenticate" type="submit" variant="primary" :disabled='sigingIn' id="login"><fa-icon  v-show="sigingIn" name="refresh" spin></fa-icon> {{ $t('login.login') }}</b-button>
+            <b-button variant="link" @click="forgottenPass = true" v-if="!forgottenPass">{{ $t('login.forgot') }}</b-button><br>
+            <b-button @click="authenticate" type="submit" variant="primary" :disabled='sigingIn' id="login" v-if="!forgottenPass">
+              <fa-icon  v-show="sigingIn" name="refresh" spin></fa-icon> {{ $t('login.login') }}
+            </b-button>
+            <b-button @click="forgot" variant="primary" :disabled='sigingIn' id="login" v-if="forgottenPass">
+              <fa-icon v-show="resetting" name="refresh" spin></fa-icon> {{ $t('login.reset') }}
+            </b-button>
           </div>
         </b-form>
+        <p v-else>{{ $t('login.resetSent') }} {{ email }}</p>
       </b-card>
     </div>
   </div>
@@ -52,7 +59,7 @@
 
 <script>
 import { required, email } from 'vuelidate/lib/validators'
-
+import axios from 'axios'
 export default {
   data () {
     return {
@@ -60,7 +67,10 @@ export default {
       password: '',
       emailValidated: false,
       passwordValidated: false,
-      sigingIn: false
+      sigingIn: false,
+      forgottenPass: false,
+      resetting: false,
+      resetSent: false
     }
   },
   validations: {
@@ -104,6 +114,16 @@ export default {
               })
             // Dispatch an error update to vuex (we can then re-use a generic error toast or something)
           }
+        })
+      }
+    },
+    forgot () {
+      this.$v['email'].$touch()
+      if (!this.$v['email'].$error) {
+        this.resetting = true
+        axios.post('/auth/password/reset', {email: this.email}).then(() => {
+          this.resetting = false
+          this.resetSent = true
         })
       }
     },
