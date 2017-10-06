@@ -5,6 +5,7 @@ const User = require('../models').User
 const Directory = require('../models').Directory
 const docService = require('../services/document')
 const fs = require('fs')
+const audit = require('../services/audit')
 
 module.exports = {
   getAll (req, res, next) {
@@ -66,6 +67,7 @@ module.exports = {
         include: ['translations']
       })
     }).then((doc) => {
+      audit.emit('event:documentCreated', doc.id, req.user.id)
       return res.status(201).json({status: 201, data: doc})
     }).catch(err => {
       res.status(500).json({status: 500, error: err})
@@ -78,6 +80,7 @@ module.exports = {
       }
       return document.destroy()
     }).then(() => {
+      audit.emit('event:documentDeleted', req.params.id, req.user.id)
       res.status(200).json({status: 200, message: 'Document deleted'})
     }).catch(err => {
       res.status(500).json({status: 500, error: err})
@@ -99,6 +102,7 @@ module.exports = {
         return Directory.findById(directoryId)
         .then((directory) => {
           return document.setDirectory(directory).then((document) => {
+            audit.emit('event:documentUpdated', document.id, req.user.id, {directoryId: document.directoryId})
             return document.reload()
           })
         })
@@ -157,12 +161,15 @@ module.exports = {
         }
       }).spread((translation, created) => {
         if (created) {
+          audit.emit('event:documentTranslationCreated', translation.id, req.user.id)
           return res.status(201).json({status: 201, data: translation})
         } else {
-          translation.update({
+          let updateData = {
             title: req.body.title,
             content: req.body.content
-          }).then((translation) => {
+          }
+          translation.update(updateData).then((translation) => {
+            audit.emit('event:documentTranslationUpdated', translation.id, req.user.id, updateData)
             return res.status(200).json({status: 200, data: translation})
           })
         }
@@ -183,6 +190,7 @@ module.exports = {
       }
       return translation.destroy()
     }).then(() => {
+      audit.emit('event:documentTranslationDeleted', req.params.id, req.user.id)
       res.status(200).json({status: 200, message: 'Translation deleted'})
     }).catch(err => {
       res.status(500).json({status: 500, error: err})

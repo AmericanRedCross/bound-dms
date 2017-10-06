@@ -2,6 +2,7 @@ const Project = require('../models').Project
 const User = require('../models').User
 const Language = require('../models').ProjectLanguage
 const ApiKey = require('../models').ApiKey
+const audit = require('../services/audit')
 
 module.exports = {
   getAll (req, res, next) {
@@ -57,6 +58,7 @@ module.exports = {
         }]
       })
     }).then((project) => {
+      audit.emit('event:projectCreated', project.id, req.user.id)
       res.status(201).json({status: 201, data: project})
     })
   },
@@ -71,7 +73,9 @@ module.exports = {
       if (!project) {
         res.status(404).json({status: 404, message: 'Project not found'})
       }
-      return project.update(req.body, {fields: Project.massAssignable()})
+      let updated = project.update(req.body, {fields: Project.massAssignable()})
+      audit.emit('event:projectUpdated', project.id, req.user.id, req.body)
+      return updated
     }).then(project => {
       res.status(200).json({status: 200, data: project})
     })
@@ -83,6 +87,7 @@ module.exports = {
       }
       return project.destroy()
     }).then(() => {
+      audit.emit('event:projectDeleted', req.params.id, req.user.id)
       res.status(200).json({status: 200, message: 'Project deleted'})
     })
   }

@@ -15,6 +15,7 @@ export default{
     updated: 'Updated',
     oops: 'Oops',
     edit: 'Edit',
+    all: 'All',
     noPermission: 'Looks like you don\'t have permission to do that',
     error: 'Something went wrong',
     upload: 'Upload',
@@ -22,8 +23,12 @@ export default{
     goBack: 'Continue',
     changesMade: 'You\'ve made changes without saving',
     save: 'Save',
+    view: 'View',
     loading: 'Loading',
     filter: 'Filter',
+    submit: 'Submit',
+    reset: 'Reset',
+    pleaseSelect: 'Please select an option',
     validations: {
       required: 'Field is required',
       email: 'Incorrect email format',
@@ -65,13 +70,26 @@ export default{
     test1: 'Welcome to your Vue.js app'
   },
   login: {
-    email: 'Email',
-    password: 'Password',
+    email: 'Email address:',
+    password: 'Password:',
     login: 'Login',
+    forgot: 'Forgotten password',
+    reset: 'Send reset link',
+    resetSent: 'Password reset link sent to ',
     errors: {
       title: 'Error logging in',
       unauth: 'Password or email does not match'
     }
+  },
+  reset: {
+    accountActivation: 'Account activation',
+    passwordReset: 'Password reset',
+    enterEmail: 'Enter email address',
+    newPass: 'Enter a new password',
+    reenter: 'Re-enter the password',
+    noMatch: 'Passwords do not match',
+    resetSuccess: 'Your password has been reset',
+    activateSuccess: 'Your account has been activated'
   },
   dashboard: {
     header: 'Dashboard placeholder',
@@ -107,6 +125,32 @@ export default{
       type: 'Type to search',
       edit: 'Edit',
       delete: 'Delete'
+    }
+  },
+  history: {
+    changes: 'Changes',
+    fields: {
+      actions: 'Actions',
+      date: 'Date',
+      by: 'By'
+    },
+    actions: {
+      created: 'Created a {entity}',
+      updated: 'Updated a {entity}',
+      deleted: 'Deleted a {entity}'
+    },
+    entities: {
+      apikey: 'Api Key',
+      directory: 'Directory',
+      directoryTranslation: 'Directory Translation',
+      document: 'Document',
+      documentTranslation: 'Document Translation',
+      file: 'File',
+      language: 'Language',
+      metatype: 'Metatype',
+      project: 'Project',
+      publish: 'Publish',
+      user: 'User'
     }
   },
   projects: {
@@ -149,7 +193,8 @@ export default{
         title: 'Title',
         description: 'Description',
         thumbnail: 'Thumbnail',
-        filename: 'Filename'
+        filename: 'Filename',
+        code: 'Country Code'
       }
     },
     languages: {
@@ -304,7 +349,8 @@ export default{
     translationLanguage: 'Translation language',
     previewMarkdown: 'Preview markdown',
     percentTranslated: '% of content translated',
-    selectedLanguage: 'Select language'
+    selectedLanguage: 'Select language',
+    allLanguages: 'All languages'
   },
   mediaPicker: {
     urlDesc: 'Input a URL for the ',

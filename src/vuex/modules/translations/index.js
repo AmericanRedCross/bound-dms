@@ -17,7 +17,7 @@ const translations = {
       needsTranslation: false,
       needsRevision: false
     },
-    contentIdToEdit: ''
+    documentToEdit: null
   },
   mutations: {
     SET_BASE_LANGUAGE: (state, baseLanguage) => {
@@ -46,8 +46,8 @@ const translations = {
       state.filter.needsTranslation = filter.needsTranslation
       state.filter.needsRevision = filter.needsRevision
     },
-    SET_CONTENT_ID: (state, id) => {
-      state.contentIdToEdit = id
+    SET_DOCUMENT_EDIT: (state, doc) => {
+      state.documentToEdit = doc
     }
   },
   actions: {
@@ -63,8 +63,8 @@ const translations = {
     CHANGE_TRANSLATION_FILTER: ({ commit }, filter) => {
       commit('SET_TRANSLATION_FILTER', filter)
     },
-    CHANGE_EDIT_CONTENT_ID: ({ commit }, id) => {
-      commit('SET_CONTENT_ID', id)
+    CHANGE_EDIT_DOCUMENT: ({ commit }, doc) => {
+      commit('SET_DOCUMENT_EDIT', doc)
     },
     UPDATE_DIRECTORY_TITLE: ({ commit }, options) => {
       // /api/directories/:id/translations/:lang

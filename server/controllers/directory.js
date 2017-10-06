@@ -8,6 +8,7 @@ const DocumentTranslations = require('../models').DocumentTranslations
 const Metatype = require('../models').Metatype
 const MetaValue = require('../models').MetaValue
 const File = require('../models').File
+const audit = require('../services/audit')
 const Transformer = require('../transformers/directory.js')
 
 const directoryMetaEntity = 'directory'
@@ -86,6 +87,7 @@ module.exports = {
       })
       return Directory.create(data)
     }).then((directory) => {
+      audit.emit('event:directoryCreated', directory.id, req.user.id)
       return Directory.findById(directory.id, {
         include: [{
           model: User,
@@ -111,7 +113,9 @@ module.exports = {
       if (directory === null) {
         res.status(404).json({status: 404, message: 'Directory not found'})
       }
-      return directory.update(req.body, {fields: Directory.massAssignable()})
+      let updated = directory.update(req.body, {fields: Directory.massAssignable()})
+      audit.emit('event:directoryUpdated', directory.id, req.user.id, req.body)
+      return updated
     }).then(directory => {
       res.status(200).json({status: 200, data: directory})
     })
@@ -121,7 +125,9 @@ module.exports = {
       if (dir === null) {
         res.status(404).json({status: 404, message: 'Directory not found'})
       }
-      return dir.destroy()
+      let destroyed = dir.destroy()
+      audit.emit('event:directoryDeleted', req.params.id, req.user.id)
+      return destroyed
     }).then(() => {
       res.status(200).json({status: 200, message: 'Directory deleted'})
     })
@@ -139,9 +145,14 @@ module.exports = {
       return DirectoryTrans.findOne({where: {directoryId: req.params.id, language: lang.code}})
     }).then((translation) => {
       if (translation !== null) {
-        return translation.update({title: req.body.title})
+        let updateData = {title: req.body.title}
+        let updated = translation.update(updateData)
+        audit.emit('event:directoryTranslationUpdated', translation.id, req.user.id, updateData)
+        return updated
       }
-      return DirectoryTrans.create({directoryId: req.params.id, language: req.params.lang, title: req.body.title})
+      let created = DirectoryTrans.create({directoryId: req.params.id, language: req.params.lang, title: req.body.title})
+      audit.emit('event:directoryTranslationCreated', created.id, req.user.id)
+      return created
     }).then((translation) => {
       return res.status(200).json({status: 200, data: translation})
     }).catch((err) => {
@@ -201,6 +212,7 @@ module.exports = {
             }
           })
         ).then(() => {
+          audit.emit('event:directoryUpdated', directory.id, req.user.id, metadata)
           return res.status(200).json({status: 200})
         }).catch((err) => {
           return res.status(400).json({status: 400, error: err})

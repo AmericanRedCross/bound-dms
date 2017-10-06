@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const config = require('../config')
 const users = require('../services/users')
+const querystring = require('querystring')
 
 const generateJwtPayload = (user) => {
   return {sub: user.id}
@@ -32,5 +33,38 @@ module.exports = {
     const token = jwt.sign(generateJwtPayload(req.user), config.jwtSecretKey, jwtOptions)
     res.append('Authorization', token)
     res.status(200).json({message: 'ok', token: token})
+  },
+
+  sendPasswordReset (req, res, next) {
+    users.sendPasswordReset(req.body.email).then(() => {
+      console.log('email sent')
+      return res.status(200).json({status: 200, message: 'Reset email sent'})
+    }).catch((err) => {
+      console.log(err)
+      // don't permit enumeration
+      return res.status(200).json({status: 200, message: 'Reset email sent'})
+    })
+  },
+
+  handlePasswordReset (req, res, next) {
+    users.validatePasswordResetToken(req.body.token).then((token) => {
+      if (!token) {
+        return res.status(401).json({status: 401, message: 'Could not reset password'})
+      }
+
+      return users.findByEmail(token.email)
+      .then(user => {
+        return users.updatePassword(user.id, req.body.password)
+      })
+      .then((update) => {
+        return token.destroy()
+      })
+      .then(() => {
+        return res.status(200).json({status: 200, message: 'Password has been reset'})
+      })
+    }).catch(err => {
+      console.error(err)
+      return res.status(500).json({status: 500, message: 'Could not reset password'})
+    })
   }
 }

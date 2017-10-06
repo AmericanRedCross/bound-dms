@@ -24,9 +24,13 @@ class PublishFormat {
   }
 
   buildStructure (flatData) {
-    let structure = flatData.filter(directory => directory.parentId === null)
+    let structure = flatData.filter(directory => directory.parentId === null).sort((a, b) => {
+      return a.order - b.order
+    })
     const buildStructure = (parent) => {
-      parent.directories = flatData.filter(child => child.parentId === parent.id)
+      parent.directories = flatData.filter(child => child.parentId === parent.id).sort((a, b) => {
+        return a.order - b.order
+      })
       // Loop through and build structure
       parent.directories.forEach(child => buildStructure(child))
     }

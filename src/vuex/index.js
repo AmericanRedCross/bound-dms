@@ -12,6 +12,7 @@ import file from './modules/file'
 import documents from './modules/document'
 import metatype from './modules/metatype'
 import publish from './modules/publish'
+import history from './modules/history'
 
 Vue.use(Vuex)
 export const modules = {
@@ -26,7 +27,8 @@ export const modules = {
   translations,
   documents,
   metatype,
-  publish
+  publish,
+  history
 }
 
 /*

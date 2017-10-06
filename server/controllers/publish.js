@@ -6,18 +6,26 @@ const config = require('../config')
 const PublishTask = require('../services/publish/publishTask')
 const BundleArchive = require('../services/publish/bundleArchive')
 const path = require('path')
+const audit = require('../services/audit')
 
 const scheme = config.enableHttps ? 'https://' : 'http://'
 const url = [scheme, config.systemHostname].join('')
 
 module.exports = {
   getAll (req, res, next) {
+    let page = parseInt(req.query.page) || 1
+    let limit = parseInt(req.query.limit) || 10
+    let offset = page - 1
+    if (offset > 0) {
+      offset = (limit * offset)
+    }
+
     Project.findById(parseInt(req.params.id)).then(project => {
       if (project === null) {
         return res.status(404).json({status: 404, message: 'Project not found'})
       }
 
-      Publish.findAll({
+      Publish.findAndCount({
         where: {
           projectId: project.id
         },
@@ -26,9 +34,20 @@ module.exports = {
           as: 'createdBy',
           attributes: User.safeAttributes()
         }],
+        limit: limit,
+        offset: offset,
+        distinct: true,
         order: [['createdAt', 'DESC']]
-      }).then((projects) => {
-        return res.status(200).json({status: 200, data: projects})
+      }).then(({rows, count}) => {
+        return res.status(200).json({
+          status: 200,
+          data: {
+            publishes: rows,
+            total: count
+          }
+        })
+      }).catch(err => {
+        res.status(500).json({status: 500, error: err})
       })
     })
   },
@@ -100,6 +119,7 @@ module.exports = {
       // Start the publish
       return task.start()
     }).then((publish) => {
+      audit.emit('event:publishCreated', publish.id, req.user.id)
       return res.status(201).json({status: 201, data: publish})
     }).catch(err => {
       console.error(err)

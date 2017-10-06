@@ -1,3 +1,4 @@
+import { Translation } from './Translation'
 export class Document {
   constructor ({
     id = null,
@@ -34,4 +35,24 @@ export class Document {
 
   set hidden (hidden) { this._hidden = hidden }
   get hidden () { return this._hidden }
+
+  getDocumentByLangCode (languageCode) {
+    if (languageCode) {
+      let translation = this.translations.find(translation => translation.language === languageCode)
+      if (translation) {
+        return translation
+      }
+    }
+    return null
+  }
+
+  addDocument (data) {
+    let doc = data.data
+    if (doc.id && doc.language) {
+      if (!this.getDocumentByLangCode(doc.language)) {
+        this.translations.push(new Translation(doc))
+        console.log(this.translations)
+      }
+    }
+  }
 }

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/auth/Login'
+import Reset from '@/components/auth/PasswordReset'
 
 // User components
 import ListUsers from '@/components/users/List'
@@ -54,6 +55,12 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login,
+      meta: {auth: false}
+    },
+    {
+      path: '/reset',
+      name: 'Reset',
+      component: Reset,
       meta: {auth: false}
     },
     {

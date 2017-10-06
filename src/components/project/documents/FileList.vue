@@ -3,6 +3,8 @@
     <b-card :title="$t('files.upload')" class="mb-3" v-if="!picker">
         <div class="row">
           <div class="col"><div>
+            <b-form-select v-model="selectedLang" :options="languageOptions" value-field="code" text-field="label">
+            </b-form-select>
             <dropzone
               ref="dropzone"
               id="fileUpload"
@@ -13,6 +15,7 @@
               :use-custom-dropzone-options="true"
             >
               <input type="hidden" name="projectId" :value="projectId">
+              <input type="hidden" name="languageCode" :value="selectedLang">
             </dropzone>
           </div>
         </div>
@@ -63,6 +66,10 @@
               {{ item.item._createdAt | formatDate }}
             </template>
 
+            <template slot="code" scope="item">
+              {{ (item.item._code) ? getLanguageName(item.item._code) : $t('common.all') }}
+            </template>
+
             <template slot="type" scope="item">
               {{ item.valuetype }}
             </template>
@@ -104,6 +111,7 @@
 <script>
 import Dropzone from 'vue2-dropzone'
 import { mapGetters } from 'vuex'
+import { languages } from 'countries-list'
 
 export default {
   name: 'file-list',
@@ -186,15 +194,38 @@ export default {
       let data = this.getAllFiles()
       this.fileData = data.files
       this.totalFiles = data.total
+    },
+    getLanguageName (code) {
+      return `${languages[code].name} (${code})`
     }
   },
-  mounted () {
+  beforeMount () {
     this.fetchAllFiles()
   },
   computed: {
     ...mapGetters([
-      'getAllFiles'
-    ])
+      'getAllFiles',
+      'getProjectById'
+    ]),
+    currentProject () {
+      return this.getProjectById(this.projectId)
+    },
+    languageOptions () {
+      let langs = []
+      if (this.currentProject) {
+        this.currentProject.languages.forEach((lang, index) => {
+          langs.push({
+            label: `${languages[lang.code].name} (${lang.code.toUpperCase()})`,
+            code: lang.code
+          })
+          if (this.currentProject.baseLanguage === lang.code) {
+            this.selectedLang = lang.code
+          }
+        })
+      }
+      langs.push({label: this._i18n.t('translationWorkflow.allLanguages'), code: null})
+      return langs
+    }
   },
   watch: {
     currentPage: {
@@ -214,6 +245,10 @@ export default {
   },
   data () {
     return {
+      langOptions: [
+        { value: 'en', text: 'English' }
+      ],
+      selectedLang: null,
       openEditFileModal: false,
       selectedFile: null,
       projectId: parseInt(this.$route.params.id),
@@ -246,6 +281,10 @@ export default {
       },
       headers () {
         let headers = {
+          code: {
+            label: this._i18n.t('projects.files.fields.code'),
+            sortable: false
+          },
           thumbnail: {
             label: this._i18n.t('projects.files.fields.thumbnail'),
             sortable: false

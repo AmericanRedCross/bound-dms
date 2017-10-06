@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const controller = require('../controllers/user')
+const historyController = require('../controllers/history')
 const authService = require('../services/auth')()
 const roles = require('../services/roles')
 const userRules = {
@@ -33,6 +34,7 @@ const userRules = {
 router.get('/', authService.authenticate(), roles.is('admin'), controller.getAll)
 router.get('/me', authService.authenticate(), controller.getAuthenticatedUser)
 router.get('/:id', controller.getUser)
+router.get('/:id/history', authService.authenticate(), historyController.getForUser)
 router.put('/', authService.authenticate(), (req, res, next) => {
   req.checkBody(userRules)
   req.getValidationResult().then((result) => {
