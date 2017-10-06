@@ -227,7 +227,8 @@ const DirectoryUtils = {
       filename: data.filename,
       size: data.size,
       mimeType: data.mimeType,
-      featured: data.featured
+      featured: data.featured,
+      code: data.code
     })
   },
 

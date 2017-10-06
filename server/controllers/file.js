@@ -43,6 +43,7 @@ module.exports = {
   },
   createMultiple (req, res, files, fields) {
     let projectId = parseInt(fields.projectId)
+    let languageCode = fields.languageCode || null
     let directoryId = (fields.directoryId) ? parseInt(fields.projectId) : null
     let inputCount = files.length
 
@@ -56,7 +57,8 @@ module.exports = {
               title: file.name.replace(/\.[^/.]+$/, ''),
               filename: path.basename(file.path),
               mimeType: file.type,
-              createdById: req.user.id
+              createdById: req.user.id,
+              code: languageCode
             }),
             fileService.generateThumbnails(file.path)
           ]
@@ -68,7 +70,8 @@ module.exports = {
               filename: filename,
               mimeType: persistedFile.mimeType,
               metadata: (isSystemThumbnail) ? 'system-thumbnail' : null,
-              createdById: req.user.id
+              createdById: req.user.id,
+              code: languageCode
             })
           })
           return persistedFile
@@ -95,6 +98,7 @@ module.exports = {
   },
   createSingle (req, res, file, fields) {
     let projectId = parseInt(fields.projectId)
+    let languageCode = fields.languageCode || null
     let directoryId = (fields.directoryId) ? parseInt(fields.projectId) : null
     let title = (fields.title) ? fields.title : file.name.replace(/\.[^/.]+$/, '')
     let description = (fields.description) ? (fields.description) : null
@@ -107,7 +111,8 @@ module.exports = {
           description: description,
           filename: path.basename(file.path),
           mimeType: file.type,
-          createdById: req.user.id
+          createdById: req.user.id,
+          code: languageCode
         }),
         fileService.generateThumbnails(file.path)
       ]
@@ -120,7 +125,8 @@ module.exports = {
           filename: filename,
           mimeType: persistedFile.mimeType,
           metadata: (isSystemThumbnail) ? 'system-thumbnail' : null,
-          createdById: req.user.id
+          createdById: req.user.id,
+          code: languageCode
         })
       })
       return res.status(201).json({status: 201, data: [persistedFile]})
