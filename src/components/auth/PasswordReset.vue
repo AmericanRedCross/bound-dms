@@ -27,10 +27,12 @@
           </b-form-group>
           <b-form-group
               label="Re-enter the password"
-              label-for="pass2">
+              label-for="pass2"
+              :feedback="passwordState === 'invalid' ? 'Passwords do not match' : ''"
+              :state="passwordState">
             <b-form-input
               id="pass2"
-              type="password"
+              type="text"
               v-model="pass2" required
               placeholder="And again"
             ></b-form-input>
@@ -74,11 +76,21 @@ export default {
   methods: {
     onSubmit (evt) {
       evt.preventDefault()
-      this.resetting = true
-      setTimeout(() => {
-        this.resetting = false
-        this.done = true
-      }, 1000)
+      if (this.pass1 === this.pass2 && this.pass1.length > 0 && this.email.length > 0) {
+        this.resetting = true
+        setTimeout(() => {
+          this.resetting = false
+          this.done = true
+        }, 1000)
+      }
+    }
+  },
+  computed: {
+    passwordState () {
+      if (this.pass2.length) {
+        return this.pass1 === this.pass2 ? 'valid' : 'invalid'
+      }
+      return 'valid'
     }
   }
 }
