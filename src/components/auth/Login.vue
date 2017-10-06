@@ -2,7 +2,7 @@
   <div class="login row justify-content-center m-t-100">
     <div class="col-lg-4">
       <b-card :header="forgottenPass ? $t('login.forgot') : $t('login.login')" class="login-card">
-        <b-form v-on:submit.prevent="onSubmit" v-if="!resetSent">
+        <b-form v-if="!resetSent">
           <b-form-group
             :label="$t('login.email')"
             :label-size="1"
@@ -46,7 +46,7 @@
             <b-button @click="authenticate" type="submit" variant="primary" :disabled='sigingIn' id="login" v-if="!forgottenPass">
               <fa-icon  v-show="sigingIn" name="refresh" spin></fa-icon> {{ $t('login.login') }}
             </b-button>
-            <b-button @click="forgot" type="submit" variant="primary" :disabled='sigingIn' id="login" v-if="forgottenPass">
+            <b-button @click="forgot" variant="primary" :disabled='sigingIn' id="login" v-if="forgottenPass">
               <fa-icon v-show="resetting" name="refresh" spin></fa-icon> {{ $t('login.reset') }}
             </b-button>
           </div>
@@ -59,7 +59,7 @@
 
 <script>
 import { required, email } from 'vuelidate/lib/validators'
-
+import axios from 'axios'
 export default {
   data () {
     return {
@@ -121,10 +121,10 @@ export default {
       this.$v['email'].$touch()
       if (!this.$v['email'].$error) {
         this.resetting = true
-        setTimeout(() => {
+        axios.post('/auth/password/reset', {email: this.email}).then(() => {
           this.resetting = false
           this.resetSent = true
-        }, 1000)
+        })
       }
     },
     validate (field) {
