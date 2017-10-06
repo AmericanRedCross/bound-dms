@@ -18,7 +18,7 @@ router.post('/', (req, res, next) => {
 
   req.getValidationResult().then((result) => {
     if (!result.isEmpty()) {
-      res.status(400).json({status: 422, errors: result.array()})
+      res.status(400).json({status: 400, errors: result.array()})
       return
     }
     next()
@@ -27,5 +27,27 @@ router.post('/', (req, res, next) => {
 
 // GET /api/auth/refresh
 router.get('/refresh', authService.authenticate(), controller.refresh)
+
+// POST /api/auth/reset_password
+router.post('/reset_password', (req, res, next) => {
+  req.checkBody({
+    'email': {
+      isEmail: {
+        errorMessage: 'Invalid Email'
+      }
+    }
+  })
+
+  req.getValidationResult().then((result) => {
+    if (!result.isEmpty()) {
+      res.status(400).json({status: 400, errors: result.array()})
+      return
+    }
+    next()
+  })
+}, controller.sendPasswordReset)
+
+// GET /api/auth/reset_password/:token
+router.get('/reset_password/:token', controller.handlePasswordReset)
 
 module.exports = router

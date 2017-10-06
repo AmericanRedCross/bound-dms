@@ -32,5 +32,20 @@ module.exports = {
     const token = jwt.sign(generateJwtPayload(req.user), config.jwtSecretKey, jwtOptions)
     res.append('Authorization', token)
     res.status(200).json({message: 'ok', token: token})
+  },
+
+  sendPasswordReset (req, res, next) {
+    users.sendPasswordReset(req.body.email).then(() => {
+      console.log('email sent')
+      return res.status(200).json({status: 200, message: 'Reset email sent'})
+    }).catch((err) => {
+      console.log(err)
+      // don't permit enumeration
+      return res.status(200).json({status: 200, message: 'Reset email sent'})
+    })
+  },
+
+  handlePasswordReset (req, res, next) {
+    res.status(200).json({message: 'ok'})
   }
 }
