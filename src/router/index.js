@@ -58,7 +58,7 @@ export default new Router({
       meta: {auth: false}
     },
     {
-      path: '/Reset',
+      path: '/reset',
       name: 'Reset',
       component: Reset,
       meta: {auth: false}
