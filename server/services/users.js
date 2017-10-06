@@ -2,6 +2,7 @@ const User = require('../models').User
 const PasswordReset = require('../models').PasswordReset
 const mail = require('./mail')
 const config = require('../config')
+const querystring = require('querystring')
 
 module.exports = {
   /**
@@ -116,8 +117,26 @@ module.exports = {
     return [
       config.enableHttps ? 'https://' : 'http://',
       config.systemHostname,
-      '/api/auth/reset_password/',
-      token
+      '/reset?',
+      querystring.stringify({token: token})
     ].join('')
+  },
+
+  validatePasswordResetToken (token) {
+    const yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000))
+    return PasswordReset.findOne({
+      where: {
+        token: token,
+        createdAt: {
+          $gt: new Date(yesterday)
+        }
+      }
+    }).then((reset) => {
+      if (reset === null) {
+        return false
+      }
+
+      return reset
+    })
   }
 }
