@@ -9,6 +9,15 @@
   &.bg-custom {
     background-color: $nav-background;
     border-bottom: 1px solid $nav-border-bottom;
+    color: white;
+    a {
+      color: white;
+    }
+    .nav-item {
+      a {
+        color: white;
+      }
+    }
   }
   .user-icon {
     border-radius: 50%;

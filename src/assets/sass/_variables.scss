@@ -4,24 +4,38 @@ $grey: #CFD8DC;
 $light-grey: #F5F5F5;
 $white: #FFFFFF;
 
+$primary: rgb(98, 0, 255);
+$primary-light: rgb(240, 242, 255);
+$primary-lightish: rgb(202, 202, 222);
+$primary-slight: rgb(218, 220, 237);
+$primary-dark: rgb(74, 59, 97);
+
+$secondary: rgb(113, 0, 255);
+$secondary-light: rgb(169, 102, 255);
+$secondary-dark: rgb(45, 34, 62);
+$accent: rgb(248, 94, 120);
+
+$tertiary: rgb(219, 216, 224);
+$tertiary-dark: rgb(183, 177, 192);
+$functional: rgb(105, 215, 159);
 
 /* Body */
-$body-background: $light-grey;
-$font-color: #2c3e50;
+$body-background: $primary-light;
+$font-color: $primary-dark;
 
 /* Navbar */
-$nav-background: $white;
-$nav-border-bottom: $grey;
+$nav-background: $primary;
+$nav-border-bottom: $primary;
 
 /* breadcrumbs */
-$bread-background: $white;
-$bread-border-bottom: $grey;
+$bread-background: $primary-light;
+$bread-border-bottom: $primary-light;
 $bread-last-child: #b0bec5;
 
 /* Sidebar */
-$sidebar-width: 200px;
+$sidebar-width: 185px;
 $sidebar-top-margin: 56px;
-$sidebar-background: $dark-grey;
-$sidebar-color: $white;
-$sidebar-active-background: lighten($dark-grey, 5%);
-$sidebar-hover-background: $light-blue;
+$sidebar-background: $primary-slight;
+$sidebar-color: $primary-dark;
+$sidebar-active-background: $primary-lightish;
+$sidebar-hover-background: $primary-lightish;
