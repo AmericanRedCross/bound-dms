@@ -63,6 +63,12 @@ docker-compose run server npm rebuild bcrypt --update-binary
 docker-compose run server npm rebuild sharp
 ```
 
+## Publishing
+
+```bash
+docker-compose run server node publish.js <projectId> <languageCode>
+```
+
 ### Docker Container
 
 The docker container can be built from the project. At build time all files are

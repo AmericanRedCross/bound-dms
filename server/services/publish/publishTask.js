@@ -48,7 +48,14 @@ class PublishTask {
         as: 'metatypes'
       }, {
         model: File,
-        as: 'files'
+        as: 'files',
+        where: {
+          $or: [{
+            code: this._language
+          }, {
+            code: null
+          }]
+        }
       }, {
         model: Document,
         as: 'documents',
