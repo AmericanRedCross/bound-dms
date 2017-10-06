@@ -32,7 +32,7 @@
               :state="passwordState">
             <b-form-input
               id="pass2"
-              type="text"
+              type="password"
               v-model="pass2" required
               placeholder="And again"
             ></b-form-input>
