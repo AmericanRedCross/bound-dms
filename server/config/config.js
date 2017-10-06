@@ -25,10 +25,19 @@ module.exports = {
           1000
         ]
       }
+    },
+    mail: {
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
+      secure: process.env.SMTP_SECURE,
+      user: process.env.SMTP_USER,
+      password: process.env.SMTP_PASSWORD,
+      fromName: process.env.SMTP_FROMNAME || 'Bound DMS',
+      fromAddress: process.env.SMTP_FROM_ADDRESS || 'system@bounddms.com'
     }
   },
   development: {
-    systemHostname: process.env.HOST,
+    systemHostname: process.env.HOST || 'localhost',
     enableHttps: process.env.HTTPS || false,
     jwtSecretKey: 'secret_key',
     username: process.env.DB_USER,
@@ -48,6 +57,15 @@ module.exports = {
           1000
         ]
       }
+    },
+    mail: {
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
+      secure: process.env.SMTP_SECURE,
+      user: process.env.SMTP_USER,
+      password: process.env.SMTP_PASSWORD,
+      fromName: process.env.SMTP_FROMNAME || 'Bound DMS',
+      fromAddress: process.env.SMTP_FROM_ADDRESS || 'system@bounddms.com'
     }
   },
   testing: {
@@ -72,6 +90,15 @@ module.exports = {
           1000
         ]
       }
+    },
+    mail: {
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
+      secure: process.env.SMTP_SECURE,
+      user: process.env.SMTP_USER,
+      password: process.env.SMTP_PASSWORD,
+      fromName: process.env.SMTP_FROMNAME || 'Bound DMS',
+      fromAddress: process.env.SMTP_FROM_ADDRESS || 'system@bounddms.com'
     }
   }
 }
