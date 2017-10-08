@@ -210,6 +210,8 @@ export default{
       subDirectories: 'DIRECTORIES',
       tools: 'TOOLS',
       edit: 'Edit content',
+      createdBy: 'Created by',
+      lastUpdated: 'Last updated',
       languages: 'Translations',
       content: 'Content & translations',
       setcontent: 'Content set',
