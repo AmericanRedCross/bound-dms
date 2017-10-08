@@ -66,7 +66,6 @@ export default {
 <style lang="scss">
 @import "./assets/sass/main";
 #app {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: $font-color;
