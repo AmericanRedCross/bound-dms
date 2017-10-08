@@ -57,10 +57,10 @@ export default {
         language: {
           label: 'Language'
         },
-        complete: {
-          label: '% Translated',
-          class: 'align-middle'
-        },
+        // complete: {
+        //   label: '% Translated',
+        //   class: 'align-middle'
+        // },
         actions: {
           label: 'Actions'
         }
