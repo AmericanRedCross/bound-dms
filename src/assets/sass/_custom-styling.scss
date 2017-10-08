@@ -5,7 +5,11 @@ body {
 }
 
 a {
-  color: $light-blue;
+  color: $primary;
+}
+
+small {
+  color: $tertiary-dark
 }
 
 .v-select {
