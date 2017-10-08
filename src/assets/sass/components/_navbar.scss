@@ -17,6 +17,16 @@
       a {
         color: white;
       }
+      .dropdown-menu {
+        a {
+          color: $font-color;
+        }
+        .dropdown-item {
+          &.active {
+            background-color: $primary-light;
+          }
+        }
+      }
     }
   }
   .user-icon {
