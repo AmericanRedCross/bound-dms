@@ -25,8 +25,14 @@
               placeholder="And again"
             ></b-form-input>
           </b-form-group>
-          <b-button type="submit" variant="primary"><fa-icon name="refresh" spin v-show="resetting"></fa-icon> {{ $t('common.submit') }}</b-button>
-          <b-button type="reset" variant="secondary"> {{ $t('common.reset') }}</b-button>
+          <div class="row">
+            <div class="col mb-1">
+              <b-button type="submit" variant="primary" class="w-100"><fa-icon name="refresh" spin v-show="resetting"></fa-icon> {{ $t('common.submit') }}</b-button>
+            </div>
+            <div class="col">
+              <b-button type="reset" variant="secondary" class="w-100"> {{ $t('common.reset') }}</b-button>
+            </div>
+          </div>
         </b-form>
       </b-card>
       <b-card v-else header="Thanks" align="center">

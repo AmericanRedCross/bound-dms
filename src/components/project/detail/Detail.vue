@@ -6,7 +6,7 @@
         <div>{{ $t('projects.dashboard.lastPublish') }}</div>
         <div class="mb-3">{{ $t('projects.dashboard.publisher') }}</div>
         <div>
-          <b-button :to="{name: 'project-publish'}">
+          <b-button variant="outline-primary" :to="{name: 'project-publish'}">
             {{ $t('projects.dashboard.viewPublish') }}
           </b-button>
         </div>
