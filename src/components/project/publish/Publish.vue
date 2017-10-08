@@ -34,14 +34,12 @@
 </template>
 
 <script>
-import LangPublishCard from './PublishStats'
 import PublishList from './PublishList'
 import { mapGetters } from 'vuex'
 import { languages } from 'countries-list'
 
 export default {
   components: {
-    LangPublishCard,
     PublishList
   },
   data () {
