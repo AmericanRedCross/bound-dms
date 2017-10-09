@@ -17,6 +17,14 @@
                <b-form-input :textarea="true" :rows="6" v-model.trim="project.description"></b-form-input>
             </b-form-fieldset>
 
+            <b-form-group
+              :label="$t('projects.new.selectBaseLanguage')">
+              <select class="form-control custom-select" v-model="project.baseLanguage">
+                <option v-for="(lang, key) in languages" :value="key">
+                  {{ lang.name }} ({{ key }})
+                </option>
+              </select>
+            </b-form-group>
             <b-button type="submit" variant="primary">{{ $t('projects.edit.new') }}</b-button>
             <b-button variant="warning" :to="{ name: 'projects' }">{{ $t('common.cancel') }}</b-button>
           </b-form>
@@ -34,6 +42,7 @@
 import { Project } from '../../vuex/modules/project/Project'
 import { required } from 'vuelidate/lib/validators'
 import { mapGetters } from 'vuex'
+import { languages } from 'countries-list'
 
 export default {
   validations: {
@@ -45,7 +54,8 @@ export default {
   },
   data () {
     return {
-      project: new Project({})
+      project: new Project({ baseLanguage: 'en' }),
+      languages
     }
   },
   computed: {

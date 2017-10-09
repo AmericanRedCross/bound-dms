@@ -84,7 +84,8 @@ const projects = {
     CREATE_PROJECT: function ({ commit }, data) {
       return axios.put(PROJECT_ROOT, {
         name: data.name,
-        description: data.description
+        description: data.description,
+        baseLanguage: data.baseLanguage
       }).then((response) => {
         commit('SET_PROJECT', { response: response.data })
       }).catch(err => {
