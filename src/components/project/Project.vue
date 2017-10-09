@@ -25,8 +25,9 @@ export default {
       this.$store.dispatch('GET_PROJECT', this.$route.params.id).then(() => {
         this.project = this.getProjectById(parseInt(this.$route.params.id))
         let baseLang = this.project.languages.find(lang => lang.code === this.project.baseLanguage)
-        this.$store.dispatch('CHANGE_BASE_LANGUAGE', baseLang)
-
+        if (baseLang) {
+          this.$store.dispatch('CHANGE_BASE_LANGUAGE', baseLang)
+        }
         this.$store.dispatch('CHANGE_AVAILABLE_LANGUAGES', this.project.languages)
       }).catch(() => {
         this.$notifications.notify(
