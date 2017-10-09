@@ -1,8 +1,11 @@
 <template>
   <div class="login row justify-content-center m-t-100">
-    <div class="col-lg-4">
-      <b-card :header="forgottenPass ? $t('login.forgot') : $t('login.login')" class="login-card">
-        <b-form v-if="!resetSent">
+    <div class="col-lg-5">
+      <b-card class="login-card">
+        <div class="custom-login-header">
+          <img src="../../assets/img/bound.png" :srcset="logoSrcSet()" height="100px" class="bound-logo"/>
+        </div>
+        <b-form v-if="!resetSent" class="mt-4">
           <b-form-group
             :label="$t('login.email')"
             :label-size="1"
@@ -41,7 +44,7 @@
             </b-button>
           </div>
         </b-form>
-        <p v-else>{{ $t('login.resetSent') }} {{ email }}</p>
+        <p class="mt-4" v-else>{{ $t('login.resetSent') }} {{ email }}</p>
       </b-card>
     </div>
   </div>

@@ -1,7 +1,11 @@
 <template>
   <div class="password-reset row justify-content-center m-t-100">
-    <div class="col-lg-4">
-      <b-card :header="activation ? $t('reset.accountActivation') : $t('reset.passwordReset')" v-if="!done">
+    <div class="col-lg-5">
+      <b-card v-if="!done">
+        <div class="custom-login-header">
+          <img src="../../assets/img/bound.png" :srcset="logoSrcSet()" height="100px" class="bound-logo"/>
+        </div>
+        <h4 class="mt-3">{{ activation ? $t('reset.accountActivation') : $t('reset.passwordReset') }}</h4>
         <b-form @submit="onSubmit">
           <b-form-group
               :label="$t('reset.newPass')"
@@ -30,7 +34,7 @@
               <b-button type="submit" variant="primary" class="w-100"><fa-icon name="refresh" spin v-show="resetting"></fa-icon> {{ $t('common.submit') }}</b-button>
             </div>
             <div class="col">
-              <b-button type="reset" variant="secondary" class="w-100"> {{ $t('common.reset') }}</b-button>
+              <b-button type="reset" variant="secondary" class="w-100"> {{ $t('common.resetForm') }}</b-button>
             </div>
           </div>
         </b-form>

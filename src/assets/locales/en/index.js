@@ -27,7 +27,7 @@ export default{
     loading: 'Loading',
     filter: 'Filter',
     submit: 'Submit',
-    reset: 'Reset',
+    resetForm: 'Reset form',
     pleaseSelect: 'Please select an option',
     validations: {
       required: 'Field is required',

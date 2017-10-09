@@ -1,0 +1,22 @@
+@import '../variables.scss';
+
+.login, .password-reset {
+  .card-body {
+    padding: 3rem;
+  }
+  .custom-login-header {
+    position: relative;
+    height: 250px;
+    background-color: $primary;
+    margin: -3rem -3rem 0px -3rem;
+    border-radius: 0.8rem 0.8rem 0 0;
+    background-image: url('assets/img/patterns@3x.png');
+    background-size: cover;
+    .bound-logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}

@@ -42,20 +42,18 @@ export default {
       default: 1
     }
   },
-  mounted () {
-    console.log(this.project)
-  },
   computed: {
     getBackgroundImage () {
+      // Todo.. require the correct images when we have the right ones
       switch (this.imageNumber) {
         case 0:
-          return 'http://lorempixel.com/400/200'
+          return require('../../assets/img/patterns@3x.png')
         case 1:
-          return 'http://lorempixel.com/400/201'
+          return require('../../assets/img/patterns@3x.png')
         case 2:
-          return 'http://lorempixel.com/400/202'
+          return require('../../assets/img/patterns@3x.png')
         case 3:
-          return 'http://lorempixel.com/400/203'
+          return require('../../assets/img/patterns@3x.png')
         default:
           return 'http://lorempixel.com/400/204'
       }
@@ -76,7 +74,6 @@ export default {
     }
   }
   .custom-image-header {
-    background-size: cover;
     height: 140px;
     margin: -21px -21px 0 -21px;
     border-radius: 0.8rem 0.8rem 0 0;
