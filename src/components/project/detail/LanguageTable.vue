@@ -22,8 +22,11 @@
       </template>
 
       <template slot="actions" scope="item">
-        <b-btn size="sm" variant="primary" @click="editClick(item.item)"><fa-icon name="edit" label="Edit"></fa-icon> {{ $t('projects.detail.edit') }}</b-btn>
-        <b-btn v-if="$auth.check(['admin', 'editor'])" size="sm" variant="danger" @click="deleteClick(item.item)"><fa-icon name="trash" label="Delete"></fa-icon> {{ $t('projects.detail.delete') }}</b-btn>
+        <span v-if="project.baseLanguage !== item.item.code">
+          <b-btn size="sm" variant="primary" @click="editClick(item.item)"><fa-icon name="edit" label="Edit"></fa-icon> {{ $t('projects.detail.edit') }}</b-btn>
+          <b-btn v-if="$auth.check(['admin', 'editor'])" size="sm" variant="danger" @click="deleteClick(item.item)"><fa-icon name="trash" label="Delete"></fa-icon> {{ $t('projects.detail.delete') }}</b-btn>
+        </span>
+        <b-badge v-else>{{ $t('translationWorkflow.baseLanguage') }}</b-badge>
       </template>
     </b-table>
     <b-btn v-if="$auth.check(['admin', 'editor'])" v-b-modal.add-language variant="primary"><fa-icon name="plus"></fa-icon> {{ $t('projects.languages.add') }}</b-btn>
