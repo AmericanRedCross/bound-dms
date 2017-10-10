@@ -12,6 +12,10 @@ module.exports = {
       {
         projectId: 1,
         code: 'es'
+      },
+      {
+        projectId: 2,
+        code: 'en'
       }
     ], {})
   },

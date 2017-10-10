@@ -82,7 +82,7 @@ const projects = {
     },
     // PUT a project (create)
     CREATE_PROJECT: function ({ commit }, data) {
-      return axios.put(PROJECT_ROOT, {
+      return axios.post(PROJECT_ROOT, {
         name: data.name,
         description: data.description,
         baseLanguage: data.baseLanguage
@@ -94,7 +94,7 @@ const projects = {
     },
     // POST a project (update)
     UPDATE_PROJECT: function ({ commit }, data) {
-      return axios.post(PROJECT_ROOT + '/' + data.id, {
+      return axios.put(PROJECT_ROOT + '/' + data.id, {
         name: data.name,
         description: data.description
       }).then((response) => {

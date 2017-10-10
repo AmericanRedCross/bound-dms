@@ -43,7 +43,7 @@ router.post('/:id/publishes', authService.authenticate(), (req, res, next) => {
     next()
   })
 }, publishController.create)
-router.put('/', authService.authenticate(), (req, res, next) => {
+router.post('/', authService.authenticate(), (req, res, next) => {
   req.checkBody(projectRules)
   req.getValidationResult().then((result) => {
     if (!result.isEmpty()) {
@@ -53,7 +53,7 @@ router.put('/', authService.authenticate(), (req, res, next) => {
     next()
   })
 }, controller.create)
-router.post('/:id', authService.authenticate(), (req, res, next) => {
+router.put('/:id', authService.authenticate(), (req, res, next) => {
   // @todo check permissions here
   // clone base rules and make optional
   let rules = Object.assign({}, projectRules)
