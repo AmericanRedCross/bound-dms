@@ -1,6 +1,6 @@
 <template>
   <div class="login row justify-content-center m-t-100">
-    <div class="col-lg-5">
+    <div class="col-md-6 col-lg-4 col-sm-8">
       <b-card class="login-card">
         <div class="custom-login-header">
           <img src="../../assets/img/bound.png" :srcset="logoSrcSet()" height="100px" class="bound-logo"/>
