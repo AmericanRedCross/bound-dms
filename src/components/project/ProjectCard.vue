@@ -44,18 +44,17 @@ export default {
   },
   computed: {
     getBackgroundImage () {
-      // Todo.. require the correct images when we have the right ones
       switch (this.imageNumber) {
-        case 0:
-          return require('../../assets/img/patterns@3x.png')
-        case 1:
-          return require('../../assets/img/patterns@3x.png')
-        case 2:
-          return require('../../assets/img/patterns@3x.png')
         case 3:
-          return require('../../assets/img/patterns@3x.png')
+          return require('../../assets/img/projectPatterns/pattern1@2x.png')
+        case 1:
+          return require('../../assets/img/projectPatterns/pattern2@2x.png')
+        case 2:
+          return require('../../assets/img/projectPatterns/pattern3@2x.png')
+        case 0:
+          return require('../../assets/img/projectPatterns/pattern4@2x.png')
         default:
-          return 'http://lorempixel.com/400/204'
+          return require('../../assets/img/projectPatterns/pattern1@2x.png')
       }
     }
   }
