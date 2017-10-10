@@ -1,7 +1,12 @@
 @import 'variables.scss';
 
 body {
-  background: $body-background;
+  background-color: $body-background;
+  background-image: url('assets/img/backgroundSquiggle.png');
+  background-size: cover;
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    background-image: url('assets/img/backgroundSquiggle@2x.png');
+  }
 }
 
 a {
