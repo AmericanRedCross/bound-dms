@@ -245,6 +245,7 @@ export default{
     new: {
       name: 'Project name',
       description: 'Description',
+      selectBaseLanguage: 'Select a base language',
       details: 'Enter the details of your new document project. You can assign additional languages later on.'
     },
     publish: {
