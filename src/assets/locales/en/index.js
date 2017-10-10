@@ -282,6 +282,7 @@ export default{
         label: 'Metatype',
         example: 'e.g. colour',
         types: {
+          json: 'JSON',
           string: 'Text (String)',
           boolean: 'True / False (Boolean)',
           integer: 'Number (Integer)'
