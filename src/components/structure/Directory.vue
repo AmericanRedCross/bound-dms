@@ -35,32 +35,40 @@
           <b-dropdown right no-flip class="m-md-2 directory-actions ignore-drag" variant="outline-primary">
             <fa-icon name="cog" slot="text"></fa-icon>
 
-            <b-dropdown-item-button @click="editTitle = true" class="directory-action" :disabled="directory.id === null">
-              <fa-icon name="font"></fa-icon>
-              {{ $t('common.rename') }}
-            </b-dropdown-item-button>
+            <b-dropdown-item @click="editTitle = true" class="directory-action" :disabled="directory.id === null">
+              <span v-b-tooltip.hover.auto :title="directory.id === null ? $t('projects.modules.saveStructure') : ''">
+                <fa-icon name="font"></fa-icon>
+                {{ $t('common.rename') }}
+              </span>
+            </b-dropdown-item>
 
             <b-dropdown-item href="#" class="directory-action" @click="infoShow = !infoShow">
               <fa-icon name="info-circle"></fa-icon>
               {{ $t('common.info') }}
             </b-dropdown-item>
 
-            <b-dropdown-item-button v-if="isShown" @click="addDirectory" class="directory-action" :disabled="directory.id === null">
-              <fa-icon name="plus-circle"></fa-icon>
-              {{ $t('projects.modules.addDirectory') }}
-            </b-dropdown-item-button>
+            <b-dropdown-item v-if="isShown" @click="addDirectory" class="directory-action" :disabled="directory.id === null">
+              <span v-b-tooltip.hover.auto :title="directory.id === null ? $t('projects.modules.saveStructure') : ''">
+                <fa-icon name="plus-circle"></fa-icon>
+                {{ $t('projects.modules.addDirectory') }}
+              </span>
+            </b-dropdown-item>
 
-            <b-dropdown-item-button v-else-if="$auth.check(['admin', 'editor'])" @click="addDirectory" class="directory-action" :disabled="directory.id === null">
-              <fa-icon name="plus-circle"></fa-icon>
-              {{ $t('projects.modules.addSubDirectory') }}
-            </b-dropdown-item-button>
+            <b-dropdown-item v-else-if="$auth.check(['admin', 'editor'])" @click="addDirectory" class="directory-action" :disabled="directory.id === null">
+              <span v-b-tooltip.hover.auto :title="directory.id === null ? $t('projects.modules.saveStructure') : ''">
+                <fa-icon name="plus-circle"></fa-icon>
+                {{ $t('projects.modules.addSubDirectory') }}
+              </span>
+            </b-dropdown-item>
 
             <b-dropdown-divider v-if="$auth.check(['admin'])"></b-dropdown-divider>
 
-            <b-dropdown-item-button @click="openMetadataModal(directory.id, directory.metadata)" class="directory-action" :disabled="directory.id === null">
-              <fa-icon name="pencil"></fa-icon>
-              {{ $t('projects.modules.openMetadataModal') }}
-            </b-dropdown-item-button>
+            <b-dropdown-item @click="openMetadataModal(directory.id, directory.metadata)" class="directory-action" :disabled="directory.id === null">
+              <span v-b-tooltip.hover.auto :title="directory.id === null ? $t('projects.modules.saveStructure') : ''">
+                <fa-icon name="pencil"></fa-icon>
+                {{ $t('projects.modules.openMetadataModal') }}
+              </span>
+            </b-dropdown-item>
 
             <b-dropdown-divider></b-dropdown-divider>
 
@@ -88,7 +96,10 @@
               size="sm"
               @click="openFileSelectModal"
               :disabled="directory.id === null">
-              <fa-icon name="plus"></fa-icon> {{ $t('projects.files.add') }}
+              <span v-b-tooltip.hover.auto :title="directory.id === null ? $t('projects.modules.saveStructure') : ''">
+                <fa-icon name="plus"></fa-icon>
+                {{ $t('projects.files.add') }}
+              </span>
             </b-button>
           </b-button-group>
           <b-button-group class="mt-1">
@@ -104,7 +115,10 @@
               size="sm"
               @click="openDocumentModal"
               :disabled="directory.id === null">
-              <fa-icon name="plus"></fa-icon> {{ $t('projects.files.add') }}
+              <span v-b-tooltip.hover.auto :title="directory.id === null ? $t('projects.modules.saveStructure') : ''">
+                <fa-icon name="plus"></fa-icon>
+                {{ $t('projects.files.add') }}
+              </span>
             </b-button>
           </b-button-group>
         </div>
