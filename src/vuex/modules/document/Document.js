@@ -51,7 +51,6 @@ export class Document {
     if (doc.id && doc.language) {
       if (!this.getDocumentByLangCode(doc.language)) {
         this.translations.push(new Translation(doc))
-        console.log(this.translations)
       }
     }
   }
