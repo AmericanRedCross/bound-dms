@@ -150,7 +150,8 @@
             :directory="subdirectory"
             :directoryNumbers="getDirectories()"
             :index="index"
-            class="sub-directory ml-5 directory-list-item">
+            class="sub-directory ml-5 directory-list-item"
+            v-on:structureChange="$emit('structureChange')">
           </Directory>
       </draggable>
     </b-collapse>
@@ -263,12 +264,14 @@ export default {
         this.isExpanded = true
         this.directory.addDirectoryAtIndex({index: this.index})
         this.$store.dispatch('SET_FLAT_STRUCTURE')
+        this.$emit('structureChange')
       }
     },
     updateCritical (value) {
       this.directory.critical = value.value
     },
     updateDraggable (e) {
+      this.$emit('structureChange')
       let newIndex = e.newIndex
       let oldIndex = e.oldIndex
 
@@ -299,9 +302,6 @@ export default {
             type: 'danger'
           })
       })
-    },
-    setNeedsSaving () {
-      this.$store.dispatch('DIRECTORY_UPDATE_SAVING', { directory: this.directory })
     },
     removeDirectory () {
       if (this.$auth.check(['admin', 'editor'])) {
