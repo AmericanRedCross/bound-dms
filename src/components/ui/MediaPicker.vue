@@ -32,6 +32,7 @@
               {{ $t('mediaPicker.uploadFile') }}
             </p>
 
+            <b-form-select v-model="selectedLang" :options="languageOptions" value-field="code" text-field="label"></b-form-select>
             <dropzone
               ref="dropzone"
               id="fileUpload"
@@ -42,6 +43,8 @@
               :use-font-awesome="true"
               :use-custom-dropzone-options="true"
             >
+              <input type="hidden" name="projectId" :value="projectId">
+              <input type="hidden" name="languageCode" :value="selectedLang">
             </dropzone>
 
             <b-form-input disabled v-model="fileRef.url" :placeholder="$t('mediaPicker.fileUrlPlaceholder')"></b-form-input>
@@ -98,6 +101,7 @@
 import Dropzone from 'vue2-dropzone'
 const uploadsDirectory = '/static/uploads/'
 import { mapGetters } from 'vuex'
+import { languages } from 'countries-list'
 
 export default {
   components: {
@@ -119,6 +123,9 @@ export default {
     },
     projectId: {
       type: Number
+    },
+    currentProject: {
+      type: Object
     }
   },
   methods: {
@@ -148,7 +155,9 @@ export default {
         this.loadingMore = true
         this.$store.dispatch('GET_ALL_FILES', {
           page: this.currentPage,
-          limit: this.perPage
+          limit: this.perPage,
+          filter: this.filter,
+          projectId: this.projectId
         }).then(() => {
           let data = this.getAllFiles()
 
@@ -214,7 +223,9 @@ export default {
       perPage: 10,
       currentPage: 1,
       loadingMore: false,
-      selectedFile: null
+      selectedFile: null,
+      selectedLang: '',
+      filter: ''
     }
   },
   beforeMount () {
@@ -226,7 +237,23 @@ export default {
     },
     ...mapGetters([
       'getAllFiles'
-    ])
+    ]),
+    languageOptions () {
+      let langs = []
+      if (this.currentProject) {
+        this.currentProject.languages.forEach((lang, index) => {
+          langs.push({
+            label: `${languages[lang.code].name} (${lang.code.toUpperCase()})`,
+            code: lang.code
+          })
+          if (this.currentProject.baseLanguage === lang.code) {
+            this.selectedLang = lang.code
+          }
+        })
+      }
+      langs.push({label: this._i18n.t('translationWorkflow.allLanguages'), code: null})
+      return langs
+    }
   }
 }
 </script>
