@@ -170,7 +170,8 @@ export default{
       selectDoc: 'Select document',
       noDocs: 'No documents here',
       selectFile: 'Select file',
-      titlePlaceholder: 'Enter a title'
+      titlePlaceholder: 'Enter a title',
+      noTitle: 'No title set'
     },
     settings: {
       header: 'Project settings',
