@@ -64,7 +64,8 @@ export default{
     documents: 'Documents',
     files: 'Files',
     publish: 'Publish',
-    settings: 'Settings'
+    settings: 'Settings',
+    translations: 'Translations'
   },
   hello: {
     test1: 'Welcome to your Vue.js app'
@@ -198,7 +199,7 @@ export default{
       }
     },
     languages: {
-      add: 'Add new language',
+      add: 'Add new translation',
       select: 'Select a language',
       noLangs: 'This project does not have any languages yet, add one to get started'
     },
@@ -208,7 +209,7 @@ export default{
       subDirectories: 'DIRECTORIES',
       tools: 'TOOLS',
       edit: 'Edit content',
-      languages: 'Languages',
+      languages: 'Translations',
       content: 'Content & translations',
       setcontent: 'Content set',
       translations: 'Translations',

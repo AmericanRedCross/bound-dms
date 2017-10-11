@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div v-if="$auth.ready()">
-      <Sidebar v-if="$auth.check() && $route.meta.showSidebar === true" :projectId="currentProject"></Sidebar>
+      <Sidebar v-if="$auth.check() && $route.meta.showSidebar === true" :projectId="currentProjectId" :project="project"></Sidebar>
       <Navbar v-if="$auth.check()"></Navbar>
       <div v-bind:class="{ 'content-wrapper': true, 'show-sidebar': hasSidebar }">
         <notifications>
@@ -44,7 +44,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'friendlyHTTPMessage'
+      'friendlyHTTPMessage',
+      'getProjectById'
     ]),
     hasSidebar () {
       if (this.$route.meta.showSidebar === true) {
@@ -52,8 +53,11 @@ export default {
       }
       return false
     },
-    currentProject () {
+    currentProjectId () {
       return parseInt(this.$route.params.id) || null
+    },
+    project () {
+      return this.getProjectById(this.currentProjectId)
     }
   }
 }
