@@ -260,7 +260,7 @@ export default{
       content: 'Content changes',
       base: 'Base language: ',
       translate: 'Translated languages: ',
-      publish: ' Publish these changes',
+      publish: ' Publish all changes',
       publishAll: 'Publish all changes',
       emptystate: 'This project has not been published yet',
       fields: {
