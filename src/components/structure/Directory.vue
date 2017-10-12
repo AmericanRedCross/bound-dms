@@ -42,11 +42,6 @@
               {{ $t('common.info') }}
             </b-dropdown-item>
 
-            <b-dropdown-item href="#" class="directory-action" @click="openDocumentModal" :disabled="directory.id === null">
-              <fa-icon name="plus-circle"></fa-icon>
-              {{ $t('projects.modules.addDocument') }}
-            </b-dropdown-item>
-
             <b-dropdown-item-button v-if="isShown" @click="addDirectory" class="directory-action" :disabled="directory.id === null">
               <fa-icon name="plus-circle"></fa-icon>
               {{ $t('projects.modules.addDirectory') }}
@@ -77,11 +72,11 @@
 
       <div class="row">
         <div class="col">
-          <b-button-group>
+          <b-button-group class="mt-1">
             <b-button
               variant="primary"
               size="sm"
-              @click="isOpen = !isOpen"
+              @click="isFilesOpen = !isFilesOpen"
               :disabled="directory.files.length === 0">
                 <fa-icon name="file-text"></fa-icon> {{ directory.files.length }} {{ $t('projects.files.files') }}
             </b-button>
@@ -93,12 +88,38 @@
               <fa-icon name="plus"></fa-icon> {{ $t('projects.files.add') }}
             </b-button>
           </b-button-group>
+          <b-button-group class="mt-1">
+            <b-button
+              variant="primary"
+              size="sm"
+              @click="isDocsOpen = !isDocsOpen"
+              :disabled="directory.documents.length === 0">
+                <fa-icon name="book"></fa-icon> {{ directory.documents.length }} {{ $t('projects.modules.addDocument') }}
+            </b-button>
+            <b-button
+              variant="success"
+              size="sm"
+              @click="openDocumentModal"
+              :disabled="directory.id === null">
+              <fa-icon name="plus"></fa-icon> {{ $t('projects.files.add') }}
+            </b-button>
+          </b-button-group>
         </div>
       </div>
 
       <!-- Here's where we want our file area -->
-      <b-collapse :visible="isOpen" id="collapse-extra-content">
+      <b-collapse :visible="isFilesOpen" id="collapse-extra-file-content">
+        <p class="mt-1">
+          {{ $t('projects.files.files') }}
+        </p>
         <Files :files="directory.files"></Files>
+      </b-collapse>
+
+      <b-collapse :visible="isDocsOpen" id="collapse-extra-document-content">
+        <p class="mt-1">
+          {{ $t('projects.modules.addDocument') }}
+        </p>
+        <Files :files="directory.documents" :documents="true"></Files>
       </b-collapse>
     </b-card>
 
@@ -166,7 +187,8 @@ export default {
   },
   data () {
     return {
-      isOpen: false, // Is the Directory itself open?
+      isFilesOpen: false, // Is the files list open?
+      isDocsOpen: false, // Is the documents list open?
       isExpanded: false, // Are the child directories viewable?
       editTitle: false,
       infoShow: false,

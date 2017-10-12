@@ -59,10 +59,6 @@
       size="lg"
       @cancel="selectedDocument = null"
       @ok="linkDocument">
-      <b-card title="Linked documents" class="mb-2" v-if="selectedDirectory">
-        <span v-if="selectedDirectory.documents.length === 0">{{ $t('projects.modules.noDocs') }}</span>
-        <Files :files="selectedDirectory.documents" :documents="true"></Files>
-      </b-card>
       <document-list v-if='getAllDocuments().documents.length' v-model="selectedDocument" :picker="true"></document-list>
       <p v-else>
         {{ $t('common.loading') }}
