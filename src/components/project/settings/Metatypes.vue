@@ -96,8 +96,7 @@ export default {
       typeOptions: {
         string: { text: `${this._i18n.t('projects.meta.metatype.types.string')}`, value: 'string' },
         boolean: { text: `${this._i18n.t('projects.meta.metatype.types.boolean')}`, value: 'boolean' },
-        integer: { text: `${this._i18n.t('projects.meta.metatype.types.integer')}`, value: 'integer' },
-        json: { text: `${this._i18n.t('projects.meta.metatype.types.json')}`, value: 'json' }
+        integer: { text: `${this._i18n.t('projects.meta.metatype.types.integer')}`, value: 'integer' }
       },
       newMetatypeForm: {
         key: '',
