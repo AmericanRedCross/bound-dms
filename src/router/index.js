@@ -131,7 +131,7 @@ export default new Router({
           component: ProjectContainer,
           props: true,
           meta: {
-            breadcrumb: 'Project Name'
+            dynamicBc: true
           },
           children: [
             {
