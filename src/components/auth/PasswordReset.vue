@@ -1,7 +1,11 @@
 <template>
   <div class="password-reset row justify-content-center m-t-100">
-    <div class="col-lg-4">
-      <b-card :header="activation ? $t('reset.accountActivation') : $t('reset.passwordReset')" v-if="!done">
+    <div class="col-md-6 col-lg-4 col-sm-8">
+      <b-card v-if="!done">
+        <div class="custom-login-header">
+          <img src="../../assets/img/bound.png" :srcset="logoSrcSet()" height="100px" class="bound-logo"/>
+        </div>
+        <h4 class="mt-3">{{ activation ? $t('reset.accountActivation') : $t('reset.passwordReset') }}</h4>
         <b-form @submit="onSubmit">
           <b-form-group
               :label="$t('reset.newPass')"
@@ -25,8 +29,14 @@
               placeholder="And again"
             ></b-form-input>
           </b-form-group>
-          <b-button type="submit" variant="primary"><fa-icon name="refresh" spin v-show="resetting"></fa-icon> {{ $t('common.submit') }}</b-button>
-          <b-button type="reset" variant="secondary"> {{ $t('common.reset') }}</b-button>
+          <div class="row">
+            <div class="col mb-1">
+              <b-button type="submit" variant="primary" class="w-100"><fa-icon name="refresh" spin v-show="resetting"></fa-icon> {{ $t('common.submit') }}</b-button>
+            </div>
+            <div class="col">
+              <b-button type="reset" variant="secondary" class="w-100"> {{ $t('common.resetForm') }}</b-button>
+            </div>
+          </div>
         </b-form>
       </b-card>
       <b-card v-else header="Thanks" align="center">

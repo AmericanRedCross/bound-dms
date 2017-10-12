@@ -49,11 +49,11 @@ export default {
           label: 'ID',
           sortable: true
         },
-        firstname: {
+        firstName: {
           label: 'First name',
           sortable: true
         },
-        lastname: {
+        lastName: {
           label: 'Last name',
           sortable: true
         },

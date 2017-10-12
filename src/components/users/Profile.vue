@@ -9,9 +9,9 @@
           <dt>{{ $t('projects.profile.email') }}</dt>
           <dd>{{user.email}}</dd>
           <dt>{{ $t('projects.profile.created') }}</dt>
-          <dd>{{user.createdAt}}</dd>
+          <dd>{{user.createdAt | formatDate }}</dd>
           <dt>{{ $t('projects.profile.updated') }}</dt>
-          <dd>{{user.updatedAt}}</dd>
+          <dd>{{user.updatedAt | formatDate }}</dd>
           <dt>{{ $t('projects.profile.status') }}</dt>
           <dd>{{status}}</dd>
         </dl>

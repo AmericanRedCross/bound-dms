@@ -27,7 +27,7 @@ export default{
     loading: 'Loading',
     filter: 'Filter',
     submit: 'Submit',
-    reset: 'Reset',
+    resetForm: 'Reset form',
     pleaseSelect: 'Please select an option',
     validations: {
       required: 'Field is required',
@@ -210,6 +210,8 @@ export default{
       subDirectories: 'DIRECTORIES',
       tools: 'TOOLS',
       edit: 'Edit content',
+      createdBy: 'Created by',
+      lastUpdated: 'Last updated',
       languages: 'Translations',
       content: 'Content & translations',
       setcontent: 'Content set',

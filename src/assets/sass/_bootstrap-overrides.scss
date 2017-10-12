@@ -2,6 +2,16 @@
   svg {
     // Position icons inside buttons properly
     position: relative;
-    top: 2px;
+    top: 3px;
+  }
+}
+
+.card {
+  box-shadow: 0 0 0.5rem 0 rgba(74, 59 ,97 ,0.08);
+  .card-title {
+    font-size: 2rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: rgb(236, 235, 239) 2px solid;
   }
 }
