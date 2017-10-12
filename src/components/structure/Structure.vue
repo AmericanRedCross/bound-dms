@@ -5,12 +5,16 @@
         <v-select v-show="false" v-if="currentProject" :value.sync="selected" :options="getLangOptions"></v-select>
       </div>
       <div class="col-md-8" align="right">
-        <b-button @click="saveStructure" variant="success">{{ $t('common.save')}}</b-button>
+        <b-button @click="saveStructure" variant="success" :disabled="!needsSaving"><fa-icon v-show="isSaving" name="refresh" spin></fa-icon> {{ $t('common.save')}}</b-button>
         <b-button v-if="$auth.check(['admin', 'editor'])" @click="addModule" variant="primary">{{ $t('projects.modules.addTopDirectory')}}</b-button>
       </div>
     </div>
     <draggable v-model="structure" @update="updateDraggable" :options="draggableOptions">
-      <DirectoryComp v-for="module in structure" :key="module.id" :directory="module" :isModule="true"></DirectoryComp>
+      <DirectoryComp
+        v-for="module in structure"
+        :key="module.id"
+        :directory="module"
+        :isModule="true" v-on:structureChange="setNeedsSaving(true)"></DirectoryComp>
     </draggable>
 
     <b-modal
@@ -107,6 +111,8 @@ export default {
       selectedFile: null,
       selectDocShow: false,
       selectedDocument: null,
+      needsSaving: false,
+      isSaving: false,
       draggableOptions: {
         filter: '.ignore-drag',
         animation: 150
@@ -214,7 +220,10 @@ export default {
       })
     },
     saveStructure () {
+      this.setNeedsSaving(false)
+      this.isSaving = true
       this.$store.dispatch('SAVE_STRUCTURE', this.currentProject.id).then(() => {
+        this.isSaving = false
         this.$notifications.notify(
           {
             message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.updated')}`,
@@ -225,6 +234,8 @@ export default {
           })
         this.$store.dispatch('GET_STRUCTURE', this.currentProject.id)
       }).catch(() => {
+        this.setNeedsSaving(true)
+        this.isSaving = false
         this.$notifications.notify(
           {
             message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
@@ -237,6 +248,7 @@ export default {
     },
     addModule () {
       this.$store.dispatch('ADD_TOP_LEVEL_DIRECTORY', { options: {} })
+      this.setNeedsSaving(true)
     },
     updateDraggable (e) {
       // get new and old index
@@ -303,6 +315,9 @@ export default {
             })
         })
       }
+    },
+    setNeedsSaving (needsSaving) {
+      this.needsSaving = needsSaving
     }
   },
   computed: {
@@ -312,6 +327,7 @@ export default {
         return this.$store.state.structure.structure
       },
       set (value) {
+        this.setNeedsSaving(true)
         this.$store.dispatch('UPDATE_STRUCTURE', value)
       }
     },
