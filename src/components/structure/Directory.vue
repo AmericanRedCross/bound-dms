@@ -316,6 +316,7 @@ export default {
         }).then(() => {
           this.$store.dispatch('REMOVE_DIRECTORY', {directoryNumbers: this.directoryNumbers, directory: this.directory})
           this.isExpanded = false
+          this.$emit('structureChange')
         }).catch(this.$swal.noop)
       } else {
         this.$swal({
