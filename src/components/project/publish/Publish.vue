@@ -102,7 +102,7 @@ export default {
       if (this.currentProject) {
         this.currentProject.languages.forEach((lang) => {
           langs.push({
-            label: `${languages[lang.code].name} (${lang.code.toUpperCase()})`,
+            label: `${languages[lang.code].name} (${lang.code})`,
             code: lang.code
           })
         })
