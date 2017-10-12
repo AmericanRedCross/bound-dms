@@ -12,3 +12,9 @@ a {
   background: white;
   border-radius: 3px;
 }
+
+.editor-toolbar {
+  &.fullscreen {
+    z-index: 10 !important;
+  }
+}
