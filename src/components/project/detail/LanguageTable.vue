@@ -161,7 +161,7 @@ export default {
     },
     getLanguage (code) {
       return {
-        label: `${languages[code].name} (${code.toUpperCase()})`,
+        label: `${languages[code].name} (${code})`,
         value: {
           code
         }

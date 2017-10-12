@@ -22,7 +22,7 @@ const translations = {
   mutations: {
     SET_BASE_LANGUAGE: (state, baseLanguage) => {
       state.baseLanguage = {
-        label: `${languages[baseLanguage.code].name} (${baseLanguage.code.toUpperCase()})`,
+        label: `${languages[baseLanguage.code].name} (${baseLanguage.code})`,
         value: baseLanguage
       }
     },
@@ -32,7 +32,7 @@ const translations = {
       languageList.forEach((lang) => {
         if (lang.code !== state.baseLanguage.value.code) {
           state.languages.push({
-            label: `${languages[lang.code].name} (${lang.code.toUpperCase()})`,
+            label: `${languages[lang.code].name} (${lang.code})`,
             value: lang
           })
         }
