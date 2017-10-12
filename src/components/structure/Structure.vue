@@ -80,10 +80,8 @@ import vSelect from 'vue-select'
 import FileList from '../project/documents/FileList'
 import DocumentList from '../project/documents/DocumentList'
 import Files from './Files'
-import { File } from '../../vuex/modules/file/File'
 import { Project } from '../../vuex/modules/project/Project'
 import { mapGetters } from 'vuex'
-import { Document } from '../../vuex/modules/document/Document'
 
 export default {
   name: 'Structure',
@@ -270,12 +268,7 @@ export default {
               type: 'info'
             })
           // Add it to the model so we can see it without reloading
-          this.selectedDirectory.addFile(new File({
-            id: this.selectedFile._id,
-            title: this.selectedFile._title,
-            filename: this.selectedFile._filename,
-            mimeType: this.selectedFile._mimeType
-          }))
+          this.selectedDirectory.addFile(this.selectedFile)
         }).catch(() => {
           this.$notifications.notify(
             {
@@ -300,10 +293,7 @@ export default {
               type: 'info'
             })
           // Add it to the model so we can see it without reloading
-          this.selectedDirectory.addDocument(new Document({
-            id: this.selectedDocument._id,
-            translations: this.selectedDocument._translations
-          }))
+          this.selectedDirectory.addDocument(this.selectedDocument)
         }).catch(() => {
           this.$notifications.notify(
             {

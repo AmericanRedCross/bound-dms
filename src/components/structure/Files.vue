@@ -56,7 +56,12 @@ export default {
   },
   methods: {
     getLanguageName (code) {
-      return `${languages[code].name} (${code})`
+      let language = languages[code]
+      if (language) {
+        return `${language.name} (${code})`
+      } else {
+        return code
+      }
     },
     remove (file) {
       let action = this.documents ? 'UNLINK_DOCUMENT_DIRECTORY' : 'UNLINK_FILE_DIRECTORY'
