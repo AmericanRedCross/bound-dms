@@ -17,7 +17,6 @@ export default {
   name: 'breadcrumbs',
   computed: {
     matchedRoute () {
-      console.log(this.$route.matched)
       return this.$route.matched
     }
   }

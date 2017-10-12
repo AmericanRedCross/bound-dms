@@ -184,7 +184,6 @@ export default {
             type: 'info'
           })
         this.directory.updateTranslation(translation)
-        console.log(this.directory)
       }).catch(() => {
         this.$notifications.notify(
           {

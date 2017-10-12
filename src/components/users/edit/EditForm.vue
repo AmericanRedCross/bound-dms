@@ -118,7 +118,6 @@ export default {
             this.$router.push({ name: 'users' })
           }
         }).catch(() => {
-          console.log('error')
           this.saving = false
           this.$notifications.notify(
             {

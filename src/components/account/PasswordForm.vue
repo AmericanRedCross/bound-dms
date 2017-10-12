@@ -79,7 +79,6 @@ export default {
         .then(this.$auth.refresh())
         .then(this.$router.push({ name: 'profile' }))
         .catch((error) => {
-          console.log(error)
           this.$notifications.notify(
             {
               message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
