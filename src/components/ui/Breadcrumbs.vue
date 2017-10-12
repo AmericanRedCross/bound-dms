@@ -1,23 +1,25 @@
 <template>
-  <ul>
-    <li v-for="route in matchedRoute" v-if="route.meta.breadcrumb || route.meta.dynamicBc">
-       <span v-if="route.meta.breadcrumb">{{ route.meta.breadcrumb }}</span>
-       <span v-else-if="route.meta.dynamicBc">Dynamic link here...</span>
-    </li>
-  </ul>
+  <div class="breadcrumbs">
+    <ul>
+      <breadcrumb
+        v-for="(theRoute, index) in matchedRoute"
+        v-if="theRoute.meta.breadcrumb || theRoute.meta.dynamicBc"
+        :route="theRoute" :key="theRoute.path"></breadcrumb>
+    </ul>
+  </div>
 </template>
 <script>
-
+import Breadcrumb from './Breadcrumb.vue'
 export default {
+  components: {
+    Breadcrumb
+  },
   name: 'breadcrumbs',
   computed: {
     matchedRoute () {
+      console.log(this.$route.matched)
       return this.$route.matched
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>
