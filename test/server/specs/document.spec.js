@@ -147,6 +147,28 @@ describe('API: Documents', () => {
         })
     })
 
+    it('allows empty title and content', (done) => {
+      request(app)
+        .put('/api/documents/1/translations/be')
+        .set('Authorization', 'Bearer ' + this.token)
+        .send({title: '', content: ''})
+        .expect('Content-Type', /json/)
+        .expect(201)
+        .end((err, res) => {
+          if (err) throw err
+          expect(res.body).to.be.an('object')
+          expect(res.body.status).to.equal(201)
+          expect(res.body.data).to.be.an('object')
+          expect(res.body.data.language).to.equal('be')
+          expect(res.body.data.title).to.equal('')
+          expect(res.body.data.content).to.equal('')
+          expect(res.body.data).to.have.property('createdAt')
+          expect(res.body.data).to.have.property('updatedAt')
+
+          done()
+        })
+    })
+
     it('updates an existing translation of the specified language', (done) => {
       request(app)
         .put('/api/documents/1/translations/es')

@@ -22,7 +22,7 @@ router.get('/:id/translations', authService.authenticate(), controller.getAllTra
 router.get('/:id/translations/:language', authService.authenticate(), controller.getTranslation)
 // PUT /api/documents/:id/translations/:language
 router.put('/:id/translations/:language', authService.authenticate(), (req, res, next) => {
-  req.checkBody('title', 'Invalid title').isAscii()
+  req.checkBody('title', 'Invalid title').optional({checkFalsy: true})
   req.checkBody('content').optional({checkFalsy: true})
   req.getValidationResult().then((result) => {
     if (!result.isEmpty()) {
