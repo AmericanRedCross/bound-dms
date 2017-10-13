@@ -97,7 +97,6 @@ export default {
         // Pre confirm it. Used for async requests. Close the dialoag when this is finished
         preConfirm: () => {
           return new Promise((resolve, reject) => {
-            console.log(e.target)
             let user = this.getUserById(parseInt(e.target.dataset.id, 10))
             if (user) {
               // If the user exists then call the delete

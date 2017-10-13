@@ -68,7 +68,9 @@ export default new Router({
       component: UserContainer,
       meta: {
         auth: ['admin'],
-        breadcrumb: 'Users'
+        breadcrumb: 'Users',
+        dynamicBc: true,
+        linkNameBc: 'users'
       },
       children: [
         {
@@ -108,14 +110,17 @@ export default new Router({
       path: '/projects',
       component: ProjectsContainer,
       meta: {
-        auth: true,
-        breadcrumb: 'Projects'
+        auth: true
       },
       children: [
         {
           path: '',
           name: 'projects',
-          component: ListProjects
+          props: true,
+          component: ListProjects,
+          meta: {
+            breadcrumb: 'Projects'
+          }
         },
         {
           path: 'new',
@@ -129,9 +134,20 @@ export default new Router({
         {
           path: ':id/',
           component: ProjectContainer,
+          name: 'current-project',
           props: true,
           meta: {
-            breadcrumb: 'Project Name'
+            dynamicBc: true,
+            dynamicBcProps: ['id'],
+            dynamicBcGetter: 'getCurrentProject',
+            linkBcText: (project) => {
+              if (project) {
+                return project.name
+              }
+              return ''
+            },
+            linkNameBc: 'project-detail',
+            breadcrumb: 'Project'
           },
           children: [
             {

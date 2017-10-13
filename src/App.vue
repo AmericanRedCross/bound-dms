@@ -23,6 +23,7 @@
 import { mapGetters } from 'vuex'
 import Navbar from './components/ui/Navbar.vue'
 import Sidebar from './components/ui/Sidebar.vue'
+import Breadcrumbs from './components/ui/Breadcrumbs.vue'
 import PaperNotification from './components/ui/NotificationPlugin/Notification.vue'
 
 export default {
@@ -30,7 +31,8 @@ export default {
   components: {
     Navbar,
     Sidebar,
-    PaperNotification
+    PaperNotification,
+    Breadcrumbs
   },
   data () {
     return {

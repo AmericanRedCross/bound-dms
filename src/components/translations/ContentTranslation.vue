@@ -221,7 +221,6 @@ export default {
             verticalAlign: 'bottom',
             type: 'info'
           })
-        console.log('here is a trans ref', this.translationDocReference)
       }).catch(() => {
         this.saving = false
         this.$notifications.notify(

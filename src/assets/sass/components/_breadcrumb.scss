@@ -14,7 +14,11 @@
       margin-bottom: 0;
       padding-left: 20px;
       li {
+        text-transform: uppercase;
         display: inline-block;
+        a {
+          color: $primary-dark;
+        }
         &:only-child, &:last-child {
           &:after {
             content: '';
@@ -30,7 +34,7 @@
           }
         }
         &:after {
-          content: '/';
+          content: '>';
           color: $bread-last-child;
           margin: 0 5px;
         }

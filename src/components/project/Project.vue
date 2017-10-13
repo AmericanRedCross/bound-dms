@@ -44,6 +44,7 @@ export default {
           this.$store.dispatch('CHANGE_BASE_LANGUAGE', baseLang)
         }
         this.$store.dispatch('CHANGE_AVAILABLE_LANGUAGES', this.project.languages)
+        this.$store.dispatch('SET_CURRENT_PROJECT', this.project)
         this.fetchingProject = false
       }).catch(() => {
         this.fetchingProject = false
