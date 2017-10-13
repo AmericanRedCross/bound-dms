@@ -8,9 +8,15 @@
       <div class="d-flex align-items-baseline flex-wrap content">
 
         <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-for="number in directoryNumbers">{{ number + 1}}.</span><span>{{ directory.order + 1}}</span></h4>
-        <i v-if="!editTitle" class="ml-2" @click="editTitle = true">
+        <i v-if="!editTitle" class="ml-2" @click="editTitle = directory.id === null ? false : true">
           <span v-if="title.length > 0">{{ title }}</span>
-          <b-badge variant="danger" v-else>{{$t('projects.modules.noTitle')}}</b-badge>
+          <b-badge
+            v-b-tooltip.hover.auto
+            :title="directory.id === null ? $t('projects.modules.saveStructure') : ''"
+            variant="danger"
+            v-else>
+            {{$t('projects.modules.noTitle')}}
+          </b-badge>
         </i>
 
         <span class="title-input ml-2" v-else>
