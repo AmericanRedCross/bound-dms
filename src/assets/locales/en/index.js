@@ -172,7 +172,9 @@ export default{
       noDocs: 'No documents here',
       selectFile: 'Select file',
       titlePlaceholder: 'Enter a title',
-      noTitle: 'No title set'
+      noTitle: 'No title set',
+      getStarted: 'a directory to get started',
+      emptyMeta: 'This project has no metadata types added. Add it in the project settings to get started.'
     },
     settings: {
       header: 'Project settings',
@@ -297,6 +299,7 @@ export default{
       title: 'Documents',
       upload: 'Document upload',
       create: 'Create document',
+      emptystate: 'No documents have been created yet',
       edit: {
         titlePlaceholder: 'Document title',
         titleNeeded: 'Don\'t forget to add a title',

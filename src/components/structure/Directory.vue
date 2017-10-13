@@ -8,9 +8,15 @@
       <div class="d-flex align-items-baseline flex-wrap content">
 
         <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-for="number in directoryNumbers">{{ number + 1}}.</span><span>{{ directory.order + 1}}</span></h4>
-        <i v-if="!editTitle" class="ml-2" @click="editTitle = true">
+        <i v-if="!editTitle" class="ml-2" @click="editTitle = directory.id === null ? false : true">
           <span v-if="title.length > 0">{{ title }}</span>
-          <b-badge variant="danger" v-else>{{$t('projects.modules.noTitle')}}</b-badge>
+          <b-badge
+            v-b-tooltip.hover.auto
+            :title="directory.id === null ? $t('projects.modules.saveStructure') : ''"
+            variant="danger"
+            v-else>
+            {{$t('projects.modules.noTitle')}}
+          </b-badge>
         </i>
 
         <span class="title-input ml-2" v-else>
@@ -30,9 +36,7 @@
 
         <!-- Push this stuff right-->
         <div class="ml-auto">
-          <b-badge variant="danger" v-show="untranslated">Untranslated</b-badge>
-
-          <b-dropdown right no-flip class="m-md-2 directory-actions ignore-drag" variant="outline-primary">
+          <b-dropdown right no-flip class="directory-actions ignore-drag btn-less-padding" variant="outline-primary">
             <fa-icon name="cog" slot="text"></fa-icon>
 
             <b-dropdown-item @click="editTitle = true" class="directory-action" :disabled="directory.id === null">
@@ -40,11 +44,6 @@
                 <fa-icon name="font"></fa-icon>
                 {{ $t('common.rename') }}
               </span>
-            </b-dropdown-item>
-
-            <b-dropdown-item href="#" class="directory-action" @click="infoShow = !infoShow">
-              <fa-icon name="info-circle"></fa-icon>
-              {{ $t('common.info') }}
             </b-dropdown-item>
 
             <b-dropdown-item v-if="isShown" @click="addDirectory" class="directory-action" :disabled="directory.id === null">
@@ -129,14 +128,14 @@
         <p class="mt-1">
           {{ $t('projects.files.files') }}
         </p>
-        <Files :files="directory.files"></Files>
+        <Files :files="directory.files" v-on:close="isFilesOpen = false"></Files>
       </b-collapse>
 
       <b-collapse :visible="isDocsOpen" id="collapse-extra-document-content">
         <p class="mt-1">
           {{ $t('projects.modules.addDocument') }}
         </p>
-        <Files :files="directory.documents" :documents="true"></Files>
+        <Files :files="directory.documents" v-on:close="isDocsOpen = false" :documents="true"></Files>
       </b-collapse>
     </b-card>
 
@@ -210,7 +209,6 @@ export default {
       isExpanded: false, // Are the child directories viewable?
       editTitle: false,
       infoShow: false,
-      untranslated: false,
       title: '',
       draggableOptions: {
         filter: '.ignore-drag',

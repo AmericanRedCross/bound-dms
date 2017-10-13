@@ -4,18 +4,23 @@
       <div class="col-4">
         <v-select v-show="false" v-if="currentProject" :value.sync="selected" :options="getLangOptions"></v-select>
       </div>
-      <div class="col-md-8" align="right">
+      <div class="col-md-8 mb-2" align="right">
         <b-button @click="saveStructure" variant="success" :disabled="!needsSaving"><fa-icon v-show="isSaving" name="refresh" spin></fa-icon> {{ $t('common.save')}}</b-button>
         <b-button v-if="$auth.check(['admin', 'editor'])" @click="addModule" variant="primary">{{ $t('projects.modules.addTopDirectory')}}</b-button>
       </div>
     </div>
-    <draggable v-model="structure" @update="updateDraggable" :options="draggableOptions">
+    <draggable v-if="structure.length > 0" v-model="structure" @update="updateDraggable" :options="draggableOptions" class="mb-4">
       <DirectoryComp
         v-for="module in structure"
         :key="module.id"
         :directory="module"
         :isModule="true" v-on:structureChange="setNeedsSaving(true)"></DirectoryComp>
     </draggable>
+    <div class="row" v-else>
+      <div class="col text-center">
+        <h3><b-button variant="outline-primary" @click="addModule">{{ $t('common.add') }}</b-button> {{ $t('projects.modules.getStarted')}}</h3>
+      </div>
+    </div>
 
     <b-modal
       @ok="saveMetadata"
@@ -27,18 +32,23 @@
       title="Metadata"
       size="lg"
     >
-      <div v-for="meta in selectedMetadata" v-if="selectedMetadata[0]">
-        <h5>{{ meta.key }}</h5>
-        <b-form-select v-if="meta.type === 'boolean'" v-model="meta.value" :options="booleanValues">
-        </b-form-select>
-        <b-form-input  v-else-if="meta.type === 'integer'"
-                       type="number"
-                       v-model="meta.value"
-        ></b-form-input>
-        <b-form-input v-else
-                      type="text"
-                      v-model="meta.value"
-        ></b-form-input>
+      <div v-if="selectedMetadata">
+        <div v-for="meta in selectedMetadata" v-if="selectedMetadata[0]" class="mb-2">
+          <h5>{{ meta.key }}</h5>
+          <b-form-select v-if="meta.type === 'boolean'" v-model="meta.value" :options="booleanValues">
+          </b-form-select>
+          <b-form-input  v-else-if="meta.type === 'integer'"
+                         type="number"
+                         v-model="meta.value"
+          ></b-form-input>
+          <b-form-input v-else
+                        type="text"
+                        v-model="meta.value"
+          ></b-form-input>
+        </div>
+        <p v-if="selectedMetadata.length === 0">
+          {{ $t('projects.modules.emptyMeta') }}
+        </p>
       </div>
     </b-modal>
 
@@ -63,10 +73,7 @@
       size="lg"
       @cancel="selectedDocument = null"
       @ok="linkDocument">
-      <document-list v-if='getAllDocuments().documents.length' v-model="selectedDocument" :picker="true"></document-list>
-      <p v-else>
-        {{ $t('common.loading') }}
-      </p>
+      <document-list v-model="selectedDocument" :picker="true"></document-list>
     </b-modal>
 
   </div>
