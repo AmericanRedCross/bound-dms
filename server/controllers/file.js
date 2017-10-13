@@ -11,8 +11,8 @@ module.exports = {
     fileService.getForProjectId(page, limit, projectId, filter).then(({rows, count}) => {
       res.status(200).json({
         status: 200,
-        data: {
-          files: rows,
+        data: rows,
+        meta: {
           total: count
         }
       })

@@ -21,12 +21,14 @@ describe('API: Documents', () => {
           if (err) throw err
           expect(res.body).to.be.an('object')
           expect(res.body.status).to.equal(200)
-          expect(res.body.data).to.be.an('object')
-          expect(res.body.data.documents).to.be.an('array')
-          expect(res.body.data.documents[0]).to.be.an('object')
-          expect(res.body.data.documents[0]).to.have.property('directory')
-          expect(res.body.data.documents[0].createdBy).to.be.an('object')
-          expect(res.body.data.documents[0].translations).to.be.an('array')
+          expect(res.body.data).to.be.an('array')
+          expect(res.body.data[0]).to.be.an('object')
+          expect(res.body.data[0]).to.have.property('directory')
+          expect(res.body.data[0].createdBy).to.be.an('object')
+          expect(res.body.data[0].translations).to.be.an('array')
+
+          expect(res.body.meta).to.be.an('object')
+          expect(res.body.meta.total).to.be.a('number')
 
           done()
         })

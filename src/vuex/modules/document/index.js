@@ -13,13 +13,13 @@ const documents = {
   },
   mutations: {
     SET_ALL_DOCUMENTS: (state, { response }) => {
-      if (response.data.documents instanceof Array) {
+      if (response.data instanceof Array) {
         state.documents = []
-        response.data.documents.forEach((item) => {
+        response.data.forEach((item) => {
           state.documents.push(new Document(item))
         })
       }
-      state.total = response.data.total
+      state.total = response.meta.total
     },
     SET_BASE_TRANSLATE_DOCUMENT: (state, { response, isBase }) => {
       if (isBase) {

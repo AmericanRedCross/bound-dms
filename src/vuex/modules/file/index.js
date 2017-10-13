@@ -10,13 +10,13 @@ const files = {
   },
   mutations: {
     SET_ALL_FILES: (state, { response }) => {
-      if (response.data.files instanceof Array) {
+      if (response.data instanceof Array) {
         state.files = []
-        response.data.files.forEach((item) => {
+        response.data.forEach((item) => {
           state.files.push(new File(item))
         })
       }
-      state.total = response.data.total
+      state.total = response.meta.total
     },
     UPDATE_FILE: (state, { response }) => {
       const fileIdx = state.files.findIndex(file => file.id === response.data.id)

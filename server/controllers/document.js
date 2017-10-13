@@ -40,8 +40,8 @@ module.exports = {
     }).then(({rows, count}) => {
       return res.status(200).json({
         status: 200,
-        data: {
-          documents: rows,
+        data: rows,
+        meta: {
           total: count
         }
       })
