@@ -9,7 +9,7 @@
         <b-button v-if="$auth.check(['admin', 'editor'])" @click="addModule" variant="primary">{{ $t('projects.modules.addTopDirectory')}}</b-button>
       </div>
     </div>
-    <draggable v-if="structure.length > 0" v-model="structure" @update="updateDraggable" :options="draggableOptions">
+    <draggable v-if="structure.length > 0" v-model="structure" @update="updateDraggable" :options="draggableOptions" class="mb-4">
       <DirectoryComp
         v-for="module in structure"
         :key="module.id"
