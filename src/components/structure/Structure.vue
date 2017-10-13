@@ -9,13 +9,18 @@
         <b-button v-if="$auth.check(['admin', 'editor'])" @click="addModule" variant="primary">{{ $t('projects.modules.addTopDirectory')}}</b-button>
       </div>
     </div>
-    <draggable v-model="structure" @update="updateDraggable" :options="draggableOptions">
+    <draggable v-if="structure.length > 0" v-model="structure" @update="updateDraggable" :options="draggableOptions">
       <DirectoryComp
         v-for="module in structure"
         :key="module.id"
         :directory="module"
         :isModule="true" v-on:structureChange="setNeedsSaving(true)"></DirectoryComp>
     </draggable>
+    <div class="row" v-else>
+      <div class="col text-center">
+        <h3><b-button variant="outline-primary" @click="addModule">{{ $t('common.add') }}</b-button> {{ $t('projects.modules.getStarted')}}</h3>
+      </div>
+    </div>
 
     <b-modal
       @ok="saveMetadata"

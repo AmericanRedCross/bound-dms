@@ -172,7 +172,8 @@ export default{
       noDocs: 'No documents here',
       selectFile: 'Select file',
       titlePlaceholder: 'Enter a title',
-      noTitle: 'No title set'
+      noTitle: 'No title set',
+      getStarted: 'a directory to get started'
     },
     settings: {
       header: 'Project settings',
