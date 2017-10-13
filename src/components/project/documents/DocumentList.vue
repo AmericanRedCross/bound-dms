@@ -15,7 +15,7 @@
                   :fields="headers()"
                   :per-page="perPage"
                   :show-empty="true"
-                  :empty-text="$t('files.emptystate')"
+                  :empty-text="$t('projects.documents.emptystate')"
                   :filter="filter"
                   id="files-table"
                   @row-clicked="rowSelected"
