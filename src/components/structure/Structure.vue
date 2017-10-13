@@ -4,7 +4,7 @@
       <div class="col-4">
         <v-select v-show="false" v-if="currentProject" :value.sync="selected" :options="getLangOptions"></v-select>
       </div>
-      <div class="col-md-8" align="right">
+      <div class="col-md-8 mb-2" align="right">
         <b-button @click="saveStructure" variant="success" :disabled="!needsSaving"><fa-icon v-show="isSaving" name="refresh" spin></fa-icon> {{ $t('common.save')}}</b-button>
         <b-button v-if="$auth.check(['admin', 'editor'])" @click="addModule" variant="primary">{{ $t('projects.modules.addTopDirectory')}}</b-button>
       </div>

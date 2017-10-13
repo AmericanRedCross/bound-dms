@@ -38,7 +38,7 @@
         <div class="ml-auto">
           <b-badge variant="danger" v-show="untranslated">Untranslated</b-badge>
 
-          <b-dropdown right no-flip class="m-md-2 directory-actions ignore-drag" variant="outline-primary">
+          <b-dropdown right no-flip class="directory-actions ignore-drag btn-less-padding" variant="outline-primary">
             <fa-icon name="cog" slot="text"></fa-icon>
 
             <b-dropdown-item @click="editTitle = true" class="directory-action" :disabled="directory.id === null">

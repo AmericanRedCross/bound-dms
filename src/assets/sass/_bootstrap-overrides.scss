@@ -6,6 +6,12 @@
   }
 }
 
+.btn-less-padding {
+  .btn {
+    padding: 0.5rem 0.7rem;
+  }
+}
+
 .card {
   box-shadow: 0 0 0.5rem 0 rgba(74, 59 ,97 ,0.08);
   .card-title {

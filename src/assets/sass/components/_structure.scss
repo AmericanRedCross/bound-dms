@@ -18,11 +18,15 @@
   .title-input {
     width: 50%;
   }
-  .directory-action {
-    svg {
-      top: 1px;
-      position: relative;
-      min-width: 25px;
+  .directory-actions {
+    position: relative;
+    top: 0.9rem;
+    .directory-action {
+      svg {
+        top: 1px;
+        position: relative;
+        min-width: 25px;
+      }
     }
   }
   .critical-icon {
