@@ -36,8 +36,6 @@
 
         <!-- Push this stuff right-->
         <div class="ml-auto">
-          <b-badge variant="danger" v-show="untranslated">Untranslated</b-badge>
-
           <b-dropdown right no-flip class="directory-actions ignore-drag btn-less-padding" variant="outline-primary">
             <fa-icon name="cog" slot="text"></fa-icon>
 
@@ -46,11 +44,6 @@
                 <fa-icon name="font"></fa-icon>
                 {{ $t('common.rename') }}
               </span>
-            </b-dropdown-item>
-
-            <b-dropdown-item href="#" class="directory-action" @click="infoShow = !infoShow">
-              <fa-icon name="info-circle"></fa-icon>
-              {{ $t('common.info') }}
             </b-dropdown-item>
 
             <b-dropdown-item v-if="isShown" @click="addDirectory" class="directory-action" :disabled="directory.id === null">
@@ -216,7 +209,6 @@ export default {
       isExpanded: false, // Are the child directories viewable?
       editTitle: false,
       infoShow: false,
-      untranslated: false,
       title: '',
       draggableOptions: {
         filter: '.ignore-drag',
