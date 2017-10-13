@@ -128,14 +128,14 @@
         <p class="mt-1">
           {{ $t('projects.files.files') }}
         </p>
-        <Files :files="directory.files"></Files>
+        <Files :files="directory.files" v-on:close="isFilesOpen = false"></Files>
       </b-collapse>
 
       <b-collapse :visible="isDocsOpen" id="collapse-extra-document-content">
         <p class="mt-1">
           {{ $t('projects.modules.addDocument') }}
         </p>
-        <Files :files="directory.documents" :documents="true"></Files>
+        <Files :files="directory.documents" v-on:close="isDocsOpen = false" :documents="true"></Files>
       </b-collapse>
     </b-card>
 
