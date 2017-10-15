@@ -6,6 +6,7 @@
               :fields="headers"
               :show-empty="true"
               :empty-text="$t('projects.keys.emptystate')"
+              class="table-responsive"
               id="apikey-table"
       >
         <template slot="name" scope="item">

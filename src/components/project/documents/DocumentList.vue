@@ -18,6 +18,7 @@
                   :empty-text="$t('projects.documents.emptystate')"
                   :filter="filter"
                   id="files-table"
+                  class="table-responsive"
                   @row-clicked="rowSelected"
           >
             <template slot="title" scope="item">

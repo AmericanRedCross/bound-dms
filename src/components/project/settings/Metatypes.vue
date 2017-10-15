@@ -6,6 +6,7 @@
               :fields="headers"
               :show-empty="true"
               :empty-text="$t('projects.meta.metatype.emptystate')"
+              class="table-responsive"
               id="meta-table"
       >
         <template slot="key" scope="item">
