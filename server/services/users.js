@@ -55,6 +55,13 @@ module.exports = {
       }
     })
   },
+  findByActivationCode (code) {
+    return User.find({
+      where: {
+        activationCode: code
+      }
+    })
+  },
   /**
     * Deletes a single by id.
     * @return Promise
