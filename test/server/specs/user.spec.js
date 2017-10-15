@@ -58,17 +58,18 @@ describe('API: User', () => {
     })
   })
 
-  describe('PUT /api/users', () => {
+  describe('POST /api/users', () => {
     it('creates a user', (done) => {
       const user = {
         'email': 'test@test.com',
-        'password': 'some_password',
+        'role': 'admin',
         'firstname': 'Test',
-        'lastname': 'User'
+        'lastname': 'User',
+        'isActive': true
       }
 
       request(app)
-        .put('/api/users')
+        .post('/api/users')
         .set('Authorization', 'Bearer ' + this.token)
         .send(user)
         .expect(201)
@@ -87,24 +88,46 @@ describe('API: User', () => {
         })
     })
 
-    it('defaults new users to inactive', (done) => {
+    it('ensures new users can not be created by editor role', (done) => {
       const user = {
         'email': 'test@2test.com',
-        'password': 'some_password',
         'firstname': 'Test2',
-        'lastname': 'User'
+        'lastname': 'User',
+        'role': 'admin',
+        'isActive': true
       }
 
+      const token = jwt.sign({sub: 2, expiresIn: '1 day'}, config.jwtSecretKey)
+
       request(app)
-        .put('/api/users')
-        .set('Authorization', 'Bearer ' + this.token)
+        .post('/api/users')
+        .set('Authorization', 'Bearer ' + token)
         .send(user)
-        .expect(201)
+        .expect(403)
         .end((err, res) => {
           if (err) throw err
-          expect(res.body.status).to.equal(201)
-          expect(res.body.data).to.have.property('isActive')
-          expect(res.body.data.isActive).to.be.false
+          done()
+        })
+    })
+
+    it('ensures new users can not be created by translator role', (done) => {
+      const user = {
+        'email': 'test@2test.com',
+        'firstname': 'Test2',
+        'lastname': 'User',
+        'role': 'admin',
+        'isActive': true
+      }
+
+      const token = jwt.sign({sub: 3, expiresIn: '1 day'}, config.jwtSecretKey)
+
+      request(app)
+        .post('/api/users')
+        .set('Authorization', 'Bearer ' + token)
+        .send(user)
+        .expect(403)
+        .end((err, res) => {
+          if (err) throw err
           done()
         })
     })
@@ -126,6 +149,7 @@ describe('API: User', () => {
           expect(res.body.data).to.have.property('firstname')
           expect(res.body.data).to.have.property('lastname')
           expect(res.body.data).to.have.property('isActive')
+          expect(res.body.data).to.have.property('role')
           expect(res.body.data).to.have.property('createdAt')
           expect(res.body.data).to.have.property('updatedAt')
           done()
@@ -133,20 +157,22 @@ describe('API: User', () => {
     })
   })
 
-  describe('POST /api/users/:id', () => {
+  describe('PUT /api/users/:id', () => {
     it('updates a user', (done) => {
-
       const user = {
         'firstname': 'new_firstname',
         'lastname': 'new_lastname'
       }
       request(app)
-        .post('/api/users/1')
+        .put('/api/users/1')
         .set('Authorization', 'Bearer ' + this.token)
         .send(user)
+        .expect(200)
         .expect('Content-Type', /json/)
         .end((err, res) => {
           if (err) throw err
+
+          expect(res.body.status).to.equal(200)
           expect(res.body.data).to.have.property('id')
           expect(res.body.data.id).to.equal(1)
           expect(res.body.data).to.have.property('email')
@@ -154,6 +180,30 @@ describe('API: User', () => {
           expect(res.body.data.firstname).to.equal('new_firstname')
           expect(res.body.data).to.have.property('lastname')
           expect(res.body.data.lastname).to.equal('new_lastname')
+          expect(res.body.data).to.have.property('isActive')
+          expect(res.body.data).to.have.property('role')
+          done()
+        })
+    })
+
+    it('ensures only admin users may update another user', (done) => {
+      const user = {
+        'firstname': 'newer_firstname',
+        'lastname': 'newer_lastname'
+      }
+
+      const token = jwt.sign({sub: 2, expiresIn: '1 day'}, config.jwtSecretKey)
+
+      request(app)
+        .put('/api/users/1')
+        .set('Authorization', 'Bearer ' + token)
+        .send(user)
+        .expect(403)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          if (err) throw err
+
+          expect(res.body.status).to.equal(403)
           done()
         })
     })
