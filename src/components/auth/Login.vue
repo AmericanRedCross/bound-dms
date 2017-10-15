@@ -35,10 +35,10 @@
             </b-form-fieldset>
           </b-form-group>
           <div align="center">
-            <b-button variant="link" @click="forgottenPass = true" v-if="!forgottenPass">{{ $t('login.forgot') }}</b-button><br>
             <b-button @click="authenticate" type="submit" variant="primary" :disabled='sigingIn' id="login" v-if="!forgottenPass" size="lg" class="w-100">
               <fa-icon  v-show="sigingIn" name="refresh" spin></fa-icon> {{ $t('login.login') }}
             </b-button>
+            <b-button variant="link" @click="forgottenPass = true" v-if="!forgottenPass">{{ $t('login.forgot') }}</b-button><br>
             <b-button @click="forgot" variant="primary" :disabled='sigingIn' id="login" v-if="forgottenPass" size="lg" class="w-100">
               <fa-icon v-show="resetting" name="refresh" spin></fa-icon> {{ $t('login.reset') }}
             </b-button>
