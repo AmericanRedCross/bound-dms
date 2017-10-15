@@ -69,7 +69,7 @@ module.exports = {
     }
   },
   testing: {
-    systemHostname: process.env.HOST,
+    systemHostname: process.env.HOST || 'localhost',
     enableHttps: process.env.HTTPS || false,
     jwtSecretKey: 'secret_key',
     username: process.env.DB_USER,

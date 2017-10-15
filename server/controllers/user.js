@@ -23,13 +23,18 @@ module.exports = {
     res.status(200).json({status: 200, data: req.user})
   },
   createUser (req, res, next) {
-    users.create(req.body).then((user) => {
+    const createPromise = users.create(req.body)
+    const activatePromise = createPromise.then((user) => {
       audit.emit('event:userCreated', user.id, req.user.id)
-      res.status(201).json({status: 201, data: user})
-      return
+      return users.sendActivationEmail(user)
+    })
+
+    Promise.all([createPromise, activatePromise]).then(([user, email]) => {
+      console.log('email sent')
+      return res.status(201).json({status: 201, data: user})
     }).catch((err) => {
-      res.status(500).json({status: 500, message: 'Could not create user'})
       console.log('User error: ' + err)
+      return res.status(500).json({status: 500, message: 'Could not create user'})
     })
   },
   updateUser (req, res, next) {

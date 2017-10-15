@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     role: {type: DataTypes.STRING, defaultValue: null},
     password: DataTypes.STRING,
     isActive: {type: DataTypes.BOOLEAN, defaultValue: false},
-    activationCode: {type: DataTypes.String, defaultValue: null}
+    activationCode: {type: DataTypes.STRING, defaultValue: null}
   })
 
   /**
