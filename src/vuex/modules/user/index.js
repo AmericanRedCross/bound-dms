@@ -54,7 +54,7 @@ const users = {
     },
     // PUT a user (create)
     CREATE_USER: function ({ commit }, data) {
-      return axios.put(USER_ROOT, {
+      return axios.post(USER_ROOT, {
         firstname: data.firstName,
         lastname: data.lastName,
         email: data.email,
@@ -67,7 +67,7 @@ const users = {
     },
     // POST a user (update)
     UPDATE_USER: function ({ commit }, data) {
-      return axios.post(USER_ROOT + '/' + data.id, data)
+      return axios.put(USER_ROOT + '/' + data.id, data)
       .then((response) => {
         commit('SET_USER', { response: response.data })
       }, (err) => {
