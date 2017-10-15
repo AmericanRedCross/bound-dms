@@ -44,7 +44,10 @@
             </b-button>
           </div>
         </b-form>
-        <p class="mt-4" v-else>{{ $t('login.resetSent') }} {{ email }}</p>
+        <div v-else align="center">
+          <p class="mt-4 mb-2">{{ $t('login.resetSent') }} {{ email }}</p>
+          <b-button variant="outline-primary" @click="resetSent = forgottenPass = false" class="pl-5 pr-5">{{ $t('login.login') }}</b-button>
+        </div>
       </b-card>
     </div>
   </div>
