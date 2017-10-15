@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt')
+const crypto = require('crypto')
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
@@ -19,7 +20,8 @@ module.exports = {
         email: 'user@domain.com',
         password: bcrypt.hashSync('12345678', 12),
         isActive: true,
-        role: 'admin'
+        role: 'admin',
+        activationCode: crypto.randomBytes(32).toString('hex')
       },
       {
         firstname: 'Another',
@@ -27,7 +29,8 @@ module.exports = {
         email: 'another@domain.com',
         password: bcrypt.hashSync('12345678', 12),
         isActive: true,
-        role: 'editor'
+        role: 'editor',
+        activationCode: crypto.randomBytes(32).toString('hex')
       },
       {
         firstname: 'Third',
@@ -35,7 +38,8 @@ module.exports = {
         email: 'third@domain.com',
         password: bcrypt.hashSync('12345678', 12),
         isActive: true,
-        role: 'translator'
+        role: 'translator',
+        activationCode: crypto.randomBytes(32).toString('hex')
       }
     ], {})
   },

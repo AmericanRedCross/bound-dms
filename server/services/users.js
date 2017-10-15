@@ -107,7 +107,6 @@ module.exports = {
         console.error(err)
         return false
       })
-      console.log('send the email!')
     }).catch(err => {
       console.error(err)
     })
