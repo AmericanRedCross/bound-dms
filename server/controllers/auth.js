@@ -66,5 +66,23 @@ module.exports = {
       console.error(err)
       return res.status(500).json({status: 500, message: 'Could not reset password'})
     })
+  },
+
+  activateAccount (req, res, next) {
+    users.findByActivationCode(req.body.code).then((user) => {
+      if (!user) {
+        return res.status(401).json({status: 401, message: 'Could not activate account'})
+      }
+
+      return users.updatePassword(user.id, req.body.password).then(() => {
+        user.activationCode = null
+        return user.save()
+      })
+    }).then(() => {
+      return res.status(200).json({status: 200, message: 'Account has been activated'})
+    }).catch(err => {
+      console.error(err)
+      return res.status(500).json({status: 500, message: 'Could not activate account'})
+    })
   }
 }

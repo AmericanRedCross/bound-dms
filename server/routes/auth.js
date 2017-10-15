@@ -67,4 +67,23 @@ router.post('/password/update', (req, res, next) => {
   })
 }, controller.handlePasswordReset)
 
+router.post('/activate', (req, res, next) => {
+  req.checkBody({
+    'code': {
+      notEmpty: true
+    },
+    'password': {
+      notEmpty: true
+    }
+  })
+
+  req.getValidationResult().then((result) => {
+    if (!result.isEmpty()) {
+      res.status(400).json({status: 400, errors: result.array()})
+      return
+    }
+    next()
+  })
+}, controller.activateAccount)
+
 module.exports = router
