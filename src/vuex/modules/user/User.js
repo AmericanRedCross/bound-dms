@@ -1,9 +1,9 @@
 export class User {
   constructor ({
     id = null,
-    firstname = null,
-    lastname = null,
-    email = null,
+    firstname = '',
+    lastname = '',
+    email = '',
     isActive = false,
     role = null,
     createdAt = null,
