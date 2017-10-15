@@ -13,6 +13,7 @@
                   :filter="filter"
                   id="userTable"
                   @row-clicked="rowClicked"
+                  class="table-responsive"
           >
           <template slot="picture" scope="user">
             <v-gravatar class="user-icon" :email="user.item.email" default-img="mm" :size="80"> </v-gravatar>

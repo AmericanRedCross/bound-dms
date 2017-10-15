@@ -160,6 +160,7 @@
         <b-table striped hover
                    :items="items"
                    :fields="fields"
+                   class="table-responsive"
         >
           <template slot="actions" scope="item">
             <b-btn size="sm" @click="details(item.item)">{{ $t('common.edit')}}</b-btn>

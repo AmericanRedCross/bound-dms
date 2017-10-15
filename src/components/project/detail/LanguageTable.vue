@@ -5,6 +5,7 @@
       :fields="languageHeaders"
       :show-empty="true"
       :empty-text="$t('projects.languages.noLangs')"
+      class="table-responsive"
       id="language-table">
 
       <template slot="language" scope="item">

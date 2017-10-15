@@ -32,6 +32,7 @@
                   :show-empty="true"
                   :empty-text="$t('files.emptystate')"
                   id="files-table"
+                  class="table-responsive"
                   @row-clicked="rowSelected"
           >
             <template slot="_title" scope="item">
