@@ -10,13 +10,18 @@
             <dt>{{ $t('projects.profile.email') }}</dt>
             <dd>{{ user.email }}</dd>
             <dt>{{ $t('projects.profile.created') }}</dt>
-            <dd>{{ user.createdAt }}</dd>
+            <dd>{{ user.createdAt | formatDate }}</dd>
             <dt>{{ $t('projects.profile.updated') }}</dt>
-            <dd>{{ user.updatedAt }}</dd>
+            <dd>{{ user.updatedAt | formatDate }}</dd>
           </dl>
           <p class="card"
           <b-button class="card-link" variant="primary" :to="{ name: 'user-edit', params: { id: user.id }}">{{ $t('projects.profile.edituser') }}</b-button>
-          <b-button class="card-link" variant="primary" :to="{ name: 'change-password', params: { id: user.id }}">{{ $t('projects.profile.changepassword') }}</b-button>
+          <b-button class="card-link" variant="primary" @click="resetPassword">
+            <fa-icon v-show="resetting" name="refresh" spin></fa-icon> {{ $t('login.reset') }}
+          </b-button>
+          <small v-if="resetSent">
+            {{ $t('login.resetSent') }} {{ user.email }}
+          </small>
         </b-card>
       </div>
     </div>
@@ -25,12 +30,15 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import axios from 'axios'
 
 export default {
   name: '',
   data () {
     return {
-      user: null
+      user: null,
+      resetting: false,
+      resetSent: false
     }
   },
   mounted () {
@@ -52,6 +60,28 @@ export default {
       })
     } else {
       // oops
+    }
+  },
+  methods: {
+    resetPassword () {
+      if (this.user) {
+        this.resetting = true
+        axios.post('/auth/password/reset', {email: this.user.email}).then(() => {
+          this.resetting = false
+          this.resetSent = true
+        }).catch(() => {
+          this.resetting = false
+          this.resetSent = false
+          this.$notifications.notify(
+            {
+              message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+              icon: 'exclamation-triangle',
+              horizontalAlign: 'right',
+              verticalAlign: 'bottom',
+              type: 'danger'
+            })
+        })
+      }
     }
   },
   computed: {
