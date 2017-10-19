@@ -4,6 +4,7 @@ const config = require('../config')
 const path = require('path')
 const User = require('../models').User
 const Directory = require('../models').Directory
+const archiver = require('archiver')
 
 module.exports = () => {
   return {
@@ -82,6 +83,46 @@ module.exports = () => {
     },
     update: (file, params) => {
       return file.update(params, {fields: File.massAssignable()})
+    },
+    getForProjectWithLanguage (projectId, language) {
+      return File.findAll({
+        where: {
+          projectId: projectId,
+          parentId: null,
+          $or: [
+            {
+              code: null
+            },
+            {
+              code: language
+            }
+          ]
+        }
+      })
+    },
+    streamZipArchive (files, res) {
+      const archive = archiver('zip', {
+        zlib: { level: 9 } // Sets the compression level.
+      })
+
+      archive.on('warning', (err) => {
+        if (err.code === 'ENOENT') {
+          console.error('Missing archive file' + err)
+        } else {
+          throw err
+        }
+      })
+
+      archive.pipe(res)
+
+      files.forEach((file) => {
+        const filePath = path.join(config.uploads.directory, file.filename)
+        const name = file.title.split(' ').join('_') + path.extname(filePath)
+        archive.file(filePath, { name: name })
+      })
+
+      archive.finalize()
+      return
     }
   }
 }

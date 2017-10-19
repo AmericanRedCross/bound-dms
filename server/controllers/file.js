@@ -135,8 +135,20 @@ module.exports = {
       })
       return res.status(201).json({status: 201, data: [persistedFile]})
     }).catch((err) => {
+      console.error(err)
       // this path is not covered by a test, as mocking a database write failure is tricky
       res.status(500).json({status: 500, error: 'File was not uploaded'})
+    })
+  },
+  exportProjectFiles (req, res, next) {
+    res.header('Content-Type', 'application/zip')
+    res.header('Content-disposition', 'attachment; filename=project_files.zip')
+
+    fileService
+    .getForProjectWithLanguage(req.params.id, req.query.language)
+    .then(files => fileService.streamZipArchive(files, res))
+    .catch(err => {
+      console.error(err)
     })
   }
 }
