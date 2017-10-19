@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@websanova/vue-auth": "^2.13.0-beta",
+    "archiver": "^2.1.0",
     "axios": "^0.16.2",
     "bcrypt": "^1.0.2",
     "body-parser": "~1.17.1",
