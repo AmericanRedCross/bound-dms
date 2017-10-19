@@ -59,7 +59,14 @@ export default new Router({
     },
     {
       path: '/reset',
-      name: 'Reset',
+      props: (route) => ({ token: route.query.token }),
+      component: Reset,
+      meta: {auth: false}
+    },
+    {
+      path: '/activate',
+      name: 'Activate',
+      props: (route) => ({ code: route.query.code }),
       component: Reset,
       meta: {auth: false}
     },
