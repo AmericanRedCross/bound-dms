@@ -159,8 +159,6 @@ router.post('/:id/metatypes', authService.authenticate(), (req, res, next) => {
   })
 }, metaController.createType)
 
-module.exports = router
-
 // GET /api/projects/:id/files
 router.get('/:id/files', authService.authenticate(['jwt']), (req, res, next) => {
   req.checkQuery('page').optional().isInt()
@@ -173,3 +171,17 @@ router.get('/:id/files', authService.authenticate(['jwt']), (req, res, next) => 
     next()
   })
 }, fileController.getForProjectId)
+
+// GET /api/projects/:id/files/export
+router.get('/:id/files/export', (req, res, next) => {
+  req.checkQuery('language').notEmpty().isLength({min: 2, max: 5})
+  req.getValidationResult().then((result) => {
+    if (!result.isEmpty()) {
+      res.status(400).json({status: 422, errors: result.array()})
+      return
+    }
+    next()
+  })
+}, fileController.exportProjectFiles)
+
+module.exports = router
