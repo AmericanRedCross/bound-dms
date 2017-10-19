@@ -162,4 +162,18 @@ describe('API: Files', () => {
         })
     })
   })
+
+  describe('GET /api/projects/:id/files/export', () => {
+    it('returns a zip file', (done) => {
+      request(app)
+        .get('/api/projects/1/files/export/?language=en')
+        .expect(200)
+        .expect('content-type', 'application/zip')
+        .expect('content-disposition', 'attachment; filename=project_files.zip')
+        .end((err, res) => {
+          if (err) throw err
+          done()
+        })
+    })
+  })
 })
