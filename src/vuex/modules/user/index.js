@@ -58,7 +58,8 @@ const users = {
         firstname: data.firstName,
         lastname: data.lastName,
         email: data.email,
-        password: '12345678' // Remove when password creation is done
+        role: data.role,
+        isActive: data.isActive
       }).then((response) => {
         commit('SET_USER', { response: response.data })
       }, (err) => {
