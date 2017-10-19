@@ -3,6 +3,13 @@ const router = express.Router()
 const controller = require('../controllers/auth')
 const authService = require('../services/auth')()
 
+const passwordRules = {
+  notEmpty: true,
+  isLength: {
+    options: [{min: 8}]
+  }
+}
+
 // POST /api/auth
 router.post('/', (req, res, next) => {
   req.checkBody({
@@ -53,9 +60,7 @@ router.post('/password/update', (req, res, next) => {
     'token': {
       notEmpty: true
     },
-    'password': {
-      notEmpty: true
-    }
+    'password': passwordRules
   })
 
   req.getValidationResult().then((result) => {
@@ -66,5 +71,22 @@ router.post('/password/update', (req, res, next) => {
     next()
   })
 }, controller.handlePasswordReset)
+
+router.post('/activate', (req, res, next) => {
+  req.checkBody({
+    'code': {
+      notEmpty: true
+    },
+    'password': passwordRules
+  })
+
+  req.getValidationResult().then((result) => {
+    if (!result.isEmpty()) {
+      res.status(400).json({status: 400, errors: result.array()})
+      return
+    }
+    next()
+  })
+}, controller.activateAccount)
 
 module.exports = router

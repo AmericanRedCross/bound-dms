@@ -55,6 +55,13 @@ module.exports = {
       }
     })
   },
+  findByActivationCode (code) {
+    return User.find({
+      where: {
+        activationCode: code
+      }
+    })
+  },
   /**
     * Deletes a single by id.
     * @return Promise
@@ -88,7 +95,7 @@ module.exports = {
         'Hi ' + user.firstname + ',',
         'A password reset has been requested for your account. Click the following link to reset your password:',
         this.buildResetLink(reset.token),
-        'If you did not request this email, please contact a sytem administrator.',
+        'If you did not request this email, please contact a system administrator.',
         'Bound DMS'
       ].join('\n\n')
 
@@ -107,7 +114,6 @@ module.exports = {
         console.error(err)
         return false
       })
-      console.log('send the email!')
     }).catch(err => {
       console.error(err)
     })
@@ -137,6 +143,44 @@ module.exports = {
       }
 
       return reset
+    })
+  },
+
+  buildActivationLink (code) {
+    return [
+      config.enableHttps ? 'https://' : 'http://',
+      config.systemHostname,
+      '/activate?',
+      querystring.stringify({code: code})
+    ].join('')
+  },
+  /**
+    * Sends activation link to user
+    * @param user User
+    * @return Promise
+    */
+  sendActivationEmail (user) {
+    const message = [
+      'Hi ' + user.firstname + ',',
+      'Your ' + config.mail.fromName + ' account has been created. Click the following link to activate your account:',
+      this.buildActivationLink(user.activationCode),
+      'If you did not request this email, please contact a system administrator.',
+      'Bound DMS'
+    ].join('\n\n')
+
+    const options = {
+      from: '"' + config.mail.fromName + '" <' + config.mail.fromAddress + '>', // sender address
+      to: user.email,
+      subject: 'Account Activation', // Subject line
+      text: message
+    }
+
+    return mail.send(options).then((err, info) => {
+      if (!err) {
+        return true
+      }
+      console.error(err)
+      return false
     })
   }
 }

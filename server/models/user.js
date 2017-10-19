@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt')
+const crypto = require('crypto')
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
@@ -7,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     email: {type: DataTypes.STRING, unique: true},
     role: {type: DataTypes.STRING, defaultValue: null},
     password: DataTypes.STRING,
-    isActive: {type: DataTypes.BOOLEAN, defaultValue: false}
+    isActive: {type: DataTypes.BOOLEAN, defaultValue: false},
+    activationCode: {type: DataTypes.STRING, defaultValue: null}
   })
 
   /**
@@ -22,6 +24,10 @@ module.exports = (sequelize, DataTypes) => {
       'id', 'firstname', 'lastname', 'email', 'isActive', 'role', 'createdAt', 'updatedAt'
     ]
   }
+
+  User.beforeCreate((user, options) => {
+    user.activationCode = crypto.randomBytes(32).toString('hex')
+  })
 
   /**
    * Instance Methods
