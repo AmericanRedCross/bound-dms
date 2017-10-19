@@ -90,7 +90,9 @@ export default{
     reenter: 'Re-enter the password',
     noMatch: 'Passwords do not match',
     resetSuccess: 'Your password has been reset',
-    activateSuccess: 'Your account has been activated'
+    activateSuccess: 'Your account has been activated',
+    missing: 'You\'re missing a reset/activation token here',
+    passwordFieldError: 'Passwords must match and must be a minimum of 8 characters'
   },
   dashboard: {
     header: 'Dashboard placeholder',
