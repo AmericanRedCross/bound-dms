@@ -1,9 +1,13 @@
 <template>
   <b-card :style="'background-color:' + colour" :class="{inverse: inverse}">
-    <h2><slot name="value">{{ value }}{{type}}</slot></h2>
-    <small><slot name="description">{{ description }}</slot></small>
-    <!-- <b-progress v-model="value" :precision="1"></b-progress> -->
-    <div class="progress">
+    <h2>
+      <slot name="value" v-if="type !== 'Number'">{{ value }}{{type}}</slot>
+      <slot name="value" v-else>{{ value }}</slot>
+    </h2>
+    <small v-if="type !== 'Number'"><slot name="description">{{ description }}</slot></small>
+    <h3 v-else><slot name="description">{{ description }}</slot></h3>
+
+    <div class="progress" v-if="type === '%'">
       <div class="progress-bar" role="progressbar" :style="'background-color:' + barColour + '; width: ' + value + '%'" :aria-valuenow="value" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
   </b-card>
@@ -48,5 +52,11 @@ export default {
  .card {
    border: none;
    @include no-select();
+   min-height: 123px;
+ }
+ .progress {
+    margin-left: -20px;
+    margin-right: -20px;
+    border-radius: 0px;
  }
 </style>

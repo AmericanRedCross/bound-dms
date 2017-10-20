@@ -70,7 +70,7 @@ describe('API: Projects', () => {
     })
   })
 
-  describe('PUT /api/projects', () => {
+  describe('POST /api/projects', () => {
     it('creates a new project', (done) => {
       const project = {
         'name': 'Test Project',
@@ -78,7 +78,7 @@ describe('API: Projects', () => {
         'baseLanguage': 'en'
       }
       request(app)
-        .put('/api/projects')
+        .post('/api/projects')
         .set('Authorization', 'Bearer ' + this.token)
         .send(project)
         .expect(201)
@@ -98,12 +98,12 @@ describe('API: Projects', () => {
 
     it('is created by the authenticated user', (done) => {
       const project = {
-        'name': 'Test Prpject',
+        'name': 'Test Project',
         'description': 'Some new project description',
         'baseLanguage': 'en'
       }
       request(app)
-        .put('/api/projects')
+        .post('/api/projects')
         .set('Authorization', 'Bearer ' + this.token)
         .send(project)
         .expect(201)
@@ -116,7 +116,7 @@ describe('API: Projects', () => {
     })
   })
 
-  describe('POST /api/projects', () => {
+  describe('PUT /api/projects/:id', () => {
     it('updates an existing project', (done) => {
       const project = {
         'name': 'An updated project',
@@ -124,7 +124,7 @@ describe('API: Projects', () => {
         'baseLanguage': 'en'
       }
       request(app)
-        .post('/api/projects/1')
+        .put('/api/projects/1')
         .set('Authorization', 'Bearer ' + this.token)
         .send(project)
         .expect(200)

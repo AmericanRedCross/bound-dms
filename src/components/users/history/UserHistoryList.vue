@@ -7,6 +7,7 @@
              :per-page="perPage"
              :show-empty="false"
              id="history-table"
+             class="table-responsive"
     >
       <template slot="action" scope="item">
              {{ $t('history.actions.'+item.item._action, {entity: $t('history.entities.'+item.item._entity)}) }}

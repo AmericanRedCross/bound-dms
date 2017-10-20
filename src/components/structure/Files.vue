@@ -56,7 +56,12 @@ export default {
   },
   methods: {
     getLanguageName (code) {
-      return `${languages[code].name} (${code})`
+      let language = languages[code]
+      if (language) {
+        return `${language.name} (${code})`
+      } else {
+        return code
+      }
     },
     remove (file) {
       let action = this.documents ? 'UNLINK_DOCUMENT_DIRECTORY' : 'UNLINK_FILE_DIRECTORY'
@@ -71,6 +76,13 @@ export default {
           })
           // We can't reload the structure as there might be unsaved changes, for now hide it...
         file.hidden = true
+        let documentIndex = this.files.indexOf(file)
+        if (documentIndex >= 0) {
+          this.files.splice(documentIndex, 1)
+        }
+        if (this.files.length === 0) {
+          this.$emit('close')
+        }
       }).catch(() => {
         this.$notifications.notify(
           {

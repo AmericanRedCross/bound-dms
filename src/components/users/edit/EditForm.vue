@@ -1,63 +1,31 @@
 <template>
-  <b-card class="edit-card" :header="newUser ? $t('users.edit.newHeader') : $t('users.edit.editHeader')">
+  <b-card class="edit-card" :header="newUser ? $t('users.edit.newHeader') : $t('users.edit.editHeader')" v-if="user">
     <div>
-      <v-gravatar v-if="user.email" class="img-fluid rounded-circle m-t-10 m-b-10" :email="user.email" default-img="mm" :size="100"> </v-gravatar>
-      <b-form-fieldset
-        :label="$t('users.edit.firstName')"
-        :label-cols="3"
-        :feedback="!$v.user.firstName.required ? $t('common.validations.required') : '' "
-        :state="$v.user.firstName.$error ? 'warning' : ''"
+      <v-gravatar v-if="!$v.user.email.$error" class="img-fluid rounded-circle m-t-10 m-b-10" :email="user.email" default-img="mm" :size="100"> </v-gravatar>
+      <p>
+        <small v-if="!$v.user.email.$error">{{ $t('common.gravatar') }}</small>
+      </p>
+      <b-form-group
+          :label="$t('users.edit.firstName')"
+          :feedback="fNameFeedback"
+          :state="fNameState"
       >
-        <b-input-group>
-          <b-input-group-addon slot="left">
-            <fa-icon name="user-o"></fa-icon>
-          </b-input-group-addon>
-          <b-form-input
-            v-model.trim="user.firstName"
-            type="text"
-            id="firstname-input"
-            v-on:input="$v.user.firstName.$touch">
-          </b-form-input>
-        </b-input-group>
-      </b-form-fieldset>
-
-      <b-form-fieldset
-        :label="$t('users.edit.lastName')"
-        :label-cols="3"
-        :feedback="!$v.user.lastName.required ? $t('common.validations.required') : '' "
-        :state="$v.user.lastName.$error ? 'warning' : ''"
+        <b-form-input :state="fNameState" v-model.trim="user.firstName"></b-form-input>
+      </b-form-group>
+      <b-form-group
+          :label="$t('users.edit.lastName')"
+          :feedback="lNameFeedback"
+          :state="lNameState"
       >
-        <b-input-group>
-          <b-input-group-addon slot="left">
-            <fa-icon name="user-o"></fa-icon>
-          </b-input-group-addon>
-          <b-form-input
-            v-model.trim="user.lastName"
-            type="text"
-            id="lastname-input"
-            v-on:input="$v.user.lastName.$touch">
-          </b-form-input>
-        </b-input-group>
-      </b-form-fieldset>
-
-      <b-form-fieldset
-        :label="$t('users.edit.email')"
-        :label-cols="3"
-        :feedback="!$v.user.email.required ? $t('common.validations.required') : !$v.user.email.email ? $t('common.validations.email') : '' "
-        :state="$v.user.email.$error ? 'warning' : ''"
+        <b-form-input :state="lNameState" v-model.trim="user.lastName"></b-form-input>
+      </b-form-group>
+      <b-form-group
+          :label="$t('users.edit.email')"
+          :feedback="emailFeedback"
+          :state="emailState"
       >
-        <b-input-group>
-          <b-input-group-addon slot="left">
-            <fa-icon name="at"></fa-icon>
-          </b-input-group-addon>
-          <b-form-input
-            v-model.trim="user.email"
-            type="email"
-            id="email-input"
-            v-on:input="$v.user.email.$touch">
-          </b-form-input>
-        </b-input-group>
-      </b-form-fieldset>
+        <b-form-input :state="emailState" v-model.trim="user.email" v-on:input="$v.user.email.$touch"></b-form-input>
+      </b-form-group>
 
       <b-form-fieldset
         label="Role"
@@ -78,7 +46,7 @@
     </div>
     <div slot="footer">
       <b-button @click="updateUser" variant="primary" :disabled='saving'><fa-icon name="refresh" spin  v-show="saving"></fa-icon> {{ $t('users.edit.save') }}</b-button>
-      <b-button variant="warning" :disabled='saving' :to="{ name: 'users' }">{{ $t('common.cancel') }}</b-button>
+      <b-button variant="danger" :disabled='saving' :to="{ name: 'users' }">{{ $t('common.cancel') }}</b-button>
       <small>{{ this.success }}</small>
     </div>
   </b-card>
@@ -86,10 +54,11 @@
 
 <script>
 import { required, email } from 'vuelidate/lib/validators'
+import { User } from '../../../vuex/modules/user/User'
 
 export default {
   props: {
-    user: {
+    theUser: {
       type: Object
     },
     newUser: {
@@ -118,7 +87,6 @@ export default {
             this.$router.push({ name: 'users' })
           }
         }).catch(() => {
-          console.log('error')
           this.saving = false
           this.$notifications.notify(
             {
@@ -149,10 +117,17 @@ export default {
       }
     }
   },
+  mounted () {
+    if (!this.newUser) {
+      this.user = this.theUser
+    }
+  },
   data () {
     return {
+      user: new User({}),
       selected: null,
       saving: false,
+      test: '',
       success: '',
       activeOptions: [
         {text: 'Active', value: true},
@@ -162,12 +137,30 @@ export default {
   },
   computed: {
     roleOptions () {
-      let options = [{text: 'Please select a role', value: null}]
+      let options = [{text: 'Please select a role', value: null, disabled: true}]
       this.$store.getters.allRoles.forEach((role) => {
         options.push({text: role.title, value: role.key})
       })
 
       return options
+    },
+    fNameFeedback () {
+      return this.user.firstName.length > 0 ? '' : this.$t('common.validations.required')
+    },
+    fNameState () {
+      return this.user.firstName.length > 0 ? 'valid' : 'invalid'
+    },
+    lNameFeedback () {
+      return this.user.lastName.length > 0 ? '' : this.$t('common.validations.required')
+    },
+    lNameState () {
+      return this.user.lastName.length > 0 ? 'valid' : 'invalid'
+    },
+    emailFeedback () {
+      return !this.$v.user.email.required ? this.$t('common.validations.required') : !this.$v.user.email.email ? this.$t('common.validations.email') : ''
+    },
+    emailState () {
+      return this.$v.user.email.$error ? 'invalid' : 'valid'
     }
   }
 }

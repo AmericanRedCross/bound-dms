@@ -1,17 +1,23 @@
 <template>
-  <div>
-    <h1 id="changeText" class="text-center">{{ $t('projects.header') }}</h1>
-      <div class="row">
-        <div class="col-md-4" v-for="project in projects.projects">
-          <ProjectCard :project="project"></ProjectCard>
+  <b-card>
+    <slot name="title">
+      <b-row class="title ml-1 mr-1" align-h="between" align-v="center">
+        <span class="col">{{ $t('projects.header') }}</span>
+        <div class="col text-right">
+          <b-button
+            v-if="$auth.check('admin')"
+            :to="{name: 'project-new'}"
+            variant="primary"
+            size="sm"><fa-icon name="plus" class="mr-1"></fa-icon> {{ $t('projects.edit.new') }}</b-button>
         </div>
-        <div class="col-md-4">
-          <b-card v-if="$auth.check('admin')" class="new-project mb-4">
-            <b-button :block="true" :to="{name: 'project-new'}">{{ $t('projects.edit.new') }}</b-button>
-          </b-card>
-        </div>
+      </b-row>
+    </slot>
+    <div class="row">
+      <div class="col-md-6 col-lg-4" v-for="project, index in projects.projects">
+        <ProjectCard :project="project" :imageNumber="index % 4"></ProjectCard>
       </div>
-  </div>
+    </div>
+  </b-card>
 </template>
 
 <script>
@@ -50,5 +56,15 @@ export default {
   .project-icon {
     border-radius: 50%;
     height: 40px;
+  }
+
+  .title {
+    span {
+      font-size: 2rem;
+      font-weight: 500;
+    }
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: rgb(236, 235, 239) 2px solid;
   }
 </style>

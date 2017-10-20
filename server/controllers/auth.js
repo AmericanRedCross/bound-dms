@@ -15,7 +15,7 @@ module.exports = {
   // Authenticates user via username / password and issues auth token
   login (req, res, next) {
     users.findByEmail(req.body.email).then((user) => {
-      if (user.checkPassword(req.body.password)) {
+      if (user !== null && user.checkPassword(req.body.password)) {
         const token = jwt.sign(generateJwtPayload(user), config.jwtSecretKey, jwtOptions)
         res.append('Authorization', token)
         res.status(200).json({message: 'ok', token: token})
@@ -65,6 +65,24 @@ module.exports = {
     }).catch(err => {
       console.error(err)
       return res.status(500).json({status: 500, message: 'Could not reset password'})
+    })
+  },
+
+  activateAccount (req, res, next) {
+    users.findByActivationCode(req.body.code).then((user) => {
+      if (!user) {
+        return res.status(401).json({status: 401, message: 'Could not activate account'})
+      }
+
+      return users.updatePassword(user.id, req.body.password).then(() => {
+        user.activationCode = null
+        return user.save()
+      })
+    }).then(() => {
+      return res.status(200).json({status: 200, message: 'Account has been activated'})
+    }).catch(err => {
+      console.error(err)
+      return res.status(500).json({status: 500, message: 'Could not activate account'})
     })
   }
 }

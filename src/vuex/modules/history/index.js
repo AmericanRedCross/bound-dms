@@ -12,13 +12,13 @@ const apiKeys = {
   },
   mutations: {
     SET_HISTORY: (state, { response }) => {
-      if (response.data.history instanceof Array) {
+      if (response.data instanceof Array) {
         state.history = []
-        response.data.history.forEach((item) => {
+        response.data.forEach((item) => {
           state.history.push(new History(item))
         })
       }
-      state.total = response.data.total
+      state.total = response.meta.total
     }
   },
   actions: {
@@ -43,4 +43,3 @@ const apiKeys = {
 }
 
 export default apiKeys
-

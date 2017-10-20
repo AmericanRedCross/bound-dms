@@ -7,7 +7,8 @@ const PROJECT_ROOT = '/projects'
 
 const projects = {
   state: {
-    projects: []
+    projects: [],
+    currentProject: null
   },
   mutations: {
     SET_PROJECTS: (state, { response }) => {
@@ -55,6 +56,9 @@ const projects = {
         project.languages[langIdx] = response.data
       }
     },
+    SET_CURRENT_PROJECT: (state, project) => {
+      state.currentProject = project
+    },
     REMOVE_LANGUAGE: (state, { code, id }) => {
       const projectIdx = state.projects.findIndex(project => project.id === id)
       const langIdx = state.projects[projectIdx].languages.findIndex(language => language.code === code)
@@ -80,11 +84,15 @@ const projects = {
         commit('SET_MESSAGE', { message: err })
       })
     },
+    SET_CURRENT_PROJECT: function ({ commit }, project) {
+      commit('SET_CURRENT_PROJECT', project)
+    },
     // PUT a project (create)
     CREATE_PROJECT: function ({ commit }, data) {
-      return axios.put(PROJECT_ROOT, {
+      return axios.post(PROJECT_ROOT, {
         name: data.name,
-        description: data.description
+        description: data.description,
+        baseLanguage: data.baseLanguage
       }).then((response) => {
         commit('SET_PROJECT', { response: response.data })
       }).catch(err => {
@@ -93,7 +101,7 @@ const projects = {
     },
     // POST a project (update)
     UPDATE_PROJECT: function ({ commit }, data) {
-      return axios.post(PROJECT_ROOT + '/' + data.id, {
+      return axios.put(PROJECT_ROOT + '/' + data.id, {
         name: data.name,
         description: data.description
       }).then((response) => {
@@ -146,6 +154,9 @@ const projects = {
     getLatestProject: (state, getters) => () => {
       let last = state.projects[state.projects.length - 1]
       return last
+    },
+    getCurrentProject: (state, getters) => () => {
+      return state.currentProject
     }
   }
 }

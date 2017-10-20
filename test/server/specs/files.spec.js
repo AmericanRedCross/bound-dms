@@ -22,19 +22,18 @@ describe('API: Files', () => {
           if (err) throw err
           expect(res.body).to.be.an('object')
           expect(res.body.status).to.equal(200)
-          expect(res.body.data).to.be.an('object')
-          expect(res.body.data.files).to.be.an('array')
-          expect(res.body.data.files[0]).to.have.property('id')
-          expect(res.body.data.files[0]).to.have.property('parentId')
-          expect(res.body.data.files[0]).to.have.property('title')
-          expect(res.body.data.files[0]).to.have.property('description')
-          expect(res.body.data.files[0]).to.have.property('mimeType')
-          expect(res.body.data.files[0]).to.have.property('filename')
-          expect(res.body.data.files[0]).to.have.property('metadata')
-          expect(res.body.data.files[0]).to.have.property('createdById')
-          expect(res.body.data.files[0]).to.have.property('createdAt')
-          expect(res.body.data.files[0]).to.have.property('updatedAt')
-          expect(res.body.data.files[0]).to.have.property('code')
+          expect(res.body.data).to.be.an('array')
+          expect(res.body.data[0]).to.have.property('id')
+          expect(res.body.data[0]).to.have.property('parentId')
+          expect(res.body.data[0]).to.have.property('title')
+          expect(res.body.data[0]).to.have.property('description')
+          expect(res.body.data[0]).to.have.property('mimeType')
+          expect(res.body.data[0]).to.have.property('filename')
+          expect(res.body.data[0]).to.have.property('metadata')
+          expect(res.body.data[0]).to.have.property('createdById')
+          expect(res.body.data[0]).to.have.property('createdAt')
+          expect(res.body.data[0]).to.have.property('updatedAt')
+          expect(res.body.data[0]).to.have.property('code')
           done()
         })
     })
@@ -48,7 +47,7 @@ describe('API: Files', () => {
         .expect(200)
         .end((err, res) => {
           if (err) throw err
-          expect(new Date(res.body.data.files[0].createdAt)).to.afterTime(new Date(res.body.data.files[1].createdAt))
+          expect(new Date(res.body.data[0].createdAt)).to.afterTime(new Date(res.body.data[1].createdAt))
           done()
         })
     })
@@ -62,8 +61,8 @@ describe('API: Files', () => {
         .expect(200)
         .end((err, res) => {
           if (err) throw err
-          expect(res.body.data.total).to.equal(10)
-          expect(res.body.data.files).to.have.lengthOf(10)
+          expect(res.body.meta.total).to.equal(10)
+          expect(res.body.data).to.have.lengthOf(10)
           done()
         })
     })
@@ -77,9 +76,9 @@ describe('API: Files', () => {
         .expect(200)
         .end((err, res) => {
           if (err) throw err
-          expect(res.body.data.total).to.equal(10)
-          expect(res.body.data.files).to.have.lengthOf(2)
-          expect(res.body.data.files[0].id).to.equal(9)
+          expect(res.body.meta.total).to.equal(10)
+          expect(res.body.data).to.have.lengthOf(2)
+          expect(res.body.data[0].id).to.equal(9)
           done()
         })
     })
@@ -159,6 +158,20 @@ describe('API: Files', () => {
           if (err) throw err
           expect(res.body.status).to.equal(200)
           expect(res.body.data.directoryId).to.equal(2)
+          done()
+        })
+    })
+  })
+
+  describe('GET /api/projects/:id/files/export', () => {
+    it('returns a zip file', (done) => {
+      request(app)
+        .get('/api/projects/1/files/export/?language=en')
+        .expect(200)
+        .expect('content-type', 'application/zip')
+        .expect('content-disposition', 'attachment; filename=project_files.zip')
+        .end((err, res) => {
+          if (err) throw err
           done()
         })
     })

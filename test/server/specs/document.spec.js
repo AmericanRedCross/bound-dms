@@ -21,12 +21,14 @@ describe('API: Documents', () => {
           if (err) throw err
           expect(res.body).to.be.an('object')
           expect(res.body.status).to.equal(200)
-          expect(res.body.data).to.be.an('object')
-          expect(res.body.data.documents).to.be.an('array')
-          expect(res.body.data.documents[0]).to.be.an('object')
-          expect(res.body.data.documents[0]).to.have.property('directory')
-          expect(res.body.data.documents[0].createdBy).to.be.an('object')
-          expect(res.body.data.documents[0].translations).to.be.an('array')
+          expect(res.body.data).to.be.an('array')
+          expect(res.body.data[0]).to.be.an('object')
+          expect(res.body.data[0]).to.have.property('directory')
+          expect(res.body.data[0].createdBy).to.be.an('object')
+          expect(res.body.data[0].translations).to.be.an('array')
+
+          expect(res.body.meta).to.be.an('object')
+          expect(res.body.meta.total).to.be.a('number')
 
           done()
         })
@@ -140,6 +142,28 @@ describe('API: Documents', () => {
           expect(res.body.data.language).to.equal('es')
           expect(res.body.data.title).to.equal('test es title')
           expect(res.body.data.content).to.equal('# test es content')
+          expect(res.body.data).to.have.property('createdAt')
+          expect(res.body.data).to.have.property('updatedAt')
+
+          done()
+        })
+    })
+
+    it('allows empty title and content', (done) => {
+      request(app)
+        .put('/api/documents/1/translations/be')
+        .set('Authorization', 'Bearer ' + this.token)
+        .send({title: '', content: ''})
+        .expect('Content-Type', /json/)
+        .expect(201)
+        .end((err, res) => {
+          if (err) throw err
+          expect(res.body).to.be.an('object')
+          expect(res.body.status).to.equal(201)
+          expect(res.body.data).to.be.an('object')
+          expect(res.body.data.language).to.equal('be')
+          expect(res.body.data.title).to.equal('')
+          expect(res.body.data.content).to.equal('')
           expect(res.body.data).to.have.property('createdAt')
           expect(res.body.data).to.have.property('updatedAt')
 

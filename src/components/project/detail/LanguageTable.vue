@@ -5,6 +5,7 @@
       :fields="languageHeaders"
       :show-empty="true"
       :empty-text="$t('projects.languages.noLangs')"
+      class="table-responsive"
       id="language-table">
 
       <template slot="language" scope="item">
@@ -22,11 +23,14 @@
       </template>
 
       <template slot="actions" scope="item">
-        <b-btn size="sm" variant="primary" @click="editClick(item.item)"><fa-icon name="edit" label="Edit"></fa-icon> {{ $t('projects.detail.edit') }}</b-btn>
-        <b-btn v-if="$auth.check(['admin', 'editor'])" size="sm" variant="danger" @click="deleteClick(item.item)"><fa-icon name="trash" label="Delete"></fa-icon> {{ $t('projects.detail.delete') }}</b-btn>
+        <span v-if="project.baseLanguage !== item.item.code">
+          <b-btn size="sm" variant="outline-primary" @click="editClick(item.item)"><fa-icon name="edit" label="Edit"></fa-icon> {{ $t('projects.detail.edit') }}</b-btn>
+          <b-btn size="sm" variant="outline-danger" v-if="$auth.check(['admin', 'editor'])" @click="deleteClick(item.item)"><fa-icon name="trash" label="Delete"></fa-icon> {{ $t('projects.detail.delete') }}</b-btn>
+        </span>
+        <b-badge v-else>{{ $t('translationWorkflow.baseLanguage') }}</b-badge>
       </template>
     </b-table>
-    <b-btn v-if="$auth.check(['admin', 'editor'])" v-b-modal.add-language variant="primary"><fa-icon name="plus"></fa-icon> {{ $t('projects.languages.add') }}</b-btn>
+    <b-btn sie="lg" variant="outline-primary" v-if="$auth.check(['admin', 'editor'])" v-b-modal.add-language><fa-icon name="plus"></fa-icon> {{ $t('projects.languages.add') }}</b-btn>
     <b-modal id="add-language" :title="$t('projects.languages.add')" @ok="addLanguage" @cancel="wipe" no-auto-focus>
       <form @submit.stop.prevent="addLanguage">
           <v-select :on-change="changeSelected" :options="langOptions" :placeholder="$t('projects.languages.select')" :value.sync="selectedLang"></v-select>
@@ -54,10 +58,10 @@ export default {
         language: {
           label: 'Language'
         },
-        complete: {
-          label: '% Translated',
-          class: 'align-middle'
-        },
+        // complete: {
+        //   label: '% Translated',
+        //   class: 'align-middle'
+        // },
         actions: {
           label: 'Actions'
         }
@@ -158,7 +162,7 @@ export default {
     },
     getLanguage (code) {
       return {
-        label: `${languages[code].name} (${code.toUpperCase()})`,
+        label: `${languages[code].name} (${code})`,
         value: {
           code
         }

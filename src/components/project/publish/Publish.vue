@@ -34,14 +34,12 @@
 </template>
 
 <script>
-import LangPublishCard from './PublishStats'
 import PublishList from './PublishList'
 import { mapGetters } from 'vuex'
 import { languages } from 'countries-list'
 
 export default {
   components: {
-    LangPublishCard,
     PublishList
   },
   data () {
@@ -102,7 +100,7 @@ export default {
       if (this.currentProject) {
         this.currentProject.languages.forEach((lang) => {
           langs.push({
-            label: `${languages[lang.code].name} (${lang.code.toUpperCase()})`,
+            label: `${languages[lang.code].name} (${lang.code})`,
             code: lang.code
           })
         })

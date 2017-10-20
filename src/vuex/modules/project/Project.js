@@ -5,6 +5,7 @@ export class Project {
     description = null,
     languages = [],
     createdAt = null,
+    createdBy = null,
     updatedAt = null,
     baseLanguage = null
   }) {
@@ -13,6 +14,7 @@ export class Project {
     this._description = description
     this._languages = languages
     this._createdAt = createdAt && new Date(createdAt)
+    this._createdBy = createdBy
     this._updatedAt = updatedAt && new Date(updatedAt)
     this._baseLanguage = baseLanguage
   }
@@ -39,6 +41,9 @@ export class Project {
 
   // createdAt
   get createdAt () { return this._createdAt }
+
+  // createdAt
+  get createdBy () { return this._createdBy }
 
   // updatedAt
   get updatedAt () { return this._updatedAt }

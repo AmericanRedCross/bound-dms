@@ -9,6 +9,7 @@
                   :per-page="perPage"
                   :show-empty="true"
                   :empty-text="$t('projects.publish.emptystate')"
+                  class="table-responsive"
                   id="publish-table"
           >
             <template slot="createdBy" scope="item">

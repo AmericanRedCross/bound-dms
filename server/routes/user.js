@@ -10,12 +10,6 @@ const userRules = {
       errorMessage: 'Invalid Email'
     }
   },
-  'password': {
-    notEmpty: true,
-    isLength: {
-      options: [{min: 8}]
-    }
-  },
   'firstname': {
     notEmpty: true,
     isLength: {
@@ -27,15 +21,33 @@ const userRules = {
     isLength: {
       options: [{max: 100}]
     }
+  },
+  'role': {
+    notEmpty: true,
+    isIn: {
+      options: [['admin', 'editor', 'translator']]
+    }
+  },
+  'isActive': {
+    notEmpty: true,
+    isBoolean: {
+      errorMessage: 'should be a boolean'
+    }
+  }
+}
+const passwordRules = {
+  notEmpty: true,
+  isLength: {
+    options: [{min: 8}]
   }
 }
 
 // GET /api/user
 router.get('/', authService.authenticate(), roles.is('admin'), controller.getAll)
 router.get('/me', authService.authenticate(), controller.getAuthenticatedUser)
-router.get('/:id', controller.getUser)
+router.get('/:id', authService.authenticate(), controller.getUser)
 router.get('/:id/history', authService.authenticate(), historyController.getForUser)
-router.put('/', authService.authenticate(), (req, res, next) => {
+router.post('/', authService.authenticate(), roles.is('admin'), (req, res, next) => {
   req.checkBody(userRules)
   req.getValidationResult().then((result) => {
     if (!result.isEmpty()) {
@@ -45,14 +57,20 @@ router.put('/', authService.authenticate(), (req, res, next) => {
     next()
   })
 }, controller.createUser)
-router.post('/:id', authService.authenticate(), (req, res, next) => {
-  // @todo check permissions here
+router.put('/:id', authService.authenticate(), (req, res, next) => {
+  // only permit updates to other users if user is admin
+  if (req.params.id !== req.user.id && req.user.role !== 'admin') {
+    res.status(403).json({status: 403, message: 'Forbidden'})
+    return
+  }
+
   // clone base rules and make optional
   let rules = Object.assign({}, userRules)
   rules.email.optional = true
-  rules.password.optional = true
   rules.firstname.optional = true
   rules.lastname.optional = true
+  rules.role.optional = true
+  rules.isActive.optional = true
 
   req.checkBody(rules)
   req.getValidationResult().then((result) => {
@@ -63,11 +81,11 @@ router.post('/:id', authService.authenticate(), (req, res, next) => {
     next()
   })
 }, controller.updateUser)
-router.delete('/:id', authService.authenticate(), controller.deleteUser)
+router.delete('/:id', authService.authenticate(), roles.is('admin'), controller.deleteUser)
 router.put('/me/password', authService.authenticate(), (req, res, next) => {
   req.checkBody({
-    'password': userRules.password,
-    'newPassword': userRules.password
+    'password': passwordRules,
+    'newPassword': passwordRules
   })
   req.getValidationResult().then((result) => {
     if (!result.isEmpty()) {

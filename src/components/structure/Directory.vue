@@ -8,7 +8,16 @@
       <div class="d-flex align-items-baseline flex-wrap content">
 
         <h4><span v-if="isModule">{{ $t('projects.modules.module') }}</span> <span v-for="number in directoryNumbers">{{ number + 1}}.</span><span>{{ directory.order + 1}}</span></h4>
-        <i v-if="!editTitle" class="ml-2">{{ title }}</i>
+        <i v-if="!editTitle" class="ml-2" @click="editTitle = directory.id === null ? false : true">
+          <span v-if="title.length > 0">{{ title }}</span>
+          <b-badge
+            v-b-tooltip.hover.auto
+            :title="directory.id === null ? $t('projects.modules.saveStructure') : ''"
+            variant="danger"
+            v-else>
+            {{$t('projects.modules.noTitle')}}
+          </b-badge>
+        </i>
 
         <span class="title-input ml-2" v-else>
           <b-input-group>
@@ -19,7 +28,7 @@
 
             <!-- Attach Right button -->
             <b-input-group-button slot="right">
-              <b-button @click="updateText"><fa-icon name="check"></fa-icon></b-button>
+              <b-button @click="updateText" variant="outline-primary"><fa-icon name="check"></fa-icon></b-button>
             </b-input-group-button>
 
           </b-input-group>
@@ -27,42 +36,38 @@
 
         <!-- Push this stuff right-->
         <div class="ml-auto">
-          <b-badge variant="danger" v-show="untranslated">Untranslated</b-badge>
-
-          <b-dropdown right no-flip class="m-md-2 directory-actions ignore-drag" variant="outline-primary">
+          <b-dropdown right no-flip class="directory-actions ignore-drag btn-less-padding" variant="outline-primary">
             <fa-icon name="cog" slot="text"></fa-icon>
 
-            <b-dropdown-item-button @click="editTitle = true" class="directory-action" :disabled="directory.id === null">
-              <fa-icon name="font"></fa-icon>
-              {{ $t('common.rename') }}
-            </b-dropdown-item-button>
-
-            <b-dropdown-item href="#" class="directory-action" @click="infoShow = !infoShow">
-              <fa-icon name="info-circle"></fa-icon>
-              {{ $t('common.info') }}
+            <b-dropdown-item @click="editTitle = true" class="directory-action" :disabled="directory.id === null">
+              <span v-b-tooltip.hover.auto :title="directory.id === null ? $t('projects.modules.saveStructure') : ''">
+                <fa-icon name="font"></fa-icon>
+                {{ $t('common.rename') }}
+              </span>
             </b-dropdown-item>
 
-            <b-dropdown-item href="#" class="directory-action" @click="openDocumentModal" :disabled="directory.id === null">
-              <fa-icon name="plus-circle"></fa-icon>
-              {{ $t('projects.modules.addDocument') }}
+            <b-dropdown-item v-if="isShown" @click="addDirectory" class="directory-action" :disabled="directory.id === null">
+              <span v-b-tooltip.hover.auto :title="directory.id === null ? $t('projects.modules.saveStructure') : ''">
+                <fa-icon name="plus-circle"></fa-icon>
+                {{ $t('projects.modules.addDirectory') }}
+              </span>
             </b-dropdown-item>
 
-            <b-dropdown-item-button v-if="isShown" @click="addDirectory" class="directory-action" :disabled="directory.id === null">
-              <fa-icon name="plus-circle"></fa-icon>
-              {{ $t('projects.modules.addDirectory') }}
-            </b-dropdown-item-button>
-
-            <b-dropdown-item-button v-else-if="$auth.check(['admin', 'editor'])" @click="addDirectory" class="directory-action" :disabled="directory.id === null">
-              <fa-icon name="plus-circle"></fa-icon>
-              {{ $t('projects.modules.addSubDirectory') }}
-            </b-dropdown-item-button>
+            <b-dropdown-item v-else-if="$auth.check(['admin', 'editor'])" @click="addDirectory" class="directory-action" :disabled="directory.id === null">
+              <span v-b-tooltip.hover.auto :title="directory.id === null ? $t('projects.modules.saveStructure') : ''">
+                <fa-icon name="plus-circle"></fa-icon>
+                {{ $t('projects.modules.addSubDirectory') }}
+              </span>
+            </b-dropdown-item>
 
             <b-dropdown-divider v-if="$auth.check(['admin'])"></b-dropdown-divider>
 
-            <b-dropdown-item-button @click="openMetadataModal(directory.id, directory.metadata)" class="directory-action" :disabled="directory.id === null">
-              <fa-icon name="pencil"></fa-icon>
-              {{ $t('projects.modules.openMetadataModal') }}
-            </b-dropdown-item-button>
+            <b-dropdown-item @click="openMetadataModal(directory.id, directory.metadata)" class="directory-action" :disabled="directory.id === null">
+              <span v-b-tooltip.hover.auto :title="directory.id === null ? $t('projects.modules.saveStructure') : ''">
+                <fa-icon name="pencil"></fa-icon>
+                {{ $t('projects.modules.openMetadataModal') }}
+              </span>
+            </b-dropdown-item>
 
             <b-dropdown-divider></b-dropdown-divider>
 
@@ -77,11 +82,11 @@
 
       <div class="row">
         <div class="col">
-          <b-button-group>
+          <b-button-group class="mt-1">
             <b-button
               variant="primary"
               size="sm"
-              @click="isOpen = !isOpen"
+              @click="isFilesOpen = !isFilesOpen"
               :disabled="directory.files.length === 0">
                 <fa-icon name="file-text"></fa-icon> {{ directory.files.length }} {{ $t('projects.files.files') }}
             </b-button>
@@ -90,15 +95,47 @@
               size="sm"
               @click="openFileSelectModal"
               :disabled="directory.id === null">
-              <fa-icon name="plus"></fa-icon> {{ $t('projects.files.add') }}
+              <span v-b-tooltip.hover.auto :title="directory.id === null ? $t('projects.modules.saveStructure') : ''">
+                <fa-icon name="plus"></fa-icon>
+                {{ $t('projects.files.add') }}
+              </span>
+            </b-button>
+          </b-button-group>
+          <b-button-group class="mt-1">
+            <b-button
+              variant="primary"
+              size="sm"
+              @click="isDocsOpen = !isDocsOpen"
+              :disabled="directory.documents.length === 0">
+                <fa-icon name="book"></fa-icon> {{ directory.documents.length }} {{ $t('projects.modules.addDocument') }}
+            </b-button>
+            <b-button
+              variant="success"
+              size="sm"
+              @click="openDocumentModal"
+              :disabled="directory.id === null">
+              <span v-b-tooltip.hover.auto :title="directory.id === null ? $t('projects.modules.saveStructure') : ''">
+                <fa-icon name="plus"></fa-icon>
+                {{ $t('projects.files.add') }}
+              </span>
             </b-button>
           </b-button-group>
         </div>
       </div>
 
       <!-- Here's where we want our file area -->
-      <b-collapse :visible="isOpen" id="collapse-extra-content">
-        <Files :files="directory.files"></Files>
+      <b-collapse :visible="isFilesOpen" id="collapse-extra-file-content">
+        <p class="mt-1">
+          {{ $t('projects.files.files') }}
+        </p>
+        <Files :files="directory.files" v-on:close="isFilesOpen = false"></Files>
+      </b-collapse>
+
+      <b-collapse :visible="isDocsOpen" id="collapse-extra-document-content">
+        <p class="mt-1">
+          {{ $t('projects.modules.addDocument') }}
+        </p>
+        <Files :files="directory.documents" v-on:close="isDocsOpen = false" :documents="true"></Files>
       </b-collapse>
     </b-card>
 
@@ -112,7 +149,8 @@
             :directory="subdirectory"
             :directoryNumbers="getDirectories()"
             :index="index"
-            class="sub-directory ml-5 directory-list-item">
+            class="sub-directory ml-5 directory-list-item"
+            v-on:structureChange="$emit('structureChange')">
           </Directory>
       </draggable>
     </b-collapse>
@@ -122,6 +160,7 @@
         <b-table striped hover
                    :items="items"
                    :fields="fields"
+                   class="table-responsive"
         >
           <template slot="actions" scope="item">
             <b-btn size="sm" @click="details(item.item)">{{ $t('common.edit')}}</b-btn>
@@ -166,11 +205,11 @@ export default {
   },
   data () {
     return {
-      isOpen: false, // Is the Directory itself open?
+      isFilesOpen: false, // Is the files list open?
+      isDocsOpen: false, // Is the documents list open?
       isExpanded: false, // Are the child directories viewable?
       editTitle: false,
       infoShow: false,
-      untranslated: false,
       title: '',
       draggableOptions: {
         filter: '.ignore-drag',
@@ -224,12 +263,14 @@ export default {
         this.isExpanded = true
         this.directory.addDirectoryAtIndex({index: this.index})
         this.$store.dispatch('SET_FLAT_STRUCTURE')
+        this.$emit('structureChange')
       }
     },
     updateCritical (value) {
       this.directory.critical = value.value
     },
     updateDraggable (e) {
+      this.$emit('structureChange')
       let newIndex = e.newIndex
       let oldIndex = e.oldIndex
 
@@ -261,9 +302,6 @@ export default {
           })
       })
     },
-    setNeedsSaving () {
-      this.$store.dispatch('DIRECTORY_UPDATE_SAVING', { directory: this.directory })
-    },
     removeDirectory () {
       if (this.$auth.check(['admin', 'editor'])) {
         this.$swal({
@@ -277,6 +315,7 @@ export default {
         }).then(() => {
           this.$store.dispatch('REMOVE_DIRECTORY', {directoryNumbers: this.directoryNumbers, directory: this.directory})
           this.isExpanded = false
+          this.$emit('structureChange')
         }).catch(this.$swal.noop)
       } else {
         this.$swal({

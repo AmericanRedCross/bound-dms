@@ -154,5 +154,20 @@ describe('API: Directories', () => {
           done()
         })
     })
+
+    it('Allows non ascii characters for title', (done) => {
+      request(app)
+        .put('/api/directories/2/translations/en')
+        .send({title: 'صباح الخير'})
+        .set('Authorization', 'Bearer ' + this.token)
+        .expect(200)
+        .end((err, res) => {
+          if (err) throw err
+          expect(res.body.status).to.equal(200)
+          expect(res.body.data).to.have.property('title')
+          expect(res.body.data.title).to.equal('صباح الخير')
+          done()
+        })
+    })
   })
 })

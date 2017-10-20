@@ -1,6 +1,4 @@
 import BootstrapVue from 'bootstrap-vue'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
@@ -23,7 +21,6 @@ import VueAxios from 'vue-axios'
 import VueAuth from '@websanova/vue-auth'
 import VueSweetAlert from 'vue-sweetalert'
 import VueSimplemde from 'vue-simplemde'
-import VueBreadcrumbs from 'vue-breadcrumbs'
 import ToggleButton from 'vue-js-toggle-button'
 import axios from 'axios'
 import Gravatar from 'vue-gravatar'
@@ -41,7 +38,6 @@ Vue.use(VueCharts)
 Vue.use(VueSweetAlert)
 Vue.use(VueSimplemde)
 Vue.use(VueAxios, axios)
-Vue.use(VueBreadcrumbs)
 Vue.use(Notifications)
 Vue.use(ToggleButton)
 Vue.use(Dropzone)

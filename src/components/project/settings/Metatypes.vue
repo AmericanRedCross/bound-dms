@@ -6,6 +6,7 @@
               :fields="headers"
               :show-empty="true"
               :empty-text="$t('projects.meta.metatype.emptystate')"
+              class="table-responsive"
               id="meta-table"
       >
         <template slot="key" scope="item">
@@ -89,21 +90,18 @@ export default {
         },
         type: {
           label: 'Type'
-        },
-        actions: {
-          label: ''
         }
       },
       metatypes: [
       ],
       typeOptions: {
-        string: `${this._i18n.t('projects.meta.metatype.types.string')}`,
-        boolean: `${this._i18n.t('projects.meta.metatype.types.boolean')}`,
-        integer: `${this._i18n.t('projects.meta.metatype.types.integer')}`
+        string: { text: `${this._i18n.t('projects.meta.metatype.types.string')}`, value: 'string' },
+        boolean: { text: `${this._i18n.t('projects.meta.metatype.types.boolean')}`, value: 'boolean' },
+        integer: { text: `${this._i18n.t('projects.meta.metatype.types.integer')}`, value: 'integer' }
       },
       newMetatypeForm: {
         key: '',
-        type: ''
+        type: 'string'
       }
     }
   },

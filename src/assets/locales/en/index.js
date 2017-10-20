@@ -27,7 +27,7 @@ export default{
     loading: 'Loading',
     filter: 'Filter',
     submit: 'Submit',
-    reset: 'Reset',
+    resetForm: 'Reset form',
     pleaseSelect: 'Please select an option',
     validations: {
       required: 'Field is required',
@@ -64,7 +64,8 @@ export default{
     documents: 'Documents',
     files: 'Files',
     publish: 'Publish',
-    settings: 'Settings'
+    settings: 'Settings',
+    translations: 'Translations'
   },
   hello: {
     test1: 'Welcome to your Vue.js app'
@@ -89,7 +90,9 @@ export default{
     reenter: 'Re-enter the password',
     noMatch: 'Passwords do not match',
     resetSuccess: 'Your password has been reset',
-    activateSuccess: 'Your account has been activated'
+    activateSuccess: 'Your account has been activated',
+    missing: 'You\'re missing a reset/activation token here',
+    passwordFieldError: 'Passwords must match and must be a minimum of 8 characters'
   },
   dashboard: {
     header: 'Dashboard placeholder',
@@ -170,7 +173,10 @@ export default{
       selectDoc: 'Select document',
       noDocs: 'No documents here',
       selectFile: 'Select file',
-      titlePlaceholder: 'Enter a title'
+      titlePlaceholder: 'Enter a title',
+      noTitle: 'No title set',
+      getStarted: 'a directory to get started',
+      emptyMeta: 'This project has no metadata types added. Add it in the project settings to get started.'
     },
     settings: {
       header: 'Project settings',
@@ -198,7 +204,7 @@ export default{
       }
     },
     languages: {
-      add: 'Add new language',
+      add: 'Add new translation',
       select: 'Select a language',
       noLangs: 'This project does not have any languages yet, add one to get started'
     },
@@ -208,7 +214,9 @@ export default{
       subDirectories: 'DIRECTORIES',
       tools: 'TOOLS',
       edit: 'Edit content',
-      languages: 'Languages',
+      createdBy: 'Created by',
+      lastUpdated: 'Last updated',
+      languages: 'Translations',
       content: 'Content & translations',
       setcontent: 'Content set',
       translations: 'Translations',
@@ -245,6 +253,7 @@ export default{
     new: {
       name: 'Project name',
       description: 'Description',
+      selectBaseLanguage: 'Select a base language',
       details: 'Enter the details of your new document project. You can assign additional languages later on.'
     },
     publish: {
@@ -255,7 +264,7 @@ export default{
       content: 'Content changes',
       base: 'Base language: ',
       translate: 'Translated languages: ',
-      publish: ' Publish these changes',
+      publish: ' Publish all changes',
       publishAll: 'Publish all changes',
       emptystate: 'This project has not been published yet',
       fields: {
@@ -281,6 +290,7 @@ export default{
         label: 'Metatype',
         example: 'e.g. colour',
         types: {
+          json: 'JSON',
           string: 'Text (String)',
           boolean: 'True / False (Boolean)',
           integer: 'Number (Integer)'
@@ -291,6 +301,7 @@ export default{
       title: 'Documents',
       upload: 'Document upload',
       create: 'Create document',
+      emptystate: 'No documents have been created yet',
       edit: {
         titlePlaceholder: 'Document title',
         titleNeeded: 'Don\'t forget to add a title',

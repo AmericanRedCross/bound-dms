@@ -3,7 +3,7 @@
     <b-card :title="$t('files.upload')" class="mb-3" v-if="!picker">
         <div class="row">
           <div class="col"><div>
-            <b-form-select v-model="selectedLang" :options="languageOptions" value-field="code" text-field="label">
+            <b-form-select v-model="selectedLang" :options="languageOptions" value-field="code" text-field="label" class="mb-2">
             </b-form-select>
             <dropzone
               ref="dropzone"
@@ -22,7 +22,7 @@
       </div>
     </b-card>
     <b-card :title="$t('files.title')" class="mb-3">
-      {{ $t('common.filter') }} <input v-model="filter"/>
+      {{ $t('common.filter') }} <b-form-input v-model="filter" class="mb-2"></b-form-input>
       <div class="row">
         <div class="col">
           <b-table striped hover
@@ -32,6 +32,7 @@
                   :show-empty="true"
                   :empty-text="$t('files.emptystate')"
                   id="files-table"
+                  class="table-responsive"
                   @row-clicked="rowSelected"
           >
             <template slot="_title" scope="item">
@@ -215,7 +216,7 @@ export default {
       if (this.currentProject) {
         this.currentProject.languages.forEach((lang, index) => {
           langs.push({
-            label: `${languages[lang.code].name} (${lang.code.toUpperCase()})`,
+            label: `${languages[lang.code].name} (${lang.code})`,
             code: lang.code
           })
           if (this.currentProject.baseLanguage === lang.code) {

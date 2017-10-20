@@ -5,6 +5,7 @@ module.exports = {
   getAll (req, res, next) {
     users.all().then((users) => {
       res.status(200).json({status: 200, data: users})
+      return
     }).catch(() => {
       res.status(200).json({status: 200, data: []})
     })
@@ -12,6 +13,7 @@ module.exports = {
   getUser (req, res, next) {
     users.find(parseInt(req.params.id)).then((user) => {
       res.status(200).json({status: 200, data: user})
+      return
     }).catch((err) => {
       res.status(404).json({status: 404, message: 'User not found'})
       console.log('User error: ' + err)
@@ -21,12 +23,18 @@ module.exports = {
     res.status(200).json({status: 200, data: req.user})
   },
   createUser (req, res, next) {
-    users.create(req.body).then((user) => {
+    const createPromise = users.create(req.body)
+    const activatePromise = createPromise.then((user) => {
       audit.emit('event:userCreated', user.id, req.user.id)
-      res.status(201).json({status: 201, data: user})
+      return users.sendActivationEmail(user)
+    })
+
+    Promise.all([createPromise, activatePromise]).then(([user, email]) => {
+      console.log('email sent')
+      return res.status(201).json({status: 201, data: user})
     }).catch((err) => {
-      res.status(500).json({status: 500, message: 'Could not create user'})
       console.log('User error: ' + err)
+      return res.status(500).json({status: 500, message: 'Could not create user'})
     })
   },
   updateUser (req, res, next) {
@@ -36,6 +44,7 @@ module.exports = {
         .then(() => {
           audit.emit('event:userUpdated', user.id, req.user.id, req.body)
           res.status(200).json({status: 200, data: user})
+          return
         })
         .catch((err) => {
           res.status(400).json({status: 400, message: 'User not updated'})
@@ -50,6 +59,7 @@ module.exports = {
     users.delete(parseInt(req.params.id)).then(() => {
       audit.emit('event:userDeleted', req.params.id, req.user.id)
       res.status(200).json({status: 200, message: 'User deleted'})
+      return
     }).catch((err) => {
       res.status(500).json({status: 500, message: 'Could not delete user'})
       console.log('User error: ' + err)
@@ -60,6 +70,7 @@ module.exports = {
       users.updatePassword(req.user.id, req.body.newPassword).then((user) => {
         audit.emit('event:userPasswordChange', req.user.id, req.user.id)
         res.status(200).json({status: 200, message: 'Password updated'})
+        return
       }).catch((err) => {
         res.status(500).json({status: 500, message: 'Password update failed'})
         console.log('User error: ' + err)

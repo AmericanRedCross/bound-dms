@@ -1,24 +1,22 @@
 <template>
   <div class="login row justify-content-center m-t-100">
-    <div class="col-lg-4">
-      <b-card :header="forgottenPass ? $t('login.forgot') : $t('login.login')" class="login-card">
-        <b-form v-if="!resetSent">
+    <div class="col-md-6 col-lg-4 col-sm-8">
+      <b-card class="login-card">
+        <div class="custom-login-header">
+          <img src="../../assets/img/bound.png" :srcset="logoSrcSet()" height="100px" class="bound-logo"/>
+        </div>
+        <b-form v-if="!resetSent" class="mt-4">
           <b-form-group
             :label="$t('login.email')"
             :label-size="1"
             :feedback="(!$v.email.required && emailValidated) ? $t('common.validations.required') : (!$v.email.email && emailValidated) ? $t('common.validations.email') : '' "
             :state="($v.email.$error && emailValidated) ? 'warning' : ''">
-            <b-input-group>
-              <b-input-group-addon slot="left">
-                <fa-icon name="at"></fa-icon>
-              </b-input-group-addon>
-              <b-form-input
-                v-model.trim="email"
-                type="email"
-                id="email-input"
-                v-on:input="validate('email')">
-              </b-form-input>
-            </b-input-group>
+            <b-form-input
+              v-model.trim="email"
+              type="email"
+              id="email-input"
+              v-on:input="validate('email')">
+            </b-form-input>
           </b-form-group>
 
           <b-form-group v-if="!forgottenPass">
@@ -28,30 +26,28 @@
               :feedback="(!$v.password.required && passwordValidated) ? $t('common.validations.required') : '' "
               :state="$v.password.$error ? 'warning' : ''"
             >
-              <b-input-group>
-                <b-input-group-addon slot="left">
-                  <fa-icon name="lock"></fa-icon>
-                </b-input-group-addon>
-                <b-form-input
-                  v-model="password"
-                  type="password"
-                  id="password-input"
-                  v-on:input="validate('password')">
-                </b-form-input>
-              </b-input-group>
+              <b-form-input
+                v-model="password"
+                type="password"
+                id="password-input"
+                v-on:input="validate('password')">
+              </b-form-input>
             </b-form-fieldset>
           </b-form-group>
           <div align="center">
-            <b-button variant="link" @click="forgottenPass = true" v-if="!forgottenPass">{{ $t('login.forgot') }}</b-button><br>
-            <b-button @click="authenticate" type="submit" variant="primary" :disabled='sigingIn' id="login" v-if="!forgottenPass">
+            <b-button @click="authenticate" type="submit" variant="primary" :disabled='sigingIn' id="login" v-if="!forgottenPass" size="lg" class="w-100">
               <fa-icon  v-show="sigingIn" name="refresh" spin></fa-icon> {{ $t('login.login') }}
             </b-button>
-            <b-button @click="forgot" variant="primary" :disabled='sigingIn' id="login" v-if="forgottenPass">
+            <b-button variant="link" @click="forgottenPass = true" v-if="!forgottenPass">{{ $t('login.forgot') }}</b-button><br>
+            <b-button @click="forgot" variant="primary" :disabled='sigingIn' id="login" v-if="forgottenPass" size="lg" class="w-100">
               <fa-icon v-show="resetting" name="refresh" spin></fa-icon> {{ $t('login.reset') }}
             </b-button>
           </div>
         </b-form>
-        <p v-else>{{ $t('login.resetSent') }} {{ email }}</p>
+        <div v-else align="center">
+          <p class="mt-4 mb-2">{{ $t('login.resetSent') }} {{ email }}</p>
+          <b-button variant="outline-primary" @click="resetSent = forgottenPass = false" class="pl-5 pr-5">{{ $t('login.login') }}</b-button>
+        </div>
       </b-card>
     </div>
   </div>

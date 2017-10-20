@@ -35,7 +35,7 @@
       :title="$t('projects.documents.edit.pickImage')"
       @ok="injectImage({url: image.url, alt: image.alt})"
       size="lg">
-      <MediaPicker type="IMAGE" :fileRef.sync="image"></MediaPicker>
+      <MediaPicker type="IMAGE" :fileRef.sync="image" :currentProject="currentProject" :projectId="projectId"></MediaPicker>
     </b-modal>
     <input ref="file-import-input" type="file" v-show="false" accept=".docx" @change="onFileChange">
   </div>
@@ -275,6 +275,9 @@ export default {
         return true
       }
       return false
+    },
+    currentProject () {
+      return this.getProjectById(this.projectId)
     }
   }
 }

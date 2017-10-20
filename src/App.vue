@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <div id="app" :style="appBackground">
     <div v-if="$auth.ready()">
-      <Sidebar v-if="$auth.check() && $route.meta.showSidebar === true" :projectId="currentProject"></Sidebar>
+      <Sidebar v-if="$auth.check() && $route.meta.showSidebar === true" :projectId="currentProjectId" :project="project"></Sidebar>
       <Navbar v-if="$auth.check()"></Navbar>
       <div v-bind:class="{ 'content-wrapper': true, 'show-sidebar': hasSidebar }">
         <notifications>
@@ -23,6 +23,7 @@
 import { mapGetters } from 'vuex'
 import Navbar from './components/ui/Navbar.vue'
 import Sidebar from './components/ui/Sidebar.vue'
+import Breadcrumbs from './components/ui/Breadcrumbs.vue'
 import PaperNotification from './components/ui/NotificationPlugin/Notification.vue'
 
 export default {
@@ -30,21 +31,33 @@ export default {
   components: {
     Navbar,
     Sidebar,
-    PaperNotification
+    PaperNotification,
+    Breadcrumbs
   },
   data () {
     return {
-      type: ['', 'info', 'success', 'warning', 'danger']
+      type: ['', 'info', 'success', 'warning', 'danger'],
+      currentRoute: ''
     }
   },
   methods: {
     clearMessage () {
       this.$store.dispatch('CLEAR_MESSAGE')
+    },
+    setCurrentRoute () {
+      this.currentRoute = this.$router.history.current
     }
+  },
+  watch: {
+    '$route': 'setCurrentRoute'
+  },
+  mounted () {
+    this.setCurrentRoute()
   },
   computed: {
     ...mapGetters([
-      'friendlyHTTPMessage'
+      'friendlyHTTPMessage',
+      'getProjectById'
     ]),
     hasSidebar () {
       if (this.$route.meta.showSidebar === true) {
@@ -52,8 +65,15 @@ export default {
       }
       return false
     },
-    currentProject () {
+    currentProjectId () {
       return parseInt(this.$route.params.id) || null
+    },
+    project () {
+      return this.getProjectById(this.currentProjectId)
+    },
+    appBackground () {
+      return (this.currentRoute.name === 'Login' || this.currentRoute.name === 'Reset')
+        ? 'background-color: transparent' : 'background-color: #f0f2ff'
     }
   }
 }
@@ -62,7 +82,6 @@ export default {
 <style lang="scss">
 @import "./assets/sass/main";
 #app {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: $font-color;

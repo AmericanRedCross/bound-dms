@@ -4,14 +4,23 @@
       <div class="col-4">
         <v-select v-show="false" v-if="currentProject" :value.sync="selected" :options="getLangOptions"></v-select>
       </div>
-      <div class="col-md-8" align="right">
-        <b-button @click="saveStructure" variant="success">{{ $t('common.save')}}</b-button>
+      <div class="col-md-8 mb-2" align="right">
+        <b-button @click="saveStructure" variant="success" :disabled="!needsSaving"><fa-icon v-show="isSaving" name="refresh" spin></fa-icon> {{ $t('common.save')}}</b-button>
         <b-button v-if="$auth.check(['admin', 'editor'])" @click="addModule" variant="primary">{{ $t('projects.modules.addTopDirectory')}}</b-button>
       </div>
     </div>
-    <draggable v-model="structure" @update="updateDraggable" :options="draggableOptions">
-      <DirectoryComp v-for="module in structure" :key="module.id" :directory="module" :isModule="true"></DirectoryComp>
+    <draggable v-if="structure.length > 0" v-model="structure" @update="updateDraggable" :options="draggableOptions" class="mb-4">
+      <DirectoryComp
+        v-for="module in structure"
+        :key="module.id"
+        :directory="module"
+        :isModule="true" v-on:structureChange="setNeedsSaving(true)"></DirectoryComp>
     </draggable>
+    <div class="row" v-else>
+      <div class="col text-center">
+        <h3><b-button variant="outline-primary" @click="addModule">{{ $t('common.add') }}</b-button> {{ $t('projects.modules.getStarted')}}</h3>
+      </div>
+    </div>
 
     <b-modal
       @ok="saveMetadata"
@@ -23,18 +32,23 @@
       title="Metadata"
       size="lg"
     >
-      <div v-for="meta in selectedMetadata" v-if="selectedMetadata[0]">
-        <h5>{{ meta.key }}</h5>
-        <b-form-select v-if="meta.type === 'boolean'" v-model="meta.value" :options="booleanValues">
-        </b-form-select>
-        <b-form-input  v-else-if="meta.type === 'integer'"
-                       type="number"
-                       v-model="meta.value"
-        ></b-form-input>
-        <b-form-input v-else
-                      type="text"
-                      v-model="meta.value"
-        ></b-form-input>
+      <div v-if="selectedMetadata">
+        <div v-for="meta in selectedMetadata" v-if="selectedMetadata[0]" class="mb-2">
+          <h5>{{ meta.key }}</h5>
+          <b-form-select v-if="meta.type === 'boolean'" v-model="meta.value" :options="booleanValues">
+          </b-form-select>
+          <b-form-input  v-else-if="meta.type === 'integer'"
+                         type="number"
+                         v-model="meta.value"
+          ></b-form-input>
+          <b-form-input v-else
+                        type="text"
+                        v-model="meta.value"
+          ></b-form-input>
+        </div>
+        <p v-if="selectedMetadata.length === 0">
+          {{ $t('projects.modules.emptyMeta') }}
+        </p>
       </div>
     </b-modal>
 
@@ -59,14 +73,7 @@
       size="lg"
       @cancel="selectedDocument = null"
       @ok="linkDocument">
-      <b-card title="Linked documents" class="mb-2" v-if="selectedDirectory">
-        <span v-if="selectedDirectory.documents.length === 0">{{ $t('projects.modules.noDocs') }}</span>
-        <Files :files="selectedDirectory.documents" :documents="true"></Files>
-      </b-card>
-      <document-list v-if='getAllDocuments().documents.length' v-model="selectedDocument" :picker="true"></document-list>
-      <p v-else>
-        {{ $t('common.loading') }}
-      </p>
+      <document-list v-model="selectedDocument" :picker="true"></document-list>
     </b-modal>
 
   </div>
@@ -80,10 +87,8 @@ import vSelect from 'vue-select'
 import FileList from '../project/documents/FileList'
 import DocumentList from '../project/documents/DocumentList'
 import Files from './Files'
-import { File } from '../../vuex/modules/file/File'
 import { Project } from '../../vuex/modules/project/Project'
 import { mapGetters } from 'vuex'
-import { Document } from '../../vuex/modules/document/Document'
 
 export default {
   name: 'Structure',
@@ -111,6 +116,8 @@ export default {
       selectedFile: null,
       selectDocShow: false,
       selectedDocument: null,
+      needsSaving: false,
+      isSaving: false,
       draggableOptions: {
         filter: '.ignore-drag',
         animation: 150
@@ -218,7 +225,10 @@ export default {
       })
     },
     saveStructure () {
+      this.setNeedsSaving(false)
+      this.isSaving = true
       this.$store.dispatch('SAVE_STRUCTURE', this.currentProject.id).then(() => {
+        this.isSaving = false
         this.$notifications.notify(
           {
             message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.updated')}`,
@@ -229,6 +239,8 @@ export default {
           })
         this.$store.dispatch('GET_STRUCTURE', this.currentProject.id)
       }).catch(() => {
+        this.setNeedsSaving(true)
+        this.isSaving = false
         this.$notifications.notify(
           {
             message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
@@ -241,6 +253,7 @@ export default {
     },
     addModule () {
       this.$store.dispatch('ADD_TOP_LEVEL_DIRECTORY', { options: {} })
+      this.setNeedsSaving(true)
     },
     updateDraggable (e) {
       // get new and old index
@@ -262,12 +275,7 @@ export default {
               type: 'info'
             })
           // Add it to the model so we can see it without reloading
-          this.selectedDirectory.addFile(new File({
-            id: this.selectedFile._id,
-            title: this.selectedFile._title,
-            filename: this.selectedFile._filename,
-            mimeType: this.selectedFile._mimeType
-          }))
+          this.selectedDirectory.addFile(this.selectedFile)
         }).catch(() => {
           this.$notifications.notify(
             {
@@ -292,10 +300,7 @@ export default {
               type: 'info'
             })
           // Add it to the model so we can see it without reloading
-          this.selectedDirectory.addDocument(new Document({
-            id: this.selectedDocument._id,
-            translations: this.selectedDocument._translations
-          }))
+          this.selectedDirectory.addDocument(this.selectedDocument)
         }).catch(() => {
           this.$notifications.notify(
             {
@@ -307,6 +312,9 @@ export default {
             })
         })
       }
+    },
+    setNeedsSaving (needsSaving) {
+      this.needsSaving = needsSaving
     }
   },
   computed: {
@@ -316,6 +324,7 @@ export default {
         return this.$store.state.structure.structure
       },
       set (value) {
+        this.setNeedsSaving(true)
         this.$store.dispatch('UPDATE_STRUCTURE', value)
       }
     },

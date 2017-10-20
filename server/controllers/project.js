@@ -58,8 +58,27 @@ module.exports = {
         }]
       })
     }).then((project) => {
+      if (project === null) {
+        return res.status(404).json({status: 404, message: 'Project not found'})
+      }
       audit.emit('event:projectCreated', project.id, req.user.id)
-      res.status(201).json({status: 201, data: project})
+      Language.create({projectId: project.id, code: req.body.baseLanguage}).then(() => {
+        Project.findById(project.id, {
+          include: [{
+            model: User,
+            as: 'createdBy',
+            attributes: User.safeAttributes()
+          }, {
+            model: Language,
+            as: 'languages'
+          }]
+        }).then((projectWithLang) => {
+          res.status(201).json({status: 201, data: projectWithLang})
+        })
+      }).catch((err) => {
+        console.log(err)
+        res.status(500).json({status: 500, message: 'Could not add language'})
+      })
     })
   },
   update (req, res, next) {

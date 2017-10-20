@@ -13,14 +13,15 @@
                   :filter="filter"
                   id="userTable"
                   @row-clicked="rowClicked"
+                  class="table-responsive"
           >
           <template slot="picture" scope="user">
             <v-gravatar class="user-icon" :email="user.item.email" default-img="mm" :size="80"> </v-gravatar>
           </template>
           <template slot="actions" scope="user">
-            <b-btn size="sm" variant="primary" :to="{ name: 'user-profile', params: { id: user.item.id }}" class="m-t-5"><fa-icon name="user" label="View"></fa-icon> {{ $t('common.view') }}</b-btn>
-            <b-btn size="sm" variant="primary" :to="{ name: 'user-edit', params: { id: user.item.id }}" class="m-t-5"><fa-icon name="edit" label="Edit"></fa-icon> {{ $t('users.listview.edit') }}</b-btn>
-            <b-btn size="sm" variant="danger" class="m-t-5" @click="deleteClick" :data-id="user.item.id"><fa-icon name="trash" label="Delete"></fa-icon> {{ $t('users.listview.delete') }}</b-btn>
+            <b-btn size="sm" variant="outline-primary" :to="{ name: 'user-profile', params: { id: user.item.id }}" class="m-t-5"><fa-icon name="user" label="View"></fa-icon> {{ $t('common.view') }}</b-btn>
+            <b-btn size="sm" variant="outline-primary" :to="{ name: 'user-edit', params: { id: user.item.id }}" class="m-t-5"><fa-icon name="edit" label="Edit"></fa-icon> {{ $t('users.listview.edit') }}</b-btn>
+            <b-btn size="sm" variant="outline-danger" class="m-t-5" @click="deleteClick" :data-id="user.item.id"><fa-icon name="trash" label="Delete"></fa-icon> {{ $t('users.listview.delete') }}</b-btn>
           </template>
           </b-table>
           <div v-if="users.users.length > 10" class="row justify-content-center" slot="footer">
@@ -49,11 +50,11 @@ export default {
           label: 'ID',
           sortable: true
         },
-        firstname: {
+        firstName: {
           label: 'First name',
           sortable: true
         },
-        lastname: {
+        lastName: {
           label: 'Last name',
           sortable: true
         },
@@ -97,7 +98,6 @@ export default {
         // Pre confirm it. Used for async requests. Close the dialoag when this is finished
         preConfirm: () => {
           return new Promise((resolve, reject) => {
-            console.log(e.target)
             let user = this.getUserById(parseInt(e.target.dataset.id, 10))
             if (user) {
               // If the user exists then call the delete
