@@ -5,6 +5,7 @@ const path = require('path')
 const User = require('../models').User
 const Directory = require('../models').Directory
 const archiver = require('archiver')
+const db = require('../models/index')
 
 module.exports = () => {
   return {
@@ -99,6 +100,17 @@ module.exports = () => {
           ]
         }
       })
+    },
+    getForProjectWithLanguageAndDirectoryMeta (projectId, language, metaKey, metaValue) {
+      return db.sequelize.query(`SELECT Files.id, Files.title, Files.filename FROM Files
+        JOIN Directories ON Files.directoryId = Directories.id
+        JOIN MetaValues ON Directories.id = MetaValues.entityId AND MetaValues.entity = 'directory'
+        JOIN Metatypes ON MetaValues.metaTypeId = Metatypes.id AND Metatypes.key = ? AND MetaValues.value = ?
+        WHERE Files.projectId = ? AND Files.parentId IS NULL AND Files.code IS NULL OR Files.code = ?`,
+        {
+          replacements: [metaKey, metaValue, projectId, language],
+          type: db.sequelize.QueryTypes.SELECT
+        })
     },
     streamZipArchive (files, res) {
       const archive = archiver('zip', {

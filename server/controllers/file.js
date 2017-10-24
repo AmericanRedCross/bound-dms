@@ -149,6 +149,21 @@ module.exports = {
     .then(files => fileService.streamZipArchive(files, res))
     .catch(err => {
       console.error(err)
+      return res.status(500)
+    })
+  },
+  exportDirectoryFiles (req, res, next) {
+    res.header('Content-Type', 'application/zip')
+    res.header('Content-disposition', 'attachment; filename=project_files.zip')
+
+    const metaValue = (req.query.value === 'true')
+
+    fileService
+    .getForProjectWithLanguageAndDirectoryMeta(req.params.id, req.query.language, req.query.meta, metaValue)
+    .then(files => fileService.streamZipArchive(files, res))
+    .catch(err => {
+      console.error(err)
+      return res.status(500)
     })
   }
 }
