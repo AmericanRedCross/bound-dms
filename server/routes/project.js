@@ -184,4 +184,18 @@ router.get('/:id/files/export', (req, res, next) => {
   })
 }, fileController.exportProjectFiles)
 
+// GET /api/projects/:id/directories/files/export
+router.get('/:id/directories/files/export', (req, res, next) => {
+  req.checkQuery('language').notEmpty().isLength({min: 2, max: 5})
+  req.checkQuery('meta').notEmpty().isLength({min: 2, max: 20})
+  req.checkQuery('value').notEmpty().isLength({min: 2, max: 20})
+  req.getValidationResult().then((result) => {
+    if (!result.isEmpty()) {
+      res.status(400).json({status: 422, errors: result.array()})
+      return
+    }
+    next()
+  })
+}, fileController.exportDirectoryFiles)
+
 module.exports = router
