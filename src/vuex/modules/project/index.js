@@ -103,7 +103,8 @@ const projects = {
     UPDATE_PROJECT: function ({ commit }, data) {
       return axios.put(PROJECT_ROOT + '/' + data.id, {
         name: data.name,
-        description: data.description
+        description: data.description,
+        baseLanguage: data.baseLanguage
       }).then((response) => {
         commit('SET_PROJECT', { response: response.data })
       }, (err) => {
