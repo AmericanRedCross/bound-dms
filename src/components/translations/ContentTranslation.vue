@@ -53,7 +53,7 @@ import MarkdownIt from 'markdown-it'
 import { mapGetters } from 'vuex'
 import TranslationInfo from '@/components/translations/TranslationInfo'
 import ContentBlock from '@/components/translations/ContentBlock'
-
+const newLineRegex = /\n{2,}/g
 export default {
   name: 'content-translation',
   components: {
@@ -170,6 +170,7 @@ export default {
     updateRender () {
       this.renderedBaseContent = ''
       this.baseBlocks.forEach((block, index) => {
+        block.content = block.content.replace(newLineRegex, '\n')
         this.renderedBaseContent += block.content
         if (index !== this.baseBlocks.length - 1) {
           this.renderedBaseContent += '\n\n'
@@ -178,6 +179,7 @@ export default {
 
       this.renderedTranslationContent = ''
       this.translationBlocks.forEach((block, index) => {
+        block.content = block.content.replace(newLineRegex, '\n')
         this.renderedTranslationContent += block.content
         if (index !== this.translationBlocks.length - 1) {
           this.renderedTranslationContent += '\n\n'
