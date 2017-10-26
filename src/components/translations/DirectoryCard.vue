@@ -29,14 +29,14 @@
                           :class="currentBaseTitle.title ? 'text-success' : 'text-danger'">
                         </fa-icon>
                       </b-input-group-addon>
-                      <b-form-input
-                        type="text"
+
+                      <b-form-textarea
                         v-model.trim="currentBaseTitle.title"
                         :placeholder="$t('translationWorkflow.translations.titlePlaceholder')">
-                      </b-form-input>
+                      </b-form-textarea>
 
                       <b-input-group-button slot="right">
-                        <b-button @click="updateTitle(currentBaseTitle)" variant="outline-primary"><fa-icon name="check-circle"></fa-icon></b-button>
+                        <b-button class="title-confirm-button" @click="updateTitle(currentBaseTitle)" variant="outline-primary"><fa-icon name="check-circle"></fa-icon></b-button>
                       </b-input-group-button>
                     </b-input-group>
                   </div>
@@ -50,13 +50,12 @@
                       :class="isTranslated('title') ? 'text-success' : 'text-danger'">
                     </fa-icon>
                   </b-input-group-addon>
-                  <b-form-input
-                    type="text"
+                  <b-form-textarea
                     v-model.trim="currentTranslationTitle.title"
                     :placeholder="$t('translationWorkflow.translations.titlePlaceholder')">
-                  </b-form-input>
+                  </b-form-textarea>
                   <b-input-group-button slot="right">
-                    <b-button variant="outline-primary" @click="updateTitle(currentTranslationTitle)"><fa-icon name="check-circle"></fa-icon></b-button>
+                    <b-button class="title-confirm-button" variant="outline-primary" @click="updateTitle(currentTranslationTitle)"><fa-icon name="check-circle"></fa-icon></b-button>
                   </b-input-group-button>
                 </b-input-group>
               </b-card>
