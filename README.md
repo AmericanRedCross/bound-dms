@@ -1,6 +1,6 @@
-# arc-cim-frontend
+# Bound document management system
 
-> ARC Cash In Emergencies Web Application
+> ARC Bound Web Application
 
 ## Frontend Environment Setup
 
@@ -29,6 +29,28 @@ sh ./migrate.sh && docker-compose run server npm run test:server
 # run all tests
 npm test
 ```
+
+## Bound app languages
+
+Bound used the [i18next](i18next.com) vue [plugin](https://kazupon.github.io/vue-i18n/) to manage strings within the application.
+
+Any new piece of text should be added to the base language file, by default it is located at `src/assets/locales/en/index.js`
+
+Any new language files should be added to `src/assets/locales/` and registered in `src/assets/locales/index.js`
+
+By default the language picker is located in the Bound's navigation bar and is hidden. To enable it, remove the `v-if="false"` statement from this code block in `src/components/ui/Navbar.vue`:
+
+```html
+<!-- Language dropdowns -->
+<b-nav-item-dropdown :text="$t('navbar.language')" id="lang-select" right v-if="false">
+  <b-dropdown-item class="lang-item" id="english" v-bind:class="{ selected: isActive('en') }" v-on:click="langChange('en')">English</b-dropdown-item>
+  <b-dropdown-item class="lang-item" id="french" v-bind:class="{ selected: isActive('fr') }" v-on:click="langChange('fr')">Français</b-dropdown-item>
+  <b-dropdown-item class="lang-item" id="german" v-bind:class="{ selected: isActive('de') }" v-on:click="langChange('de')">Deutsche</b-dropdown-item>
+  <b-dropdown-item class="lang-item" id="spanish" v-bind:class="{ selected: isActive('es') }" v-on:click="langChange('es')">Español</b-dropdown-item>
+</b-nav-item-dropdown>
+```
+
+This dropdown also contains the needed links to change the language. Upon clicking one, the langChange method is called which tells i18n what the current app language is.
 
 ## Backend Environment Setup
 
@@ -83,4 +105,3 @@ docker build . --tag cie:latest
 # Run Container
 docker run -p 80:80 -it --rm --name cie cie:latest
 ```
-
