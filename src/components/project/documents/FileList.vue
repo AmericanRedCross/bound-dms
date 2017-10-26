@@ -76,7 +76,7 @@
             </template>
 
             <template slot="actions" scope="item">
-              <b-button @click="showEditFileModal(item.item)"><fa-icon name="pencil"></fa-icon></b-button>
+              <b-button @click="showEditFileModal(item.item)" variant="primary"><fa-icon name="pencil"></fa-icon></b-button>
             </template>
           </b-table>
         </div>
@@ -103,6 +103,10 @@
         <b-form-fieldset>
           {{ $t('projects.files.fields.description') }}
           <b-form-input type="text" v-model="selectedFile._description"></b-form-input>
+        </b-form-fieldset>
+        <b-form-fieldset>
+          {{ $t('projects.files.fields.path') }}
+          <b-form-input type="text" v-model="selectedFile.path" :disabled="true"></b-form-input>
         </b-form-fieldset>
       </div>
     </b-modal>
