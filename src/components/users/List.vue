@@ -12,7 +12,6 @@
                   :per-page="perPage"
                   :filter="filter"
                   id="userTable"
-                  @row-clicked="rowClicked"
                   class="table-responsive"
           >
           <template slot="picture" scope="user">
