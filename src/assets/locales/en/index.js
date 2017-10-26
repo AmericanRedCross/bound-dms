@@ -107,6 +107,8 @@ export default{
     couldNotFind: 'Could not find the requested user',
     newSaved: 'New user saved',
     currentSaved: 'User updated',
+    active: 'Active',
+    inactive: 'Inactive',
     edit: {
       newHeader: 'New user',
       editHeader: 'Edit details',
