@@ -14,12 +14,14 @@
               <b-card class="col ml-3 m-2">
                 <div class="center-card text-left">
                   <small>{{ getHierarchy }} {{ $t('translationWorkflow.translations.directoryTitle') }}</small>
-                  <div v-if="currentBaseTitle.title && !editTitle" class="font-weight-bold title-wrapper" @click="editTitle = true">
-                    <fa-icon name="check" class="text-success"></fa-icon>
+                  <!-- change `@click="editTitle = false"` to `@click="editTitle = true"` to enable base title editing -->
+                  <div v-if="currentBaseTitle.title && !editTitle" class="font-weight-bold title-wrapper" @click="editTitle = false">
+                    <!-- <fa-icon name="check" class="text-success"></fa-icon> -->
                     {{ currentBaseTitle.title }}
                   </div>
                   <div v-else>
-                    <span v-if="!editTitle" @click="editTitle = true" class="font-weight-bold title-wrapper">
+                    <!-- change `@click="editTitle = false"` to `@click="editTitle = true"` to enable base title editing -->
+                    <span v-if="!editTitle" @click="editTitle = false" class="font-weight-bold title-wrapper">
                       <fa-icon name="flag" class="text-danger"></fa-icon> {{ $t('translationWorkflow.translations.noTitle') }}
                     </span>
                     <b-input-group v-else>
