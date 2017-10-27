@@ -13,7 +13,7 @@
           <dt>{{ $t('projects.profile.updated') }}</dt>
           <dd>{{user.updatedAt | formatDate }}</dd>
           <dt>{{ $t('projects.profile.status') }}</dt>
-          <dd>{{status}}</dd>
+          <dd>{{status === 'Disabled' ? $t('users.inactive') : $t('users.active')}}</dd>
         </dl>
         <p class="card">
          <b-button class="card-link" variant="primary" :to="{ name: 'user-edit', params: { id: user.id }}">{{ $t('projects.profile.edituser') }}</b-button>
