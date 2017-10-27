@@ -75,7 +75,7 @@ export default{
     password: 'Password:',
     login: 'Login',
     forgot: 'Forgotten password',
-    reset: 'Send reset link',
+    reset: 'Send password reset link',
     resetSent: 'Password reset link sent to ',
     errors: {
       title: 'Error logging in',

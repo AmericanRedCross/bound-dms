@@ -15,7 +15,10 @@
             <dd>{{ user.updatedAt | formatDate }}</dd>
           </dl>
           <p class="card"
-          <b-button class="card-link" variant="primary" :to="{ name: 'user-edit', params: { id: user.id }}">{{ $t('projects.profile.edituser') }}</b-button>
+          <b-button class="card-link"
+            variant="primary"
+            :to="{ name: 'user-edit', params: { id: user.id }}"
+            v-if="$auth.check(['admin'])">{{ $t('projects.profile.edituser') }}</b-button>
           <b-button class="card-link" variant="primary" @click="resetPassword">
             <fa-icon v-show="resetting" name="refresh" spin></fa-icon> {{ $t('login.reset') }}
           </b-button>

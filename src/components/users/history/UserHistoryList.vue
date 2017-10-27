@@ -1,6 +1,6 @@
 <template>
   <b-card class="user-history-card" header="Activity">
-    {{ $t('common.filter') }} <input v-model="filter"/>
+    {{ $t('common.filter') }} <b-input class="mb-2" v-model="filter"/>
     <b-table striped hover
              :items="history"
              :fields="headers()"
