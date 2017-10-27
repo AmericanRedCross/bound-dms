@@ -37,7 +37,7 @@
     <div class="row mb-4" v-for="(block, index) in baseBlocks" :key="index" v-else>
       <div class="col-6">
         <!-- Base language -->
-        <ContentBlock :block.sync="block" @update:block="updateRender" class="text-left h-100"></ContentBlock>
+        <ContentBlock :block.sync="block" @update:block="updateRender" class="text-left h-100" :disabled="true"></ContentBlock>
       </div>
       <div class="col-6">
         <!-- Selected Language -->
@@ -187,15 +187,15 @@ export default {
     save () {
       let promises = []
       this.saving = true
-      // Save both the base and translating documents
-      promises.push(this.$store.dispatch('UPDATE_DOCUMENT_TRANSLATION', {
+      // Uncomment to save the base document as well as the translated document.
+      /* promises.push(this.$store.dispatch('UPDATE_DOCUMENT_TRANSLATION', {
         documentId: this.parentDoc.id,
         language: this.baseLanguage.value.code,
         data: {
           title: this.baseDocReference.title,
           content: this.renderedBaseContent
         }
-      }))
+      })) */
       promises.push(this.$store.dispatch('UPDATE_DOCUMENT_TRANSLATION', {
         documentId: this.parentDoc.id,
         language: this.selectedLanguage.value.code,
