@@ -200,7 +200,8 @@ export default{
         description: 'Description',
         thumbnail: 'Thumbnail',
         filename: 'Filename',
-        code: 'Country Code'
+        code: 'Country Code',
+        path: 'Path'
       }
     },
     languages: {
