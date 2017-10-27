@@ -1,5 +1,5 @@
 <template>
-  <div class="login row justify-content-center m-t-100">
+  <div class="login row justify-content-center mb-5">
     <div class="col-md-6 col-lg-4 col-sm-8">
       <b-card class="login-card">
         <div class="custom-login-header">
@@ -39,9 +39,10 @@
               <fa-icon  v-show="sigingIn" name="refresh" spin></fa-icon> {{ $t('login.login') }}
             </b-button>
             <b-button variant="link" @click="forgottenPass = true" v-if="!forgottenPass">{{ $t('login.forgot') }}</b-button><br>
-            <b-button @click="forgot" variant="primary" :disabled='sigingIn' id="login" v-if="forgottenPass" size="lg" class="w-100">
+            <b-button @click="forgot" variant="primary" :disabled='sigingIn' id="login" v-if="forgottenPass" size="lg" class="w-100 mb-2">
               <fa-icon v-show="resetting" name="refresh" spin></fa-icon> {{ $t('login.reset') }}
             </b-button>
+            <b-button variant="outline-danger" @click.prevent="forgottenPass = false" size="lg" class="w-100" v-if="forgottenPass">{{ $t('common.cancel') }}</b-button>
           </div>
         </b-form>
         <div v-else align="center">
