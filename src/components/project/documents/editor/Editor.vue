@@ -3,7 +3,7 @@
     <b-card class="mb-3">
       <div class="row mb-2">
         <div class="col">
-          <b-button variant="primary" @click="back">
+          <b-button variant="danger" @click="back">
             <fa-icon name="arrow-left"></fa-icon>
              {{ $t('common.back') }}
           </b-button>

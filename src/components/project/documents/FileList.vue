@@ -76,7 +76,7 @@
             </template>
 
             <template slot="actions" scope="item">
-              <b-button @click="showEditFileModal(item.item)" variant="primary"><fa-icon name="pencil"></fa-icon></b-button>
+              <b-button @click="showEditFileModal(item.item)" variant="outline-primary" size="sm"><fa-icon name="pencil"></fa-icon></b-button>
             </template>
           </b-table>
         </div>
