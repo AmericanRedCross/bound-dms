@@ -1,10 +1,12 @@
 <template>
   <div>
+    <h4>{{ $t('projects.dashboard.translations') }} <span class="float-right"><b-badge variant="primary">{{ $t('translationWorkflow.baseLanguage') }}</b-badge> {{ countryList[project.baseLanguage].name }} ({{ project.baseLanguage}})</span></h4>
     <b-table striped hover
       :items="project.languages"
       :fields="languageHeaders"
       :show-empty="true"
       :empty-text="$t('projects.languages.noLangs')"
+      :filter = "(item) => item.code !== project.baseLanguage"
       class="table-responsive"
       id="language-table">
 
@@ -27,7 +29,6 @@
           <b-btn size="sm" variant="outline-primary" @click="editClick(item.item)"><fa-icon name="edit" label="Edit"></fa-icon> {{ $t('projects.detail.edit') }}</b-btn>
           <b-btn size="sm" variant="outline-danger" v-if="$auth.check(['admin', 'editor'])" @click="deleteClick(item.item)"><fa-icon name="trash" label="Delete"></fa-icon> {{ $t('projects.detail.delete') }}</b-btn>
         </span>
-        <b-badge v-else>{{ $t('translationWorkflow.baseLanguage') }}</b-badge>
       </template>
     </b-table>
     <b-btn sie="lg" variant="outline-primary" v-if="$auth.check(['admin', 'editor'])" v-b-modal.add-language><fa-icon name="plus"></fa-icon> {{ $t('projects.languages.add') }}</b-btn>
@@ -54,6 +55,7 @@ export default {
   data () {
     return {
       selectedLang: null,
+      countryList: languages,
       languageHeaders: {
         language: {
           label: 'Language'
