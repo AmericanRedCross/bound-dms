@@ -7,11 +7,6 @@
             <fa-icon name="arrow-left"></fa-icon>
              {{ $t('common.back') }}
           </b-button>
-          <b-button variant="success" @click="save" :disabled="!needsSaving || saving">
-            <fa-icon v-if="saving" name="refresh" spin></fa-icon>
-            <fa-icon v-else name="save"></fa-icon>
-             {{ $t('common.save') }}
-          </b-button>
           <span v-if="importingDocument"><fa-icon name="refresh" spin></fa-icon> {{ $t('projects.documents.edit.importingDocument') }}</span>
           <span v-if="loadingDocument"><fa-icon name="refresh" spin></fa-icon> {{ $t('projects.documents.edit.loadingDocument') }}</span>
         </div>
@@ -30,6 +25,12 @@
     </b-card>
 
     <markdown-editor :disabled="true" v-model="content" ref="markdownEditor" :configs="simplemdeConfig"></markdown-editor>
+
+    <b-button variant="success" @click="save" :disabled="!needsSaving || saving" class="float-right">
+      <fa-icon v-if="saving" name="refresh" spin></fa-icon>
+      <fa-icon v-else name="save"></fa-icon>
+       {{ $t('common.save') }}
+    </b-button>
 
     <b-modal ref="imagePicker"
       :title="$t('projects.documents.edit.pickImage')"
