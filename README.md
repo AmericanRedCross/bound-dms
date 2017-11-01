@@ -56,6 +56,16 @@ This dropdown also contains the needed links to change the language. Upon clicki
 
 In Bound a user can be set as inactive or active. An active user can log into the system whereas an inactive user will not be able to log in. To set this go to the user list page, edit a user and set the active state.
 
+## Document translations
+
+To translate an uploaded document it must be assigned to a directory. Once assigned, select "Translations" from the sidebar and select the language you wish to translate to.
+
+On the following page (the translation workflow) the left column is a reference to the base language, the right is the language you are translating.
+
+You will notice that the document assigned to a directory is visible here. Select the "edit" button to go to the document translation page.
+
+On the documentation translation page the document is split up into paragraphs, here you can edit (in markdown format) the translation of a document.
+
 ## Backend Environment Setup
 
 ### Docker Compose
