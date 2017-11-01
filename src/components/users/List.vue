@@ -100,8 +100,8 @@ export default {
         type: 'warning',
         showCancelButton: true,
         showLoaderOnConfirm: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: '#6200ff',
+        cancelButtonColor: '#f85e78',
         confirmButtonText: this._i18n.t('common.deleteIt'),
         // Pre confirm it. Used for async requests. Close the dialoag when this is finished
         preConfirm: () => {
@@ -128,9 +128,10 @@ export default {
       }).then(() => {
         this.$swal({
           type: 'success',
+          confirmButtonColor: '#6200ff',
           title: this._i18n.t('common.deleted')
         })
-      })
+      }).catch(this.$swal.noop)
     },
     onFiltered (filteredItems) {
       this.totalRows = filteredItems.length
