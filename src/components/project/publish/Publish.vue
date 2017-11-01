@@ -58,34 +58,45 @@ export default {
       if (this.selectedLang === null) {
         return
       }
-      this.publishing = true
-      // Confirm and Create publish for selected language
-      this.$store.dispatch('CREATE_PUBLISH', {
-        projectId: this.projectId,
-        data: {type: 'bundleArchive', language: this.selectedLang}
+
+      this.$swal({
+        title: this._i18n.t('common.areYouSure'),
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#6200ff',
+        cancelButtonColor: '#f85e78',
+        confirmButtonText: this._i18n.t('projects.publish.publish'),
+        allowOutsideClick: false
       }).then(() => {
-        this.publishing = false
-        this.$notifications.notify({
-          message: `<b>
-            ${this._i18n.t('common.saved')}</b><br />
-            ${this._i18n.t('common.created')}
-            New Publish`,
-          icon: 'info',
-          horizontalAlign: 'right',
-          verticalAlign: 'bottom',
-          type: 'info'
-        })
-      }).catch(() => {
-        this.publishing = false
-        this.$notifications.notify(
-          {
-            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
-            icon: 'exclamation-triangle',
+        this.publishing = true
+        // Confirm and Create publish for selected language
+        this.$store.dispatch('CREATE_PUBLISH', {
+          projectId: this.projectId,
+          data: {type: 'bundleArchive', language: this.selectedLang}
+        }).then(() => {
+          this.publishing = false
+          this.$notifications.notify({
+            message: `<b>
+              ${this._i18n.t('common.saved')}</b><br />
+              ${this._i18n.t('common.created')}
+              New Publish`,
+            icon: 'info',
             horizontalAlign: 'right',
             verticalAlign: 'bottom',
-            type: 'danger'
+            type: 'info'
           })
-      })
+        }).catch(() => {
+          this.publishing = false
+          this.$notifications.notify(
+            {
+              message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+              icon: 'exclamation-triangle',
+              horizontalAlign: 'right',
+              verticalAlign: 'bottom',
+              type: 'danger'
+            })
+        })
+      }).catch(this.$swal.noop)
     }
   },
   computed: {
