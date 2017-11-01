@@ -41,7 +41,7 @@
       </div>
       <div class="col-6">
         <!-- Selected Language -->
-        <ContentBlock :block.sync="translationBlocks[index]" @update:block="updateRender" :placeholder="block" class="text-left h-100"></ContentBlock>
+        <ContentBlock :block.sync="translationBlocks[index]" @update:block="updateRender" :placeholder="block" class="text-left h-100" :rtl="rtl"></ContentBlock>
       </div>
     </div>
   </div>
@@ -53,6 +53,8 @@ import MarkdownIt from 'markdown-it'
 import { mapGetters } from 'vuex'
 import TranslationInfo from '@/components/translations/TranslationInfo'
 import ContentBlock from '@/components/translations/ContentBlock'
+import { languages } from 'countries-list'
+
 const newLineRegex = /\n{2,}/g
 export default {
   name: 'content-translation',
@@ -76,19 +78,31 @@ export default {
       parentDoc: null,
       translationBaseDoc: null,
       translationDoc: null,
-      saving: false
+      saving: false,
+      rtl: false
     }
   },
   mounted () {
+    this.setRtl()
     this.updateDocuments()
   },
   watch: {
     // whenever selected lang changes, this function will run
     selectedLanguage () {
+      console.log(this.selectedLanguage)
+      this.setRtl()
       this.updateDocuments()
     }
   },
   methods: {
+    setRtl () {
+      if (this.selectedLanguage) {
+        let lang = languages[this.selectedLanguage.value.code]
+        if (lang) {
+          this.rtl = lang.rtl === 1
+        }
+      }
+    },
     updateDocuments () {
       this.parentDoc = this.$store.state.translations.documentToEdit
 

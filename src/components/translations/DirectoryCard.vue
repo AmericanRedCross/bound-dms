@@ -54,7 +54,8 @@
                   </b-input-group-addon>
                   <b-form-textarea
                     v-model.trim="currentTranslationTitle.title"
-                    :placeholder="$t('translationWorkflow.translations.titlePlaceholder')">
+                    :placeholder="$t('translationWorkflow.translations.titlePlaceholder')"
+                    :class="rtl ? 'text-rtl' : ''">
                   </b-form-textarea>
                   <b-input-group-button slot="right">
                     <b-button class="title-confirm-button" variant="outline-primary" @click="updateTitle(currentTranslationTitle)"><fa-icon name="check-circle"></fa-icon></b-button>
@@ -124,6 +125,7 @@
 
 <script>
 import { Directory } from '../../vuex/modules/structure/Directory'
+import { languages } from 'countries-list'
 
 export default {
   name: 'DirectoryCard',
@@ -145,7 +147,8 @@ export default {
       currentTranslationTitle: {
         title: '',
         language: ''
-      }
+      },
+      rtl: false
     }
   },
   methods: {
@@ -204,15 +207,25 @@ export default {
         }
       }
       return ''
+    },
+    setRtl () {
+      if (this.selectedLanguage) {
+        let lang = languages[this.selectedLanguage.value.code]
+        if (lang) {
+          this.rtl = lang.rtl === 1
+        }
+      }
     }
   },
   mounted () {
     this.currentTranslationTitle = this.directory.getTitleByLangCode(this.selectedLanguage.value.code)
+    this.setRtl()
   },
   watch: {
     // whenever selected lang changes, this function will run
     selectedLanguage: function () {
       this.currentTranslationTitle = this.directory.getTitleByLangCode(this.selectedLanguage.value.code)
+      this.setRtl()
     }
   },
   computed: {
