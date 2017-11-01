@@ -2,7 +2,14 @@
   <div class="users">
     <div class="row justify-content-md-center">
       <div class="col">
-        <b-card id="userList" :header="$t('users.header')">
+        <b-card id="userList">
+          <div slot="header">
+            <p>
+              {{ $t('users.header') }}
+              <b-button variant="primary" :to="{ name: 'user-new' }" class="float-right"><fa-icon name="plus" class="mr-1"></fa-icon> {{ $t('common.add') }}</b-button>
+            </p>
+          </div>
+
           <b-form-input v-model="filter" :placeholder="$t('users.listview.type')" id="userSearch" class="mb-2"></b-form-input>
           <!-- Main table element -->
           <b-table striped hover
@@ -33,9 +40,6 @@
           </b-table>
           <div class="row justify-content-center" slot="footer">
             <b-pagination size="md" :total-rows="totalRows" :per-page="perPage" v-model="currentPage" />
-          </div>
-          <div slot="footer">
-            <b-button variant="primary" :to="{ name: 'user-new' }">{{ $t('common.add') }}</b-button>
           </div>
         </b-card>
       </div>
