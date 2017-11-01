@@ -52,6 +52,10 @@ By default the language picker is located in the Bound's navigation bar and is h
 
 This dropdown also contains the needed links to change the language. Upon clicking one, the langChange method is called which tells i18n what the current app language is.
 
+## Bound user status
+
+In Bound a user can be set as inactive or active. An active user can log into the system whereas an inactive user will not be able to log in. To set this go to the user list page, edit a user and set the active state.
+
 ## Backend Environment Setup
 
 ### Docker Compose
