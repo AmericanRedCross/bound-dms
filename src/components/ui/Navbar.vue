@@ -10,7 +10,7 @@
     <b-collapse is-nav id="nav_collapse">
 
       <b-nav is-nav-bar>
-        <b-nav-item-dropdown :text="$t('navbar.projects')">
+        <b-nav-item-dropdown :text="`${currentProject ? currentProject.name : $t('navbar.projects')}`">
           <b-dropdown-item v-for="project in projects" :key="project.id" :to="{name: 'project-detail', params: {id: project.id}}">{{ project.name }}</b-dropdown-item>
           <div v-if="$auth.check('admin')" class="dropdown-divider"></div>
           <b-dropdown-item v-if="$auth.check('admin')" :to="{name: 'project-new'}"><fa-icon name="plus"></fa-icon> New Project</b-dropdown-item>
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 export default {
   methods: {
@@ -67,8 +68,14 @@ export default {
     })
   },
   computed: {
+    ...mapGetters([
+      'getProjectById'
+    ]),
     projects () {
       return this.$store.state.projects.projects
+    },
+    currentProject () {
+      return this.getProjectById(parseInt(this.$route.params.id))
     }
   }
 }
