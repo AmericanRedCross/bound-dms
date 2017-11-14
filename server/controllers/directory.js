@@ -145,7 +145,11 @@ module.exports = {
       return DirectoryTrans.findOne({where: {directoryId: req.params.id, language: lang.code}})
     }).then((translation) => {
       if (translation !== null) {
-        let updateData = {title: req.body.title}
+        let updateData = {title: req.body.title, revision: translation.revision}
+        if (req.body.newRevision) {
+          updateData.revision++
+        }
+
         let updated = translation.update(updateData)
         audit.emit('event:directoryTranslationUpdated', translation.id, req.user.id, updateData)
         return updated
