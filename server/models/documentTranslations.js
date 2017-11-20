@@ -3,7 +3,8 @@ module.exports = (sequelize, DataTypes) => {
     documentId: {type: DataTypes.INTEGER, allowNull: false},
     language: {type: DataTypes.STRING, allowNull: false},
     title: {type: DataTypes.STRING, allowNull: false},
-    content: {type: DataTypes.TEXT, allowNull: true, defaultValue: null}
+    content: {type: DataTypes.TEXT, allowNull: true, defaultValue: null},
+    revision: {type: DataTypes.INTEGER, allowNull: false, defaultValue: 0}
   })
 
   DocumentTranslations.massAssignable = function () {
