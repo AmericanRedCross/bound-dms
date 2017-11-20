@@ -24,7 +24,7 @@ router.delete('/:id', authService.authenticate(), controller.delete)
 router.put('/:id/translations/:lang', authService.authenticate(), (req, res, next) => {
   req.checkParams('lang').isAlpha()
   req.checkBody('title').optional({checkFalsy: true})
-  req.checkBody('newRevision').isBoolean()
+  req.checkBody('newRevision').optional({checkFalsy: true}).isBoolean()
   req.getValidationResult().then((result) => {
     if (!result.isEmpty()) {
       res.status(400).json(result.array())
