@@ -59,6 +59,7 @@ describe('API: Documents', () => {
           expect(res.body.data.translations[0].language).to.equal('en')
           expect(res.body.data.translations[0].title).to.equal('test title')
           expect(res.body.data.translations[0].content).to.equal('## h2 Heading')
+          expect(res.body.data.translations[0].revision.to.equal(0))
 
           done()
         })
@@ -80,6 +81,7 @@ describe('API: Documents', () => {
           expect(res.body.data[0]).to.be.an('object')
           expect(res.body.data[0]).to.have.property('language')
           expect(res.body.data[0]).to.have.property('title')
+          expect(res.body.data[0]).to.have.property('revision')
           expect(res.body.data[0]).to.have.property('createdAt')
           expect(res.body.data[0]).to.have.property('updatedAt')
           expect(res.body.data[0]).to.not.have.property('content')
@@ -103,6 +105,7 @@ describe('API: Documents', () => {
           expect(res.body.data).to.have.property('language')
           expect(res.body.data).to.have.property('title')
           expect(res.body.data).to.have.property('content')
+          expect(res.body.data).to.have.property('revision')
           expect(res.body.data).to.have.property('createdAt')
           expect(res.body.data).to.have.property('updatedAt')
 
@@ -188,6 +191,28 @@ describe('API: Documents', () => {
           expect(res.body.data.content).to.equal('# updated es content')
           expect(res.body.data).to.have.property('createdAt')
           expect(res.body.data).to.have.property('updatedAt')
+
+          done()
+        })
+    })
+
+    it('increments the revision number of the specified translation', (done) => {
+      request(app)
+        .put('/api/documents/1/translations/en')
+        .set('Authorization', 'Bearer ' + this.token)
+        .send({
+          title: 'updated en title',
+          content: '# updated en content',
+          newRevision: true
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+          if (err) throw err
+          expect(res.body).to.be.an('object')
+          expect(res.body.status).to.equal(200)
+          expect(res.body.data).to.be.an('object')
+          expect(res.body.data.revision).to.equal(1)
 
           done()
         })
