@@ -59,7 +59,7 @@ describe('API: Documents', () => {
           expect(res.body.data.translations[0].language).to.equal('en')
           expect(res.body.data.translations[0].title).to.equal('test title')
           expect(res.body.data.translations[0].content).to.equal('## h2 Heading')
-          expect(res.body.data.translations[0].revision.to.equal(0))
+          expect(res.body.data.translations[0].revision).to.equal(0)
 
           done()
         })
