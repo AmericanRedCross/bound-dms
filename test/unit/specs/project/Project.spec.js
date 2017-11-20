@@ -1,4 +1,4 @@
-import { modules } from '../../../../src/vuex'
+import { Project } from '../../../../src/vuex/modules/project/Project'
 
 describe('Project Object Creation', () => {
   it('Create a new project', () => {
@@ -8,13 +8,13 @@ describe('Project Object Creation', () => {
 
   it('Has the correct properties', () => {
     let newProject = new Project({})
-    expect(newDirectory).to.have.property('id')
-    expect(newDirectory).to.have.property('name')
-    expect(newDirectory).to.have.property('description')
-    expect(newDirectory).to.have.property('languages')
-    expect(newDirectory).to.have.property('createdAt')
-    expect(newDirectory).to.have.property('updatedAt')
-    // expect(newDirectory).to.have.property('keys')
+
+    expect(newProject).to.have.property('id')
+    expect(newProject).to.have.property('name')
+    expect(newProject).to.have.property('description')
+    expect(newProject).to.have.property('languages')
+    expect(newProject).to.have.property('createdAt')
+    expect(newProject).to.have.property('updatedAt')
   })
 
   it('Has the correct propery values', () => {
@@ -30,7 +30,7 @@ describe('Project Object Creation', () => {
       description,
       languages,
       createdAt,
-      updatedAt,
+      updatedAt
     })
 
     expect(newProject.id).to.equal(id)
@@ -41,22 +41,4 @@ describe('Project Object Creation', () => {
     expect(newProject.updatedAt).to.equal(updatedAt)
     // expect(newProject.keys).to.equal(keys)
   })
-
-  it('Has the correct propery values', () => {
-    let id = 1
-    let name = 'TestProject'
-    let description = 'Test Description'
-    let languages = []
-    let createdAt = 'date'
-    let updatedAt = 'updateDate'
-    let newProject = new Project({
-      id,
-      name,
-      description,
-      languages,
-      createdAt,
-      updatedAt,
-    })
-  })
-
 })
