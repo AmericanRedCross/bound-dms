@@ -4,6 +4,8 @@ const chai = require('chai')
 const expect = chai.expect
 const jwt = require('jsonwebtoken')
 const config = require('../../../server/config')
+const fs = require('fs')
+const path = require('path')
 chai.use(require('chai-datetime'))
 
 describe('API: Files', () => {
@@ -158,6 +160,39 @@ describe('API: Files', () => {
           if (err) throw err
           expect(res.body.status).to.equal(200)
           expect(res.body.data.directoryId).to.equal(2)
+          done()
+        })
+    })
+  })
+
+  describe('DELETE /api/files/{id}', () => {
+    before(function (done) {
+      fs.writeFile(path.join(config.uploads.directory, 'test10.txt'), 'test', (err) => {
+        if (err) throw err
+        done()
+      })
+    })
+
+    it('deletes the specified file', (done) => {
+      request(app)
+        .delete('/api/files/11')
+        .set('Authorization', 'Bearer ' + this.token)
+        .expect(200)
+        .end((err, res) => {
+          if (err) throw err
+          expect(res.body.status).to.equal(200)
+          done()
+        })
+    })
+
+    it('returns not found if file does not exit', (done) => {
+      request(app)
+        .delete('/api/files/3000000')
+        .set('Authorization', 'Bearer ' + this.token)
+        .expect(404)
+        .end((err, res) => {
+          if (err) throw err
+          expect(res.body.status).to.equal(404)
           done()
         })
     })

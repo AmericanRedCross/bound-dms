@@ -5,7 +5,6 @@ const User = require('../models').User
 const config = require('../config')
 const PublishTask = require('../services/publish/publishTask')
 const BundleArchive = require('../services/publish/bundleArchive')
-const path = require('path')
 const audit = require('../services/audit')
 
 const scheme = config.enableHttps ? 'https://' : 'http://'

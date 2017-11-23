@@ -44,5 +44,6 @@ router.post('/', authService.authenticate(['jwt']), (req, res, next) => {
 })
 
 router.patch('/:id', authService.authenticate(['jwt']), controller.update)
+router.delete('/:id', authService.authenticate(['jwt']), controller.delete)
 
 module.exports = router
