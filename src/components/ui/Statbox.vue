@@ -1,11 +1,12 @@
 <template>
   <b-card :style="'background-color:' + colour" :class="{inverse: inverse}">
-    <h2>
-      <slot name="value" v-if="type !== 'Number'">{{ value }}{{type}}</slot>
-      <slot name="value" v-else>{{ value }}</slot>
-    </h2>
+      <h3 :class="{'middle-centre': type === 'Number'}">
+        <slot name="value" v-if="type !== 'Number'">{{ value }}{{type}}</slot>
+        <span v-else>
+          <slot name="value">{{ value }}</slot> <slot name="description">{{ description }}</slot>
+        </span>
+      </h3>
     <small v-if="type !== 'Number'"><slot name="description">{{ description }}</slot></small>
-    <h3 v-else><slot name="description">{{ description }}</slot></h3>
 
     <div class="progress" v-if="type === '%'">
       <div class="progress-bar" role="progressbar" :style="'background-color:' + barColour + '; width: ' + value + '%'" :aria-valuenow="value" aria-valuemin="0" aria-valuemax="100"></div>
@@ -58,5 +59,10 @@ export default {
     margin-left: -20px;
     margin-right: -20px;
     border-radius: 0px;
+ }
+ .middle-centre {
+   position: relative;
+   top: 23px;
+   text-align: center;
  }
 </style>
