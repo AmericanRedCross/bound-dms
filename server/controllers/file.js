@@ -43,6 +43,21 @@ module.exports = {
         res.status(500).json({status: 500, error: err})
       })
   },
+  delete (req, res, next) {
+    fileService.getById(parseInt(req.params.id))
+      .then(file => {
+        if (!file) {
+          res.status(404).json({status: 404, message: 'File not found'})
+        }
+        return fileService.delete(file)
+      }).then(() => {
+        audit.emit('event:fileDeleted', req.params.id, req.user.id, req.body)
+        res.status(200).json({status: 200, message: 'File deleted'})
+      }).catch((err) => {
+        console.log(err)
+        res.status(500).json({status: 500, error: err})
+      })
+  },
   createMultiple (req, res, files, fields) {
     let projectId = parseInt(fields.projectId)
     let languageCode = fields.languageCode || null

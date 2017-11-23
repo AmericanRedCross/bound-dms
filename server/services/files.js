@@ -2,6 +2,7 @@ const sharp = require('sharp')
 const File = require('../models').File
 const config = require('../config')
 const path = require('path')
+const fs = require('fs')
 const User = require('../models').User
 const Directory = require('../models').Directory
 const archiver = require('archiver')
@@ -34,6 +35,17 @@ module.exports = () => {
             })
         })
       )
+    },
+    fileExists: (path) => {
+      try {
+        return fs.statSync(path).isFile()
+      } catch (err) {
+        if (err.code === 'ENOENT') {
+          return false
+        } else {
+          throw err
+        }
+      }
     },
     persist: (file) => {
       return File.create(file)
@@ -84,6 +96,15 @@ module.exports = () => {
     },
     update: (file, params) => {
       return file.update(params, {fields: File.massAssignable()})
+    },
+    delete: (file) => {
+      const filePath = path.join(config.uploads.directory, file.filename)
+      if (this.fileExists(filePath)) {
+        fs.unlink(filePath, (err) => {
+          if (err) throw err
+          return File.destroy()
+        })
+      }
     },
     getForProjectWithLanguage (projectId, language) {
       return File.findAll({
