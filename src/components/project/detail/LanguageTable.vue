@@ -126,8 +126,8 @@ export default {
         type: 'warning',
         showCancelButton: true,
         showLoaderOnConfirm: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: '#6200ff',
+        cancelButtonColor: '#f85e78',
         confirmButtonText: this._i18n.t('common.deleteIt'),
         // Pre confirm it. Used for async requests. Close the dialoag when this is finished
         preConfirm: () => {
@@ -136,24 +136,26 @@ export default {
               id: this.project.id,
               code: language.code
             }).then(resolve)
+            .catch(() => {
+              this.$notifications.notify(
+                {
+                  message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
+                  icon: 'exclamation-triangle',
+                  horizontalAlign: 'right',
+                  verticalAlign: 'bottom',
+                  type: 'danger'
+                })
+            })
           })
         },
         allowOutsideClick: false
       }).then(() => {
         this.$swal({
           type: 'success',
+          confirmButtonColor: '#6200ff',
           title: this._i18n.t('common.deleted')
         })
-      }).catch(() => {
-        this.$notifications.notify(
-          {
-            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
-            icon: 'exclamation-triangle',
-            horizontalAlign: 'right',
-            verticalAlign: 'bottom',
-            type: 'danger'
-          })
-      })
+      }).catch(this.$swal.noop)
     },
     editClick (item) {
       this.$store.dispatch('CHANGE_SELECTED_LANGUAGE', this.getLanguage(item.code))

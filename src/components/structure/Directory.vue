@@ -308,8 +308,8 @@ export default {
           title: this._i18n.t('common.areYouSure'),
           type: 'warning',
           showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
+          confirmButtonColor: '#6200ff',
+          cancelButtonColor: '#f85e78',
           confirmButtonText: this._i18n.t('common.deleteIt'),
           allowOutsideClick: false
         }).then(() => {

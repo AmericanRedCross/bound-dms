@@ -80,27 +80,27 @@
 
   $bg-nude: #f4f3ef !default;
   $bg-primary: #8ECFD5 !default;
-  $bg-info: #7CE4FE !default;
-  $bg-success: #8EF3C5 !default;
+  $bg-info: #6200FF !default;
+  $bg-success: #6200FF !default;
   $bg-warning: #FFE28C !default;
-  $bg-danger: #FF8F5E !default;
+  $bg-danger: #F63959 !default;
   $default-bg: #66615B;
   $default-states-color: #403D39;
 
   $primary-bg: #7A9E9F;
   $primary-states-color: #427C89;
 
-  $success-bg: #41B883;
-  $success-states-color: #229863;
+  $success-bg: #6200FF;
+  $success-states-color: #FFF;
 
-  $info-bg: #68B3C8;
-  $info-states-color: #3091B2;
+  $info-bg: #6200FF;
+  $info-states-color: #FFF;
 
   $warning-bg: #F3BB45;
   $warning-states-color: #BB992F;
 
-  $danger-bg: #EB5E28;
-  $danger-states-color: #B33C12;
+  $danger-bg: #F63959;
+  $danger-states-color: #FFF;
 
   .fade-enter-active,
   .fade-leave-active {

@@ -129,8 +129,8 @@ export default {
           text: this._i18n.t('common.changesMade'),
           type: 'warning',
           showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
+          confirmButtonColor: '#6200ff',
+          cancelButtonColor: '#f85e78',
           confirmButtonText: this._i18n.t('common.goBack'),
           allowOutsideClick: false
         }).then(() => {
@@ -184,8 +184,8 @@ export default {
           text: this._i18n.t('projects.documents.edit.overwrite'),
           type: 'warning',
           showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
+          confirmButtonColor: '#6200ff',
+          cancelButtonColor: '#f85e78',
           confirmButtonText: this._i18n.t('common.goBack'),
           allowOutsideClick: false
         }).then(() => {

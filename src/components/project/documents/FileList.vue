@@ -141,6 +141,7 @@ export default {
       }).then(() => {
         this.$swal({
           type: 'success',
+          confirmButtonColor: '#6200ff',
           title: this._i18n.t('common.updated')
         })
       }).catch(() => {

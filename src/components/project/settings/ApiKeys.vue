@@ -110,8 +110,8 @@ export default {
         type: 'warning',
         showCancelButton: true,
         showLoaderOnConfirm: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: '#6200ff',
+        cancelButtonColor: '#f85e78',
         confirmButtonText: this._i18n.t('common.deleteIt'),
         allowOutsideClick: false,
         preConfirm: () => {
@@ -124,19 +124,10 @@ export default {
       }).then(() => {
         this.$swal({
           type: 'success',
+          confirmButtonColor: '#6200ff',
           title: this._i18n.t('common.deleted')
         })
-      }).catch((err) => {
-        if (err !== 'cancel') {
-          this.$notifications.notify({
-            message: `<b>${this._i18n.t('common.oops')}</b><br /> ${this._i18n.t('common.error')}`,
-            icon: 'exclamation-triangle',
-            horizontalAlign: 'right',
-            verticalAlign: 'bottom',
-            type: 'danger'
-          })
-        }
-      })
+      }).catch(this.$swal.noop)
     }
   },
   computed: {
