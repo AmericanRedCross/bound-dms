@@ -4,6 +4,8 @@ const chai = require('chai')
 const expect = chai.expect
 const jwt = require('jsonwebtoken')
 const config = require('../../../server/config')
+const fs = require('fs')
+const path = require('path')
 chai.use(require('chai-datetime'))
 
 describe('API: Files', () => {
@@ -164,9 +166,16 @@ describe('API: Files', () => {
   })
 
   describe('DELETE /api/files/{id}', () => {
+    before(function (done) {
+      fs.writeFile(path.join(config.uploads.directory, 'test10.txt'), 'test', (err) => {
+        if (err) throw err
+        done()
+      })
+    })
+
     it('deletes the specified file', (done) => {
       request(app)
-        .delete('/api/files/1')
+        .delete('/api/files/11')
         .set('Authorization', 'Bearer ' + this.token)
         .expect(200)
         .end((err, res) => {

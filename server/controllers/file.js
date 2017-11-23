@@ -1,4 +1,4 @@
-const fileService = require('../services/files')()
+const fileService = require('../services/files')
 const path = require('path')
 const audit = require('../services/audit')
 
@@ -47,15 +47,20 @@ module.exports = {
     fileService.getById(parseInt(req.params.id))
       .then(file => {
         if (!file) {
-          res.status(404).json({status: 404, message: 'File not found'})
+          return false
         }
+
         return fileService.delete(file)
-      }).then(() => {
+      }).then((found) => {
+        if (found === false) {
+          return res.status(404).json({status: 404, message: 'File not found'})
+        }
+
         audit.emit('event:fileDeleted', req.params.id, req.user.id, req.body)
         res.status(200).json({status: 200, message: 'File deleted'})
       }).catch((err) => {
         console.log(err)
-        res.status(500).json({status: 500, error: err})
+        res.status(500).json({status: 500, error: 'File could not be deleted'})
       })
   },
   createMultiple (req, res, files, fields) {
