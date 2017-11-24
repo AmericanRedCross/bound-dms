@@ -179,7 +179,7 @@ export default {
         directoryId: this.directory.id,
         lang: translation.language,
         title: translation.title,
-        newRevision: true
+        revision: this.currentBaseTitle.revision
       }).then(() => {
         translation.revision += 1
         this.$notifications.notify(
@@ -190,6 +190,7 @@ export default {
             verticalAlign: 'bottom',
             type: 'info'
           })
+        translation.revision = this.currentBaseTitle.revision
         this.directory.updateTranslation(translation)
       }).catch(() => {
         this.$notifications.notify(
