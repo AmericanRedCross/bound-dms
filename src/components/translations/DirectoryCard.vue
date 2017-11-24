@@ -78,8 +78,10 @@
               </b-card>
               <b-card class="col mr-3 m-2"
                 v-if="currentTranslationTitle.language">
+                <i v-if="needsTranslation(doc, selectedLanguage)"> Revision required </i>
                 <b-button
-                  variant="outline-primary"
+                  v-if="doc"
+                  :variant="needsTranslation(doc, selectedLanguage) ? 'outline-danger' : 'outline-primary'"
                   class="w-100"
                   :disabled="false"
                   @click="setContentEditId(doc)">
@@ -211,6 +213,18 @@ export default {
         }
       }
       return ''
+    },
+    needsTranslation (doc, language) {
+      if (doc && language) {
+        let docLang = doc.getDocumentByLangCode(language.value.code)
+        let baseDoc = doc.getDocumentByLangCode(this.baseLanguage.value.code)
+        if (docLang && baseDoc) {
+          if (docLang.revision !== baseDoc.revision) {
+            return true
+          }
+        }
+      }
+      return false
     },
     setRtl () {
       if (this.selectedLanguage) {
