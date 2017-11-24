@@ -26,7 +26,7 @@ module.exports = {
       }, {
         model: DirectoryTrans,
         as: 'translations',
-        attributes: ['title', 'language']
+        attributes: ['title', 'language', 'revision']
       },
       {
         model: Document,
@@ -64,7 +64,7 @@ module.exports = {
       }, {
         model: DirectoryTrans,
         as: 'translations',
-        attributes: ['title', 'language']
+        attributes: ['title', 'language', 'revision']
       }, {
         model: Metatype,
         as: 'metatypes'
