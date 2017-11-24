@@ -15,7 +15,7 @@ module.exports = {
   // Authenticates user via username / password and issues auth token
   login (req, res, next) {
     users.findByEmail(req.body.email).then((user) => {
-      if (user !== null && user.checkPassword(req.body.password)) {
+      if (user !== null && user.isActive && user.checkPassword(req.body.password)) {
         const token = jwt.sign(generateJwtPayload(user), config.jwtSecretKey, jwtOptions)
         res.append('Authorization', token)
         res.status(200).json({message: 'ok', token: token})
@@ -30,9 +30,13 @@ module.exports = {
   // Issues a new JWT token
   refresh (req, res, next) {
     // TODO blacklist old token
-    const token = jwt.sign(generateJwtPayload(req.user), config.jwtSecretKey, jwtOptions)
-    res.append('Authorization', token)
-    res.status(200).json({message: 'ok', token: token})
+    if (!req.user.isActive) {
+      return res.status(401).json({message: 'Account is inactive'})
+    } else {
+      const token = jwt.sign(generateJwtPayload(req.user), config.jwtSecretKey, jwtOptions)
+      res.append('Authorization', token)
+      res.status(200).json({message: 'ok', token: token})
+    }
   },
 
   sendPasswordReset (req, res, next) {
