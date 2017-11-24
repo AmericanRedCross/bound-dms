@@ -67,10 +67,19 @@ const translations = {
       commit('SET_DOCUMENT_EDIT', doc)
     },
     UPDATE_DIRECTORY_TITLE: ({ commit }, options) => {
-      // /api/directories/:id/translations/:lang
-      return axios.put('directories/' + options.directoryId + '/translations/' + options.lang, {
+      let data = {
         title: options.title
-      }).catch(err => {
+      }
+
+      if (options.newRevision !== undefined) {
+        data['newRevision'] = options.newRevision
+      }
+
+      if (options.revision !== undefined) {
+        data['revision'] = options.revision
+      }
+      // /api/directories/:id/translations/:lang
+      return axios.put('directories/' + options.directoryId + '/translations/' + options.lang, data).catch(err => {
         commit('SET_MESSAGE', { message: err })
         throw err
       })

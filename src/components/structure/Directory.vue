@@ -19,20 +19,25 @@
           </b-badge>
         </i>
 
-        <span class="title-input ml-2" v-else>
-          <b-input-group>
-            <b-form-input v-model="title"
-                    type="text"
-                    :placeholder="$t('projects.modules.titlePlaceholder')">
-            </b-form-input>
+        <b-row class="title-input ml-2 w-75" align-h="around" align-v="center" v-else>
+          <b-col md="12">
+            <b-input-group class="w-100">
+              <b-form-input v-model="title" class="w-100"
+                      type="text"
+                      :placeholder="$t('projects.modules.titlePlaceholder')">
+              </b-form-input>
 
-            <!-- Attach Right button -->
-            <b-input-group-button slot="right">
-              <b-button @click="updateText" variant="outline-primary"><fa-icon name="check"></fa-icon></b-button>
-            </b-input-group-button>
+              <b-input-group-button slot="right" class="ignore-drag">
+                <b-dropdown :text="$t('common.save')" variant="primary" right>
+                  <fa-icon slot="text" name="check"></fa-icon>
+                  <b-dropdown-item @click="updateText(true)">{{ $t('common.saveWrevision') }}</b-dropdown-item>
+                  <b-dropdown-item @click="updateText(false)">{{ $t('common.save') }}</b-dropdown-item>
+                </b-dropdown>
+              </b-input-group-button>
 
-          </b-input-group>
-        </span>
+            </b-input-group>
+          </b-col>
+        </b-row>
 
         <!-- Push this stuff right-->
         <div class="ml-auto">
@@ -276,12 +281,13 @@ export default {
 
       this.$store.dispatch('UPDATE_ORDER', {newIndex, oldIndex, directoryNumbers: this.getDirectories()})
     },
-    updateText () {
+    updateText (newRevision) {
       this.editTitle = false
       this.$store.dispatch('UPDATE_DIRECTORY_TITLE', {
         directoryId: this.directory.id,
         lang: this.getProjectById(parseInt(this.$route.params.id)).baseLanguage,
-        title: this.title
+        title: this.title,
+        newRevision: newRevision
       }).then(() => {
         this.$notifications.notify(
           {

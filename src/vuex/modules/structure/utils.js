@@ -213,7 +213,7 @@ const DirectoryUtils = {
     let translations = []
     if (Array.isArray(dataArray)) {
       dataArray.forEach((data) => {
-        translations.push(new DirectoryTranslation({language: data.language, title: data.title}))
+        translations.push(new DirectoryTranslation({language: data.language, title: data.title, revision: data.revision}))
       })
     }
     return translations
