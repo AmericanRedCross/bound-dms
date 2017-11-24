@@ -30,6 +30,14 @@ const projects = {
         state.projects.push(newProject)
       }
     },
+    SET_PROJECT_STATS: (state, { response }) => {
+      // Does the project exist already?
+      let project = state.projects.find(project => project.id === response.data.id)
+
+      if (project) {
+        project.stats = response.data
+      }
+    },
     REMOVE_PROJECT: (state, { id }) => {
       // Find the project index
       let projectIndex = state.projects.findIndex(project => project.id === id)
@@ -137,6 +145,14 @@ const projects = {
       }, (err) => {
         commit('SET_MESSAGE', { message: err })
         throw err
+      })
+    },
+    // GET a project's stats
+    GET_PROJECT_STATS: function ({ commit }, id) {
+      return axios.get(PROJECT_ROOT + '/' + id + '/statistics').then((response) => {
+        commit('SET_PROJECT_STATS', { response: response.data })
+      }, (err) => {
+        commit('SET_MESSAGE', { message: err })
       })
     }
   },

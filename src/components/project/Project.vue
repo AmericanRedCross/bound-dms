@@ -37,7 +37,10 @@ export default {
   methods: {
     fetchProject () {
       this.fetchingProject = true
-      this.$store.dispatch('GET_PROJECT', this.$route.params.id).then(() => {
+      let getProjectFetch = this.$store.dispatch('GET_PROJECT', this.$route.params.id)
+      let getProjectStatsFetch = this.$store.dispatch('GET_PROJECT_STATS', this.$route.params.id)
+
+      Promise.all([getProjectFetch, getProjectStatsFetch]).then(() => {
         this.project = this.getProjectById(parseInt(this.$route.params.id))
         let baseLang = this.project.languages.find(lang => lang.code === this.project.baseLanguage)
         if (baseLang) {
