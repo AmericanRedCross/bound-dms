@@ -198,4 +198,7 @@ router.get('/:id/directories/files/export', (req, res, next) => {
   })
 }, fileController.exportDirectoryFiles)
 
+// GET /api/projects/:id/statistics
+router.get('/:id/statistics', authService.authenticate(['jwt']), controller.getStatistics)
+
 module.exports = router
