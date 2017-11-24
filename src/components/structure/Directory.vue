@@ -19,20 +19,29 @@
           </b-badge>
         </i>
 
-        <span class="title-input ml-2" v-else>
-          <b-input-group>
-            <b-form-input v-model="title"
-                    type="text"
-                    :placeholder="$t('projects.modules.titlePlaceholder')">
-            </b-form-input>
-
-            <!-- Attach Right button -->
-            <b-input-group-button slot="right">
-              <b-button @click="updateText" variant="outline-primary"><fa-icon name="check"></fa-icon></b-button>
-            </b-input-group-button>
-
-          </b-input-group>
-        </span>
+        <b-row class="title-input ml-2 w-75" align-h="around" align-v="center" v-else>
+          <b-col md="2">
+            <b-form-checkbox
+              v-b-tooltip.hover.auto title="This will mark all translations as out of date"
+              v-model="revision"
+              :value="true"
+              :unchecked-value="false">
+              Revision
+            </b-form-checkbox>
+          </b-col>
+          <b-col md="10">
+            <b-input-group class="w-100">
+              <b-form-input v-model="title" class="w-100"
+                      type="text"
+                      :placeholder="$t('projects.modules.titlePlaceholder')">
+              </b-form-input>
+              <!-- Attach Right button -->
+              <b-input-group-button slot="right">
+                <b-button @click="updateText" variant="outline-primary"><fa-icon name="check"></fa-icon></b-button>
+              </b-input-group-button>
+            </b-input-group>
+          </b-col>
+        </b-row>
 
         <!-- Push this stuff right-->
         <div class="ml-auto">
@@ -210,6 +219,7 @@ export default {
       isExpanded: false, // Are the child directories viewable?
       editTitle: false,
       infoShow: false,
+      revision: false,
       title: '',
       draggableOptions: {
         filter: '.ignore-drag',
@@ -281,7 +291,8 @@ export default {
       this.$store.dispatch('UPDATE_DIRECTORY_TITLE', {
         directoryId: this.directory.id,
         lang: this.getProjectById(parseInt(this.$route.params.id)).baseLanguage,
-        title: this.title
+        title: this.title,
+        newRevision: this.revision
       }).then(() => {
         this.$notifications.notify(
           {
