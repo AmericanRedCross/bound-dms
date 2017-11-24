@@ -26,11 +26,15 @@
 
     <markdown-editor :disabled="true" v-model="content" ref="markdownEditor" :configs="simplemdeConfig"></markdown-editor>
 
-    <b-button variant="success" @click="save" :disabled="!needsSaving || saving" class="float-right">
-      <fa-icon v-if="saving" name="refresh" spin></fa-icon>
-      <fa-icon v-else name="save"></fa-icon>
-       {{ $t('common.save') }}
-    </b-button>
+    <b-dropdown :text="$t('common.save')" variant="success" class="float-right" :disabled="!needsSaving || saving" right>
+      <span slot="text">
+        <fa-icon v-if="saving" name="refresh" spin></fa-icon>
+        <fa-icon v-else name="save"></fa-icon>
+         {{ $t('common.save') }}
+      </span>
+      <b-dropdown-item @click="save(true)">{{ $t('common.saveWrevision') }}</b-dropdown-item>
+      <b-dropdown-item @click="save(false)">{{ $t('common.save') }}</b-dropdown-item>
+    </b-dropdown>
 
     <b-modal ref="imagePicker"
       :title="$t('projects.documents.edit.pickImage')"
@@ -212,12 +216,13 @@ export default {
           })
       })
     },
-    save () {
+    save (newRevision) {
       this.saving = true
       let saveData = {
         language: this.getProjectById(this.projectId).baseLanguage,
         title: this.title,
-        content: this.content
+        content: this.content,
+        newRevision: newRevision
       }
       let promise = null
 
