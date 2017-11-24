@@ -48,6 +48,9 @@ const translations = {
     },
     SET_DOCUMENT_EDIT: (state, doc) => {
       state.documentToEdit = doc
+    },
+    SET_FILTER: (state, filter) => {
+      state.filter = filter
     }
   },
   actions: {
@@ -83,6 +86,9 @@ const translations = {
         commit('SET_MESSAGE', { message: err })
         throw err
       })
+    },
+    UPDATE_TRANSLATION_FILTER: ({ commit }, filter) => {
+      commit('SET_FILTER', filter)
     }
   }
 }
