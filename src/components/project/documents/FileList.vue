@@ -77,6 +77,7 @@
 
             <template slot="actions" scope="item">
               <b-button @click="showEditFileModal(item.item)" variant="outline-primary" size="sm"><fa-icon name="pencil"></fa-icon></b-button>
+              <b-button @click="confirmDelete(item.item)" variant="outline-danger" class="m-t-5" size="sm"><fa-icon name="trash" label="Delete"></fa-icon></b-button>
             </template>
           </b-table>
         </div>
@@ -158,6 +159,32 @@ export default {
     showEditFileModal (file) {
       this.selectedFile = file
       this.openEditFileModal = true
+    },
+    confirmDelete (file) {
+      this.$swal({
+        title: this._i18n.t('common.areYouSure'),
+        text: this._i18n.t('common.noRevert'),
+        type: 'warning',
+        showCancelButton: true,
+        showLoaderOnConfirm: true,
+        confirmButtonColor: '#6200ff',
+        cancelButtonColor: '#f85e78',
+        confirmButtonText: this._i18n.t('common.deleteIt'),
+        allowOutsideClick: false,
+        preConfirm: () => {
+          return new Promise((resolve, reject) => {
+            this.$store.dispatch('DELETE_FILE', file.id)
+              .then(resolve)
+              .catch(reject(this._i18n.t('common.error')))
+          })
+        }
+      }).then(() => {
+        this.$swal({
+          type: 'success',
+          confirmButtonColor: '#6200ff',
+          title: this._i18n.t('common.deleted')
+        })
+      }).catch(this.$swal.noop)
     },
     showSuccess (file) {
       setTimeout(() => {
