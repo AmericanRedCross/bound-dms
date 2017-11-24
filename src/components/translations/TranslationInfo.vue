@@ -1,9 +1,7 @@
 <template>
   <div class="translation-info">
     <div class="visible-toggle mb-3" align="center">
-      <b-button :pressed.sync="filter.all" variant="outline-primary">{{ $t('translationWorkflow.filters.allContent') }}</b-button>
-      <b-button :pressed.sync="filter.needsTranslation" variant="outline-primary">{{ $t('translationWorkflow.filters.needsTranslation') }}</b-button>
-      <b-button :pressed.sync="filter.needsRevision" variant="outline-primary">{{ $t('translationWorkflow.filters.needsRevision') }}</b-button>
+      <!-- <b-button :pressed.sync="filter.needsRevision" variant="outline-primary" @click="setFilter">{{ $t('translationWorkflow.filters.needsRevision') }}</b-button> -->
     </div>
     <div class="translation-info mb-3" align="center">
       <span>{{ $t('translationWorkflow.baseLanguage') }}</span>
@@ -45,6 +43,9 @@ export default {
   methods: {
     setLang (language) {
       this.$store.dispatch('CHANGE_SELECTED_LANGUAGE', language)
+    },
+    setFilter () {
+      this.$store.dispatch('UPDATE_TRANSLATION_FILTER', this.filter)
     }
   },
   computed: {

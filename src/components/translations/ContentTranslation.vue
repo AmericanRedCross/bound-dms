@@ -15,6 +15,9 @@
         <b-form-group :label="$t('projects.documents.edit.titlePlaceholder')">
           <b-form-input v-model="translationDocTitle"></b-form-input>
         </b-form-group>
+        <p v-if="baseDocReference && translationDocReference">
+          <i v-if="baseDocReference.revision !== translationDocReference.revision">{{ $t('projects.documents.edit.revision') }}</i>
+        </p>
       </div>
     </div>
     <hr>
@@ -217,12 +220,15 @@ export default {
         language: this.selectedLanguage.value.code,
         data: {
           title: this.translationDocTitle,
-          content: this.renderedTranslationContent
+          content: this.renderedTranslationContent,
+          revision: this.baseDocReference.revision
         }
       }).then((response) => {
         // Add the document from the response so we know we've created one
         if (!this.translationDocReference) {
           this.parentDoc.addDocument(response.data)
+        } else {
+          this.translationDocReference.revision = this.baseDocReference.revision
         }
       }))
 

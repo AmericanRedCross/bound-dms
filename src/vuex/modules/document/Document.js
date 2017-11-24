@@ -5,7 +5,8 @@ export class Document {
     projectId = null,
     createdBy = null,
     createdAt = null,
-    translations = []
+    translations = [],
+    revision = 0
    }) {
     this._id = id
     this._projectId = projectId
@@ -14,6 +15,7 @@ export class Document {
     this._translations = translations
     this._rowVariant = '' // Helps with table row selection
     this._hidden = false
+    this._revision = 0
   }
 
   get id () { return this._id }
@@ -35,6 +37,9 @@ export class Document {
 
   set hidden (hidden) { this._hidden = hidden }
   get hidden () { return this._hidden }
+
+  set revision (revision) { this._revision = revision }
+  get revision () { return this._revision }
 
   getDocumentByLangCode (languageCode) {
     if (languageCode) {

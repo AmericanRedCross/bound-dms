@@ -311,6 +311,7 @@ export default{
       create: 'Create document',
       emptystate: 'No documents have been created yet',
       edit: {
+        revision: 'This translation is out of date with the base translation. Review it to make sure everything is correct and save.',
         titlePlaceholder: 'Document title',
         titleNeeded: 'Don\'t forget to add a title',
         pickImage: 'Select image',
