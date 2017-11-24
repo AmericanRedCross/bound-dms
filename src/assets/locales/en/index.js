@@ -243,7 +243,10 @@ export default{
       delete: 'Delete',
       newLang: 'Adding a new language will update translation statistics for this project',
       languages: 'Languages',
-      description: 'A description here'
+      description: 'A description here',
+      translated: 'translated',
+      outdatedTranslations: 'outdated translations',
+      untranslatedDocs: 'untranslated documents'
     },
     profile: {
       admin: 'Admin',

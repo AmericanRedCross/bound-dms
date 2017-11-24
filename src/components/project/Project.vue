@@ -38,17 +38,9 @@ export default {
     fetchProject () {
       this.fetchingProject = true
       let getProjectFetch = this.$store.dispatch('GET_PROJECT', this.$route.params.id)
-      let getProjectStatsFetch = this.$store.dispatch('GET_PROJECT_STATS', this.$route.params.id)
 
-      Promise.all([getProjectFetch, getProjectStatsFetch]).then(() => {
-        this.project = this.getProjectById(parseInt(this.$route.params.id))
-        let baseLang = this.project.languages.find(lang => lang.code === this.project.baseLanguage)
-        if (baseLang) {
-          this.$store.dispatch('CHANGE_BASE_LANGUAGE', baseLang)
-        }
-        this.$store.dispatch('CHANGE_AVAILABLE_LANGUAGES', this.project.languages)
-        this.$store.dispatch('SET_CURRENT_PROJECT', this.project)
-        this.fetchingProject = false
+      getProjectFetch.then(() => {
+        this.$store.dispatch('GET_PROJECT_STATS', this.$route.params.id).then(this.processProject)
       }).catch(() => {
         this.fetchingProject = false
         this.$notifications.notify(
@@ -60,6 +52,17 @@ export default {
             type: 'danger'
           })
       })
+    },
+
+    processProject () {
+      this.project = this.getProjectById(parseInt(this.$route.params.id))
+      let baseLang = this.project.languages.find(lang => lang.code === this.project.baseLanguage)
+      if (baseLang) {
+        this.$store.dispatch('CHANGE_BASE_LANGUAGE', baseLang)
+      }
+      this.$store.dispatch('CHANGE_AVAILABLE_LANGUAGES', this.project.languages)
+      this.$store.dispatch('SET_CURRENT_PROJECT', this.project)
+      this.fetchingProject = false
     }
   },
   computed: {
