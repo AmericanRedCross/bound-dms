@@ -8,6 +8,7 @@ const PROJECT_ROOT = '/projects'
 const projects = {
   state: {
     projects: [],
+    stats: [],
     currentProject: null
   },
   mutations: {
@@ -28,6 +29,17 @@ const projects = {
         project = newProject
       } else {
         state.projects.push(newProject)
+      }
+    },
+    SET_PROJECT_STATS: (state, { response, projectId }) => {
+      let stats = state.stats.find(stats => stats.projectId === parseInt(projectId, 10))
+      let newStats = response.data
+      newStats['projectId'] = parseInt(projectId, 10)
+
+      if (stats) {
+        stats = newStats
+      } else {
+        state.stats.push(newStats)
       }
     },
     REMOVE_PROJECT: (state, { id }) => {
@@ -138,11 +150,22 @@ const projects = {
         commit('SET_MESSAGE', { message: err })
         throw err
       })
+    },
+    // GET a project's stats
+    GET_PROJECT_STATS: function ({ commit }, id) {
+      return axios.get(PROJECT_ROOT + '/' + id + '/statistics').then((response) => {
+        commit('SET_PROJECT_STATS', { response: response.data, projectId: id })
+      }, (err) => {
+        commit('SET_MESSAGE', { message: err })
+      })
     }
   },
   getters: {
     getProjectById: (state, getters) => (id) => {
       return state.projects.find(project => project.id === id)
+    },
+    getStatsById: (state, getters) => (id) => {
+      return state.stats.find(stats => stats.projectId === id)
     },
     getProjectLangOptions: (state, getters) => (id) => {
       if (!id) {

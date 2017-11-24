@@ -3,6 +3,7 @@ const User = require('../models').User
 const Language = require('../models').ProjectLanguage
 const ApiKey = require('../models').ApiKey
 const audit = require('../services/audit')
+const documentService = require('../services/document')
 
 module.exports = {
   getAll (req, res, next) {
@@ -108,6 +109,30 @@ module.exports = {
     }).then(() => {
       audit.emit('event:projectDeleted', req.params.id, req.user.id)
       res.status(200).json({status: 200, message: 'Project deleted'})
+    })
+  },
+  getStatistics (req, res, next) {
+    Project.findById(parseInt(req.params.id)).then((project) => {
+      if (project === null) {
+        res.status(404).json({status: 404, message: 'Project not found'})
+      }
+
+      const promises = [
+        documentService.getProjectTranslationPercentage(project),
+        documentService.countUntranslatedDocs(project),
+        documentService.countOldRevisions(project)
+      ]
+
+      Promise.all(promises).then(([translations, untranslated, revisions]) => {
+        res.status(200).json({
+          status: 200,
+          data: {
+            translationPercentages: translations,
+            untranslatedDocs: untranslated,
+            outdatedTranslations: revisions
+          }
+        })
+      })
     })
   }
 }

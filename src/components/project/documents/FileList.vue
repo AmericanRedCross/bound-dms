@@ -77,7 +77,7 @@
 
             <template slot="actions" scope="item">
               <b-button @click="showEditFileModal(item.item)" variant="outline-primary" size="sm"><fa-icon name="pencil"></fa-icon></b-button>
-              <b-button @click="confirmDelete(item.item)" variant="outline-danger" class="m-t-5" size="sm"><fa-icon name="trash" label="Delete"></fa-icon></b-button>
+              <b-button @click="confirmDelete(item.item)" variant="outline-danger" size="sm"><fa-icon name="trash" label="Delete"></fa-icon></b-button>
             </template>
           </b-table>
         </div>

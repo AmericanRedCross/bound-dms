@@ -60,6 +60,11 @@ export default {
     margin-right: -20px;
     border-radius: 0px;
  }
+ .two-lines {
+   .middle-centre {
+     top: 14px;
+   }
+ }
  .middle-centre {
    position: relative;
    top: 23px;

@@ -7,7 +7,8 @@ export class Project {
     createdAt = null,
     createdBy = null,
     updatedAt = null,
-    baseLanguage = null
+    baseLanguage = null,
+    stats = []
   }) {
     this._id = id
     this._name = name
@@ -47,4 +48,7 @@ export class Project {
 
   // updatedAt
   get updatedAt () { return this._updatedAt }
+
+  set stats (stats = []) { this._stats = stats }
+  get stats () { return this._stats }
 }
