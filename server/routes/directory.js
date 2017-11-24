@@ -23,7 +23,8 @@ router.delete('/:id', authService.authenticate(), controller.delete)
 // PUT  /api/directories/:id/translations/:lang
 router.put('/:id/translations/:lang', authService.authenticate(), (req, res, next) => {
   req.checkParams('lang').isAlpha()
-  req.checkBody('title').optional({checkFalsy: true})
+  req.checkBody('title').optional()
+  req.checkBody('revision').optional().isInt()
   req.checkBody('newRevision').optional({checkFalsy: true}).isBoolean()
   req.getValidationResult().then((result) => {
     if (!result.isEmpty()) {

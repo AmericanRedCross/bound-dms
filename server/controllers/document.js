@@ -172,6 +172,8 @@ module.exports = {
 
           if (req.body.newRevision) {
             updateData.revision++
+          } else if (req.body.revision) {
+            updateData.revision = req.body.revision
           }
 
           translation.update(updateData).then((translation) => {

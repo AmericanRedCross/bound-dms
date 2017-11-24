@@ -148,6 +148,8 @@ module.exports = {
         let updateData = {title: req.body.title, revision: translation.revision}
         if (req.body.newRevision) {
           updateData.revision++
+        } else if (req.body.revision) {
+          updateData.revision = req.body.revision
         }
 
         let updated = translation.update(updateData)
