@@ -64,7 +64,7 @@ const files = {
           throw err
         })
     },
-    DELETE_FILE: function ({commit}, {fileId}) {
+    DELETE_FILE: function ({commit}, fileId) {
       return axios.delete('/files/' + fileId)
         .then((response) => {
           commit('REMOVE_FILE', { fileId })
