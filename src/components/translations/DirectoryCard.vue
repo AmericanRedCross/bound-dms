@@ -158,9 +158,10 @@ export default {
     isTranslated (type) {
       switch (type) {
         case 'title':
-          if (this.currentTranslationTitle.title.length === 0) {
+          if (this.currentBaseTitle.revision !== this.currentTranslationTitle.revision || this.currentTranslationTitle.title === '') {
             return false
           }
+
           return true
         case 'file':
 
@@ -177,8 +178,10 @@ export default {
       this.$store.dispatch('UPDATE_DIRECTORY_TITLE', {
         directoryId: this.directory.id,
         lang: translation.language,
-        title: translation.title
+        title: translation.title,
+        newRevision: true
       }).then(() => {
+        translation.revision += 1
         this.$notifications.notify(
           {
             message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.updated')}`,

@@ -69,7 +69,8 @@ const translations = {
     UPDATE_DIRECTORY_TITLE: ({ commit }, options) => {
       // /api/directories/:id/translations/:lang
       return axios.put('directories/' + options.directoryId + '/translations/' + options.lang, {
-        title: options.title
+        title: options.title,
+        newRevision: options.newRevision
       }).catch(err => {
         commit('SET_MESSAGE', { message: err })
         throw err
