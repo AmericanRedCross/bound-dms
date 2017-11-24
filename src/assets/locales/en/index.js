@@ -23,6 +23,7 @@ export default{
     goBack: 'Continue',
     changesMade: 'You\'ve made changes without saving',
     save: 'Save',
+    saveWrevision: 'Save with revision',
     view: 'View',
     loading: 'Loading',
     filter: 'Filter',

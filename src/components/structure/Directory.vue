@@ -20,25 +20,21 @@
         </i>
 
         <b-row class="title-input ml-2 w-75" align-h="around" align-v="center" v-else>
-          <b-col md="2">
-            <b-form-checkbox
-              v-b-tooltip.hover.auto title="This will mark all translations as out of date"
-              v-model="revision"
-              :value="true"
-              :unchecked-value="false">
-              Revision
-            </b-form-checkbox>
-          </b-col>
-          <b-col md="10">
+          <b-col md="12">
             <b-input-group class="w-100">
               <b-form-input v-model="title" class="w-100"
                       type="text"
                       :placeholder="$t('projects.modules.titlePlaceholder')">
               </b-form-input>
-              <!-- Attach Right button -->
-              <b-input-group-button slot="right">
-                <b-button @click="updateText" variant="outline-primary"><fa-icon name="check"></fa-icon></b-button>
+
+              <b-input-group-button slot="right" class="ignore-drag">
+                <b-dropdown :text="$t('common.save')" variant="primary" right>
+                  <fa-icon slot="text" name="check"></fa-icon>
+                  <b-dropdown-item @click="updateText(true)">{{ $t('common.saveWrevision') }}</b-dropdown-item>
+                  <b-dropdown-item @click="updateText(false)">{{ $t('common.save') }}</b-dropdown-item>
+                </b-dropdown>
               </b-input-group-button>
+
             </b-input-group>
           </b-col>
         </b-row>
@@ -219,7 +215,6 @@ export default {
       isExpanded: false, // Are the child directories viewable?
       editTitle: false,
       infoShow: false,
-      revision: false,
       title: '',
       draggableOptions: {
         filter: '.ignore-drag',
@@ -286,13 +281,13 @@ export default {
 
       this.$store.dispatch('UPDATE_ORDER', {newIndex, oldIndex, directoryNumbers: this.getDirectories()})
     },
-    updateText () {
+    updateText (newRevision) {
       this.editTitle = false
       this.$store.dispatch('UPDATE_DIRECTORY_TITLE', {
         directoryId: this.directory.id,
         lang: this.getProjectById(parseInt(this.$route.params.id)).baseLanguage,
         title: this.title,
-        newRevision: this.revision
+        newRevision: newRevision
       }).then(() => {
         this.$notifications.notify(
           {
