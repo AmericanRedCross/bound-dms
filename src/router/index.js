@@ -265,7 +265,8 @@ export default new Router({
               components: {default: Structure},
               meta: {
                 breadcrumb: 'Structure',
-                showSidebar: true
+                showSidebar: true,
+                auth: ['admin', 'editor']
               }
             },
             {
