@@ -8,7 +8,7 @@ cache:
   directories:
     - node_modules
 before_install:
-  - docker compose pull
+  - docker-compose pull
   - docker-compose up -d
   - docker-compose run server npm install
   - sh ./migrate.sh
