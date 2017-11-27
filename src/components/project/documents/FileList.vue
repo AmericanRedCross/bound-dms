@@ -170,19 +170,14 @@ export default {
         confirmButtonColor: '#6200ff',
         cancelButtonColor: '#f85e78',
         confirmButtonText: this._i18n.t('common.deleteIt'),
-        allowOutsideClick: false,
-        preConfirm: () => {
-          return new Promise((resolve, reject) => {
-            this.$store.dispatch('DELETE_FILE', file.id)
-              .then(resolve)
-              .catch(reject(this._i18n.t('common.error')))
-          })
-        }
+        allowOutsideClick: false
       }).then(() => {
-        this.$swal({
-          type: 'success',
-          confirmButtonColor: '#6200ff',
-          title: this._i18n.t('common.deleted')
+        this.$store.dispatch('DELETE_FILE', file.id).then(() => {
+          this.$swal({
+            type: 'success',
+            confirmButtonColor: '#6200ff',
+            title: this._i18n.t('common.deleted')
+          })
         })
       }).catch(this.$swal.noop)
     },

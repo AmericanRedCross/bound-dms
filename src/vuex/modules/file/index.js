@@ -23,8 +23,8 @@ const files = {
       state.files[fileIdx].title = response.data.title
       state.files[fileIdx].description = response.data.description
     },
-    REMOVE_FILE: (state, { id }) => {
-      const fileIdx = state.files.findIndex(file => file.id === id)
+    REMOVE_FILE: (state, { fileId }) => {
+      const fileIdx = state.files.findIndex(file => file.id === fileId)
       if (fileIdx >= 0) {
         state.files.splice(fileIdx, 1)
       }
@@ -67,9 +67,11 @@ const files = {
     DELETE_FILE: function ({commit}, fileId) {
       return axios.delete('/files/' + fileId)
         .then((response) => {
+          console.log(response)
           commit('REMOVE_FILE', { fileId })
         })
         .catch(err => {
+          console.log(err)
           commit('SET_MESSAGE', { message: err })
           throw err
         })
