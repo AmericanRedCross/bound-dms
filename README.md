@@ -11,7 +11,7 @@ and static file downloads.
  - [Android SDK](https://github.com/3sidedcube/dmssdk-android-framework)
  - [Bound on Docker Hub](https://hub.docker.com/r/3sidedcube/arc-cim-frontend/)
 
-## Developement Environment Setup
+## Development Environment Setup
 
 ### Docker Compose
 
@@ -22,6 +22,7 @@ together with the API and associated services e.g. MySQL database.
 
 ```bash
 # Run all services for development
+docker-compose run server npm install
 docker-compose up
 sh ./migrate.sh
 ```
