@@ -1,0 +1,18 @@
+sudo: required
+language: node_js
+node_js:
+  - "6.11.1"
+services:
+  - docker
+cache:
+  directories:
+    - node_modules
+before_install:
+  - docker-compose pull
+  - docker-compose up -d
+  - docker-compose run server npm install
+  - sh ./migrate.sh
+
+install: true
+script:
+  - docker-compose run server npm run test:server
