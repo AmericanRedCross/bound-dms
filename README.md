@@ -1,5 +1,7 @@
 # Bound document management system
 
+[![Build Status](https://travis-ci.org/3sidedcube/bound-dms.svg?branch=develop)](https://travis-ci.org/3sidedcube/bound-dms)
+
 > Bound is a document management system allowing collaboration and control of document translation projects. It supports content distribution via REST API
 and static file downloads.
 
