@@ -3,9 +3,17 @@
     <b-card class="mb-3">
       <div class="row mb-2">
         <div class="col">
-          <b-button variant="danger" @click="back">
+          <b-button variant="danger" @click="back" class="m-1">
             <fa-icon name="arrow-left"></fa-icon>
              {{ $t('common.back') }}
+          </b-button>
+          <b-button variant="primary" @click="attachImage" class="m-1">
+            <fa-icon name="photo"></fa-icon>
+             {{ $t('projects.documents.edit.uploadImage') }}
+          </b-button>
+          <b-button variant="primary" @click="importDocument" class="m-1">
+            <fa-icon name="file-text"></fa-icon>
+             {{ $t('projects.documents.edit.importDocument') }}
           </b-button>
           <span v-if="importingDocument"><fa-icon name="refresh" spin></fa-icon> {{ $t('projects.documents.edit.importingDocument') }}</span>
           <span v-if="loadingDocument"><fa-icon name="refresh" spin></fa-icon> {{ $t('projects.documents.edit.loadingDocument') }}</span>
@@ -23,9 +31,7 @@
         </div>
       </div>
     </b-card>
-
-    <markdown-editor :disabled="true" v-model="content" ref="markdownEditor" :configs="simplemdeConfig"></markdown-editor>
-
+    <markdown-editor v-model="content" ref="markdownEditor"></markdown-editor>
     <b-dropdown :text="$t('common.save')" variant="success" class="float-right" :disabled="!needsSaving || saving" right>
       <span slot="text">
         <fa-icon v-if="saving" name="refresh" spin></fa-icon>
@@ -46,10 +52,14 @@
   </div>
 </template>
 
+<style>
+  @import '~simplemde/dist/simplemde.min.css';
+</style>
+
 <script>
 import toolbar from './toolbarOptions'
 import MediaPicker from '@/components/ui/MediaPicker'
-import markdownEditor from 'vue-simplemde/markdown-editor'
+import markdownEditor from 'vue-simplemde/src/markdown-editor'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 
@@ -88,15 +98,16 @@ export default {
       },
       imageUrl: 'http://',
       imageAlt: '',
-      simplemdeConfig: {
-        toolbar: toolbar
-      },
       documentId: null,
       projectId: parseInt(this.$route.params.id),
       editingDocument: (!Number.isNaN(this.documentId) && this.$route.params.lang)
     }
   },
   mounted () {
+    // Fix for content sometimes not loading in the editor https://github.com/sparksuite/simplemde-markdown-editor/issues/344
+    setTimeout(() => {
+      this.simplemde.codemirror.refresh()
+    }, 500)
     this.contentCopy = this.content
     this.titleCopy = this.title
     this.documentId = parseInt(this.$route.params.docId)
