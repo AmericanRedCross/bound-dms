@@ -315,6 +315,8 @@ export default{
         titlePlaceholder: 'Document title',
         titleNeeded: 'Don\'t forget to add a title',
         pickImage: 'Select image',
+        uploadImage: 'Upload image',
+        importDocument: 'Import document',
         overwrite: 'This will overwrite the current document.',
         importingDocument: 'Importing document',
         loadingDocument: 'Loading Document'

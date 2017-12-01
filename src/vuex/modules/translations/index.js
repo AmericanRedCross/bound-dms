@@ -69,7 +69,7 @@ const translations = {
     CHANGE_EDIT_DOCUMENT: ({ commit }, doc) => {
       commit('SET_DOCUMENT_EDIT', doc)
     },
-    UPDATE_DIRECTORY_TITLE: ({ commit }, options) => {
+    UPDATE_DIRECTORY_TITLE: ({ dispatch, commit }, options) => {
       let data = {
         title: options.title
       }
@@ -82,7 +82,13 @@ const translations = {
         data['revision'] = options.revision
       }
       // /api/directories/:id/translations/:lang
-      return axios.put('directories/' + options.directoryId + '/translations/' + options.lang, data).catch(err => {
+      return axios.put('directories/' + options.directoryId + '/translations/' + options.lang, data)
+      .then(() => {
+        // Re create the structure
+        commit('SET_DIRECTORY_TITLE', {directoryId: options.directoryId, title: options.title, language: options.lang})
+        dispatch('SET_STRUCTURE_FROM_FLAT')
+      })
+      .catch(err => {
         commit('SET_MESSAGE', { message: err })
         throw err
       })

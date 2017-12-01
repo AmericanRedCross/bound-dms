@@ -87,6 +87,19 @@ const directories = {
     UPDATE_DIRECTORY_METADATA: (state, {directoryId, metadata}) => {
       const directoryIdx = state.flatDirectories.findIndex(directory => directory.id === directoryId)
       state.flatDirectories[directoryIdx].metadata = metadata
+    },
+
+    SET_DIRECTORY_TITLE: (state, {directoryId, title, language}) => {
+      const directoryIdx = state.flatDirectories.findIndex(directory => directory.id === directoryId)
+      let translation = state.flatDirectories[directoryIdx].translations.find(trans => trans.language === language)
+      if (translation) {
+        translation.title = title
+      } else {
+        state.flatDirectories[directoryIdx].translations.push({
+          language,
+          title
+        })
+      }
     }
   },
   actions: {
@@ -99,6 +112,10 @@ const directories = {
       }, (err) => {
         commit('SET_MESSAGE', { message: err })
       })
+    },
+
+    SET_STRUCTURE_FROM_FLAT: function ({ commit, state }) {
+      commit('SET_STRUCTURE', { response: getStructure(state.flatDirectories) })
     },
 
     UPDATE_STRUCTURE: function ({ commit }, data) {
