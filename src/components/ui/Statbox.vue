@@ -1,9 +1,9 @@
 <template>
   <b-card :style="'background-color:' + colour" :class="{inverse: inverse}">
       <h3 :class="{'middle-centre': type === 'Number'}">
-        <slot name="value" v-if="type !== 'Number'">{{ value }}{{type}}</slot>
+        <slot name="value" v-if="type !== 'Number'">{{ roundDown(value) }}{{type}}</slot>
         <span v-else>
-          <slot name="value">{{ value }}</slot> <slot name="description">{{ description }}</slot>
+          <slot name="value">{{ roundDown(value) }}</slot> <slot name="description">{{ description }}</slot>
         </span>
       </h3>
     <small v-if="type !== 'Number'"><slot name="description">{{ description }}</slot></small>
@@ -40,6 +40,13 @@ export default {
     inverse: {
       type: Boolean,
       default: false
+    }
+  },
+  methods: {
+    roundDown (number, decimals) {
+      let int = parseInt(number, 10)
+      decimals = decimals || 0
+      return (Math.floor(int * Math.pow(10, decimals)) / Math.pow(10, decimals))
     }
   }
 }
