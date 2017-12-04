@@ -62,7 +62,6 @@ const documents = {
     GET_DOCUMENT_TRANSLATIONS: function ({commit, state}, {documentId, projectId}) {
       return axios.get('/projects/' + projectId + '/documents/')
         .then((response) => {
-          console.log(response.data.data.find(doc => doc.id === documentId))
           commit('SET_EDIT_CURRENT_DOCUMENT', { response: {data: response.data.data.find(doc => doc.id === documentId)} })
         }).catch(err => {
           commit('SET_MESSAGE', { message: err })

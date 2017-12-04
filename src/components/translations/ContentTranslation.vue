@@ -92,7 +92,6 @@ export default {
   watch: {
     // whenever selected lang changes, this function will run
     selectedLanguage () {
-      console.log(this.selectedLanguage)
       this.setRtl()
       this.updateDocuments()
     }
