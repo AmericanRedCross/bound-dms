@@ -77,6 +77,7 @@ export default {
           id: this.project.id,
           code: this.selectedLang.value
         }).then(() => {
+          this.$store.dispatch('GET_PROJECT_STATS', this.$route.params.id)
           this.selectedLang = null
           this.$notifications.notify(
             {
