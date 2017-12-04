@@ -147,36 +147,32 @@ export default {
   },
   methods: {
     contentChange (newContent, oldContent) {
-      console.log('content change')
-      console.log({ newContent, oldContent })
       let newContentBlocks = newContent.split('\n\n')
       let oldContentBlocks = oldContent.split('\n\n')
       let cursorStart = this.simplemde.codemirror.getCursor('start')
       let cursorEnd = this.simplemde.codemirror.getCursor('end')
       let baseLanguage = this.getProjectById(this.projectId).baseLanguage
-      console.log(cursorEnd)
       if (cursorEnd.line === cursorStart.line) {
         // Same line
         if (newContentBlocks.length > oldContentBlocks.length) {
-          // We've added a new line
-          console.log('adding new line ', cursorStart.line / 2)
+          // We've added a new line/s
+          let numberToAdd = newContentBlocks.length - oldContentBlocks.length
           this.translations.forEach(translation => {
             if (translation.language !== baseLanguage) {
-              translation.blocks.splice(cursorStart.line / 2, 0, '')
+              for (let i = 0; i < numberToAdd; i++) {
+                translation.blocks.splice(Math.ceil(cursorStart.line / 2), 0, '')
+              }
             }
           })
-          console.log(this.translations)
         } else if (newContentBlocks.length < oldContentBlocks.length) {
-          // We've removed a line
-          console.log('removing line ', cursorStart.line / 2)
+          // We've removed a line (only need to remove one here because of the start and end lines matching)
+          let numberToRemove = oldContentBlocks.length - newContentBlocks.length
           this.translations.forEach(translation => {
             if (translation.language !== baseLanguage) {
-              translation.blocks.splice(cursorStart.line / 2, 1)
+              translation.blocks.splice(Math.ceil(cursorStart.line / 2), numberToRemove)
             }
           })
         }
-      } else {
-
       }
     },
     setupTranslations () {
