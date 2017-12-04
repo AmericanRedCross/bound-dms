@@ -19,20 +19,29 @@ module.exports = {
   },
   getProjectTranslationPercentage (project) {
     return db.sequelize.query(`
-      SELECT language, (
-        (COUNT(*) / (
-            SELECT COUNT(*)
-            FROM DocumentTranslations
-            WHERE language = ?
-          )
-        ) * 100
-      ) AS percentage
-      FROM DocumentTranslations dt
-      JOIN Documents d ON d.id = dt.documentId
-      WHERE d.projectId = ?
-      AND dt.language <> ?
-      GROUP BY language`, {
-        replacements: [project.baseLanguage, project.id, project.baseLanguage],
+      SELECT pl.code AS language, FLOOR((COALESCE(trans.count, 0) / (
+        SELECT COUNT(*)
+        FROM DocumentTranslations dt
+        JOIN Documents d ON d.id = dt.documentId
+        WHERE language = ? AND d.projectId = ?)) * 100) AS percentage
+      FROM ProjectLanguages pl
+      LEFT JOIN (
+        SELECT dt.language AS lang, COUNT(*) AS count
+        FROM DocumentTranslations dt
+        JOIN Documents d on d.id = dt.documentId
+        JOIN Projects p ON p.id = d.projectId
+        WHERE d.projectId = ? AND dt.language <> ?
+        GROUP BY dt.language
+      ) AS trans ON pl.code = trans.lang
+      WHERE pl.projectId = ? AND pl.code <> ?`, {
+        replacements: [
+          project.baseLanguage,
+          project.id,
+          project.id,
+          project.baseLanguage,
+          project.id,
+          project.baseLanguage
+        ],
         type: db.sequelize.QueryTypes.SELECT
       }).then((result) => {
         return result.map((item) => {
@@ -66,12 +75,19 @@ module.exports = {
       SELECT DISTINCT dt.language, COUNT(*) as translations
       FROM DocumentTranslations dt
       JOIN (
-        SELECT documentId, revision FROM DocumentTranslations WHERE language = 'en'
+        SELECT dt.documentId, dt.revision FROM DocumentTranslations dt
+        JOIN Documents d ON d.id = dt.documentId
+        WHERE dt.language = ? AND d.projectId = ?
       ) sub
       ON dt.documentId = sub.documentId AND dt.revision < sub.revision
+      JOIN Documents d ON d.id = dt.documentId
+      WHERE d.projectId = ?
       GROUP BY dt.language
-    `).then((result) => {
-      return result[0]
+    `, {
+      replacements: [project.baseLanguage, project.id, project.id],
+      type: db.sequelize.QueryTypes.SELECT
+    }).then((result) => {
+      return result
     })
   }
 }
