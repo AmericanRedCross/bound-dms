@@ -56,10 +56,11 @@ export default {
       return this.project.languages.length
     },
     ...mapGetters([
-      'getStatsById'
+      'getStatsById',
+      'getStats'
     ]),
     stats () {
-      return this.getStatsById(this.project.id)
+      return this.getStats
     }
   }
 }

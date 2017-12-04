@@ -9,6 +9,7 @@ const projects = {
   state: {
     projects: [],
     stats: [],
+    currentStats: {},
     currentProject: null
   },
   mutations: {
@@ -34,6 +35,7 @@ const projects = {
     SET_PROJECT_STATS: (state, { response, projectId }) => {
       let stats = state.stats.find(stats => stats.projectId === parseInt(projectId, 10))
       let newStats = response.data
+      state.currentStats = newStats
       newStats['projectId'] = parseInt(projectId, 10)
 
       if (stats) {
@@ -181,6 +183,9 @@ const projects = {
     },
     getCurrentProject: (state, getters) => () => {
       return state.currentProject
+    },
+    getStats: (state) => {
+      return state.currentStats
     }
   }
 }
