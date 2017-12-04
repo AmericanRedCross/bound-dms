@@ -158,7 +158,7 @@ export default {
           this.translations.forEach(translation => {
             if (translation.language !== baseLanguage) {
               for (let i = 0; i < numberToAdd; i++) {
-                translation.blocks.splice(Math.ceil(cursorStart.line / 2), 0, '')
+                translation.blocks.splice(Math.floor(cursorStart.line / 2), 0, '')
               }
             }
           })
@@ -167,7 +167,7 @@ export default {
           let numberToRemove = oldContentBlocks.length - newContentBlocks.length
           this.translations.forEach(translation => {
             if (translation.language !== baseLanguage) {
-              translation.blocks.splice(Math.ceil(cursorStart.line / 2), numberToRemove)
+              translation.blocks.splice(Math.floor(cursorStart.line / 2), numberToRemove)
             }
           })
         }
