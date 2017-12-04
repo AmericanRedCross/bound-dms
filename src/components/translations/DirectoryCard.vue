@@ -227,6 +227,9 @@ export default {
             return true
           }
         }
+        if (!docLang) {
+          return true
+        }
       }
       return false
     },
