@@ -53,6 +53,7 @@
                     </fa-icon>
                   </b-input-group-addon>
                   <b-form-textarea
+                    @input="requiresSave = true"
                     v-model.trim="currentTranslationTitle.title"
                     :placeholder="$t('translationWorkflow.translations.titlePlaceholder')"
                     :class="rtl ? 'text-rtl' : ''">
@@ -146,6 +147,7 @@ export default {
       file: null,
       editTitle: false,
       isOpen: false,
+      requiresSave: false,
       currentTranslationTitle: {
         title: '',
         language: ''
@@ -160,10 +162,11 @@ export default {
     isTranslated (type) {
       switch (type) {
         case 'title':
-          if (this.currentBaseTitle.revision !== this.currentTranslationTitle.revision || this.currentTranslationTitle.title === '') {
+          if (this.currentBaseTitle.revision !== this.currentTranslationTitle.revision) {
+            return false
+          } else if (this.requiresSave || this.currentTranslationTitle.title === '') {
             return false
           }
-
           return true
         case 'file':
 
@@ -183,6 +186,7 @@ export default {
         title: translation.title,
         revision: this.currentBaseTitle.revision
       }).then(() => {
+        this.requiresSave = false
         translation.revision += 1
         this.$notifications.notify(
           {
@@ -265,7 +269,10 @@ export default {
       return this.$store.state.translations.baseLanguage
     },
     currentBaseTitle () {
-      return this.directory.getTitleByLangCode(this.baseLanguage.value.code)
+      if (this.baseLanguage) {
+        return this.directory.getTitleByLangCode(this.baseLanguage.value.code)
+      }
+      return {}
     }
   }
 }
