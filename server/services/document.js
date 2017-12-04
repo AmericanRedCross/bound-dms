@@ -54,17 +54,24 @@ module.exports = {
   },
   countUntranslatedDocs (project) {
     return db.sequelize.query(`
-      SELECT language, COUNT(*) AS translations FROM
-      DocumentTranslations dt
+      SELECT language, COUNT(*) AS translations
+      FROM DocumentTranslations dt
       JOIN Documents d ON d.id = dt.documentId
       WHERE d.projectId = ?
+      AND dt.language <> ?
       GROUP BY dt.language
       HAVING translations < (
         SELECT COUNT(*)
-        FROM DocumentTranslations
-        WHERE language = ?
+        FROM DocumentTranslations dt
+        JOIN Documents d ON d.id = dt.documentId
+        WHERE dt.language = ? AND d.projectId = ?
       )`, {
-        replacements: [project.id, project.baseLanguage],
+        replacements: [
+          project.id,
+          project.baseLanguage,
+          project.baseLanguage,
+          project.id
+        ],
         type: db.sequelize.QueryTypes.SELECT
       }).then((result) => {
         return result
