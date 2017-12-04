@@ -153,13 +153,30 @@ export default {
       let oldContentBlocks = oldContent.split('\n\n')
       let cursorStart = this.simplemde.codemirror.getCursor('start')
       let cursorEnd = this.simplemde.codemirror.getCursor('end')
+      let baseLanguage = this.getProjectById(this.projectId).baseLanguage
+      console.log(cursorEnd)
+      if (cursorEnd.line === cursorStart.line) {
+        // Same line
+        if (newContentBlocks.length > oldContentBlocks.length) {
+          // We've added a new line
+          console.log('adding new line ', cursorStart.line / 2)
+          this.translations.forEach(translation => {
+            if (translation.language !== baseLanguage) {
+              translation.blocks.splice(cursorStart.line / 2, 0, '')
+            }
+          })
+          console.log(this.translations)
+        } else if (newContentBlocks.length < oldContentBlocks.length) {
+          // We've removed a line
+          console.log('removing line ', cursorStart.line / 2)
+          this.translations.forEach(translation => {
+            if (translation.language !== baseLanguage) {
+              translation.blocks.splice(cursorStart.line / 2, 1)
+            }
+          })
+        }
+      } else {
 
-      if (newContentBlocks.length > oldContentBlocks.length) {
-        // We've added a new line
-        console.log('adding new line ', cursorStart.line / 2)
-      } else if (newContentBlocks.length < oldContentBlocks.length) {
-        // We've removed a line
-        console.log('removing line ', cursorStart.line / 2)
       }
     },
     setupTranslations () {
@@ -266,22 +283,52 @@ export default {
         content: this.content,
         newRevision: newRevision
       }
-      let promise = null
+      let baseLanguage = this.getProjectById(this.projectId).baseLanguage
+
+      this.translations.forEach(translation => {
+        if (translation.language !== baseLanguage) {
+          let content = ''
+          translation.blocks.forEach((block, index) => {
+            content += block
+            if (index !== translation.blocks.length - 1) {
+              content += '\n\n'
+            }
+          })
+          translation.content = content
+        }
+      })
+      console.log(this.translations)
+      let promises = []
 
       if (this.editingDocument) {
-        promise = this.$store.dispatch('UPDATE_DOCUMENT_TRANSLATION', {
+        promises.push(this.$store.dispatch('UPDATE_DOCUMENT_TRANSLATION', {
           documentId: this.documentId,
           language: this.$route.params.lang,
           data: saveData
+        }))
+
+        this.translations.forEach(translation => {
+          if (translation.language !== baseLanguage) {
+            promises.push(this.$store.dispatch('UPDATE_DOCUMENT_TRANSLATION', {
+              documentId: this.documentId,
+              language: translation.language,
+              data: {
+                language: translation.language,
+                title: translation.title,
+                content: translation.content,
+                newRevision: false
+              }
+            }))
+          }
         })
       } else {
-        promise = this.$store.dispatch('CREATE_DOCUMENT', {
+        promises.push(this.$store.dispatch('CREATE_DOCUMENT', {
           projectId: this.projectId,
           data: saveData
-        })
+        }))
       }
 
-      promise.then(() => {
+      Promise.all(promises).then(() => {
         this.saving = false
         this.$notifications.notify(
           {
