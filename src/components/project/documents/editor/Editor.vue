@@ -83,7 +83,6 @@ export default {
         }
       }
     })
-
     return {
       content: '',
       title: '',
@@ -100,8 +99,12 @@ export default {
       imageAlt: '',
       documentId: null,
       projectId: parseInt(this.$route.params.id),
-      editingDocument: (!Number.isNaN(this.documentId) && this.$route.params.lang)
+      editingDocument: (!Number.isNaN(this.documentId) && this.$route.params.lang),
+      translations: []
     }
+  },
+  watch: {
+    content: 'contentChange'
   },
   mounted () {
     // Fix for content sometimes not loading in the editor https://github.com/sparksuite/simplemde-markdown-editor/issues/344
@@ -121,8 +124,14 @@ export default {
       }).then(() => {
         this.loadingDocument = false
         let currentDoc = this.$store.state.documents.currentBaseDocument
+        console.log(this.$store.state.documents)
         this.content = this.contentCopy = currentDoc.content
         this.title = this.titleCopy = currentDoc.title
+        console.log(currentDoc)
+        this.$store.dispatch('GET_DOCUMENT_TRANSLATIONS', { documentId: currentDoc.documentId, projectId: this.projectId })
+        .then(() => {
+          this.$store.dispatch('GET_CURRENT_DOCUMENT_TRANSLATIONS', { projectId: this.projectId }).then(this.setupTranslations)
+        })
       }).catch(() => {
         this.loadingDocument = false
         this.$notifications.notify(
@@ -137,6 +146,28 @@ export default {
     }
   },
   methods: {
+    contentChange (newContent, oldContent) {
+      console.log('content change')
+      console.log({ newContent, oldContent })
+      let newContentBlocks = newContent.split('\n\n')
+      let oldContentBlocks = oldContent.split('\n\n')
+      let cursorStart = this.simplemde.codemirror.getCursor('start')
+      let cursorEnd = this.simplemde.codemirror.getCursor('end')
+
+      if (newContentBlocks.length > oldContentBlocks.length) {
+        // We've added a new line
+        console.log('adding new line ', cursorStart.line / 2)
+      } else if (newContentBlocks.length < oldContentBlocks.length) {
+        // We've removed a line
+        console.log('removing line ', cursorStart.line / 2)
+      }
+    },
+    setupTranslations () {
+      this.translations = this.$store.state.documents.editTranslations
+      this.translations.forEach(translation => {
+        translation.blocks = translation.content.split('\n\n')
+      })
+    },
     back () {
       if (this.needsSaving || this.contentCopy !== this.content) {
         this.$swal({
