@@ -108,9 +108,6 @@ export default {
   },
   mounted () {
     // Fix for content sometimes not loading in the editor https://github.com/sparksuite/simplemde-markdown-editor/issues/344
-    setTimeout(() => {
-      this.simplemde.codemirror.refresh()
-    }, 500)
     this.contentCopy = this.content
     this.titleCopy = this.title
     this.documentId = parseInt(this.$route.params.docId)
@@ -124,13 +121,14 @@ export default {
       }).then(() => {
         this.loadingDocument = false
         let currentDoc = this.$store.state.documents.currentBaseDocument
-        console.log(this.$store.state.documents)
         this.content = this.contentCopy = currentDoc.content
         this.title = this.titleCopy = currentDoc.title
-        console.log(currentDoc)
         this.$store.dispatch('GET_DOCUMENT_TRANSLATIONS', { documentId: currentDoc.documentId, projectId: this.projectId })
         .then(() => {
           this.$store.dispatch('GET_CURRENT_DOCUMENT_TRANSLATIONS', { projectId: this.projectId }).then(this.setupTranslations)
+          setTimeout(() => {
+            this.simplemde.codemirror.refresh()
+          }, 500)
         })
       }).catch(() => {
         this.loadingDocument = false
@@ -293,7 +291,6 @@ export default {
           translation.content = content
         }
       })
-      console.log(this.translations)
       let promises = []
 
       if (this.editingDocument) {
