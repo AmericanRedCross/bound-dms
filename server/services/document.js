@@ -75,12 +75,19 @@ module.exports = {
       SELECT DISTINCT dt.language, COUNT(*) as translations
       FROM DocumentTranslations dt
       JOIN (
-        SELECT documentId, revision FROM DocumentTranslations WHERE language = 'en'
+        SELECT dt.documentId, dt.revision FROM DocumentTranslations dt
+        JOIN Documents d ON d.id = dt.documentId
+        WHERE dt.language = ? AND d.projectId = ?
       ) sub
       ON dt.documentId = sub.documentId AND dt.revision < sub.revision
+      JOIN Documents d ON d.id = dt.documentId
+      WHERE d.projectId = ?
       GROUP BY dt.language
-    `).then((result) => {
-      return result[0]
+    `, {
+      replacements: [project.baseLanguage, project.id, project.id],
+      type: db.sequelize.QueryTypes.SELECT
+    }).then((result) => {
+      return result
     })
   }
 }
