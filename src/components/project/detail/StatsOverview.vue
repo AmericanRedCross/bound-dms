@@ -11,13 +11,13 @@
             </div>
 
             <div v-for="percentage in stats.translationPercentages" class="col-lg-3 col-md-6 m-b-10">
-              <Statbox :value="percentage.percentage" type="%" :description="percentage.language + ' ' + $t('projects.detail.translated')"
+              <Statbox :value="percentage.percentage" type="%" :description="getLanguageName(percentage.language) + ' ' + $t('projects.detail.translated')"
                       colour="#4a3b61"
                       barColour="#a966ff" inverse></Statbox>
             </div>
 
             <div v-for="percentage in stats.outdatedTranslations" class="col-lg-3 col-md-6 m-b-10">
-              <Statbox :value="percentage.translations" type="Number" :description="percentage.language + ' ' + $t('projects.detail.outdatedTranslations')"
+              <Statbox :value="percentage.translations" type="Number" :language="getLanguageName(percentage.language)" :description="$t('projects.detail.outdatedTranslations')"
                       colour="#4a3b61"
                       barColour="#a966ff" inverse>
                       <slot name="value">{{ percentage.translations }}</slot>
@@ -25,7 +25,10 @@
             </div>
 
             <div v-for="percentage in stats.untranslatedDocs" class="col-lg-3 col-md-6 m-b-10">
-              <Statbox class="two-lines" :value="percentage.translations" type="Number" :description="$t('projects.detail.untranslatedDocs') + ' - ' + percentage.language "
+              <Statbox class="two-lines"
+                      :value="percentage.translations" type="Number"
+                      :language="getLanguageName(percentage.language)"
+                      :description="$t('projects.detail.untranslatedDocs')"
                       colour="#4a3b61"
                       barColour="#a966ff" inverse>
                       <slot name="value">{{ percentage.translations }}</slot>
@@ -40,6 +43,7 @@
 <script>
 import Statbox from '../../ui/Statbox'
 import { mapGetters } from 'vuex'
+import { languages } from 'countries-list'
 
 export default {
   name: 'stats-overview',
@@ -50,6 +54,11 @@ export default {
   },
   components: {
     Statbox
+  },
+  methods: {
+    getLanguageName (code) {
+      return `${languages[code].name} (${code})`
+    }
   },
   computed: {
     languageCount () {
