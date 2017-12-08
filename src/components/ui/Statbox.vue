@@ -1,15 +1,12 @@
 <template>
   <b-card :style="'background-color:' + colour" :class="{inverse: inverse}">
-      <h2 class="language-background">{{ language }}</h2>
-      <!-- <h3 :class="{'middle-centre': type === 'Number'}"> -->
+      <h3 class="language-background">{{ language }}</h3>
       <h4>
-        <slot name="value" v-if="type !== 'Number'">{{ roundDown(value) }}{{type}}</slot>
+        <slot name="value" v-if="type !== 'Number'">{{ roundDown(value) }}{{type}} {{ description }}</slot>
         <span v-else>
           <slot name="value">{{ roundDown(value) }}</slot> <slot name="description">{{ description }}</slot>
         </span>
       </h4>
-    <small v-if="type !== 'Number'"><slot name="description">{{ description }}</slot></small>
-
     <div class="progress" v-if="type === '%'">
       <div class="progress-bar" role="progressbar" :style="'background-color:' + barColour + '; width: ' + value + '%'" :aria-valuenow="value" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
