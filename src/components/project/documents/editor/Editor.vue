@@ -3,14 +3,17 @@
     <b-card class="mb-3">
       <div class="row mb-2">
         <div class="col">
-          <b-button variant="primary" @click="back">
+          <b-button variant="danger" @click="back" class="m-1">
             <fa-icon name="arrow-left"></fa-icon>
              {{ $t('common.back') }}
           </b-button>
-          <b-button variant="success" @click="save" :disabled="!needsSaving || saving">
-            <fa-icon v-if="saving" name="refresh" spin></fa-icon>
-            <fa-icon v-else name="save"></fa-icon>
-             {{ $t('common.save') }}
+          <b-button variant="primary" @click="attachImage" class="m-1">
+            <fa-icon name="photo"></fa-icon>
+             {{ $t('projects.documents.edit.uploadImage') }}
+          </b-button>
+          <b-button variant="primary" @click="importDocument" class="m-1">
+            <fa-icon name="file-text"></fa-icon>
+             {{ $t('projects.documents.edit.importDocument') }}
           </b-button>
           <span v-if="importingDocument"><fa-icon name="refresh" spin></fa-icon> {{ $t('projects.documents.edit.importingDocument') }}</span>
           <span v-if="loadingDocument"><fa-icon name="refresh" spin></fa-icon> {{ $t('projects.documents.edit.loadingDocument') }}</span>
@@ -28,8 +31,16 @@
         </div>
       </div>
     </b-card>
-
-    <markdown-editor :disabled="true" v-model="content" ref="markdownEditor" :configs="simplemdeConfig"></markdown-editor>
+    <markdown-editor v-model="content" ref="markdownEditor"></markdown-editor>
+    <b-dropdown :text="$t('common.save')" variant="success" class="float-right" :disabled="!needsSaving || saving" right>
+      <span slot="text">
+        <fa-icon v-if="saving" name="refresh" spin></fa-icon>
+        <fa-icon v-else name="save"></fa-icon>
+         {{ $t('common.save') }}
+      </span>
+      <b-dropdown-item @click="save(true)">{{ $t('common.saveWrevision') }}</b-dropdown-item>
+      <b-dropdown-item @click="save(false)">{{ $t('common.save') }}</b-dropdown-item>
+    </b-dropdown>
 
     <b-modal ref="imagePicker"
       :title="$t('projects.documents.edit.pickImage')"
@@ -41,10 +52,14 @@
   </div>
 </template>
 
+<style>
+  @import '~simplemde/dist/simplemde.min.css';
+</style>
+
 <script>
 import toolbar from './toolbarOptions'
 import MediaPicker from '@/components/ui/MediaPicker'
-import markdownEditor from 'vue-simplemde/markdown-editor'
+import markdownEditor from 'vue-simplemde/src/markdown-editor'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 
@@ -68,7 +83,6 @@ export default {
         }
       }
     })
-
     return {
       content: '',
       title: '',
@@ -83,15 +97,17 @@ export default {
       },
       imageUrl: 'http://',
       imageAlt: '',
-      simplemdeConfig: {
-        toolbar: toolbar
-      },
       documentId: null,
       projectId: parseInt(this.$route.params.id),
-      editingDocument: (!Number.isNaN(this.documentId) && this.$route.params.lang)
+      editingDocument: (!Number.isNaN(this.documentId) && this.$route.params.lang),
+      translations: []
     }
   },
+  watch: {
+    content: 'contentChange'
+  },
   mounted () {
+    // Fix for content sometimes not loading in the editor https://github.com/sparksuite/simplemde-markdown-editor/issues/344
     this.contentCopy = this.content
     this.titleCopy = this.title
     this.documentId = parseInt(this.$route.params.docId)
@@ -107,6 +123,13 @@ export default {
         let currentDoc = this.$store.state.documents.currentBaseDocument
         this.content = this.contentCopy = currentDoc.content
         this.title = this.titleCopy = currentDoc.title
+        this.$store.dispatch('GET_DOCUMENT_TRANSLATIONS', { documentId: currentDoc.documentId, projectId: this.projectId })
+        .then(() => {
+          this.$store.dispatch('GET_CURRENT_DOCUMENT_TRANSLATIONS', { projectId: this.projectId }).then(this.setupTranslations)
+          setTimeout(() => {
+            this.simplemde.codemirror.refresh()
+          }, 500)
+        })
       }).catch(() => {
         this.loadingDocument = false
         this.$notifications.notify(
@@ -121,6 +144,41 @@ export default {
     }
   },
   methods: {
+    contentChange (newContent, oldContent) {
+      let newContentBlocks = newContent.split('\n\n')
+      let oldContentBlocks = oldContent.split('\n\n')
+      let cursorStart = this.simplemde.codemirror.getCursor('start')
+      let cursorEnd = this.simplemde.codemirror.getCursor('end')
+      let baseLanguage = this.getProjectById(this.projectId).baseLanguage
+      if (cursorEnd.line === cursorStart.line) {
+        // Same line
+        if (newContentBlocks.length > oldContentBlocks.length) {
+          // We've added a new line/s
+          let numberToAdd = newContentBlocks.length - oldContentBlocks.length
+          this.translations.forEach(translation => {
+            if (translation.language !== baseLanguage) {
+              for (let i = 0; i < numberToAdd; i++) {
+                translation.blocks.splice(Math.floor(cursorStart.line / 2), 0, '')
+              }
+            }
+          })
+        } else if (newContentBlocks.length < oldContentBlocks.length) {
+          // We've removed a line (only need to remove one here because of the start and end lines matching)
+          let numberToRemove = oldContentBlocks.length - newContentBlocks.length
+          this.translations.forEach(translation => {
+            if (translation.language !== baseLanguage) {
+              translation.blocks.splice(Math.floor(cursorStart.line / 2), numberToRemove)
+            }
+          })
+        }
+      }
+    },
+    setupTranslations () {
+      this.translations = this.$store.state.documents.editTranslations
+      this.translations.forEach(translation => {
+        translation.blocks = translation.content.split('\n\n')
+      })
+    },
     back () {
       if (this.needsSaving || this.contentCopy !== this.content) {
         this.$swal({
@@ -128,8 +186,8 @@ export default {
           text: this._i18n.t('common.changesMade'),
           type: 'warning',
           showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
+          confirmButtonColor: '#6200ff',
+          cancelButtonColor: '#f85e78',
           confirmButtonText: this._i18n.t('common.goBack'),
           allowOutsideClick: false
         }).then(() => {
@@ -183,8 +241,8 @@ export default {
           text: this._i18n.t('projects.documents.edit.overwrite'),
           type: 'warning',
           showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
+          confirmButtonColor: '#6200ff',
+          cancelButtonColor: '#f85e78',
           confirmButtonText: this._i18n.t('common.goBack'),
           allowOutsideClick: false
         }).then(() => {
@@ -211,29 +269,59 @@ export default {
           })
       })
     },
-    save () {
+    save (newRevision) {
       this.saving = true
       let saveData = {
         language: this.getProjectById(this.projectId).baseLanguage,
         title: this.title,
-        content: this.content
+        content: this.content,
+        newRevision: newRevision
       }
-      let promise = null
+      let baseLanguage = this.getProjectById(this.projectId).baseLanguage
+
+      this.translations.forEach(translation => {
+        if (translation.language !== baseLanguage) {
+          let content = ''
+          translation.blocks.forEach((block, index) => {
+            content += block
+            if (index !== translation.blocks.length - 1) {
+              content += '\n\n'
+            }
+          })
+          translation.content = content
+        }
+      })
+      let promises = []
 
       if (this.editingDocument) {
-        promise = this.$store.dispatch('UPDATE_DOCUMENT_TRANSLATION', {
+        promises.push(this.$store.dispatch('UPDATE_DOCUMENT_TRANSLATION', {
           documentId: this.documentId,
           language: this.$route.params.lang,
           data: saveData
+        }))
+
+        this.translations.forEach(translation => {
+          if (translation.language !== baseLanguage) {
+            promises.push(this.$store.dispatch('UPDATE_DOCUMENT_TRANSLATION', {
+              documentId: this.documentId,
+              language: translation.language,
+              data: {
+                language: translation.language,
+                title: translation.title,
+                content: translation.content,
+                newRevision: false
+              }
+            }))
+          }
         })
       } else {
-        promise = this.$store.dispatch('CREATE_DOCUMENT', {
+        promises.push(this.$store.dispatch('CREATE_DOCUMENT', {
           projectId: this.projectId,
           data: saveData
-        })
+        }))
       }
 
-      promise.then(() => {
+      Promise.all(promises).then(() => {
         this.saving = false
         this.$notifications.notify(
           {

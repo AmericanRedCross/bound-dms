@@ -423,9 +423,9 @@
       "resolved": "https://registry.npmjs.org/code-point-at/-/code-point-at-1.1.0.tgz"
     },
     "codemirror": {
-      "version": "5.28.0",
+      "version": "5.32.0",
       "from": "codemirror@*",
-      "resolved": "https://registry.npmjs.org/codemirror/-/codemirror-5.28.0.tgz"
+      "resolved": "https://registry.npmjs.org/codemirror/-/codemirror-5.32.0.tgz"
     },
     "codemirror-spell-checker": {
       "version": "1.1.2",
@@ -1979,7 +1979,7 @@
     },
     "marked": {
       "version": "0.3.6",
-      "from": "marked@*",
+      "from": "marked@>=0.3.6 <0.4.0",
       "resolved": "https://registry.npmjs.org/marked/-/marked-0.3.6.tgz"
     },
     "match-at": {
@@ -3239,9 +3239,9 @@
       "resolved": "https://registry.npmjs.org/vue-select/-/vue-select-2.2.0.tgz"
     },
     "vue-simplemde": {
-      "version": "0.3.8",
-      "from": "vue-simplemde@>=0.3.8 <0.4.0",
-      "resolved": "https://registry.npmjs.org/vue-simplemde/-/vue-simplemde-0.3.8.tgz"
+      "version": "0.4.6",
+      "from": "vue-simplemde@latest",
+      "resolved": "https://registry.npmjs.org/vue-simplemde/-/vue-simplemde-0.4.6.tgz"
     },
     "vue-sweetalert": {
       "version": "0.1.18",

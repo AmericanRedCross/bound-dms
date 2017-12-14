@@ -166,8 +166,16 @@ module.exports = {
         } else {
           let updateData = {
             title: req.body.title,
-            content: req.body.content
+            content: req.body.content,
+            revision: translation.revision
           }
+
+          if (req.body.newRevision) {
+            updateData.revision++
+          } else if (req.body.revision) {
+            updateData.revision = req.body.revision
+          }
+
           translation.update(updateData).then((translation) => {
             audit.emit('event:documentTranslationUpdated', translation.id, req.user.id, updateData)
             return res.status(200).json({status: 200, data: translation})

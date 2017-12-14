@@ -28,7 +28,7 @@
           </b-form-input>
         </b-form-fieldset>
         <b-form-fieldset label="Base language">
-          <b-form-select v-model="selectedLang" :options="projectLangOptions" class="mb-3"></b-form-select>
+          <b-form-select v-model="project.baseLanguage" :options="projectLangOptions" class="mb-3"></b-form-select>
           <b-alert variant="danger" show>
             {{ $t('projects.settings.warning') }}
           </b-alert>

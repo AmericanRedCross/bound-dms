@@ -2,17 +2,24 @@
   <div class="users">
     <div class="row justify-content-md-center">
       <div class="col">
-        <b-card id="userList" :header="$t('users.header')">
-          <b-form-input v-model="filter" :placeholder="$t('users.listview.type')" id="userSearch"></b-form-input>
+        <b-card id="userList">
+          <div slot="header">
+            <p>
+              {{ $t('users.header') }}
+              <b-button variant="primary" :to="{ name: 'user-new' }" class="float-right"><fa-icon name="plus" class="mr-1"></fa-icon> {{ $t('common.add') }}</b-button>
+            </p>
+          </div>
+
+          <b-form-input v-model="filter" :placeholder="$t('users.listview.type')" id="userSearch" class="mb-2"></b-form-input>
           <!-- Main table element -->
           <b-table striped hover
                   :items="users.users"
                   :fields="headers"
                   :current-page="currentPage"
                   :per-page="perPage"
-                  :filter="filter"
+                  :filter="filterFunction"
+                  @filtered="onFiltered"
                   id="userTable"
-                  @row-clicked="rowClicked"
                   class="table-responsive"
           >
           <template slot="picture" scope="user">
@@ -21,14 +28,18 @@
           <template slot="actions" scope="user">
             <b-btn size="sm" variant="outline-primary" :to="{ name: 'user-profile', params: { id: user.item.id }}" class="m-t-5"><fa-icon name="user" label="View"></fa-icon> {{ $t('common.view') }}</b-btn>
             <b-btn size="sm" variant="outline-primary" :to="{ name: 'user-edit', params: { id: user.item.id }}" class="m-t-5"><fa-icon name="edit" label="Edit"></fa-icon> {{ $t('users.listview.edit') }}</b-btn>
-            <b-btn size="sm" variant="outline-danger" class="m-t-5" @click="deleteClick" :data-id="user.item.id"><fa-icon name="trash" label="Delete"></fa-icon> {{ $t('users.listview.delete') }}</b-btn>
+            <b-btn size="sm"
+              variant="outline-danger"
+              class="m-t-5"
+              @click="deleteClick"
+              :data-id="user.item.id"
+              v-if="$auth.user().id !== user.item.id">
+                <fa-icon name="trash" label="Delete"></fa-icon> {{ $t('users.listview.delete') }}
+            </b-btn>
           </template>
           </b-table>
-          <div v-if="users.users.length > 10" class="row justify-content-center" slot="footer">
-            <b-pagination size="md" :total-rows="users.users.length" :per-page="perPage" v-model="currentPage" />
-          </div>
-          <div slot="footer">
-            <b-button variant="primary" :to="{ name: 'user-new' }">{{ $t('common.add') }}</b-button>
+          <div class="row justify-content-center" slot="footer">
+            <b-pagination size="md" :total-rows="totalRows" :per-page="perPage" v-model="currentPage" />
           </div>
         </b-card>
       </div>
@@ -67,6 +78,7 @@ export default {
       },
       perPage: 10,
       currentPage: 1,
+      totalRows: this.users ? this.users.length : 0,
       filter: null
     }
   },
@@ -92,8 +104,8 @@ export default {
         type: 'warning',
         showCancelButton: true,
         showLoaderOnConfirm: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: '#6200ff',
+        cancelButtonColor: '#f85e78',
         confirmButtonText: this._i18n.t('common.deleteIt'),
         // Pre confirm it. Used for async requests. Close the dialoag when this is finished
         preConfirm: () => {
@@ -120,12 +132,27 @@ export default {
       }).then(() => {
         this.$swal({
           type: 'success',
+          confirmButtonColor: '#6200ff',
           title: this._i18n.t('common.deleted')
         })
-      })
+      }).catch(this.$swal.noop)
+    },
+    onFiltered (filteredItems) {
+      this.totalRows = filteredItems.length
+      this.currentPage = 1
     },
     rowClicked (user) {
       this.$router.push({ name: 'user-profile', params: { id: user.id } })
+    },
+    filterFunction (user) {
+      if (this.filter === null) {
+        return true
+      }
+      let filter = this.filter.toLowerCase()
+      if (user.firstName.toLowerCase().includes(filter) || user.lastName.toLowerCase().includes(filter)) {
+        return true
+      }
+      return false
     }
   },
   computed: {

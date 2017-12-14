@@ -22,6 +22,12 @@ const files = {
       const fileIdx = state.files.findIndex(file => file.id === response.data.id)
       state.files[fileIdx].title = response.data.title
       state.files[fileIdx].description = response.data.description
+    },
+    REMOVE_FILE: (state, { fileId }) => {
+      const fileIdx = state.files.findIndex(file => file.id === fileId)
+      if (fileIdx >= 0) {
+        state.files.splice(fileIdx, 1)
+      }
     }
   },
   actions: {
@@ -54,6 +60,17 @@ const files = {
     UNLINK_FILE_DIRECTORY: function ({commit}, {fileId}) {
       return axios.patch('/files/' + fileId, {directoryId: null})
         .catch(err => {
+          commit('SET_MESSAGE', { message: err })
+          throw err
+        })
+    },
+    DELETE_FILE: function ({commit}, fileId) {
+      return axios.delete('/files/' + fileId)
+        .then((response) => {
+          commit('REMOVE_FILE', { fileId })
+        })
+        .catch(err => {
+          console.log(err)
           commit('SET_MESSAGE', { message: err })
           throw err
         })

@@ -76,7 +76,8 @@
             </template>
 
             <template slot="actions" scope="item">
-              <b-button @click="showEditFileModal(item.item)"><fa-icon name="pencil"></fa-icon></b-button>
+              <b-button @click="showEditFileModal(item.item)" variant="outline-primary" size="sm"><fa-icon name="pencil"></fa-icon></b-button>
+              <b-button @click="confirmDelete(item.item)" variant="outline-danger" size="sm"><fa-icon name="trash" label="Delete"></fa-icon></b-button>
             </template>
           </b-table>
         </div>
@@ -103,6 +104,10 @@
         <b-form-fieldset>
           {{ $t('projects.files.fields.description') }}
           <b-form-input type="text" v-model="selectedFile._description"></b-form-input>
+        </b-form-fieldset>
+        <b-form-fieldset>
+          {{ $t('projects.files.fields.path') }}
+          <b-form-input type="text" v-model="selectedFile.path" :disabled="true"></b-form-input>
         </b-form-fieldset>
       </div>
     </b-modal>
@@ -137,6 +142,7 @@ export default {
       }).then(() => {
         this.$swal({
           type: 'success',
+          confirmButtonColor: '#6200ff',
           title: this._i18n.t('common.updated')
         })
       }).catch(() => {
@@ -153,6 +159,27 @@ export default {
     showEditFileModal (file) {
       this.selectedFile = file
       this.openEditFileModal = true
+    },
+    confirmDelete (file) {
+      this.$swal({
+        title: this._i18n.t('common.areYouSure'),
+        text: this._i18n.t('common.noRevert'),
+        type: 'warning',
+        showCancelButton: true,
+        showLoaderOnConfirm: true,
+        confirmButtonColor: '#6200ff',
+        cancelButtonColor: '#f85e78',
+        confirmButtonText: this._i18n.t('common.deleteIt'),
+        allowOutsideClick: false
+      }).then(() => {
+        this.$store.dispatch('DELETE_FILE', file.id).then(() => {
+          this.$swal({
+            type: 'success',
+            confirmButtonColor: '#6200ff',
+            title: this._i18n.t('common.deleted')
+          })
+        })
+      }).catch(this.$swal.noop)
     },
     showSuccess (file) {
       setTimeout(() => {

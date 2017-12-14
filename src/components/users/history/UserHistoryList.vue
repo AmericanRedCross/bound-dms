@@ -1,6 +1,6 @@
 <template>
   <b-card class="user-history-card" header="Activity">
-    {{ $t('common.filter') }} <input v-model="filter"/>
+    {{ $t('common.filter') }} <b-input class="mb-2" v-model="filter"/>
     <b-table striped hover
              :items="history"
              :fields="headers()"
@@ -16,7 +16,7 @@
         {{ item.item._date | formatDate }}
       </template>
       <template slot="buttons" scope="item">
-        <b-button v-if="item.item._changes" @click="selectHistory(item.item)"> {{ $t('common.view') }}</b-button>
+        <b-button v-if="item.item._changes" @click="selectHistory(item.item)" variant="outline-primary" size="sm"> {{ $t('common.view') }}</b-button>
       </template>
     </b-table>
     <b-pagination align="center" size="md" :total-rows="totalHistory" v-model="currentPage" :per-page="perPage" :limit="10"></b-pagination>

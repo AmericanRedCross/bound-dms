@@ -6,16 +6,16 @@ module.exports = (sequelize, DataTypes) => {
     },
     entity: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: true
     },
     entityId: {
       type: DataTypes.INTEGER,
       references: null,
-      allowNull: true,
+      allowNull: true
     },
     userId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: false
     },
     changes: {
       allowNull: true,
@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         return JSON.parse(this.getDataValue('changes'))
       },
       set: function (value) {
-        return this.setDataValue('changes', JSON.stringify(value));
+        return this.setDataValue('changes', JSON.stringify(value))
       }
     }
   })

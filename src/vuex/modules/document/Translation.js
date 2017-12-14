@@ -6,7 +6,8 @@ export class Translation {
     createdAt = null,
     updatedAt = null,
     language = null,
-    title = null
+    title = null,
+    revision = 0
    }) {
     this._id = id
     this._documentId = documentId
@@ -15,6 +16,7 @@ export class Translation {
     this._updatedAt = updatedAt && new Date(updatedAt)
     this._language = language
     this._title = title
+    this._revision = 0
   }
 
   get id () { return this._id }
@@ -32,4 +34,7 @@ export class Translation {
 
   set title (title) { this._title = title }
   get title () { return this._title }
+
+  set revision (revision) { this._revision = revision }
+  get revision () { return this._revision }
 }

@@ -15,6 +15,9 @@
         <b-form-group :label="$t('projects.documents.edit.titlePlaceholder')">
           <b-form-input v-model="translationDocTitle"></b-form-input>
         </b-form-group>
+        <p v-if="baseDocReference && translationDocReference">
+          <i v-if="baseDocReference.revision !== translationDocReference.revision">{{ $t('projects.documents.edit.revision') }}</i>
+        </p>
       </div>
     </div>
     <hr>
@@ -37,11 +40,11 @@
     <div class="row mb-4" v-for="(block, index) in baseBlocks" :key="index" v-else>
       <div class="col-6">
         <!-- Base language -->
-        <ContentBlock :block.sync="block" @update:block="updateRender" class="text-left h-100"></ContentBlock>
+        <ContentBlock :block.sync="block" @update:block="updateRender" class="text-left h-100" :disabled="true"></ContentBlock>
       </div>
       <div class="col-6">
         <!-- Selected Language -->
-        <ContentBlock :block.sync="translationBlocks[index]" @update:block="updateRender" :placeholder="block" class="text-left h-100"></ContentBlock>
+        <ContentBlock :block.sync="translationBlocks[index]" @update:block="updateRender" :placeholder="block" class="text-left h-100" :rtl="rtl"></ContentBlock>
       </div>
     </div>
   </div>
@@ -53,7 +56,9 @@ import MarkdownIt from 'markdown-it'
 import { mapGetters } from 'vuex'
 import TranslationInfo from '@/components/translations/TranslationInfo'
 import ContentBlock from '@/components/translations/ContentBlock'
+import { languages } from 'countries-list'
 
+const newLineRegex = /\n{2,}/g
 export default {
   name: 'content-translation',
   components: {
@@ -76,19 +81,30 @@ export default {
       parentDoc: null,
       translationBaseDoc: null,
       translationDoc: null,
-      saving: false
+      saving: false,
+      rtl: false
     }
   },
   mounted () {
+    this.setRtl()
     this.updateDocuments()
   },
   watch: {
     // whenever selected lang changes, this function will run
     selectedLanguage () {
+      this.setRtl()
       this.updateDocuments()
     }
   },
   methods: {
+    setRtl () {
+      if (this.selectedLanguage) {
+        let lang = languages[this.selectedLanguage.value.code]
+        if (lang) {
+          this.rtl = lang.rtl === 1
+        }
+      }
+    },
     updateDocuments () {
       this.parentDoc = this.$store.state.translations.documentToEdit
 
@@ -170,6 +186,7 @@ export default {
     updateRender () {
       this.renderedBaseContent = ''
       this.baseBlocks.forEach((block, index) => {
+        block.content = block.content.replace(newLineRegex, '\n')
         this.renderedBaseContent += block.content
         if (index !== this.baseBlocks.length - 1) {
           this.renderedBaseContent += '\n\n'
@@ -178,6 +195,7 @@ export default {
 
       this.renderedTranslationContent = ''
       this.translationBlocks.forEach((block, index) => {
+        block.content = block.content.replace(newLineRegex, '\n')
         this.renderedTranslationContent += block.content
         if (index !== this.translationBlocks.length - 1) {
           this.renderedTranslationContent += '\n\n'
@@ -187,26 +205,29 @@ export default {
     save () {
       let promises = []
       this.saving = true
-      // Save both the base and translating documents
-      promises.push(this.$store.dispatch('UPDATE_DOCUMENT_TRANSLATION', {
+      // Uncomment to save the base document as well as the translated document.
+      /* promises.push(this.$store.dispatch('UPDATE_DOCUMENT_TRANSLATION', {
         documentId: this.parentDoc.id,
         language: this.baseLanguage.value.code,
         data: {
           title: this.baseDocReference.title,
           content: this.renderedBaseContent
         }
-      }))
+      })) */
       promises.push(this.$store.dispatch('UPDATE_DOCUMENT_TRANSLATION', {
         documentId: this.parentDoc.id,
         language: this.selectedLanguage.value.code,
         data: {
           title: this.translationDocTitle,
-          content: this.renderedTranslationContent
+          content: this.renderedTranslationContent,
+          revision: this.baseDocReference.revision
         }
       }).then((response) => {
         // Add the document from the response so we know we've created one
         if (!this.translationDocReference) {
           this.parentDoc.addDocument(response.data)
+        } else {
+          this.translationDocReference.revision = this.baseDocReference.revision
         }
       }))
 

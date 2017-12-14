@@ -23,6 +23,7 @@ export default{
     goBack: 'Continue',
     changesMade: 'You\'ve made changes without saving',
     save: 'Save',
+    saveWrevision: 'Save with revision',
     view: 'View',
     loading: 'Loading',
     filter: 'Filter',
@@ -75,7 +76,7 @@ export default{
     password: 'Password:',
     login: 'Login',
     forgot: 'Forgotten password',
-    reset: 'Send reset link',
+    reset: 'Send password reset link',
     resetSent: 'Password reset link sent to ',
     errors: {
       title: 'Error logging in',
@@ -107,6 +108,8 @@ export default{
     couldNotFind: 'Could not find the requested user',
     newSaved: 'New user saved',
     currentSaved: 'User updated',
+    active: 'Active',
+    inactive: 'Inactive',
     edit: {
       newHeader: 'New user',
       editHeader: 'Edit details',
@@ -200,7 +203,8 @@ export default{
         description: 'Description',
         thumbnail: 'Thumbnail',
         filename: 'Filename',
-        code: 'Country Code'
+        code: 'Country Code',
+        path: 'Path'
       }
     },
     languages: {
@@ -216,7 +220,8 @@ export default{
       edit: 'Edit content',
       createdBy: 'Created by',
       lastUpdated: 'Last updated',
-      languages: 'Translations',
+      languages: 'Languages',
+      transaltions: 'Translations',
       content: 'Content & translations',
       setcontent: 'Content set',
       translations: 'Translations',
@@ -239,7 +244,13 @@ export default{
       delete: 'Delete',
       newLang: 'Adding a new language will update translation statistics for this project',
       languages: 'Languages',
-      description: 'A description here'
+      language: 'Language',
+      description: 'A description here',
+      translated: 'translated',
+      outdatedTranslations: 'outdated translations',
+      outdatedTranslation: 'outdated translation',
+      untranslatedDocs: 'untranslated documents',
+      untranslatedDoc: 'untranslated document'
     },
     profile: {
       admin: 'Admin',
@@ -303,9 +314,12 @@ export default{
       create: 'Create document',
       emptystate: 'No documents have been created yet',
       edit: {
+        revision: 'This translation is out of date with the base translation. Review it to make sure everything is correct and save.',
         titlePlaceholder: 'Document title',
         titleNeeded: 'Don\'t forget to add a title',
         pickImage: 'Select image',
+        uploadImage: 'Upload image',
+        importDocument: 'Import document',
         overwrite: 'This will overwrite the current document.',
         importingDocument: 'Importing document',
         loadingDocument: 'Loading Document'

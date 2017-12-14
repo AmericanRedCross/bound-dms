@@ -30,6 +30,11 @@ export default {
         return this.$store.state.structure.structure
       }
     },
+    flatStructure: {
+      get () {
+        return this.$store.state.structure.flatDirectories
+      }
+    },
     filter () {
       return this.$store.state.translations.filter
     }

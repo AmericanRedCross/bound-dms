@@ -24,6 +24,8 @@ router.get('/:id/translations/:language', authService.authenticate(), controller
 router.put('/:id/translations/:language', authService.authenticate(), (req, res, next) => {
   req.checkBody('title', 'Invalid title').optional({checkFalsy: true})
   req.checkBody('content').optional({checkFalsy: true})
+  req.checkBody('revision').optional().isInt()
+  req.checkBody('newRevision').optional({checkFalsy: true}).isBoolean()
   req.getValidationResult().then((result) => {
     if (!result.isEmpty()) {
       res.status(400).json({status: 400, errors: result.array()})

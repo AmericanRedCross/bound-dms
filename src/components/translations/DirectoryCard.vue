@@ -14,12 +14,14 @@
               <b-card class="col ml-3 m-2">
                 <div class="center-card text-left">
                   <small>{{ getHierarchy }} {{ $t('translationWorkflow.translations.directoryTitle') }}</small>
-                  <div v-if="currentBaseTitle.title && !editTitle" class="font-weight-bold title-wrapper" @click="editTitle = true">
-                    <fa-icon name="check" class="text-success"></fa-icon>
+                  <!-- change `@click="editTitle = false"` to `@click="editTitle = true"` to enable base title editing -->
+                  <div v-if="currentBaseTitle.title && !editTitle" class="font-weight-bold title-wrapper" @click="editTitle = false">
+                    <!-- <fa-icon name="check" class="text-success"></fa-icon> -->
                     {{ currentBaseTitle.title }}
                   </div>
                   <div v-else>
-                    <span v-if="!editTitle" @click="editTitle = true" class="font-weight-bold title-wrapper">
+                    <!-- change `@click="editTitle = false"` to `@click="editTitle = true"` to enable base title editing -->
+                    <span v-if="!editTitle" @click="editTitle = false" class="font-weight-bold title-wrapper">
                       <fa-icon name="flag" class="text-danger"></fa-icon> {{ $t('translationWorkflow.translations.noTitle') }}
                     </span>
                     <b-input-group v-else>
@@ -29,14 +31,14 @@
                           :class="currentBaseTitle.title ? 'text-success' : 'text-danger'">
                         </fa-icon>
                       </b-input-group-addon>
-                      <b-form-input
-                        type="text"
+
+                      <b-form-textarea
                         v-model.trim="currentBaseTitle.title"
                         :placeholder="$t('translationWorkflow.translations.titlePlaceholder')">
-                      </b-form-input>
+                      </b-form-textarea>
 
                       <b-input-group-button slot="right">
-                        <b-button @click="updateTitle(currentBaseTitle)" variant="outline-primary"><fa-icon name="check-circle"></fa-icon></b-button>
+                        <b-button class="title-confirm-button" @click="updateTitle(currentBaseTitle)" variant="outline-primary"><fa-icon name="check-circle"></fa-icon></b-button>
                       </b-input-group-button>
                     </b-input-group>
                   </div>
@@ -50,13 +52,14 @@
                       :class="isTranslated('title') ? 'text-success' : 'text-danger'">
                     </fa-icon>
                   </b-input-group-addon>
-                  <b-form-input
-                    type="text"
+                  <b-form-textarea
+                    @input="requiresSave = true"
                     v-model.trim="currentTranslationTitle.title"
-                    :placeholder="$t('translationWorkflow.translations.titlePlaceholder')">
-                  </b-form-input>
+                    :placeholder="$t('translationWorkflow.translations.titlePlaceholder')"
+                    :class="rtl ? 'text-rtl' : ''">
+                  </b-form-textarea>
                   <b-input-group-button slot="right">
-                    <b-button variant="outline-primary" @click="updateTitle(currentTranslationTitle)"><fa-icon name="check-circle"></fa-icon></b-button>
+                    <b-button class="title-confirm-button" variant="outline-primary" @click="updateTitle(currentTranslationTitle)"><fa-icon name="check-circle"></fa-icon></b-button>
                   </b-input-group-button>
                 </b-input-group>
               </b-card>
@@ -76,8 +79,10 @@
               </b-card>
               <b-card class="col mr-3 m-2"
                 v-if="currentTranslationTitle.language">
+                <i v-if="needsTranslation(doc, selectedLanguage)"> Revision required </i>
                 <b-button
-                  variant="outline-primary"
+                  v-if="doc"
+                  :variant="needsTranslation(doc, selectedLanguage) ? 'outline-danger' : 'outline-primary'"
                   class="w-100"
                   :disabled="false"
                   @click="setContentEditId(doc)">
@@ -123,6 +128,7 @@
 
 <script>
 import { Directory } from '../../vuex/modules/structure/Directory'
+import { languages } from 'countries-list'
 
 export default {
   name: 'DirectoryCard',
@@ -141,10 +147,12 @@ export default {
       file: null,
       editTitle: false,
       isOpen: false,
+      requiresSave: false,
       currentTranslationTitle: {
         title: '',
         language: ''
-      }
+      },
+      rtl: false
     }
   },
   methods: {
@@ -154,7 +162,9 @@ export default {
     isTranslated (type) {
       switch (type) {
         case 'title':
-          if (this.currentTranslationTitle.title.length === 0) {
+          if (this.currentBaseTitle.revision !== this.currentTranslationTitle.revision) {
+            return false
+          } else if (this.requiresSave || this.currentTranslationTitle.title === '') {
             return false
           }
           return true
@@ -173,8 +183,11 @@ export default {
       this.$store.dispatch('UPDATE_DIRECTORY_TITLE', {
         directoryId: this.directory.id,
         lang: translation.language,
-        title: translation.title
+        title: translation.title,
+        revision: this.currentBaseTitle.revision
       }).then(() => {
+        this.requiresSave = false
+        translation.revision += 1
         this.$notifications.notify(
           {
             message: `<b>${this._i18n.t('common.saved')}</b><br /> ${this._i18n.t('common.updated')}`,
@@ -183,6 +196,7 @@ export default {
             verticalAlign: 'bottom',
             type: 'info'
           })
+        translation.revision = this.currentBaseTitle.revision
         this.directory.updateTranslation(translation)
       }).catch(() => {
         this.$notifications.notify(
@@ -203,15 +217,40 @@ export default {
         }
       }
       return ''
+    },
+    needsTranslation (doc, language) {
+      if (doc && language) {
+        let docLang = doc.getDocumentByLangCode(language.value.code)
+        let baseDoc = doc.getDocumentByLangCode(this.baseLanguage.value.code)
+        if (docLang && baseDoc) {
+          if (docLang.revision !== baseDoc.revision) {
+            return true
+          }
+        }
+        if (!docLang) {
+          return true
+        }
+      }
+      return false
+    },
+    setRtl () {
+      if (this.selectedLanguage) {
+        let lang = languages[this.selectedLanguage.value.code]
+        if (lang) {
+          this.rtl = lang.rtl === 1
+        }
+      }
     }
   },
   mounted () {
     this.currentTranslationTitle = this.directory.getTitleByLangCode(this.selectedLanguage.value.code)
+    this.setRtl()
   },
   watch: {
     // whenever selected lang changes, this function will run
     selectedLanguage: function () {
       this.currentTranslationTitle = this.directory.getTitleByLangCode(this.selectedLanguage.value.code)
+      this.setRtl()
     }
   },
   computed: {
@@ -233,7 +272,10 @@ export default {
       return this.$store.state.translations.baseLanguage
     },
     currentBaseTitle () {
-      return this.directory.getTitleByLangCode(this.baseLanguage.value.code)
+      if (this.baseLanguage) {
+        return this.directory.getTitleByLangCode(this.baseLanguage.value.code)
+      }
+      return {}
     }
   }
 }

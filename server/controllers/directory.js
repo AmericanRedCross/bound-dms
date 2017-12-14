@@ -26,7 +26,7 @@ module.exports = {
       }, {
         model: DirectoryTrans,
         as: 'translations',
-        attributes: ['title', 'language']
+        attributes: ['title', 'language', 'revision']
       },
       {
         model: Document,
@@ -64,7 +64,7 @@ module.exports = {
       }, {
         model: DirectoryTrans,
         as: 'translations',
-        attributes: ['title', 'language']
+        attributes: ['title', 'language', 'revision']
       }, {
         model: Metatype,
         as: 'metatypes'
@@ -145,7 +145,13 @@ module.exports = {
       return DirectoryTrans.findOne({where: {directoryId: req.params.id, language: lang.code}})
     }).then((translation) => {
       if (translation !== null) {
-        let updateData = {title: req.body.title}
+        let updateData = {title: req.body.title, revision: translation.revision}
+        if (req.body.newRevision) {
+          updateData.revision++
+        } else if (req.body.revision) {
+          updateData.revision = req.body.revision
+        }
+
         let updated = translation.update(updateData)
         audit.emit('event:directoryTranslationUpdated', translation.id, req.user.id, updateData)
         return updated

@@ -169,5 +169,20 @@ describe('API: Directories', () => {
           done()
         })
     })
+
+    it('Increments translation revision number', (done) => {
+      request(app)
+        .put('/api/directories/2/translations/en')
+        .send({title: 'New Title', newRevision: true})
+        .set('Authorization', 'Bearer ' + this.token)
+        .expect(200)
+        .end((err, res) => {
+          if (err) throw err
+          expect(res.body.status).to.equal(200)
+          expect(res.body.data).to.have.property('revision')
+          expect(res.body.data.revision).to.equal(1)
+          done()
+        })
+    })
   })
 })
