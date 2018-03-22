@@ -53,6 +53,16 @@ docker-compose run server npm rebuild bcrypt --update-binary
 docker-compose run server npm rebuild sharp
 ```
 
+## Production requirements
+
+Ideally, if using AWS, the DMS application should run using Amazon ECS (Elastic Container Service) on top of an EC2 instance. This greatly simplifies management of containers, uptime and deployments etc.
+
+One option is running an application load balancer in front of two container instances running on a single t2.small EC2 instance running Amazon Linux optimised for Docker. The ECS service provides configuration templates for a similar configuration. The service tasks and container configuration can then be updated to run the DMS application.
+
+It's also recommended to run the MySQL database using AWS RDS service. One option is to use a RDS t2.small running MySQL 5.7. Database backups can be automated and managed by RDS.
+
+Additionally, it is suggested to run regular backups of uploaded files to S3. 
+
 ## Publishing Content
 
 ```bash
@@ -110,7 +120,7 @@ You will notice that the document assigned to a directory is visible here. Selec
 
 On the documentation translation page the document is split up into paragraphs, here you can edit (in markdown format) the translation of a document.
 
-## Contributing to Bound
+## Contributing to Bound
 
 Contributions to Bound are welcome! Please submit changes via pull request and check the project issues for ways to contribute.
 
