@@ -19,6 +19,4 @@ RUN npm run build \
     && test "$NODE_ENV" = "production" \
     && npm prune --production || true
 
-EXPOSE $PORT
-
 CMD [ "npm", "run", "dev:server" ]
