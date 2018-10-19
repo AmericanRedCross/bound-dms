@@ -1,23 +1,22 @@
 FROM node:6.11.1
 
-WORKDIR /tmp
-COPY package.json npm-shrinkwrap.json /tmp/
-
-COPY . /usr/src/app/
-RUN npm install \
-    && cp -a /tmp/node_modules /usr/src/app \
-    && cd /usr/src/app/ \
-    && npm cache clean --force \
-    && npm run build \
-    && npm prune --production
+ARG NODE_ENV=production
+ENV NPM_CONFIG_LOGLEVEL warn
+ARG PORT=80
 
 WORKDIR /usr/src/app
 
-ARG PORT=80
-ENV PORT $PORT
-EXPOSE $PORT
+COPY package.json npm-shrinkwrap.json /usr/src/app/
 
-ARG NODE_ENV=production
-ENV NODE_ENV $NODE_ENV
+# install all dependencies no matter what
+RUN NODE_ENV=development npm install \
+    && rm -rf /root/.npm
 
-CMD [ "node", "index.js" ]
+COPY . /usr/src/app/
+
+# build the front-end and clear development dependencies if appropriate
+RUN npm run build \
+    && test "$NODE_ENV" = "production" \
+    && npm prune --production || true
+
+CMD [ "npm", "run", "dev:server" ]

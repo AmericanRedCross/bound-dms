@@ -2,31 +2,43 @@ version: '2'
 
 services:
   frontend:
-    image: node:6.11.1
+    build:
+      context: .
+      args:
+        - NODE_ENV=development
     ports:
       - 8080:8080
     links:
       - server
       - mysql
     volumes:
-        - .:/user/src/app
-    working_dir: /user/src/app
-    command: >
-      bash -c "npm rebuild node-sass &&
-               npm start"
+      - ./.babelrc:/usr/src/app/.babelrc
+      - ./.postcssrc.js:/usr/src/app/.postcssrc.js
+      - ./package.json:/usr/src/app/package.json
+      - ./build:/usr/src/app/build
+      - ./config:/usr/src/app/config
+      - ./src:/usr/src/app/src
+      - ./static:/usr/src/app/static
+      - ./test:/usr/src/app/test
+    command: npm start
     environment:
-      - NODE_ENV=development
       - API_HOST=server
 
   server:
-    image: node:6.11.1
+    build:
+      context: .
+      args:
+        - NODE_ENV=development
     ports:
       - 8000:8000
     volumes:
-      - .:/user/src/app
+      - ./.sequelizerc:/usr/src/app/.sequelizerc
+      - ./package.json:/usr/src/app/package.json
+      - ./index.js:/usr/src/app/index.js
+      - ./server:/usr/src/app/server
+      - ./static:/usr/src/app/static
+      - ./test:/usr/src/app/test
       - ./static/uploads:/uploads
-    working_dir: /user/src/app
-    command: ["npm", "run", "dev:server"]
     environment:
       - NODE_ENV=development
       - PORT=

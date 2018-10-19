@@ -17,40 +17,32 @@ and static file downloads.
 
 [Download and install Docker](https://www.docker.com) for your platform.
 
-Docker Compose is used to run the webpack dev server for development,
+Docker Compose is used to run the Webpack dev server for development,
 together with the API and associated services e.g. MySQL database.
 
 ```bash
 # Run all services for development
-docker-compose run server npm install
 docker-compose up
 sh ./migrate.sh
 ```
 The application should then be accessible on the host machine at `http://localhost:8080`
 
+To log in as an admin, use `user@domain.com` / `12345678`. (If you've run the tests, the password is `87654321`.)
+
 ### Testing
 
-Tests can be run using the following command
+Tests can be run using the following command:
 
 ```bash
 docker-compose run server npm run test:server
 ```
 
-#### OSX Caveat
+### Database Access
 
-bcrypt and sharp compiled on OSX will not work on Linux
-
-The solution is to run:
+The development database can be accessed using the following command:
 
 ```bash
-docker-compose run server rm -r node_modules
-docker-compose run server npm install
-```
-Should this not solve the problem, try the following:
-
-```bash
-docker-compose run server npm rebuild bcrypt --update-binary
-docker-compose run server npm rebuild sharp
+docker-compose exec mysql mysql -ppassword cie
 ```
 
 ## Production requirements
@@ -61,7 +53,7 @@ One option is running an application load balancer in front of two container ins
 
 It's also recommended to run the MySQL database using AWS RDS service. One option is to use a RDS t2.small running MySQL 5.7. Database backups can be automated and managed by RDS.
 
-Additionally, it is suggested to run regular backups of uploaded files to S3. 
+Additionally, it is suggested to run regular backups of uploaded files to S3.
 
 ## Publishing Content
 
