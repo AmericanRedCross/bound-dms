@@ -5,8 +5,8 @@ class PublishFormat {
       type: 'file',
       storage: 'disk',
       publishDir: '/static/publishes',
-      uploadDir: 'uploads',
-      host: 'https://cie.arc.cubeapis.com'
+      uploadDir: 'static/uploads',
+      host: 'https://rcmcashcontent.org'
     }
 
     this._options = Object.assign({}, defaults, options)
